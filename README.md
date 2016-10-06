@@ -1,98 +1,100 @@
-## lanyon-plus
+# Lanyon
 
-Based on Jekyll theme: [Lanyon](http://lanyon.getpoole.com) by [**Mark Otto**](https://github.com/mdo)
+Lanyon is an unassuming [Jekyll](http://jekyllrb.com) theme that places content first by tucking away navigation in a hidden drawer. It's based on [Poole](http://getpoole.com), the Jekyll butler.
 
-* add-ons by [Samir Amin](http://sbamin.com)
-* [Site features](http://sbamin.com/disclosure#i-classfa-fa-thumbs-o-up-credits-for-site-featuresi) | [Example contents](https://dyndna.github.io/lanyon-plus/blog/2013/01/01/example-content/)
-* License: Open sourced under the [MIT license](https://sbamin.com/disclosure/#theme-major-credit--license).
+![Lanyon](https://f.cloud.github.com/assets/98681/1825266/be03f014-71b0-11e3-9539-876e61530e24.png)
+![Lanyon with open sidebar](https://f.cloud.github.com/assets/98681/1825267/be04a914-71b0-11e3-966f-8afe9894c729.png)
 
-[![Build Status](https://travis-ci.org/dyndna/lanyon-plus.svg?branch=master)](https://travis-ci.org/dyndna/lanyon-plus)
 
-[Demo](http://dyndna.github.io/lanyon-plus) | [Download v1.1.0](https://github.com/dyndna/lanyon-plus/releases/tag/v1.1.0)
+## Contents
 
-### Required edits:
+- [Usage](#usage)
+- [Options](#options)
+  - [Sidebar menu](#sidebar-menu)
+  - [Themes](#themes)
+  - [Reverse layout](#reverse-layout)
+- [Development](#development)
+- [Author](#author)
+- [License](#license)
 
-#### _config.yml
 
-*   Edit lines where text string `foo` is present with relevant information. 
-*   Add relevant author and owner information
-    *   For proper sidebar, meta info below post title, and footer bar, add at least twitter, google plus info under `owner` and `sidebar` section.
-    *   Uncomment and add relevant user names/keys to enable features, e.g., google analytics, disqus comments, twitter widget, google custom search.
+## Usage
 
-#### CNAME
+Lanyon is a theme built on top of [Poole](https://github.com/poole/poole), which provides a fully furnished Jekyll setup—just download and start the Jekyll server. See [the Poole usage guidelines](https://github.com/poole/poole#usage) for how to install and use Jekyll.
 
-*   Read [Using a custom domain with GitHub Pages](https://help.github.com/articles/using-a-custom-domain-with-github-pages/) for set-up details.
-*   If you are hosting website on domain other than `github.io`, rename `CNAME.sample` file to `CNAME`, and add your custom domain name, e.g., `example.com` (only one domain is allowed), otherwise remove `CNAME` file if you want to host at default `github.io`. 
-*   If you are hosting website on `github.io`, replace `example.com` with `https://<github-username>.github.io/<repository_name>` (for project site) or `https://<github-username>.github.io` (for user site) under `site.url` and `site.urlimg` in `_config.yml` and `_prose.yml` file.
 
-#### .travis.yml
-*   See more at [https://travis-ci.org/getting_started](https://travis-ci.org/getting_started)
+## Options
 
-#### _prose.yml
+Lanyon includes some customizable options, typically applied via classes on the `<body>` element.
 
-*   [https://github.com/prose/prose/wiki/Getting-Started](https://github.com/prose/prose/wiki/Getting-Started)
-*   Edit `example.com` with your domain name.
-*   You may edit names for custom categories.
 
-#### robots.txt
+### Sidebar menu
 
-* replace `example.com` with your valid url.
-* Edit search engine inclusion/exclusion if desired.
+Create a list of nav links in the sidebar by assigning each Jekyll page the correct layout in the page's [front-matter](http://jekyllrb.com/docs/frontmatter/).
 
-#### page specific edits
+```
+---
+layout: page
+title: About
+---
+```
 
-*   `_data/socialmedia.html`
-    *   Replace user `foo` with appropriate username
+**Why require a specific layout?** Jekyll will return *all* pages, including the `atom.xml`, and with an alphabetical sort order. To ensure the first link is *Home*, we exclude the `index.html` page from this list by specifying the `page` layout.
 
-*   `_includes/`
-    *   Check if file paths for appropriate urls have valid css files, scripts, icons, and images in `head.html` and `head_minimal.html`, else comment html tags which are not being used.
-    *   Also, check if variables (twitter, google plus, linkedin, google analytics key and disqus username, etc.) are specified in `_config.yml` located under root path.
-    *   You may edit `meta_info.html`, `footer.html` and similar include files to add/remove elements in page meta bar, footer, etc.
-    *   For publications page, `mypubs.html` and `myaoi.html` are trimmed outputs from [zot_bib_web](https://github.com/davidswelt/zot_bib_web). Github pages can not dynamically build these pages. Alternately, you may export `bib` format for publications under `/files/` directory which can be parsed dynamically using [bibbase.org](http://bibbase.org)
-    *   `_includes/footer.html`: Edit copyright information as needed.
-*   `_layouts`
-    *   To add/remove/reorder page/post contents, edit `default.html` plus `page.html` or `post.html`.
-*   `_posts`
-    *   Live blog posts goes here with markdown formatted post. File name format must have following date-title format `yyyy-mm-dd-title.md` for jekyll to render blog post correctly. 
-    *   YAML sample header shows all available options. Minimal required elements are: layout, title and date. Date tag overrides date given in post file name.
-*   `blog/index.html`
-    *   Edit blog title and description.
-*   `images/`
-    *   Under `icons` directory, keep appropriate sized favicons and thumbnails as specified in `_includes/head.html` and `_includes/head_minimal.html`
-    *   Also, keep `favicon.png` and `favicon.ico` in root directory.
-    *   Final, `images/icons/` should have following images with exact filenames and image size as specified in respective filenames. These images can be generated using online *favicon generator*. Replace `foo` with your site title or other name if desired.
 
-~~~
-example.com/images/icons/apple-touch-icon-precomposed.png
-example.com/images/icons/apple-touch-icon-72x72-precomposed.png
-example.com/images/icons/apple-touch-icon-114x114-precomposed.png
-example.com/images/icons/apple-touch-icon-144x144-precomposed.png
-example.com/images/icons/apple-touch-icon-180x180.png
-example.com/images/icons/android-icon-192x192.png
-~~~
+### Themes
 
-*   `pages/about.md`
-    *   YAML variable `imagefeature` shoud have image path relative to `images/` directory, i.e., `foo.png` will link to `example.com/images/foo.png`
-    *   Specify `site.owner.avatar` and `site.owner.twitter` along with other variables in `_config.yml`
-*   `syspages/`:
-    *   Edit page title and description in YAML front matter.
-    *   For web search to work, specify [Google Custom Search Engine](https://cse.google.com) API key for `google_search` variable.
-    *   Tag generation is experimental and dynamic size for tag box may need to be adjusted if you have more than 100 posts with one or two frequently occurring tags. 
-    *   All `{% for ... %}...{% endfor %}` loop operations will increase site build time, and remove such features (tags, meta info, related posts, etc.) under `_includes`, `_layouts` and `syspages` if required.
-*   `pages/contact.md`
-    *   Edit page title and description.
-    *   Edit address, driving direction url, etc.
-*   `pages/cv.md`
-    *   Edit `_config.yml` to add twitter, google plus, linkedin, google scholar, ORCID profile info under owner heading.   
-    *   Add pdf at `{{ site.url }}/cv/cv.pdf` 
-*   `pages/publications.md`
-    *   Add your publications at `/files/mypubs.bib` and `_includes/mypubs.html`. See above under `_includes` for more.
-*   `pages/disclosure.md`
-    *   Appreciated if you keep relevant credits in disclosure page.
-*   `humans.txt`
-    *   Replace `foo` with your name.
-*   `rfeed.xml`
-    *   Not required unless you are cross-posting about R language on blog aggregation site(s).
+Lanyon ships with eight optional themes based on the [base16 color scheme](https://github.com/chriskempson/base16). Apply a theme to change the color scheme (mostly applies to sidebar and links).
 
-END
+![Lanyon with red theme](https://f.cloud.github.com/assets/98681/1825270/be065110-71b0-11e3-9ed8-9b8de753a4af.png)
+![Lanyon with red theme and open sidebar](https://f.cloud.github.com/assets/98681/1825269/be05ec20-71b0-11e3-91ea-a9138ef07186.png)
 
+There are eight themes available at this time.
+
+![Available theme classes](https://f.cloud.github.com/assets/98681/1817044/e5b0ec06-6f68-11e3-83d7-acd1942797a1.png)
+
+To use a theme, add any one of the available theme classes to the `<body>` element in the `default.html` layout, like so:
+
+```html
+<body class="theme-base-08">
+  ...
+</body>
+```
+
+To create your own theme, look to the Themes section of [included CSS file](https://github.com/poole/lanyon/blob/master/public/css/lanyon.css). Copy any existing theme (they're only a few lines of CSS), rename it, and change the provided colors.
+
+
+### Reverse layout
+
+![Lanyon with reverse layout](https://f.cloud.github.com/assets/98681/1825265/be03f2e4-71b0-11e3-89f1-360705524495.png)
+![Lanyon with reverse layout and open sidebar](https://f.cloud.github.com/assets/98681/1825268/be056174-71b0-11e3-88c8-5055bca4307f.png)
+
+Reverse the page orientation with a single class.
+
+```html
+<body class="layout-reverse">
+  ...
+</body>
+```
+
+
+## Development
+
+Lanyon has two branches, but only one is used for active development.
+
+- `master` for development.  **All pull requests should be to submitted against `master`.**
+- `gh-pages` for our hosted site, which includes our analytics tracking code. **Please avoid using this branch.**
+
+
+## Author
+
+**Mark Otto**
+- <https://github.com/mdo>
+- <https://twitter.com/mdo>
+
+
+## License
+
+Open sourced under the [MIT license](LICENSE.md).
+
+<3

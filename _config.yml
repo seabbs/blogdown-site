@@ -1,100 +1,24 @@
+# Dependencies
+markdown:         redcarpet
+pygments:         true
+
 # Permalinks
-#
-# Use of `relative_permalinks` ensures post links from the index work properly.
-#permalink:           pretty
-permalink: /blog/:year/:month/:day/:title/
-relative_permalinks: false
+permalink:        pretty
 
 # Setup
-title:               foo
-#tagline:             'foo's website
-description:         Foo's blog...
-url:  https://clapping-bunny.github.io
-baseurl:
-urlimg: https://clapping-bunny.github.io/images/
-markdown: kramdown
-paginate: 5
-paginate_path: "/blog/page:num"
-excerpt_separator: <!--more-->
-default_bg: sitelogo.png 
-safe: false
-#timezone:    America/Chicago
-future:      true
+title:            Lanyon
+tagline:          'A Jekyll theme'
+description:      'A reserved <a href="http://jekyllrb.com" target="_blank">Jekyll</a> theme that places the utmost gravity on content with a hidden drawer. Made by <a href="https://twitter.com/mdo" target="_blank">@mdo</a>.'
+url:              http://lanyon.getpoole.com
 
-gems:
-  - jekyll-paginate
-  - jemoji
-  - font-awesome-sass
-  - kramdown
-  - rouge
-
-include: [".htaccess"]
-exclude: ["lib", "config.rb", "Gemfile", "Capfile", "Gemfile.lock", "config", "log", "Rakefile", "Rakefile.rb", "rakefile", "README.md", "tmp", "less", "*.sublime-project", "*.sublime-workspace", "test", "spec", "Gruntfile.js", "package.json", "node_modules", "LICENSE", "vendor", "assets", "_plugins", "public/dormant"]
-
-# About/contact
 author:
-  name:              Foo Boo
-  url:               https://twitter.com/abcd
-  avatar:         foo.png
-  #email:           
+  name:           'Mark Otto'
+  url:            https://twitter.com/mdo
 
-# Owner/author information
-owner:
-  name:           Sam Abbott
-  avatar:         foo.png
-  #email:          
-  # Use the coder's toolbox at http://coderstoolbox.net/string/#!encoding=xml&action=encode&charset=us_ascii to encode your description into XML string
-  description:
-  # Social networking links used in footer. Update and remove as you like.
-  twitter:        clapping-bunny
-  facebook:       
-  github:         clapping_bunny
-  stackexchange:  
-  linkedin:     
-  instagram:      
-  flickr:
-  tumblr:  
-  google_plus:
-  # orcid and google scholar IDs are different than standard username.
-  orcid: 
-  gscholar: 
+paginate:         5
 
-## sidebar links:
-# For external links add external: true
-links:
-  - title: <i class="iconside iconm-home"></i> Home
-    url: /
-  - title: <i class="iconside iconm-user"></i> About
-    url: /about/
-  - title: <i class="iconside iconm-quill"></i> Blog
-    url: /blog/
-  - title: <i class="fa fa-tags"></i> Tags
-    url: /tags/
-  - title: <i class="fa fa-archive"></i> Archive
-    url: /archive/
-    external: true
-  - title: <i class="iconside iconm-envelop"></i> Contact
-    url: /contact/
-  - title: <i class="iconside iconm-twitter"></i> Twitter
-    url: https://twitter.com/abcd
-    external: true
-  - title: <i class="iconside iconm-feed2"></i> Feed
-    url: /feed.xml
+# Custom vars
+version:          2.0.0
 
-# Google Custom Search:
-#google_search: xyz123abc
-
-# Twitter stream widget:
-# Replace xyz123abc with your twitter widget id from https://twitter.com/settings/widgets
-#twitter_widget_id: xyz123abc
-
-# Add disqus username for Disqus comment board:
-disqus_shortname: Sam
-
-# Analytics and webmaster tools stuff goes here
-#google_analytics:   xyz123abc
-
-#### For dummy website only - remove if you wish ####
-github_repo: https://github.com/clapping-bunny/clapping-bunny.github.io
-version: 1.1.0
-## END ##
+github:
+  repo:           https://github.com/poole/lanyon
