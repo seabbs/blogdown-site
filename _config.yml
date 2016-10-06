@@ -46,7 +46,7 @@ exclude: ["lib", "config.rb", "Gemfile", "Capfile", "Gemfile.lock", "config", "l
 author:
   name:              Sam Abbott
   url:               https://twitter.com/clapping_bunny
-  avatar:            foo.png
+  avatar:            samabbott.jpeg
   email:             sam.abbott@bristol.ac.uk
 
 # Owner/author information
