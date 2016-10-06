@@ -8,13 +8,13 @@ layout: null
     <title>{{ site.title | xml_escape }}</title>
     <description>{{ site.description | xml_escape }}</description>
     <link>{{ site.url }}{{ site.baseurl }}/</link>
-    <atom:link href="{{ "/feed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml" />
+    <atom:link href="{{ "/rfeed.xml" | prepend: site.baseurl | prepend: site.url }}" rel="self" type="application/rss+xml" />
     <updated>{{ site.time | date_to_xmlschema }}</updated>
     <id>{{ site.url }}</id>
     <author>
       <name>{{ site.owner.name }}</name>
     </author>
-    {% for post in site.posts limit:10 %}
+    {% for post in site.tags.R limit:10 %}
       <item>
         <title>{{ post.title | xml_escape }}</title>
         {% if post.summaryfeed and post.excerpt %}
