@@ -21,11 +21,10 @@ Maximum four posts on front page where first two posts are featured, and remaini
 <a class="twitter-timeline"
   data-dnt="true"
   width="600"
-  height="250"
+  height="400"
   href="https://twitter.com/{{ site.owner.twitter }}"
   data-widget-id="{{ site.twitter_widget_id }}"
-  data-tweet-limit="2"
-  data-chrome="noheader nofooter noborders noscrollbar transparent">
+  data-tweet-limit="2">
   Recent Tweets</a>
 </div>
 <script>

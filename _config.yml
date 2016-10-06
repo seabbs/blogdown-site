@@ -99,7 +99,7 @@ links:
 
 # Twitter stream widget:
 # Replace xyz123abc with your twitter widget id from https://twitter.com/settings/widgets
-twitter_widget_id: <a class="twitter-timeline" href="https://twitter.com/clapping_bunny">Tweets by clapping_bunny</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+twitter_widget_id: clapping_bunny
 
 # Add disqus username for Disqus comment board:
 disqus_shortname: Sam
