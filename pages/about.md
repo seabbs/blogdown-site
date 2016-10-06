@@ -21,13 +21,13 @@ tags:
   - "city tx"
 ---
 
-<div class="post-author text-center">                       
+#<div class="post-author text-center">                       
             <img src="{{ site.urlimg }}{{ site.owner.avatar }}" alt="{{ site.owner.name }}'s photo" itemprop="image" class="post-avatar img-circle img-responsive"/> 
-<span class="social-icons" style="padding-top: 10px; padding-bottom: 1px;">
-<a href="{{ site.url }}/cv" title="Curriculum Vitae" class="social-icons"><i class="iconm iconm-profile" style="vertical-align: top;"></i></a>
-<a href="{{ site.url }}/about/publications/" class="social-icons" title="Publications"><i class="iconm iconm-file-pdf"></i></a>
-</span>
-</div>
+#<span class="social-icons" style="padding-top: 10px; padding-bottom: 1px;">
+#<a href="{{ site.url }}/cv" title="Curriculum Vitae" class="social-icons"><i class="iconm iconm-profile" style="vertical-align: top;"></i></a>
+#<a href="{{ site.url }}/about/publications/" class="social-icons" title="Publications"><i class="iconm iconm-file-pdf"></i></a>
+#</span>
+#</div>
 
 Lorem ipsum dolor sit amet, consectetur adipiscing elit. In ornare lectus a purus rutrum, a hendrerit quam condimentum. Donec vel ante maximus, vulputate libero ac, rhoncus justo. Phasellus purus nisl, auctor id tristique eu, maximus quis leo. Mauris ultricies ante quis vehicula accumsan. Nulla facilisi. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut mi elit, feugiat non scelerisque eget, ultrices nec est. Morbi a est iaculis, commodo quam congue, posuere quam. Phasellus venenatis finibus eros, vitae malesuada nisl gravida vitae.
 
