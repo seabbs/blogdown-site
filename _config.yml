@@ -9,9 +9,9 @@ relative_permalinks: false
 title:               foo
 #tagline:             'foo's website
 description:         Foo's blog...
-url: https://clapping-bunny.github.io
-baseurl: ""
-urlimg: https://clapping-bunny.github.io/images/
+url: https://dyndna.github.io/lanyon-plus
+baseurl: "/lanyon-plus"
+urlimg: https://dyndna.github.io/lanyon-plus/images/
 markdown: kramdown
 paginate: 5
 paginate_path: "/blog/page:num"
@@ -46,18 +46,18 @@ owner:
   # Use the coder's toolbox at http://coderstoolbox.net/string/#!encoding=xml&action=encode&charset=us_ascii to encode your description into XML string
   description:
   # Social networking links used in footer. Update and remove as you like.
-  twitter:       
+  twitter:        abcd
   facebook:       
-  github:         
+  github:         xyz123abc
   stackexchange:  
-  linkedin:       
+  linkedin:       https://www.linkedin.com/in/foo
   instagram:      
   flickr:
   tumblr:  
-  google_plus:    
+  google_plus:    https://plus.google.com/+foo
   # orcid and google scholar IDs are different than standard username.
-  orcid: 
-  gscholar: 
+  orcid: xyz123abc
+  gscholar: xyz123abc
 
 ## sidebar links:
 # For external links add external: true
@@ -97,6 +97,6 @@ disqus_shortname: foo
 #google_analytics:   xyz123abc
 
 #### For dummy website only - remove if you wish ####
-github_repo: 
+github_repo: https://github.com/dyndna/lanyon-plus
 version: 1.1.0
 ## END ##
