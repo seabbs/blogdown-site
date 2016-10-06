@@ -12,7 +12,7 @@ title:               My Website
 description:         Foo's blog...
 url: clapping-bunny.github.io
 baseurl: "/lanyon-plus"
-urlimg: https://dyndna.github.io/lanyon-plus/images/
+urlimg: clapping-bunny.github.io/images/
 markdown: kramdown
 paginate: 5
 paginate_path: "/blog/page:num"
