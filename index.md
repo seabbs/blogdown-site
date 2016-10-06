@@ -26,6 +26,8 @@ Maximum four posts on front page where first two posts are featured, and remaini
   data-widget-id="{{ site.twitter_widget_id }}"
   data-tweet-limit="2">
   Recent Tweets</a>
+
+  <a class="twitter-timeline" href="https://twitter.com/clapping_bunny">Tweets by clapping_bunny</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 </div>
 <script>
     !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
