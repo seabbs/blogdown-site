@@ -10,7 +10,7 @@ title:               foo
 #tagline:             'foo's website
 description:         Foo's blog...
 url:  https://clapping-bunny.github.io
-baseurl: 
+baseurl: '/'
 urlimg: https://clapping-bunny.github.io/images/
 markdown: kramdown
 paginate: 5
@@ -40,7 +40,7 @@ author:
 
 # Owner/author information
 owner:
-  name:           Foo Boo
+  name:           Sam Abbott
   avatar:         foo.png
   #email:          
   # Use the coder's toolbox at http://coderstoolbox.net/string/#!encoding=xml&action=encode&charset=us_ascii to encode your description into XML string
@@ -48,7 +48,7 @@ owner:
   # Social networking links used in footer. Update and remove as you like.
   twitter:        clapping-bunny
   facebook:       
-  github:         clapping-bunny
+  github:         clapping_bunny
   stackexchange:  
   linkedin:     
   instagram:      
