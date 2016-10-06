@@ -2,7 +2,7 @@
 ---
 
 /* TEAM */
-Primary Contact: foo
+Primary Contact: Sam Abbott
 Site: {{ site.url }}/about/
 Twitter: https://twitter.com/{{ site.owner.twitter }}
 
