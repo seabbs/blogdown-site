@@ -10,9 +10,9 @@ encoding: utf-8
 title:               My Website
 #tagline:             'foo's website
 description:         Foo's blog...
-url: clapping-bunny.github.io
+url: https:://clapping-bunny.github.io
 baseurl: "clapping-bunny.github.io"
-urlimg: clapping-bunny.github.io/images/
+urlimg: https:://clapping-bunny.github.io/images/
 markdown: kramdown
 paginate: 5
 paginate_path: "/blog/page:num"
