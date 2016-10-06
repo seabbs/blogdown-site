@@ -7,7 +7,7 @@ relative_permalinks: false
 encoding: utf-8
 
 # Setup
-title:               My Website
+title:               Sam Abbott
 #tagline:             'foo's website
 description:         Foo's blog...
 url: https://clapping-bunny.github.io
@@ -20,7 +20,7 @@ excerpt_separator: <!--more-->
 default_bg: sitebg.jpg
 default_logo: sitelogo.png
 safe: false
-#timezone:    America/Chicago
+timezone:    GMT
 future:      true
 
 
