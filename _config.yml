@@ -9,7 +9,7 @@ encoding: utf-8
 # Setup
 title:               Sam Abbott
 #tagline:             'foo's website
-description:         Foo's blog...
+description:         
 url: https://clapping-bunny.github.io
 baseurl: 'https://clapping-bunny.github.io'
 urlimg: https://clapping-bunny.github.io/images/
@@ -67,8 +67,8 @@ owner:
   tumblr:  
   google_plus:    https://plus.google.com/+foo
   # orcid and google scholar IDs are different than standard username.
-  orcid: xyz123abc
-  gscholar: xyz123abc
+  orcid: 
+  gscholar: 
 
 ## sidebar links:
 # For external links add external: true
@@ -99,7 +99,7 @@ links:
 
 # Twitter stream widget:
 # Replace xyz123abc with your twitter widget id from https://twitter.com/settings/widgets
-#twitter_widget_id: xyz123abc
+twitter_widget_id: <a class="twitter-timeline" href="https://twitter.com/clapping_bunny">Tweets by clapping_bunny</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 
 # Add disqus username for Disqus comment board:
 disqus_shortname: Sam
