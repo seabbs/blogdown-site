@@ -8,6 +8,12 @@ layout: default
       {% include meta_info.html %}
     {% endif %} 
   {{ content }}
+    {% if page.category contains "mypubs" %}
+      {% include mypubs.html %}
+    {% elsif page.category contains "myaoi" %}
+      {% include myaoi.html %}  
+    {% endif %}
+
     {% if page.show_meta == true %}
       {% include meta_info.html %}
     {% endif %}  
