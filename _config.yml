@@ -44,22 +44,22 @@ exclude: ["lib", "config.rb", "Gemfile", "Capfile", "Gemfile.lock", "config", "l
 
 # About/contact
 author:
-  name:              Foo Boo
-  url:               https://twitter.com/abcd
+  name:              Sam Abbott
+  url:               https://twitter.com/clapping_bunny
   avatar:         foo.png
   #email:           
 
 # Owner/author information
 owner:
-  name:           Foo Boo
+  name:           Sam Abbott
   avatar:         foo.png
   #email:          
   # Use the coder's toolbox at http://coderstoolbox.net/string/#!encoding=xml&action=encode&charset=us_ascii to encode your description into XML string
   description:
   # Social networking links used in footer. Update and remove as you like.
-  twitter:        abcd
+  twitter:        clapping_bunny
   facebook:       
-  github:         xyz123abc
+  github:         clapping-bunny
   stackexchange:  
   linkedin:       https://www.linkedin.com/in/foo
   instagram:      
@@ -102,12 +102,12 @@ links:
 #twitter_widget_id: xyz123abc
 
 # Add disqus username for Disqus comment board:
-disqus_shortname: foo
+disqus_shortname: Sam
 
 # Analytics and webmaster tools stuff goes here
 #google_analytics:   xyz123abc
 
 #### For dummy website only - remove if you wish ####
-github_repo: https://github.com/dyndna/lanyon-plus
+github_repo: https://github.com/clapping-bunny/clapping-bunny.github.io
 version: 1.1.1
 ## END ##
