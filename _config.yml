@@ -10,7 +10,7 @@ title:               foo
 #tagline:             'foo's website
 description:         Foo's blog...
 url: https://clapping-bunny.github.io/
-baseurl: "https://clapping-bunny.github.io"
+baseurl: ""
 urlimg: https://clapping-bunny.github.io/images/
 markdown: kramdown
 paginate: 5
