@@ -20,7 +20,7 @@ excerpt_separator: <!--more-->
 default_bg: sitebg.jpg
 default_logo: sitelogo.png
 safe: false
-timezone:    GMT
+timezone:    Europe/London
 future:      true
 
 
