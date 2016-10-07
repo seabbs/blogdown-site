@@ -35,7 +35,6 @@ gems:
   - kramdown
   - rouge
   - jekyll-mentions
-  - jekyll-twitter-plugin
 
 jekyll-mentions:
   base_url: https://twitter.com

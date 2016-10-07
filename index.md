@@ -5,13 +5,6 @@ title: Personal Homepage of Sam Abbott
 description: "Blogging on ...."
 ---
 
-# Basic example
-{% twitter oembed https://twitter.com/{{ site.owner.twitter }} %}
-# Oembed default example
-{% twitter https://twitter.com/{{ site.owner.twitter }} %}
-# With options
-{% twitter oembed https://twitter.com/{{ site.owner.twitter }} align='right' width='350' %}
-
 {% if site.twitter_widget_id %}
 <div class="text-tweets">
 <div class="tweets">

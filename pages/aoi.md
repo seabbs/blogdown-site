@@ -1,6 +1,6 @@
 ---
 layout: publ
-category: myaoi
+category: 
 permalink: /about/aoi/
 title: "Articles of interest"
 published: true

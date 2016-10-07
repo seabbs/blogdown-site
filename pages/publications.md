@@ -1,6 +1,6 @@
 ---
 layout: publ
-category: mypubs
+category: 
 permalink: /about/publications/
 title: "Sample Publications"
 published: true
