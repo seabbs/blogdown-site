@@ -13,18 +13,18 @@ sitemap:
     changefreq: 'monthly'
     lastmod: 2016-02-13
 tags:
-  - "Sam Abbott"
+  - "foo boo"
   - "driving directions"
   - address
 ---
 
 | <i class="fa fa-twitter"></i> | [@{{ site.owner.twitter }}](https://twitter.com/{{ site.owner.twitter }})  | 
 | - | :- |
-| <i class="fa fa-envelope"></i> | Sam Abbott<br>Oakfield House<br>Oakfield Grove<br>Bristol<br>BS8 2BN   | 
+| <i class="fa fa-envelope"></i> | foo<br>XYZ<br>1234 ABC ST<br>Washington, DC 11111   | 
 | - | :- |
 | <i class="fa fa-car"></i>  | [Driving directions]({{ site.url }}/directions) | 
 | - | :- |
-| <i class="fa fa-paper-plane">  | sam.abbott@bristol.ac.uk | 
+| <i class="fa fa-paper-plane">  | foo@xyz | 
 | - | :- |
 
 <a href="https://twitter.com/share" class="twitter-share-button" data-via="{{ site.owner.twitter }}" data-size="small" data-dnt="true">Tweet</a> <a href="javascript:window.print()" class="social-icons" title="Printer friendly format"><i class="fa fa-print"></i></a>
@@ -41,6 +41,7 @@ tags:
   href="https://twitter.com/{{ site.owner.twitter }}"
   data-widget-id="{{ site.twitter_widget_id }}"
   data-tweet-limit="2"
+  data-chrome="noheader nofooter noborders noscrollbar transparent">
   Recent Tweets</a>
  </div>
 <script>
