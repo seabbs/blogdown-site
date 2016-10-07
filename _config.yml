@@ -81,6 +81,10 @@ links:
     url: /about/
   - title: <i class="iconside iconm-quill"></i> Blog
     url: /blog/
+  - title: <i class="iconside iconm-quill"></i> Projects
+    url: /about/projects/
+  - title: <i class="iconside iconm-quill"></i> Publications
+    url: /about/publications
   - title: <i class="fa fa-tags"></i> Tags
     url: /tags/
   - title: <i class="fa fa-archive"></i> Archive

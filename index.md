@@ -5,6 +5,8 @@ title: Personal Homepage of Sam Abbott
 description: "Blogging on ...."
 ---
 
+<a class="twitter-timeline" href="https://twitter.com/clapping_bunny">Tweets by clapping_bunny</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
+
 {% if site.twitter_widget_id %}
 <div class="text-tweets">
 <div class="tweets">
