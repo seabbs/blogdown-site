@@ -46,13 +46,13 @@ exclude: ["lib", "config.rb", "Gemfile", "Capfile", "Gemfile.lock", "config", "l
 author:
   name:              Sam Abbott
   url:               https://twitter.com/clapping_bunny
-  avatar:            samabbott.jpeg
+  avatar:            samabbott.jpg
   email:             sam.abbott@bristol.ac.uk
 
 # Owner/author information
 owner:
   name:           Sam Abbott
-  avatar:         samabbott.jpeg
+  avatar:         samabbott.jpg
   #email:          
   # Use the coder's toolbox at http://coderstoolbox.net/string/#!encoding=xml&action=encode&charset=us_ascii to encode your description into XML string
   description: mathematical modeller, obsessive coffee maker, endlessly late, and often confused
