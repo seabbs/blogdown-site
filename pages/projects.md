@@ -50,8 +50,6 @@ tags:
                   <p class="menu-item-description">Personal website</p>
                 </div>
               </li>
-             
-
             <div id="Academic" class="menu-category">
               <h3 class="menu-category-name">Academic</h3>
               <ol class="menu-category-list has-images">
@@ -63,9 +61,9 @@ tags:
                 </div>
                
 
-            <a id="btn-view-full-menu" class="btn-view-full-menu" href="http://github.com/clapping-bunny">View full list of personal repositories</a>
-  </div>
-            <a id="btn-view-full-menu" class="btn-view-full-menu" href="https://github.com/bristolmathmodellers">View full list of group repositories</a>
+            <a id="btn-view-full-menu" class="btn-view-full-menu" href="http://github.com/clapping-bunny">Personal repositories</a>
+ 
+            <a id="btn-view-full-menu" class="btn-view-full-menu" href="https://github.com/bristolmathmodellers">Group repositories</a>
 
 
           
