@@ -83,7 +83,7 @@ links:
     url: /blog/
   - title: <i class="fa fa-terminal"></i> Projects
     url: /about/projects/
-  - title: <i class="fa fa-pencil"></i> Publications
+  - title: <i class="iconm iconm-file-pdf"></i> Publications
     url: /about/publications
   - title: <i class="fa fa-tags"></i> Tags
     url: /tags/
