@@ -10,7 +10,7 @@
 
 - name: Researchgate
   url: https://www.researchgate.net/profile/Sam_Abbott2
-  class: fa fa-researchgate-square
+  class: fa fa-rss-square
   title: 'Follow my academic profile'
 
 - name: Contact
