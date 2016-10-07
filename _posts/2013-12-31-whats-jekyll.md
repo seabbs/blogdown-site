@@ -1,19 +1,25 @@
 ---
 layout: post
-title: What's Jekyll?
+title: Site plan
 # date element overrides date in title format.
-date: 2015-1-31
+date: 2016-10-06
+description: "plan content to be added to this website and for additional features"
 tag:
-  - common_tag
-  - other_tag
+  - plan
+  - outline
 ---
 
-[Jekyll](http://jekyllrb.com) is a static site generator, an open-source tool for creating simple yet powerful websites of all shapes and sizes. From [the project's readme](https://github.com/mojombo/jekyll/blob/master/README.markdown):
+I aim to use this website as a personal aggrigator of all my output, both academic, and personal. I also intend to use it as a testing ground for improving my grasp of html, command line interfaces and jekyll (a static site generator)
 
 <!--more-->
 
-  > Jekyll is a simple, blog aware, static site generator. It takes a template directory [...] and spits out a complete, static website suitable for serving with Apache or your favorite web server. This is also the engine behind GitHub Pages, which you can use to host your project’s page or blog right here from GitHub.
 
-It's an immensely useful tool and one we encourage you to use here with Lanyon.
+# Site outline
 
-Find out more by [visiting the project on GitHub](https://github.com/mojombo/jekyll).
+The main purpose of this site is to collate all of my research output into a single easily searched repository linking papers, code, talks and future workshops. I also aim to inlcude web sources that I regularly read, such as my feedly stream. Ideally this would allow me to share my interests to a wider audiance, but also collate them within a single site to make my own web browsing more efficient. 
+
+I plan on implementing additional features, such as a twitter plug in, new page layouts, links to other project web sites, and additionl social media
+
+Additionally I plan on writing a monthly blog article covering a new technical subject each time.
+
+Lastly I plan on collating interesting news stories from across the world relating to my research interests

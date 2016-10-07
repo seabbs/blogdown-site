@@ -1,16 +1,16 @@
 ---
 layout: post
-title: "Example content"
-date: "2013-01-01"
-slug: "example_content"
-description: "Example content from lanyon. If page description is more than 140 words, it will be shown as post summary on home page and blog index else post excerpt will be shown. Same rule is for html meta description: >140 words in description or first 50 words of posts will be shown as summary. Page excerpt supports markdown formatted summary."
+title: "Template features"
+date: "2016-10-06"
+slug: "Template features"
+description: "overview of the features included in the lanyon plus template that I am using to construct this website"
 category: 
   - views
   - featured
 # tags will also be used as html meta keywords.
 tags:
-  - examples
-  - common_tag
+  - plan
+  - features
 show_meta: true
 comments: true
 mathjax: true
@@ -23,7 +23,7 @@ hide_printmsg: false
 # show post summary or full post in RSS feed.
 summaryfeed: false
 ## for twitter summary card with squared image and page description or page excerpt:
-# imagesummary: foo.png
+# imagesummary: samabbott.jpg
 ## for twitter card with large image:
 # imagefeature: "http://img.youtube.com/vi/VEIrQUXm_hY/0.jpg"
 ## for twitter video card: (active for this page)
@@ -32,7 +32,7 @@ imagefeature: "http://img.youtube.com/vi/iG9CE55wbtY/0.jpg"
 videocredit: tedtalks
 ---
 
-Howdy! This is an example blog post that shows features supported in **lanyon-plus** theme. See [raw post](https://raw.githubusercontent.com/dyndna/lanyon-plus/master/_posts/2013-01-01-example-content.md) for required YAML header and liquid tag specifications.
+This post outlines the features available in the **lanyon-plus** template that I am repurposing to provide the framework of this website. See [raw post](https://raw.githubusercontent.com/dyndna/lanyon-plus/master/_posts/2013-01-01-example-content.md) for required YAML header and liquid tag specifications.
 
 <!--more-->
 
