@@ -103,7 +103,3 @@ disqus_shortname: Sam
 # Analytics and webmaster tools stuff goes here
 #google_analytics:   xyz123abc
 
-#### For dummy website only - remove if you wish ####
-github_repo: https://github.com/clapping-bunny/clapping-bunny.github.io
-version: 1.1.1
-## END ##
