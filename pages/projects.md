@@ -19,16 +19,6 @@ tags:
   - 'Code'
 ---
 
-<div class="post-author text-center">                       
-            <img src="{{ site.urlimg }}{{ site.owner.avatar }}" alt="{{ site.owner.name }}'s photo" itemprop="image" class="post-avatar img-circle img-responsive"/> 
-<span class="social-icons" style="padding-top: 10px; padding-bottom: 1px;">
-<a href="{{ site.url }}/cv" title="Curriculum Vitae" class="social-icons"><i class="iconm iconm-profile" style="vertical-align: top;"></i></a>
-<a href="{{ site.url }}/about/publications/" class="social-icons" title="Publications"><i class="iconm iconm-file-pdf"></i></a>
-
-</span>
-</div>
-
-
 <section class="profile-content" id="content">
 <!-- TODO header? -->
 
@@ -45,11 +35,11 @@ tags:
             </nav>
 
             <div id="Personal" class="menu-category">
-              <h3 class="menu-category-name">Go</h3>
+              <h3 class="menu-category-name">Personal</h3>
               <ol class="menu-category-list">
               <li class="menu-item">
                 <div class="menu-item-info">
-                  <h4 class="menu-item-name">certigo</h4>
+                  <h4 class="menu-item-name">Zopa loan book</h4>
                   <span class="menu-item-price"><a href="https://github.com/clapping-bunny/Zopa_Analysis" target="_blank">GitHub</a></span>
                   <p class="menu-item-description">Data visualisation and analysis of a peer to peer lending book from Zopa</p>
                 </div>
@@ -60,8 +50,8 @@ tags:
                   <p class="menu-item-description">Personal website</p>
                 </div>
               </li>
-              </ol>
-            </div>
+             
+
             <div id="Academic" class="menu-category">
               <h3 class="menu-category-name">Academic</h3>
               <ol class="menu-category-list has-images">
@@ -74,7 +64,7 @@ tags:
                
 
             <a id="btn-view-full-menu" class="btn-view-full-menu" href="http://github.com/clapping-bunny">View full list of personal repositories</a>
-
+  </div>
             <a id="btn-view-full-menu" class="btn-view-full-menu" href="https://github.com/bristolmathmodellers">View full list of group repositories</a>
 
 
