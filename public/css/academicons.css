@@ -22,6 +22,12 @@
 	-webkit-font-smoothing:antialiased;
 	-moz-osx-font-smoothing:grayscale;
 }
+
+.ai:hover {
+  background-color: #999999;
+  border-radius: 30px;
+  color: white;
+}
 .ai-google-scholar:before {
     content: "\e900";
 }
