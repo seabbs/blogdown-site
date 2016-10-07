@@ -33,7 +33,7 @@ tags:
 <!-- TODO header? -->
 
 <div class="profile-description">
-            <p>This page contains both my personal and academic projects with links to the releveant repository's</p>
+            <p>This page contains both my personal and academic projects with links to the relevant repository's</p>
           </div>
 
           <article class="profile-menu" id="menu">
@@ -73,7 +73,9 @@ tags:
                 </div>
                
 
-            <a id="btn-view-full-menu" class="btn-view-full-menu" href="http://github.com/clapping-bunny">View full list of repositories</a>
-          </article>
+            <a id="btn-view-full-menu" class="btn-view-full-menu" href="http://github.com/clapping-bunny">View full list of personal repositories</a>
+
+            <a id="btn-view-full-menu" class="btn-view-full-menu" href="https://github.com/bristolmathmodellers">View full list of group repositories</a>
+
 
           
