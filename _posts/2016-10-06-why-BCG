@@ -2,7 +2,7 @@
 layout: post
 title: "What makes BCG vaccination interesting"
 date: "2016-10-06"
-slug: "Template features"
+slug: "hat makes BCG vaccination interesting"
 description: "brief outline of what makes TB interesting"
 category: 
   - views
@@ -40,7 +40,7 @@ This post outlines the basic epidemiology of Tuberculosis and attempts to summar
 Tuberculosis (TB) is a global disease with an estimated 9.6 million new cases in 2014 alone, of which 3.6 million were missed by health systems [@WHOTB2015]. It is thought that there is a $1.3 billion funding gap for the implementation of existing interventions which are complicated by the complex pathology of TB. After an infection with TB, 5-10% of individuals will develop primary disease witin 1-2 years of exposure. The majority of individuals enter a latent stage in which they passively carry TB mycobacterium, reactivation of baccilli can then occur many years later due to a loss of immune control [@Gideon2011a]. Both active and latent TB cases represent a range of diverse individual states. Typically active TB is split into pulmonary and extra-pulmonary cases, with pulmonary cases being responsible for the vast majority of transmission [@Sepkowitz1996]. Whilst latent cases could have completly cleared the bacterium or be asymtomatically carrying reproducing active TB bacterium [Gideon2011a]
 
 
-{% include youtube.html %}
+<iframe width="1280" height="720" src="https://www.youtube.com/embed/yR51KVF4OX0" frameborder="0" allowfullscreen></iframe>
 
 Bacillus Calmette–Guérin (BCG) is one of the mostly widely-used vaccines worldwide, with approximately 100m doses given annually[@The2004]. It is made from an attenuated Mycobacterium bovis strain, it was first given to humans in 1921, and remains the only licensed vaccince for tuberculosis[@Medicine2013]. BCG acts by directly preventing the development of active, symptomatic disease. Its efficacy is effected by the age at which it is given, the latitude of the individual, and the period of time that has lapsed since vaccination. It has consistantly been shown to be highly protective in children [@Rodrigues1993, @Colditz1994], with efficacy in adults ranging from between 0% and 78% [@Mangtani2014a]. Multiple random control studies have been conducted on BCG efficacy, meta-analysis of these studies indicates that increased protection is associated with distance from the equator [@Mangtani2014]. Meta-analysis has also been used to estimate the waning time of BCG protection, there is good evidence that proteciton can last up to 10 years and limited evidence of protection beyond 15 years [@Abubakar2013].
 
