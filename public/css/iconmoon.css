@@ -127,6 +127,9 @@ i.iconside {
 .iconm-file-pdf:before {
     content: "\eada";
 }
+.iconm-file-code:before {
+    content: "\eada";
+}
 .iconm-html5:before {
     content: "\eadf";
 }
