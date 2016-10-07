@@ -29,3 +29,7 @@ tags:
 </div>
 
 
+
+I am a mathematical modeller interested in developing and fitting models for infectious disease, using a wide range of data. 
+
+My current research aims to evaluate the usage of the BCG vaccination worldwide and analysis the potential impact of vaccines currently being developed.  I then aim to incorporate multi-drug resistance and assess any implications this may have for current Tuberculosis control policy.
