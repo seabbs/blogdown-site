@@ -11,7 +11,7 @@ tags:
   - research
   - starred
 comments: true
-modified: "2016-02-13"
+modified: "2016-10-6"
 bibtex: "/files/myaoi.bib"
 #bibtex: "http://foo-alternate.com/files/myaoi.bib"
 show_meta: true

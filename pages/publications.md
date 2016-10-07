@@ -10,7 +10,7 @@ tags:
   - articles
   - research
 comments: true
-modified: "2016-02-13"
+modified: "2016-10-6"
 bibtex: "/files/mypubs.bib"
 #bibtex: "http://foo-alternate.com/files/mypubs.bib"
 show_meta: true
@@ -19,7 +19,7 @@ nofollow: true
 sitemap:
     priority: 0.5
     changefreq: 'monthly'
-    lastmod: 2016-02-13
+    lastmod: 2016-10-6
 style: |
   .container {
         max-width: 48rem;
