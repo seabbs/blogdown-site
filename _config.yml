@@ -102,7 +102,7 @@ google_search: 010291815375281694238:c64nc4mqfme
 twitter_widget_id: clapping_bunny
 
 # Add disqus username for Disqus comment board:
-#disqus_shortname: https-clapping-bunny-github-io
+disqus_shortname: https-clapping-bunny-github-io
 
 # Analytics and webmaster tools stuff goes here
 #google_analytics:   xyz123abc
