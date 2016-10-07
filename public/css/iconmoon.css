@@ -106,6 +106,9 @@ i.iconside {
 .iconm-google-plus:before {
     content: "\ea88";
 }
+.iconm-researchgate:before {
+    content: "\ea89";
+}
 .iconm-twitter:before {
     content: "\ea91";
 }

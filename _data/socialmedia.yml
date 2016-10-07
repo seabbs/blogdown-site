@@ -13,11 +13,6 @@
   class: ai ai-researchgate-square ai-2x
   title: 'Follow my academic profile'
 
-- name: Mendeley
-  url: https://www.mendeley.com/profiles/sam-abbott2/
-  class: ai ai-mendeley-square ai-2x
-  title: 'Follow my academic profile'
-
 - name: Contact
   url: "/contact/"
   class: fa fa-envelope-square fa-2x
