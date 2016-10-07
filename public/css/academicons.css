@@ -23,6 +23,15 @@
 	-moz-osx-font-smoothing:grayscale;
 }
 
+.ai {
+  -o-transition:.5s;
+    -ms-transition:.5s;
+    -moz-transition:.5s;
+    -webkit-transition:.5s;
+    transition: .5s;
+    background-color: #ffffff;    
+}
+
 .ai:hover {
   background-color: #999999;
   border-radius: 30px;
