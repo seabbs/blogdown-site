@@ -11,7 +11,7 @@ title:               Sam Abbott
 #tagline:             'foo's website
 description:         
 url: samabbott.co.uk
-baseurl: ''
+baseurl: 'samabbott.co.uk'
 urlimg: samabbott.co.uk/images/
 markdown: kramdown
 paginate: 5
