@@ -55,4 +55,4 @@ Disallow: /files/
 User-agent: *
 Disallow: /
 
-Sitemap: https://clapping-bunny.github.io/sitemap.xml
+Sitemap: samabbott.co.uk/sitemap.xml

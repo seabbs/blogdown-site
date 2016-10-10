@@ -10,9 +10,9 @@ encoding: utf-8
 title:               Sam Abbott
 #tagline:             'foo's website
 description:         
-url: https://clapping-bunny.github.io
-baseurl: 'https://clapping-bunny.github.io'
-urlimg: https://clapping-bunny.github.io/images/
+url: samabbott.co.uk
+baseurl: 'samabbott.co.uk'
+urlimg: samabbott.co.uk/images/
 markdown: kramdown
 paginate: 5
 paginate_path: "/blog/page:num"
