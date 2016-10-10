@@ -10,8 +10,8 @@ encoding: utf-8
 title:               Sam Abbott
 #tagline:             'foo's website
 description:         
-url: https://samabbott.co.uk
-baseurl: 'https://samabbott.co.uk'
+url: www.samabbott.co.uk
+baseurl: ''
 urlimg: https://samabbott.co.uk/images/
 markdown: kramdown
 paginate: 5
