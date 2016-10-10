@@ -12,7 +12,7 @@ title:               Sam Abbott
 description:         
 url: http://www.samabbott.co.uk
 baseurl: 'http://www.samabbott.co.uk'
-urlimg: www.samabbott.co.uk/images/
+urlimg: http://www.samabbott.co.uk/images/
 markdown: kramdown
 paginate: 5
 paginate_path: "/blog/page:num"
