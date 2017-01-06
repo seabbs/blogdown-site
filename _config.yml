@@ -8,7 +8,7 @@ encoding: utf-8
 
 # Setup
 title:               Sam Abbott
-tagline:             Personal blog, details of research projects, and contact details
+tagline:             Personal homepage
 description:         
 url: http://www.samabbott.co.uk
 baseurl: 'http://www.samabbott.co.uk'
