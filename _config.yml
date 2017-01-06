@@ -93,7 +93,7 @@ links:
     url: /archive/
   - title: Contact
     url: /contact/
-  - title: <i class="iconside iconm-feed2"></i> Feed
+  - title: Feed
     url: /feed.xml
 
 # Google Custom Search:

@@ -2,9 +2,9 @@
 layout: publ
 category: 
 permalink: /about/publications/
-title: "Sample Publications"
+title: "Publications"
 published: true
-description: "Sample publication page"
+description: "List of publications"
 tags:
   - papers
   - articles
@@ -12,7 +12,6 @@ tags:
 comments: true
 modified: "2016-10-6"
 bibtex: "/files/mypubs.bib"
-#bibtex: "http://foo-alternate.com/files/mypubs.bib"
 show_meta: true
 noindex: false
 nofollow: true
@@ -40,5 +39,3 @@ style: |
 {% endif %}
 
 {% endcomment %}
-
-If category is *mypubs*, then html content from bibtex file at `_includes/mypubs.html` will be shown below.
