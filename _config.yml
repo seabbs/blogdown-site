@@ -55,7 +55,7 @@ owner:
   avatar:         samabbott.jpg
   #email:          
   # Use the coder's toolbox at http://coderstoolbox.net/string/#!encoding=xml&action=encode&charset=us_ascii to encode your description into XML string
-  description: mathematical modeller, obsessive coffee maker, endlessly late, and often confused
+  description: PhD student in mathematical epidemiology, obsessive coffee maker, and aspiring programmer
   # Social networking links used in footer. Update and remove as you like.
   twitter:        clapping_bunny
   facebook:       
@@ -75,34 +75,35 @@ owner:
 ## sidebar links:
 # For external links add external: true
 links:
-  - title: <i class="iconside iconm-home"></i> Home
+  - title: Home
     url: /
-  - title: <i class="iconside iconm-user"></i> About
+  - title: About
     url: /about/
-  - title: <i class="iconside iconm-quill"></i> Blog
-    url: /blog/
-  - title: <i class="fa fa-file-code-o"></i> Projects
+  - title: Research
+    url: /about/research/
+  - title: Projects
     url: /about/projects/
-  - title: <i class="fa fa-file-pdf-o"></i> Publications
+  - title: Publications
     url: /about/publications
-  - title: <i class="fa fa-tags"></i> Tags
+  - title: Blog
+    url: /blog/
+  - title: Tags
     url: /tags/
-  - title: <i class="fa fa-archive"></i> Archive
+  - title: Archive
     url: /archive/
-  - title: <i class="iconside iconm-envelop"></i> Contact
+  - title: Contact
     url: /contact/
   - title: <i class="iconside iconm-feed2"></i> Feed
     url: /feed.xml
 
 # Google Custom Search:
-google_search: '010291815375281694238:gbt-pznl5kw'
-
+google_search: 010291815375281694238:bsp589-xqqw
 # Twitter stream widget:
 # Replace xyz123abc with your twitter widget id from https://twitter.com/settings/widgets
 twitter_widget_id: clapping_bunny
 
 # Add disqus username for Disqus comment board:
-disqus_shortname: https-clapping-bunny-github-io
+disqus_shortname: samabbott-co-uk
 
 # Analytics and webmaster tools stuff goes here
 google_analytics:   UA-85604924-1
