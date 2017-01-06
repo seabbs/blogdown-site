@@ -22,7 +22,7 @@ tags:
 
 <div class="post-author text-center">                       
             <img src="{{ site.urlimg }}{{ site.owner.avatar }}" alt="{{ site.owner.name }}'s photo" itemprop="image" class="post-avatar img-circle img-responsive"/> 
-            <a href="{{ site.url }}/cv">Curriculum Vitae</a><a href="{{ site.url }}/about/research/"> Research</a><a href="{{ site.url }}/about/projects/"> Projects</a><a href="{{ site.url }}/about/publications/"> Publications</a>
+            <a href="{{ site.url }}/cv">Curriculum Vitae</a>||<a href="{{ site.url }}/about/research/"> Research</a>||<a href="{{ site.url }}/about/projects/"> Projects</a>||<a href="{{ site.url }}/about/publications/"> Publications</a>
 </div>
 
 
