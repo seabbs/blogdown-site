@@ -22,10 +22,9 @@ tags:
 
 <div class="post-author text-center">                       
             <img src="{{ site.urlimg }}{{ site.owner.avatar }}" alt="{{ site.owner.name }}'s photo" itemprop="image" class="post-avatar img-circle img-responsive"/> 
-            <a href="{{ site.url }}/cv" title="Curriculum Vitae"></a>
-<a href="{{ site.url }}/about/publications/" title="Publications"></a>
-<a href="{{ site.url }}/about/projects/" title="Projects"></a>
+            <a href="{{ site.url }}/cv">Curriculum Vitae</a><a href="{{ site.url }}/about/publications/">Publications</a><a href="{{ site.url }}/about/projects/">Projects</a>
 </span>
 </div>
 
+<a href="url">link text</a>
 I am a mathematical modeller interested in developing and fitting models for infectious disease, using data driven approaches. I studied mathematics at the University of Durham, completing an MMath degree in 2014. I then completed a masters in advanced mathematical biology at the University of York. As part of my thesis project I spent a summer at the university of Glasgow, studying the patterns of drug resistance in E-coli. across various species in Tanzanaia. I am currently completing a PhD in social medicine at the University of Bristol, studying the deployment of the BCG vaccine in the UK.
