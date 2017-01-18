@@ -10,6 +10,7 @@ tag:
   - blog
   - visualisation
   - FC
+  - R
 ---
 
 
@@ -78,7 +79,7 @@ loanbook %>%
 p1
 ```
 
-![]({{ site.urlimg }}/blog_post_files/figure-html/1.png)<!-- -->
+![]({{ site.urlimg }}/media/1.png)<!-- -->
 
 We now aggregate by month so that we can understand patterns of loan acceptances across the risk bands. For all risk bands we see that there is a increasing trend towards the end of the year, with the fewest loans originated in April, and March, indicating that this may not be a good time to move funds into FC, and consequently this may lead to an up-tick in the secondary market. E loans show the strongest growth in the second half of the year - however this may be an artefact of their relatively recent introduction, which maybe responsible for this apparent trend. 
 
@@ -93,7 +94,7 @@ loanbook %>%
 p2
 ```
 
-![]({{ site.urlimg }}/blog_post_files/figure-html/2.png)<!-- -->
+![]({{ site.urlimg }}/media/2.png)<!-- -->
 
 
 Finally we aggregate by day. There is limited evidence here that loan acceptances vary between weekdays, with a slight upward tick mid week.
@@ -109,7 +110,7 @@ loanbook %>%
 p5
 ```
 
-![]({{ site.urlimg }}/blog_post_files/figure-html/3.png)<!-- -->
+![]({{ site.urlimg }}/media/3.png)<!-- -->
 
 To link these trends to demand from investors we plot the average interest rate of each accepted loan. We see that average rates are linked with supply for historic loans that were accepted using the biding system. However as expected since the introduction of the fixed rate loan system supply is now uncoupled from price, this presents possible advantages for the hand-picking investor who can buy loans at times of peak supply and sell loans at times of scarcity at a premium on the secondary market.
 
@@ -135,13 +136,13 @@ p4 <- plot_monthly_risk_band(loanbook, c(2014:2016))
 p3
 ```
 
-![]({{ site.urlimg }}/blog_post_files/figure-html/4.png)<!-- -->
+![]({{ site.urlimg }}/media/4.png)<!-- -->
 
 ```r
 p4
 ```
 
-![]({{ site.urlimg }}/blog_post_files/figure-html/5.png)<!-- -->
+![]({{ site.urlimg }}/media/5.png)<!-- -->
 
 
 This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the [Github repo](https://github.com/clapping-bunny/funding_circle)
