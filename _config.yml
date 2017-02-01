@@ -13,7 +13,7 @@ description:
 url: http://www.samabbott.co.uk
 baseurl: 'http://www.samabbott.co.uk'
 urlimg: http://clapping-bunny.github.io/images/
-markdown: pandoc
+markdown: kramdown
 paginate: 5
 paginate_path: "/blog/page:num"
 excerpt_separator: <!--more-->
@@ -33,7 +33,6 @@ gems:
   - jemoji
   - font-awesome-sass
   - kramdown
-  - pandoc
   - rouge
   - jekyll-mentions
 
