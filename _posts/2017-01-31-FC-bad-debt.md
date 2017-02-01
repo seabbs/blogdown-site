@@ -61,7 +61,6 @@ Now focussing on just using most complex model for bad debt, we see that early i
 
 Table: Bad debt by year for A (Low risk) loans
 
-
  Year   Bad debt   Bad debt by loan size   Bad debt adjusted by recoveries   Bad debt adjusted for principal remaining   Bad debt adjusted for loan repayment and principal remaining
 -----  ---------  ----------------------  --------------------------------  ------------------------------------------  -------------------------------------------------------------
  2011       16.1                    14.1                              11.6                                         8.1                                                            6.6
@@ -103,6 +102,7 @@ Table: Bad debt by year for A+ (Very low risk) loans
 
 
 Table: Bad debt by year for C (Average risk) loans
+
 
  Year   Bad debt   Bad debt by loan size   Bad debt adjusted by recoveries   Bad debt adjusted for principal remaining   Bad debt adjusted for loan repayment and principal remaining
 -----  ---------  ----------------------  --------------------------------  ------------------------------------------  -------------------------------------------------------------
