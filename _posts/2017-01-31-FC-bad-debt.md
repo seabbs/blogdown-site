@@ -61,69 +61,69 @@ Now focussing on just using most complex model for bad debt, we see that early i
 Table: Bad debt by year for A (Low risk) loans
 
 
- Year   Bad debt   Bad debt by loan size   Bad debt adjusted by recoveries   Bad debt adjusted for principal remaining   Bad debt adjusted for loan repayment and principal remaining
------  ---------  ----------------------  --------------------------------  ------------------------------------------  -------------------------------------------------------------
- 2011       16.1                    14.1                              11.6                                         8.1                                                            6.6
- 2012       11.5                    10.6                               7.9                                         5.0                                                            3.2
- 2013        8.0                     7.3                               5.6                                         4.1                                                            3.2
- 2014        5.4                     5.5                               4.7                                         3.8                                                            3.1
- 2015        3.5                     2.7                               2.4                                         2.2                                                            2.1
- 2016        0.7                     0.7                               0.6                                         0.7                                                            0.7
+ | Year |   Bad debt  |  Bad debt by loan size |   Bad debt adjusted by recoveries  |  Bad debt adjusted for principal remaining  |  Bad debt adjusted for loan repayment and principal remaining | 
+|----- | --------- |  ---------------------- |  -------------------------------- |  ------------------------------------------ |  ------------------------------------------------------------- | 
+|2011 |      16.1 |                    14.1 |                              11.6 |                                        8.1 |                                                             6.6 | 
+|2012 |      11.5 |                    10.6 |                               7.9 |                                         5.0 |                                                            3.2 | 
+| 2013 |       8.0 |                    7.3 |                               5.6 |                                         4.1 |                                                            3.2 | 
+| 2014 |       5.4 |                     5.5 |                               4.7 |                                         3.8 |                                                            3.1 | 
+| 2015 |       3.5 |                     2.7 |                               2.4 |                                         2.2 |                                                            2.1 | 
+| 2016 |       0.7 |                     0.7 |                               0.6 |                                         0.7 |                                                            0.7 | 
 
 
 Table: Bad debt by year for B (Below average risk) loans
 
- Year   Bad debt   Bad debt by loan size   Bad debt adjusted by recoveries   Bad debt adjusted for principal remaining   Bad debt adjusted for loan repayment and principal remaining
------  ---------  ----------------------  --------------------------------  ------------------------------------------  -------------------------------------------------------------
- 2011       20.8                    19.5                              16.1                                        10.2                                                            7.8
- 2012       11.3                    10.1                               6.7                                         5.4                                                            3.8
- 2013       12.2                    13.0                               9.9                                         8.0                                                            6.3
- 2014        9.2                     9.4                               8.2                                         6.1                                                            4.7
- 2015        5.4                     4.5                               4.3                                         3.7                                                            3.3
- 2016        0.7                     1.0                               1.0                                         0.9                                                            0.9
+| Year |  Bad debt |  Bad debt by loan size |  Bad debt adjusted by recoveries |  Bad debt adjusted for principal remaining |  Bad debt adjusted for loan repayment and principal remaining |
+|----- | --------- | ---------------------- | -------------------------------- | ------------------------------------------ | ------------------------------------------------------------- |
+| 2011 |      20.8 |                   19.5 |                             16.1 |                                       10.2 |                                                           7.8 |
+| 2012 |      11.3 |                   10.1 |                              6.7 |                                        5.4 |                                                           3.8 |
+| 2013 |      12.2 |                   13.0 |                              9.9 |                                        8.0 |                                                           6.3 |
+|2014  |      9.2  |                   9.4  |                             8.2  |                                       6.1  |                                                          4.7  |
+| 2015 |       5.4 |                    4.5 |                              4.3 |                                        3.7 |                                                           3.3 |
+| 2016 |       0.7 |                    1.0 v                              1.0 |                                        0.9 |                                                           0.9 |
 
 
 Table: Bad debt by year for A+ (Very low risk) loans
 
- Year   Bad debt   Bad debt by loan size   Bad debt adjusted by recoveries   Bad debt adjusted for principal remaining   Bad debt adjusted for loan repayment and principal remaining
------  ---------  ----------------------  --------------------------------  ------------------------------------------  -------------------------------------------------------------
- 2011        5.0                     4.5                               3.4                                         2.5                                                            2.1
- 2012        8.1                     5.2                               3.7                                         3.4                                                            2.9
- 2013        3.4                     3.0                               2.9                                         1.6                                                            1.3
- 2014        2.6                     1.5                               1.4                                         0.9                                                            0.7
- 2015        1.4                     1.3                               1.1                                         1.0                                                            1.0
- 2016        0.4                     0.3                               0.3                                         0.3                                                            0.3
+| Year |  Bad debt |  Bad debt by loan size |  Bad debt adjusted by recoveries |  Bad debt adjusted for principal remaining |  Bad debt adjusted for loan repayment and principal remaining |
+|----- | --------- | ---------------------- | -------------------------------- | ------------------------------------------ | ------------------------------------------------------------- |
+| 2011 |       5.0 |                    4.5 |                              3.4 |                                        2.5 |                                                           2.1 |
+| 2012 |       8.1 |                    5.2 |                              3.7 |                                        3.4 |                                                           2.9 |
+| 2013 |       3.4 |                    3.0 |                              2.9 |                                        1.6 |                                                           1.3 |
+| 2014 |       2.6 |                    1.5 |                              1.4 |                                        0.9 |                                                           0.7 |
+| 2015 |       1.4 |                    1.3 |                              1.1 |                                        1.0 |                                                           1.0 |
+| 2016 |       0.4 |                    0.3 |                              0.3 |                                        0.3 |                                                           0.3 |
 
 
 Table: Bad debt by year for C (Average risk) loans
 
 
- Year   Bad debt   Bad debt by loan size   Bad debt adjusted by recoveries   Bad debt adjusted for principal remaining   Bad debt adjusted for loan repayment and principal remaining
------  ---------  ----------------------  --------------------------------  ------------------------------------------  -------------------------------------------------------------
- 2011        9.5                    12.4                               7.9                                        10.3                                                            9.6
- 2012       11.6                    12.2                               9.2                                         6.7                                                            4.8
- 2013       11.3                    11.3                               8.9                                         6.7                                                            4.8
- 2014       11.4                    12.1                              10.2                                         8.5                                                            6.6
- 2015        7.0                     7.0                               6.3                                         5.8                                                            5.1
- 2016        1.1                     1.3                               1.3                                         1.2                                                            1.1
+| Year |  Bad debt |  Bad debt by loan size |  Bad debt adjusted by recoveries |  Bad debt adjusted for principal remaining |  Bad debt adjusted for loan repayment and principal remaining |
+|----- | --------- | ---------------------- | -------------------------------- | ------------------------------------------ |-------------------------------------------------------------  |
+| 2011 |       9.5 |                   12.4 |                              7.9 |                                       10.3 |                                                           9.6 |
+| 2012 |      11.6 |                   12.2 |                              9.2 |                                        6.7 |                                                           4.8 |
+| 2013 |      11.3 |                   11.3 |                              8.9 |                                        6.7 |                                                           4.8 |
+| 2014 |      11.4 |                   12.1 |                             10.2 |                                        8.5 |                                                           6.6 |
+| 2015 |       7.0 |                    7.0 |                              6.3 |                                        5.8 |                                                           5.1 |
+| 2016 |       1.1 |                    1.3 |                              1.3 |                                        1.2 |                                                           1.1 |
 
 
 Table: Bad debt by year for D loans
 
- Year   Bad debt   Bad debt by loan size   Bad debt adjusted by recoveries   Bad debt adjusted for principal remaining   Bad debt adjusted for loan repayment and principal remaining
------  ---------  ----------------------  --------------------------------  ------------------------------------------  -------------------------------------------------------------
- 2013       23.0                    23.6                              20.3                                        15.4                                                           11.1
- 2014       12.2                    11.4                               9.3                                         7.9                                                            6.2
- 2015        7.6                     6.9                               6.4                                         5.9                                                            5.3
- 2016        2.0                     2.1                               2.1                                         1.9                                                            1.9
+| Year |  Bad debt |  Bad debt by loan size |  Bad debt adjusted by recoveries |  Bad debt adjusted for principal remaining |  Bad debt adjusted for loan repayment and principal remaining |
+|----- | --------- | ---------------------- | -------------------------------- | ------------------------------------------ | ------------------------------------------------------------- |
+| 2013 |      23.0 |                   23.6 |                             20.3 |                                       15.4 |                                                          11.1 |
+| 2014 |      12.2 |                   11.4 |                              9.3 |                                        7.9 |                                                           6.2 |
+| 2015 |       7.6 |                    6.9 |                              6.4 |                                        5.9 |                                                           5.3 |
+| 2016 |       2.0 |                    2.1 |                              2.1 |                                        1.9 |                                                           1.9 |
 
 
 Table: Bad debt by year for E loans
 
- Year   Bad debt   Bad debt by loan size   Bad debt adjusted by recoveries   Bad debt adjusted for principal remaining   Bad debt adjusted for loan repayment and principal remaining
------  ---------  ----------------------  --------------------------------  ------------------------------------------  -------------------------------------------------------------
- 2015        8.8                     9.8                               9.4                                         8.9                                                            7.8
- 2016        2.4                     5.7                               5.6                                         5.3                                                            4.9
+| Year |  Bad debt |  Bad debt by loan size |  Bad debt adjusted by recoveries |  Bad debt adjusted for principal remaining |  Bad debt adjusted for loan repayment and principal remaining |
+|----- | --------- | ---------------------- | -------------------------------- | ------------------------------------------ | ------------------------------------------------------------- |
+| 2015 |       8.8 |                    9.8 |                              9.4 |                                        8.9 |                                                           7.8 |
+| 2016 |       2.4 |                    5.7 |                              5.6 |                                        5.3 |                                                           4.9 |
 
 
 In future blogs I will be further exploring loan risk further and attempting to investigate investor risk in a variety of portfolio structures. I am particularly interested in exploring the default rate of loans over time, as increasing risk may indicate some beneficial strategies. Let me know if you have any blog ideas, some potential areas are: 
