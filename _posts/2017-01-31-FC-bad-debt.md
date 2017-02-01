@@ -52,7 +52,7 @@ To investigate this further I have estimated the bad debt rate for each risk cat
 ![]({{ site.urlimg }}/media/blog_post_files/figure-html/est_bad_rate_risk-1.png)<!-- -->
 
 
-Now focussing on just using most complex model for bad debt, we see that early investors suffered from poor risk categorisation by funding circle with high default rates across all risk bands. This indicates that holding newly introduced products to term may result in higher than expected loses, although cash back programs may compensate. Bad debt then stabilises indicating successful classification of loans into credit bands. However, these estimates are still higher than those estimated by funding circle, though this maybe due to the exclusion of future recoveries from my estimation model.
+Now focussing on just using the most complex model for bad debt, we see that early investors suffered from poor risk categorisation by funding circle with high default rates across all risk bands. This indicates that holding newly introduced products to term may result in higher than expected loses, although cash back programs may compensate. Bad debt then stabilises indicating successful classification of loans into credit bands. However, these estimates are still higher than those estimated by funding circle, though this maybe due to the exclusion of future recoveries from my estimation model.
 
 
 ![]({{ site.urlimg }}/media/blog_post_files/figure-html/est_bad_rate_risk_year-1.png)<!-- -->
@@ -126,7 +126,7 @@ Table: Bad debt by year for E loans
 | 2016 |       2.4 |                    5.7 |                              5.6 |                                        5.3 |                                                           4.9 |
 
 
-In future blogs I will be further exploring loan risk further and attempting to investigate investor risk in a variety of portfolio structures. I am particularly interested in exploring the default rate of loans over time, as increasing risk may indicate some beneficial strategies. Let me know if you have any blog ideas, some potential areas are: 
+In future blogs I will be further exploring loan risk and attempting to investigate investor risk in a variety of portfolio structures. I am particularly interested in exploring the default rate of loans over time, as increasing risk may indicate some beneficial strategies. Let me know if you have any blog ideas, some potential areas are: 
 
 
 1. Adding estimated default for newly acquired loans, coupled with a range of scenarios for loan recoveries
