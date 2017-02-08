@@ -3,7 +3,7 @@ layout: post
 title: Estimating the risk of bad debt in the funding circle loanbook
 # date element overrides date in title format.
 date: 2017-01-18
-description: "In depth look at estimating levels of bad debt in the funding cirlce loan book"
+description: "In depth look at estimating levels of bad debt in the funding circle loan book"
 comments: true
 tag:
   - P2P
