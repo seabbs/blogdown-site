@@ -1,10 +1,10 @@
 - name: Twitter
-  url: https://twitter.com/clapping_bunny
+  url: https://twitter.com/seabbs
   class: fa fa-twitter-square fa-2x
-  title: "Follow me @clapping_bunny"
+  title: "Follow me @seabbs"
 
 - name: GitHub
-  url: https://github.com/clapping-bunny
+  url: https://github.com/seabbs
   class: fa fa-github-square fa-2x
   title: Code repository
 
