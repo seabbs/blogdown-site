@@ -6,22 +6,7 @@ description: "Blogging on ...."
 ---
 
 {% if site.twitter_widget_id %}
-<div class="text-tweets">
-<div class="tweets">
-<a class="twitter-timeline"
-  data-dnt="true"
-  width="600"
-  height="400"
-  href="https://twitter.com/{{ site.owner.twitter }}"
-  data-widget-id="{{ site.twitter_widget_id }}"
-  data-tweet-limit="2">
-  Recent Tweets</a>
-
-</div>
-<script>
-    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
-</script>
-</div>
+<a class="twitter-timeline" href="https://twitter.com/seabbs">Tweets by seabbs</a> <script async src="//platform.twitter.com/widgets.js" charset="utf-8"></script>
 {% else %}
 Twitter stream will show up here if `twitter_widget_id` is present is `_config.yml`. [Demo](http://sbamin.com)
 {% endif %}
