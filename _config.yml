@@ -57,9 +57,9 @@ owner:
   # Use the coder's toolbox at http://coderstoolbox.net/string/#!encoding=xml&action=encode&charset=us_ascii to encode your description into XML string
   description: PhD student in mathematical epidemiology, obsessive coffee maker, and aspiring programmer
   # Social networking links used in footer. Update and remove as you like.
-  twitter:        seabbs
+  twitter:       
   facebook:       
-  github:         seabbs
+  github:         
   stackexchange:  
   linkedin:       
   instagram:      
@@ -100,7 +100,7 @@ links:
 google_search: 010291815375281694238:bsp589-xqqw
 # Twitter stream widget:
 # Replace xyz123abc with your twitter widget id from https://twitter.com/settings/widgets
-twitter_widget_id: seabbs
+twitter_widget_id: 
 
 # Add disqus username for Disqus comment board:
 disqus_shortname: samabbott-co-uk
