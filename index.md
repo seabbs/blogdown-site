@@ -67,3 +67,4 @@ Twitter stream will show up here if `twitter_widget_id` is present is `_config.y
     <a class="pagination-item newer" href="{{ site.url }}/tags"><i class="fa fa-tags"> Tags</i></a>
 </div>
 </h3>
+
