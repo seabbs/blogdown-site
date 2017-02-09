@@ -56,7 +56,7 @@ Table: Number of loans by loan length across the funding circle loan book
 
 
 
-![Estimated bad debt rate, accounting for repayments and the principal remaining, for the 6 most common term lengths straitifed by risk band]({{ site.urlimg }}/media/blog_post_files/figure-html/est_bad_rate_risk-1-2.png)
+[Estimated bad debt rate, accounting for repayments and the principal remaining, for the 6 most common term lengths straitifed by risk band]({{ site.urlimg }}/media/blog_post_files/figure-html/est_bad_rate_risk-1-2.png)
 
 
 We see that the assumption that short term loans are higher risk is only true for loans of 6 months, and for E loans of 12 months, which have a much greater risk of bad debt than all other loans. However these loans are relatively rare so this may be an artifact of low statistical power. For all other loan lengths we see that the risk of bad debt increases, with time with loans that are 36 months and over accounting for the majority of the bad debt in all risk categories. As I have not accounted for the maturity of loans, this apparent trend may be driven by the differing ages of loans in different years. Therefore we repeat the above but now stratify further by year, dropping loans with 6 month terms for clarity. Whilst this does add some variation the overall trend appears to hold with longer term loans having significantly higher proportions of bad debt. This is particularly true of E loans, where 60 month loans have much higher bad debt rates than those with shorter terms.  
@@ -65,16 +65,16 @@ An obvious point to note is that FC adjusts interest rates by term length, so th
 
 
 
-![Estimated bad debt by term length stratified by risk band, for 2011]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2011-1.png)
+[Estimated bad debt by term length stratified by risk band, for 2011]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2011-1.png)
 
-![Estimated bad debt by term length stratified by risk band, for 2012]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2012-1.png)
+[Estimated bad debt by term length stratified by risk band, for 2012]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2012-1.png)
 
-![Estimated bad debt by term length stratified by risk band, for 2013]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2013-1.png)
+[Estimated bad debt by term length stratified by risk band, for 2013]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2013-1.png)
 
-![Estimated bad debt by term length stratified by risk band, for 2014]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2014-1.png)
+[Estimated bad debt by term length stratified by risk band, for 2014]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2014-1.png)
 
-![Estimated bad debt by term length stratified by risk band, for 2015]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2015-1.png)
+[Estimated bad debt by term length stratified by risk band, for 2015]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2015-1.png)
 
-![Estimated bad debt by term length stratified by risk band, for 2016]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2016-1.png)
+[Estimated bad debt by term length stratified by risk band, for 2016]({{ site.urlimg }}/media/blog_post_files/figure-html/bad_debt_2016-1.png)
 
 This blog series is bi-weekly, please comment with suggestions of topics. The code for this post can be found at the [Github repo](https://github.com/seabbs/funding_circle)
