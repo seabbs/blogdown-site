@@ -18,11 +18,6 @@ As a quick update to last weeks post this week we will be using the estimates of
 FC surfaces the average bad debt rate by risk band and not by the term of the loan. Whilst this is a simplifying assumption that makes the investing process easier to understand, for it to be true short term loans must be inherantly riskier than long term loans, or the risk of default must be decoupled from time. Both of these assumptions seem unlikely to me,  and in a later past we will be looking further at the lifecourse of loans, but for this week we will simply be using my function for estimating for bad debt individually for each term length. As discussed last time we estimate the percentage of bad debt by comparing the proportion of bad debt, with total debt, accounting for loan size, the principal remaining, and the interest paid on the loan. This approach also has the same caveats as last time in that it does not account for future recoveries by funding circle, and so becomes increasingly inaccurate for more recent loans. 
 
 
-
-
-
-
-
 We first identify the possible loan terms available to borrowers in the FC ecosystem, and the number in each category. We see that by far the most common loans terms are those, as might be expected, that are an integer number of years. For clarity we restrict ourselves to looking at these most common loans (6, 12, 24, 48, 36, and 60 months), stratifying by risk band.
 
 

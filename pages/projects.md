@@ -40,7 +40,7 @@ tags:
               <li class="menu-item">
                 <div class="menu-item-info">
                   <h4 class="menu-item-name">Zopa loan book</h4>
-                  <span class="menu-item-price"><a href="https://github.com/clapping-bunny/Zopa_Analysis" target="_blank">GitHub</a></span>
+                  <span class="menu-item-price"><a href="https://github.com/seabbs/Zopa_Analysis" target="_blank">GitHub</a></span>
                   <p class="menu-item-description">Data visualisation and analysis of a peer to peer lending book from Zopa</p>
                 </div>
               <li class="menu-item">
@@ -56,12 +56,12 @@ tags:
               <li class="menu-item">
                 <div class="menu-item-info">
                   <h4 class="menu-item-name">Thesis</h4>
-                  <span class="menu-item-price"><a href="https://github.com/clapping-bunny/samthesis" target="_blank">GitHub</a></span>
+                  <span class="menu-item-price"><a href="https://github.com/seabbs/samthesis" target="_blank">GitHub</a></span>
                   <p class="menu-item-description">Thesis framework and contents</p>
                 </div>
                
 
-            <a id="btn-view-full-menu" class="btn-view-full-menu" href="http://github.com/clapping-bunny">Personal repositories</a>
+            <a id="btn-view-full-menu" class="btn-view-full-menu" href="http://github.com/seabbs">Personal repositories</a>
  
             <a id="btn-view-full-menu" class="btn-view-full-menu" href="https://github.com/bristolmathmodellers">Group repositories</a>
 
