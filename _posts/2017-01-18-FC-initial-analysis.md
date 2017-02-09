@@ -145,5 +145,5 @@ p4
 ![]({{ site.urlimg }}/media/5.png)<!-- -->
 
 
-This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the [Github repo](https://github.com/clapping-bunny/funding_circle)
+This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the [Github repo](https://github.com/seabbs/funding_circle)
 

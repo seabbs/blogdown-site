@@ -5,27 +5,6 @@ title: Personal Homepage of Sam Abbott
 description: "Blogging on ...."
 ---
 
-{% if site.twitter_widget_id %}
--<div class="text-tweets">
- -<div class="tweets">
- -<a class="twitter-timeline"
- -  data-dnt="true"
- -  width="600"
- -  height="400"
- -  href="https://twitter.com/{{ site.owner.twitter }}"
- -  data-widget-id="{{ site.twitter_widget_id }}"
- -  data-tweet-limit="2">
- -  Recent Tweets</a>
- -
- -</div>
- -<script>
- -    !function(d,s,id){var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src=p+"://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
- -</script>
- -</div>
-{% else %}
-Twitter stream will show up here if `twitter_widget_id` is present is `_config.yml`. [Demo](http://sbamin.com)
-{% endif %}
-
 <div class="posts">
   {% for post in site.categories.featured limit:2 %}
   <div class="post">

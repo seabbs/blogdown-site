@@ -139,4 +139,4 @@ In future blogs I will be further exploring loan risk and attempting to investig
 Unfortunately future analysis may be limited by the limited dataset released by FC, as key dates are not including in the public loan book. Hopefully if there is sufficient pressure more data will be released.
 
 
-This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the [Github repo](https://github.com/clapping-bunny/funding_circle)
+This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the [Github repo](https://github.com/seabbs/funding_circle)

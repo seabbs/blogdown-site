@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The temptation of a long loan: Risk and rewards of term length
+title: "The temptation of a long loan: Risk and rewards of term length"
 # date element overrides date in title format.
 date: 2017-02-08
 description: "Attempting to balance risk and reward based on loan term length"
