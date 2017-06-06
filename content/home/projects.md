@@ -26,12 +26,24 @@ view = 1
   tag = "*"
   
 [[filter]]
-  name = "Deep Learning"
-  tag = ".deep-learning"
+  name = "R packages"
+  tag = ".r-package"
 
 [[filter]]
-  name = "Other"
-  tag = ".demo"
+  name = "Rstats"
+  tag = ".rstats"
+  
+[[filter]]
+  name = "PhD Thesis"
+  tag = ".phd-thesis"
+
+[[filter]]
+  name = "Personal Projects"
+  tag = ".personal-projects"
+  
+[[filter]]
+  name = "P2P Finance"
+  tag = ".p2p"
 
 +++
 

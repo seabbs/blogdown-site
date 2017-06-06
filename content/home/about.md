@@ -12,31 +12,31 @@ weight = 1
 # List your academic interests.
 [interests]
   interests = [
-    "Artificial Intelligence",
-    "Computational Linguistics",
-    "Information Retrieval"
+    "Mathematical Modelling",
+    "Data analysis",
+    "Reproducible research",
+    "R programming",
+    "Tuberculosis epidemiology"
   ]
 
 # List your qualifications (such as academic degrees).
 [[education.courses]]
-  course = "PhD in Artificial Intelligence"
-  institution = "Stanford University"
-  year = 2012
+  course = "PhD in Social Medicine"
+  institution = "University of Bristol"
+  year = 2018
 
 [[education.courses]]
-  course = "MEng in Artificial Intelligence"
-  institution = "Massachusetts Institute of Technology"
-  year = 2009
+  course = "Msc in Advanced Mathematical Biology"
+  institution = "University of York"
+  year = 2015
 
 [[education.courses]]
-  course = "BSc in Artificial Intelligence"
-  institution = "Massachusetts Institute of Technology"
-  year = 2008
+  course = "MMath in Mathematics"
+  institution = "University of Durham"
+  year = 2014
  
 +++
 
 # Biography
 
-Lena Smith is a professor of artificial intelligence at the Stanford AI Lab. Her research interests include distributed robotics, mobile computing and programmable matter. She leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
-
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate. 
+I am a mathematical modeller interested in developing and fitting models for infectious disease, using data driven approaches. I studied mathematics at the University of Durham, completing an MMath degree in 2014. I then completed a masters in advanced mathematical biology at the University of York. As part of my thesis project I spent a summer at the University of Glasgow, studying the patterns of drug resistance in E-coli. across various species in Tanzanaia. I am currently completing a PhD in social medicine at the University of Bristol, studying the deployment of the BCG vaccine in the UK.
