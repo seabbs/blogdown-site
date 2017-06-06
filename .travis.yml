@@ -1,0 +1,19 @@
+language: R
+pandoc_version: 1.17.2
+cache: packages
+repos:
+  CRAN: https://cran.rstudio.com/
+  KRAN: http://rweb.crmda.ku.edu/kran/
+  
+  addons:
+  apt:
+  packages:
+  - libxml2-dev
+
+before_script:
+  - chmod +x ./_build.sh
+- chmod +x ./_deploy.sh
+
+script:
+  - ./_build.sh
+- ./_deploy.sh
