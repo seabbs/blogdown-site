@@ -5,7 +5,7 @@ set -e
 [ -z "${GITHUB_PAT}" ] && exit 0
 [ "${TRAVIS_BRANCH}" != "sources" ] && exit 0
 
-git config --global user.email "s.e.abbott12@gmail.com"
+git config --global user.email "contact@samabbott.co.uk"
 git config --global user.name "seabbs"
 
 git clone -b master https://${GITHUB_PAT}@github.com/${TRAVIS_REPO_SLUG}.git blog-output
