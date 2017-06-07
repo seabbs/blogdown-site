@@ -2,7 +2,7 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Categories on Sam Abbott</title>
-    <link>/categories/</link>
+    <link>http://samabbott.co.uk/categories/</link>
     <description>Recent content in Categories on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
@@ -11,10 +11,10 @@
     
     <item>
       <title>R</title>
-      <link>/categories/r/</link>
+      <link>http://samabbott.co.uk/categories/r/</link>
       <pubDate>Thu, 23 Jul 2015 21:13:14 -0500</pubDate>
       
-      <guid>/categories/r/</guid>
+      <guid>http://samabbott.co.uk/categories/r/</guid>
       <description></description>
     </item>
     
