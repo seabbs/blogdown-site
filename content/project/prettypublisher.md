@@ -16,7 +16,7 @@ image_preview = ""
 tags = ["r-package", "reproducible-research"]
 
 # Optional external URL for project (replaces project detail page).
-external_link = "http://samabbott.co.uk/prettypublisher"
+external_link = "http://www.samabbott.co.uk/prettypublisher"
 
 # Does the project detail page use math formatting?
 math = false
