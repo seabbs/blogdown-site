@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>R Package on Sam Abbott</title>
+    <link>/tags/r-package/</link>
+    <description>Recent content in R Package on Sam Abbott</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <copyright>&amp;copy; 2016 Sam Abbott</copyright>
+    <lastBuildDate>Tue, 06 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/r-package/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>prettypublisher</title>
+      <link>/project/prettypublisher/</link>
+      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>/project/prettypublisher/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
