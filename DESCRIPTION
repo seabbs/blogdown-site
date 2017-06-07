@@ -11,7 +11,8 @@ Imports:
   devtools,
   knitr,
   rmarkdown,
-  tidyverse
+  tidyverse,
+    lubridate
 Remotes:
   rstudio/blogdown,
   rstudio/rmarkdown
