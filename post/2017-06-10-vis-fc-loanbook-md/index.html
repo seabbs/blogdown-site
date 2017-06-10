@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="en-uk">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.21" />
+  <meta name="author" content="Sam Abbott">
+  <meta name="description" content="PhD student">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/academicons.min.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  <link rel="alternate" href="http://samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+  <link rel="feed" href="http://samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="http://samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/">
+
+  
+
+  <title>Visualising the funding circle loanbook | Sam Abbott</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Sam Abbott</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#publications_selected">
+            
+            <span>Publications</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Visualising the funding circle loanbook</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2017-01-17 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Tue, Jan 17, 2017
+    </time>
+  </span>
+
+  
+  
+  
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/rstats">rstats</a
+    >, 
+    
+    <a href="/tags/p2p">p2p</a
+    >, 
+    
+    <a href="/tags/data-analysis">data-analysis</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fsamabbott.co.uk%2fpost%2f2017-06-10-vis-fc-loanbook-md%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Visualising%20the%20funding%20circle%20loanbook&amp;url=http%3a%2f%2fsamabbott.co.uk%2fpost%2f2017-06-10-vis-fc-loanbook-md%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fsamabbott.co.uk%2fpost%2f2017-06-10-vis-fc-loanbook-md%2f&amp;title=Visualising%20the%20funding%20circle%20loanbook"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fsamabbott.co.uk%2fpost%2f2017-06-10-vis-fc-loanbook-md%2f&amp;title=Visualising%20the%20funding%20circle%20loanbook"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Visualising%20the%20funding%20circle%20loanbook&amp;body=http%3a%2f%2fsamabbott.co.uk%2fpost%2f2017-06-10-vis-fc-loanbook-md%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      <p>This is the first in a series of blog posts looking at P2P lenders, which will be aimed at surfacing more details about the structures of their loan books. I hope to expand this series by looking at optimal strategies, predictive modelling, and interactive data science.</p>
+
+<p>Since 2005, with the launch of <a href="www.zopa.co.uk" target="_blank">Zopa</a> P2P companies have provided a middle path between cash holdings, and investing in stocks and shares. Funding circle, which was launched in 2010, has currently facilitated over £1 Billion in loans to British businesses. It has also returned on average 6.6% after the exclusion of bad debt, fees etc.</p>
+
+<p>The platform offers small, and medium businesses loans of up to £1 million, for up to 60 months. Whole or fractional loans are then purchased by individuals/institutions. Since September 2015 loans have been offered with fixed rates determined by FC using the risk category of the company, and the loan terms. There is also a secondary market where individuals can sell loan parts, for a 0.25% fee, at a premium, at parity, or at a discount. Prior to September 2016 loans were auctioned with no fixed rate.</p>
+
+<p>FC allows the investor to hand pick each loan that they invest in, and the level of your exposure. However investors can also use an automated auto-bid tool that automatically buys loans, on both the primary and secondary markets, based on pre-set options specified by the investor. These include selecting risk levels to lend to, selecting rates to buy loans on the secondary market, and specifying a target maximum exposure to any single loan. These two system lead to a tension, with those that are hand-picking loans being potentially able to manipulate the auto-bid algorithm acting for other investors. As part of this blog series I will be looking further into these strategies.</p>
+
+<p>Now for some simple visualisations of the FC loan book, with the first step being to load the required packages (unhash for first run).</p>
+
+<pre><code class="language-r">#install.packages('tidyverse')
+library(tidyverse)
+
+#install.packages('lubridate')
+library(lubridate)
+
+#install.packages('stargazer')
+library(stargazer)
+</code></pre>
+
+<p>Now to load in the data and display the variable names:</p>
+
+<pre><code class="language-r">## File path of loanbook 
+df_path  &lt;- '~/data/Funding_circle/loanbook.csv'
+
+## Load data with miss spec as N/A
+loanbook &lt;- read_csv(df_path, na='N/A')
+
+## var to factors
+factor_list &lt;- c('status', 'credit_band', 'loan_purpose', 'sector', 'business_type_name', 'region_name', 'whole_loan', 'repayment_type', 'security_taken')
+                 
+                 
+format_factors &lt;- function(factor_list, df){
+                   for (var in factor_list)
+                   {
+                     df[[var]] &lt;- factor(df[[var]])
+                   }
+                   
+                   return(df)
+}
+loanbook &lt;- format_factors(factor_list, loanbook)
+</code></pre>
+
+<p>We print the simple summary of the data as a first step (hidden for brevity).</p>
+
+<pre><code class="language-r">summary(loanbook)
+</code></pre>
+
+<p>As the loan book has evolved with time an immediate question is how the number of loans, at each risk level has changed with time. Across all risk bands we see that year on year loan acceptances have increased, with 2016 showing by far the largest growth. Notably we see the introduction of D loans in 2013, and the introduction of E loans in 2015. The vast majority of funding circle loans are with &lsquo;low risk&rsquo; borrowers (i.e A, and A+), although the number of risky loans is now greater than the entire loan book in 2014</p>
+
+<pre><code class="language-r"> #Plot incidence - by year
+loanbook %&gt;% 
+    mutate(month = floor_date(loan_accepted_date, &quot;month&quot;)) %&gt;%
+        count(month, credit_band) %&gt;% 
+        ggplot(aes(x=month, y=n, fill=credit_band)) + 
+          geom_area() -&gt; p1
+p1
+</code></pre>
+
+<p><img src="/post/2017-06-10-vis-fc-loanbook-md/figure-html/offer-year-1.png" alt="" /><!-- --></p>
+
+<p>We now aggregate by month so that we can understand patterns of loan acceptances across the risk bands. For all risk bands we see that there is a increasing trend towards the end of the year, with the fewest loans originated in April, and March, indicating that this may not be a good time to move funds into FC, and consequently this may lead to an up-tick in the secondary market. E loans show the strongest growth in the second half of the year - however this may be an artefact of their relatively recent introduction, which maybe responsible for this apparent trend.</p>
+
+<pre><code class="language-r">loanbook %&gt;%
+        mutate(month = month(loan_accepted_date, label=TRUE)) %&gt;%
+        ggplot(aes(x=month)) + 
+          geom_bar() + 
+            facet_wrap(~credit_band, scale='free') + 
+            theme(axis.text.x = element_text(angle=45)) -&gt; p2
+p2
+</code></pre>
+
+<p><img src="/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-1.png" alt="" /><!-- --></p>
+
+<p>Finally we aggregate by day. There is limited evidence here that loan acceptances vary between weekdays, with a slight upward tick mid week.</p>
+
+<pre><code class="language-r">loanbook %&gt;%
+        mutate(day = wday(loan_accepted_date, label=TRUE)) %&gt;%
+        ggplot(aes(x=day)) + 
+          geom_bar() + 
+            facet_wrap(~credit_band, scale='free') + 
+            theme(axis.text.x = element_text(angle=90)) -&gt; p5
+p5
+</code></pre>
+
+<p><img src="/post/2017-06-10-vis-fc-loanbook-md/figure-html/daly-risk-band-1.png" alt="" /><!-- --></p>
+
+<p>To link these trends to demand from investors we plot the average interest rate of each accepted loan. We see that average rates are linked with supply for historic loans that were accepted using the biding system. However as expected since the introduction of the fixed rate loan system supply is now uncoupled from price, this presents possible advantages for the hand-picking investor who can buy loans at times of peak supply and sell loans at times of scarcity at a premium on the secondary market.</p>
+
+<pre><code class="language-r">plot_monthly_risk_band &lt;- function(df, years)
+{
+  df %&gt;%
+        mutate(month = month(loan_accepted_date, label=TRUE)) %&gt;%
+           mutate(year = year(loan_accepted_date)) %&gt;% 
+                filter(year %in% years) %&gt;% 
+                   group_by(month, credit_band, year) %&gt;% 
+                      summarise(`Avg interest rate`=mean(interest_rate)) %&gt;% 
+                          ggplot(aes(x=month, y=`Avg interest rate`, shape=credit_band, color=credit_band, fill=credit_band, group=credit_band))  +
+                              geom_line() +
+                                facet_wrap(~year, scale='free') +
+                                  theme(axis.text.x = element_text(angle=45)) -&gt; p
+  return(p)
+}
+
+p3 &lt;- plot_monthly_risk_band(loanbook, c(2010:2013))
+p4 &lt;- plot_monthly_risk_band(loanbook, c(2014:2016))
+p3
+</code></pre>
+
+<p><img src="/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by year-1.png" alt="" /><!-- --></p>
+
+<pre><code class="language-r">p4
+</code></pre>
+
+<p><img src="/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by year-2.png" alt="" /><!-- --></p>
+
+<p>This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the <a href="https://github.com/clapping-bunny/funding_circle" target="_blank">Github repo</a></p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script type="text/javascript">
+    var disqus_shortname = 'samabbott-co-uk';
+    var disqus_identifier = 'http:\/\/samabbott.co.uk\/post\/2017-06-10-vis-fc-loanbook-md\/';
+    var disqus_title = 'Visualising the funding circle loanbook';
+    var disqus_url = 'http:\/\/samabbott.co.uk\/post\/2017-06-10-vis-fc-loanbook-md\/';
+
+    (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2016 Sam Abbott &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="/js/jquery-1.12.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-85604924-1', 'auto');
+        ga('send', 'pageview');
+
+         
+        var links = document.querySelectorAll('a');
+        Array.prototype.map.call(links, function(item) {
+            if (item.host != document.location.host) {
+                item.addEventListener('click', function() {
+                    var action = item.getAttribute('data-action') || 'follow';
+                    ga('send', 'event', 'outbound', action, item.href);
+                });
+            }
+        });
+    </script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
+    
+
+  </body>
+</html>
+

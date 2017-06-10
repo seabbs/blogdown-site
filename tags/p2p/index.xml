@@ -1,32 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Sam Abbott on Sam Abbott</title>
-    <link>http://samabbott.co.uk/</link>
-    <description>Recent content in Sam Abbott on Sam Abbott</description>
+    <title>P2p on Sam Abbott</title>
+    <link>http://samabbott.co.uk/tags/p2p/</link>
+    <description>Recent content in P2p on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2016 Sam Abbott</copyright>
-    <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/" rel="self" type="application/rss+xml" />
-    
-    <item>
-      <title>Beneficial effects of BCG vaccination in outcomes for patients diagnosed with TB: observational study using the Enhanced Tuberculosis surveillance system 2009-2015</title>
-      <link>http://samabbott.co.uk/talk/union-2017/</link>
-      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://samabbott.co.uk/talk/union-2017/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>The Pebble Game</title>
-      <link>http://samabbott.co.uk/project/thepebblegame/</link>
-      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://samabbott.co.uk/project/thepebblegame/</guid>
-      <description></description>
-    </item>
+    <lastBuildDate>Tue, 06 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/p2p/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Funding Circle Data Anaylsis</title>
@@ -34,58 +16,6 @@
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://samabbott.co.uk/project/funding-circle/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>PhD: Research Aims</title>
-      <link>http://samabbott.co.uk/project/phd-thesis-aims-objectives/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://samabbott.co.uk/project/phd-thesis-aims-objectives/</guid>
-      <description>
-
-&lt;h2 id=&#34;aim&#34;&gt;Aim&lt;/h2&gt;
-
-&lt;p&gt;To understand the impact of BCG vaccination on the epidemiology of tuberculosis in England, and to use this understanding to forecast the future effects of current and proposed BCG vaccination policy.&lt;/p&gt;
-
-&lt;h2 id=&#34;objectives&#34;&gt;Objectives&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;To describe the current epidemiology of Tuberculosis in England,&lt;/li&gt;
-&lt;li&gt;To assess whether there is evidence in routinely-collected surveillance data that BCG vaccination impacts outcomes for TB cases in England,&lt;/li&gt;
-&lt;li&gt;To assess the direct effects of the 2005 change in vaccination policy on those eligible for vaccination,&lt;/li&gt;
-&lt;li&gt;To develop and apply a parsimonous transmission dynamic model of tuberculosis in order to understand the trade off between vaccinating those at highest risk of poor outcomes, and those most likely to be vectors of transmission; by using the 2005 change in vaccination policy as a case study,&lt;/li&gt;
-&lt;li&gt;To develop and apply a transmission dynamic model of tuberculosis, that is robustly fitted to available data, and captures the known epidemiology of TB; in order to forecast all long term effects of the 2005 change in vaccination policy, and to provide robust estimates of epidemiological parameters for TB in England,&lt;/li&gt;
-&lt;li&gt;To forecast future incidence of tuberculosis in England under various transmission, importation, and vaccination scenarios; by further generalising previously developed transmission dynamic models.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>prettypublisher</title>
-      <link>http://samabbott.co.uk/project/prettypublisher/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://samabbott.co.uk/project/prettypublisher/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tbinenglanddataclean</title>
-      <link>http://samabbott.co.uk/project/-tbinenglanddataclean/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://samabbott.co.uk/project/-tbinenglanddataclean/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Beneficial effects of BCG vaccination in outcomes for patients with active TB: observational study using the Enhanced Tuberculosis surveillance system 2000-2014</title>
-      <link>http://samabbott.co.uk/talk/phe-applied_epi-2017/</link>
-      <pubDate>Fri, 24 Mar 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://samabbott.co.uk/talk/phe-applied_epi-2017/</guid>
       <description></description>
     </item>
     
@@ -213,15 +143,6 @@ p3
 
 &lt;p&gt;This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the &lt;a href=&#34;https://github.com/clapping-bunny/funding_circle&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Assessing the Evidence for Universal Bacillus Calmette-Guèrin (BCG) Vaccination in England</title>
-      <link>http://samabbott.co.uk/talk/phe-applied_epi-2016/</link>
-      <pubDate>Wed, 23 Mar 2016 00:00:00 +0000</pubDate>
-      
-      <guid>http://samabbott.co.uk/talk/phe-applied_epi-2016/</guid>
-      <description></description>
     </item>
     
   </channel>
