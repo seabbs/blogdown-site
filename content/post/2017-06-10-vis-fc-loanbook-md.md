@@ -128,13 +128,13 @@ p4 <- plot_monthly_risk_band(loanbook, c(2014:2016))
 p3
 ```
 
-![](/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by year-1.png)<!-- -->
+![](/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by-year-1.png)<!-- -->
 
 ```r
 p4
 ```
 
-![](/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by year-2.png)<!-- -->
+![](/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by-year-2.png)<!-- -->
 
 
 This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the [Github repo](https://github.com/clapping-bunny/funding_circle)
