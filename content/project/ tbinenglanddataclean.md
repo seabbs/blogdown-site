@@ -13,7 +13,7 @@ image_preview = ""
 
 # Tags: can be used for filtering projects.
 # Example: `tags = ["r-package", "reproducible-research"]`
-tags = ["r-package", "reproducible-research", "phd-thesis"]
+tags = ["r-package", "reproducible-research", "phd-thesis", "rstats"]
 
 # Optional external URL for project (replaces project detail page).
 external_link = "http://www.samabbott.co.uk/tbinenglanddataclean/"

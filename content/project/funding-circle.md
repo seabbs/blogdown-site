@@ -3,20 +3,20 @@
 date = "2017-06-06"
 
 # Project title.
-title = "prettypublisher"
+title = "Funding circle data anaylsis"
 
 # Project summary to display on homepage.
-summary = "R package to help in formatting R markdown documents into a publishable format. The source code is available on [here](https://github.com/seabbs/prettypublisher)"
+summary = "Visualisation and analysis of the [Funding Circle]( https://www.fundingcircle.com/uk/ loanbook) loanbook.
 
 # Optional image to display on homepage (relative to `static/img/` folder).
 image_preview = ""
 
 # Tags: can be used for filtering projects.
 # Example: `tags = ["r-package", "reproducible-research"]`
-tags = ["r-package", "reproducible-research", "rstats"]
+tags = ["p2p", "rstats"]
 
 # Optional external URL for project (replaces project detail page).
-external_link = "http://www.samabbott.co.uk/prettypublisher"
+external_link = "https://github.com/seabbs/funding_circle"
 
 # Does the project detail page use math formatting?
 math = false
