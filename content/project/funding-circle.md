@@ -3,10 +3,10 @@
 date = "2017-06-06"
 
 # Project title.
-title = "Funding circle data anaylsis"
+title = "Funding Circle Data Anaylsis"
 
 # Project summary to display on homepage.
-summary = "Visualisation and analysis of the [Funding Circle]( https://www.fundingcircle.com/uk/ loanbook) loanbook.
+summary = "Visualisation and analysis of the [Funding Circle](https://www.fundingcircle.com/uk) loanbook."
 
 # Optional image to display on homepage (relative to `static/img/` folder).
 image_preview = ""

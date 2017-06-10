@@ -16,7 +16,7 @@ weight = 10
 tags = []
 
 # Number of posts to list.
-count = 3
+count = 5
 
 +++
 
