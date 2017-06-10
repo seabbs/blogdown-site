@@ -10,7 +10,7 @@ subtitle = ""
 widget = "projects"
 
 # Order that this section will appear in.
-weight = 50
+weight = 20
 
 # View.
 # Customize how projects are displayed.
@@ -27,6 +27,10 @@ view = 1
   
 [[filter]]
   name = "R packages"
+  tag = ".r-package"
+
+[[filter]]
+  name = "Shiny apps"
   tag = ".r-package"
 
 [[filter]]

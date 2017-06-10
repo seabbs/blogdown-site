@@ -10,13 +10,13 @@ subtitle = ""
 widget = "posts"
 
 # Order that this section will appear in.
-weight = 40
+weight = 10
 
 # Show posts that contain the following tags. Default to any tags.
 tags = []
 
 # Number of posts to list.
-count = 5
+count = 3
 
 +++
 
