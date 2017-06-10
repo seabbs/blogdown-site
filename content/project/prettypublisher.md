@@ -6,7 +6,7 @@ date = "2017-06-06"
 title = "prettypublisher"
 
 # Project summary to display on homepage.
-summary = "R package to help in formatting R markdown documents into a publishable format."
+summary = "R package to help in formatting R markdown documents into a publishable format. The source code is available on [here](https://github.com/seabbs/prettypublisher)"
 
 # Optional image to display on homepage (relative to `static/img/` folder).
 image_preview = ""

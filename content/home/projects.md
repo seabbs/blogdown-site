@@ -26,12 +26,12 @@ view = 1
   tag = "*"
   
 [[filter]]
-  name = "R packages"
+  name = "R Packages"
   tag = ".r-package"
 
 [[filter]]
-  name = "Shiny apps"
-  tag = ".r-package"
+  name = "Shiny Apps"
+  tag = ".shiny"
 
 [[filter]]
   name = "Rstats"
