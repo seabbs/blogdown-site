@@ -11,6 +11,15 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Beneficial effects of BCG vaccination in outcomes for patients diagnosed with TB: observational study using the Enhanced Tuberculosis surveillance system 2009-2015</title>
+      <link>http://samabbott.co.uk/talk/union-2017/</link>
+      <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://samabbott.co.uk/talk/union-2017/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>PhD: Research Aims</title>
       <link>http://samabbott.co.uk/project/phd-thesis-aims-objectives/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
@@ -45,13 +54,12 @@
     </item>
     
     <item>
-      <title>Example Talk</title>
-      <link>http://samabbott.co.uk/talk/example-talk/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
+      <title>Beneficial effects of BCG vaccination in outcomes for patients with active TB: observational study using the Enhanced Tuberculosis surveillance system 2000-2014</title>
+      <link>http://samabbott.co.uk/talk/phe-applied_epi-2017/</link>
+      <pubDate>Fri, 24 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/talk/example-talk/</guid>
-      <description>&lt;p&gt;Embed your slides or video here using &lt;a href=&#34;https://gcushen.github.io/hugo-academic-demo/post/writing-markdown-latex/&#34; target=&#34;_blank&#34;&gt;shortcodes&lt;/a&gt;. Further details can easily be added using &lt;em&gt;Markdown&lt;/em&gt; and $\rm \LaTeX$ math code.&lt;/p&gt;
-</description>
+      <guid>http://samabbott.co.uk/talk/phe-applied_epi-2017/</guid>
+      <description></description>
     </item>
     
     <item>
@@ -617,6 +625,15 @@ Here&#39;s some important information...
  &lt;a class=&#34;footnote-return&#34; href=&#34;#fnref:1&#34;&gt;&lt;sup&gt;^&lt;/sup&gt;&lt;/a&gt;&lt;/li&gt;
 &lt;/ol&gt;
 &lt;/div&gt;</description>
+    </item>
+    
+    <item>
+      <title>Assessing the Evidence for Universal Bacillus Calmette-Guèrin (BCG) Vaccination in England</title>
+      <link>http://samabbott.co.uk/talk/phe-applied_epi-2016/</link>
+      <pubDate>Wed, 23 Mar 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://samabbott.co.uk/talk/phe-applied_epi-2016/</guid>
+      <description></description>
     </item>
     
     <item>
