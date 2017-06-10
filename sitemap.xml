@@ -14,6 +14,15 @@
     
     <url>
     
+      <loc>http://samabbott.co.uk/project/thepebblegame/</loc>
+      <lastmod>2017-06-10T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://samabbott.co.uk/project/phd-thesis-aims-objectives/</loc>
       <lastmod>2017-06-06T00:00:00+00:00</lastmod>
     </url>
@@ -77,53 +86,8 @@
     
     <url>
     
-      <loc>http://samabbott.co.uk/post/widgets/</loc>
-      <lastmod>2016-04-20T11:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://samabbott.co.uk/post/managing-content/</loc>
-      <lastmod>2016-04-20T11:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://samabbott.co.uk/post/writing-markdown-latex/</loc>
-      <lastmod>2016-04-20T10:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>http://samabbott.co.uk/talk/phe-applied_epi-2016/</loc>
       <lastmod>2016-03-23T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://samabbott.co.uk/post/2015-07-23-r-rmarkdown/</loc>
-      <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://samabbott.co.uk/post/migrate-from-jekyll/</loc>
-      <lastmod>2014-03-10T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -140,8 +104,8 @@
     
     <url>
     
-      <loc>http://samabbott.co.uk/tags/hugo/</loc>
-      <lastmod>2016-04-20T11:00:00+00:00</lastmod>
+      <loc>http://samabbott.co.uk/tags/outreach/</loc>
+      <lastmod>2017-06-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -150,8 +114,8 @@
     
     <url>
     
-      <loc>http://samabbott.co.uk/tags/jekyll/</loc>
-      <lastmod>2014-03-10T00:00:00+00:00</lastmod>
+      <loc>http://samabbott.co.uk/tags/personal-projects/</loc>
+      <lastmod>2017-06-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -170,18 +134,8 @@
     
     <url>
     
-      <loc>http://samabbott.co.uk/tags/plot/</loc>
-      <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>http://samabbott.co.uk/project/</loc>
-      <lastmod>2017-06-06T00:00:00+00:00</lastmod>
+      <lastmod>2017-06-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -191,26 +145,6 @@
     <url>
     
       <loc>http://samabbott.co.uk/publication_types/</loc>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://samabbott.co.uk/categories/r/</loc>
-      <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://samabbott.co.uk/tags/r-markdown/</loc>
-      <lastmod>2015-07-23T21:13:14-05:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -229,16 +163,6 @@
     
     <url>
     
-      <loc>http://samabbott.co.uk/tags/regression/</loc>
-      <lastmod>2015-07-23T21:13:14-05:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>http://samabbott.co.uk/tags/reproducible-research/</loc>
       <lastmod>2017-06-06T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -249,8 +173,28 @@
     
     <url>
     
+      <loc>http://samabbott.co.uk/tags/rstats/</loc>
+      <lastmod>2017-06-10T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://samabbott.co.uk/</loc>
       <lastmod>2016-04-20T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://samabbott.co.uk/tags/shiny/</loc>
+      <lastmod>2017-06-10T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

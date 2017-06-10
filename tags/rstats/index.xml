@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Rstats on Sam Abbott</title>
+    <link>http://samabbott.co.uk/tags/rstats/</link>
+    <description>Recent content in Rstats on Sam Abbott</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <copyright>&amp;copy; 2016 Sam Abbott</copyright>
+    <lastBuildDate>Sat, 10 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <atom:link href="/tags/rstats/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>The Pebble Game</title>
+      <link>http://samabbott.co.uk/project/thepebblegame/</link>
+      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://samabbott.co.uk/project/thepebblegame/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>
