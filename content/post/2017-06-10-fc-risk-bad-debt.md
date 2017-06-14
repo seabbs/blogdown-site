@@ -4,7 +4,7 @@ author: ~
 date: '2017-01-25'
 slug: fc-risk-bad-debt
 categories: []
-tags: []
+tags: ["P2P", "data analysis", "data visualisation", "rstats"]
 ---
 
 We are again looking at the peer to peer (P2P) loan book for funding circle (FC), with the focus being the variation in return based on portfolio composition and diversification. FC states that the average return on investment is [6.6%](https://www.fundingcircle.com/uk/statistics/),  with 93% of investors that invested in more than 100 companies, with a maximum exposure of 1% earning 5% or more. The original purpose of this blog was to look at various portfolio's and estimate the risk that they carry for the investor. A key component of this is an understanding of the bad debt rate and it's variation over time, which proved more complex to estimate than expected. This post will be looking in detail at various measures of the bad debt rate and raising questions for future posts.

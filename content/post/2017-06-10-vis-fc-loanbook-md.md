@@ -3,7 +3,7 @@ title: Visualising the funding circle loanbook
 author: "Sam Abbott"
 date: "2017-01-17"
 categories: []
-tags: ["rstats", "p2p", "data-analysis"]
+tags: ["rstats", "P2P", "data analysis", "data visualisation"]
 ---
 
 This is the first in a series of blog posts looking at P2P lenders, which will be aimed at surfacing more details about the structures of their loan books. I hope to expand this series by looking at optimal strategies, predictive modelling, and interactive data science.

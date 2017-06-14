@@ -4,7 +4,7 @@ author: "Sam Abbott"
 date: "2017-03-08"
 slug: temp-long-loan
 categories: []
-tags: ["rstats", "p2p", "data-analysis"]
+tags: ["rstats", "P2P", "data analysis"]
 ---
 
 
