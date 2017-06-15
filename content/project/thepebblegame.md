@@ -16,7 +16,7 @@ image_preview = ""
 tags = ["shiny", "rstats", "outreach", "personal-projects"]
 
 # Optional external URL for project (replaces project detail page).
-external_link = "https://seabbs.shinyapps.io/thepebblegame/"
+external_link = "http://www.seabbs.co.uk/shiny/thepebblegame/"
 
 # Does the project detail page use math formatting?
 math = false
