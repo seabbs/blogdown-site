@@ -14,6 +14,15 @@
     
     <url>
     
+      <loc>http://samabbott.co.uk/project/idmodelr/</loc>
+      <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://samabbott.co.uk/post/an-ancient-disease-a-scar-and-classroom-mathematics/</loc>
       <lastmod>2017-06-14T00:00:00+00:00</lastmod>
     </url>
@@ -188,6 +197,16 @@
     
     <url>
     
+      <loc>http://samabbott.co.uk/tags/modelling/</loc>
+      <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://samabbott.co.uk/tags/outreach/</loc>
       <lastmod>2017-06-14T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -239,7 +258,7 @@
     <url>
     
       <loc>http://samabbott.co.uk/project/</loc>
-      <lastmod>2017-06-10T00:00:00+00:00</lastmod>
+      <lastmod>2017-06-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -258,7 +277,7 @@
     <url>
     
       <loc>http://samabbott.co.uk/tags/r-package/</loc>
-      <lastmod>2017-06-06T00:00:00+00:00</lastmod>
+      <lastmod>2017-06-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -278,7 +297,7 @@
     <url>
     
       <loc>http://samabbott.co.uk/tags/rstats/</loc>
-      <lastmod>2017-06-10T00:00:00+00:00</lastmod>
+      <lastmod>2017-06-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -319,6 +338,16 @@
     
       <loc>http://samabbott.co.uk/tags/tuberculosis/</loc>
       <lastmod>2017-06-14T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://samabbott.co.uk/tags/utilities/</loc>
+      <lastmod>2017-06-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
