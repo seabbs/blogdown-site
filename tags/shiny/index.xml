@@ -7,8 +7,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2016 Sam Abbott</copyright>
-    <lastBuildDate>Sat, 10 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 26 Jun 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/shiny/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>FC Dashboard</title>
+      <link>http://samabbott.co.uk/project/fcdashboard/</link>
+      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://samabbott.co.uk/project/fcdashboard/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>The Pebble Game</title>
