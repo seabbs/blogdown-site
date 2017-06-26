@@ -9,7 +9,7 @@ title = "prettypublisher"
 summary = "R package to help in formatting R markdown documents into a publishable format. The source code is available on [here](https://github.com/seabbs/prettypublisher)"
 
 # Optional image to display on homepage (relative to `static/img/` folder).
-image_preview = ""
+image_preview = "prettypublisher.png"
 
 # Tags: can be used for filtering projects.
 # Example: `tags = ["r-package", "reproducible-research"]`
