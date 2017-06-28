@@ -77,7 +77,7 @@
     
     <url>
     
-      <loc>http://samabbott.co.uk/project/-tbinenglanddataclean/</loc>
+      <loc>http://samabbott.co.uk/project/tbinenglanddataclean/</loc>
       <lastmod>2017-06-06T00:00:00+00:00</lastmod>
     </url>
     
@@ -337,6 +337,16 @@
     
       <loc>http://samabbott.co.uk/tags/</loc>
       <lastmod>2017-01-01T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://samabbott.co.uk/tags/tb/</loc>
+      <lastmod>2017-06-06T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
