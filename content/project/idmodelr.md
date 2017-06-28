@@ -9,7 +9,7 @@
   summary = "R package that contains utility functions for infectious disease modelling. It's main functionality is to facilitate the use of other available modelling packages such as [pomp](http://kingaa.github.io/pomp/). Although, it does offer some basic modelling functionality itself. The source code is available on [here](https://github.com/seabbs/idmodelr)"
   
   # Optional image to display on homepage (relative to `static/img/` folder).
-  image_preview = ""
+  image_preview = "idmodelr.png"
   
   # Tags: can be used for filtering projects.
   # Example: `tags = ["r-package", "reproducible-research"]`
