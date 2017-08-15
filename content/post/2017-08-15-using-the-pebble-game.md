@@ -38,7 +38,7 @@ The output in this tab is very similar to that in the Play the game tab, but the
 
 ## Ideas for further exploration
 
-If you are still interested in exploring the pebble game further then here are a few ideas of what to questions to investigate;
+If you are interested in exploring the pebble game further then here are a few ideas of what to questions to investigate;
 
 - What effect does varying the number of simulations have? Are there parameters for which this has a greater impact? If so what implications does this have for real world diseases?
 - Can you identify stages of an epidemic by looking at plots of the number of pebbles  in each generation? At which stage is the disease most likely to die out? What does this mean for epidemic control?
