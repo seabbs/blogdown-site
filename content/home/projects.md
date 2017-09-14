@@ -34,6 +34,10 @@ view = 1
   tag = ".shiny"
 
 [[filter]]
+  name = "Tableau"
+  tag = ".tableau"
+  
+[[filter]]
   name = "Rstats"
   tag = ".rstats"
   
