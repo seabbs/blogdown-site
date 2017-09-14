@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Utilities on Sam Abbott</title>
-    <link>http://samabbott.co.uk/tags/utilities/</link>
+    <link>http://www.samabbott.co.uk/tags/utilities/</link>
     <description>Recent content in Utilities on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2016 Sam Abbott</copyright>
+    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
     <lastBuildDate>Fri, 23 Jun 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/utilities/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>idmodelr</title>
-      <link>http://samabbott.co.uk/project/idmodelr/</link>
+      <link>http://www.samabbott.co.uk/project/idmodelr/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/idmodelr/</guid>
+      <guid>http://www.samabbott.co.uk/project/idmodelr/</guid>
       <description></description>
     </item>
     

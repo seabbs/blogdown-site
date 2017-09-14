@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Rstats on Sam Abbott</title>
-    <link>http://samabbott.co.uk/tags/rstats/</link>
+    <link>http://www.samabbott.co.uk/tags/rstats/</link>
     <description>Recent content in Rstats on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2016 Sam Abbott</copyright>
+    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
     <lastBuildDate>Tue, 15 Aug 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/rstats/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Introducing the Pebble Game; a simple app for exploring epidemics and vaccination</title>
-      <link>http://samabbott.co.uk/post/using-the-pebble-game/</link>
+      <link>http://www.samabbott.co.uk/post/using-the-pebble-game/</link>
       <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/post/using-the-pebble-game/</guid>
+      <guid>http://www.samabbott.co.uk/post/using-the-pebble-game/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;http://seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;The Pebble Game&lt;/a&gt; is a shiny application that simulates a simple game which has been designed  to reflect real world epidemics and the vaccination programmes used to control them. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease. Each game can then be thought of as a single stochastic (with a random element) epidemic, by combining multiple simulations of the game, the dynamics of the system can be understood. Hopefully by playing the game and exploring the app you will gain an insight into how a single vaccination can contribute to protecting the rest of society.&lt;/p&gt;
@@ -26,7 +26,7 @@
 
 &lt;p&gt;The next step is to &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;open the app&lt;/a&gt;. Your screen should then look like this,&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/img/single_game.png&#34; alt=&#34;The game simulation tab from the pebble game app&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/img/single_game.png&#34; alt=&#34;The game simulation tab from the pebble game app&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;You should now be looking at 10 simulations of the pebble game, each with 100 pebbles, 60% of pebbles being vaccinated, and a &lt;a href=&#34;https://en.wikipedia.org/wiki/Basic_reproduction_number&#34; target=&#34;_blank&#34;&gt;reproduction number&lt;/a&gt; of 3 (don&amp;rsquo;t know what this is - try hovering over it in the app). These parameters can all be varied (hit the plus in the game parameters box), although if you add more stones or more simulations it may take awhile!&lt;/p&gt;
 
@@ -42,7 +42,7 @@
 
 &lt;p&gt;To help you further explore the effects of varying parameters on the outcome of the pebble game &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;the Pebble Game app&lt;/a&gt; has an additional tab (Compare diseases). This lets you simulate two diseases, each with an individual reproduction number, but otherwise using the same parameters. An example, comparing a disease with a reproduction number of 3 and another disease with a reproduction number of 12 can be seen below,&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/img/compare_game.png&#34; alt=&#34;The disease comparision tab from the pebble game app&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/img/compare_game.png&#34; alt=&#34;The disease comparision tab from the pebble game app&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The output in this tab is very similar to that in the Play the game tab, but there is now a graph of both diseases, as well as for each disease separately. In this example we see that the second disease has a much lower generation time, than the primary disease. However even for this much slower disease in over 25% of simulations all of the unvaccinated pebbles are still infected!&lt;/p&gt;
 
@@ -62,64 +62,64 @@
     
     <item>
       <title>FC Dashboard</title>
-      <link>http://samabbott.co.uk/project/fcdashboard/</link>
+      <link>http://www.samabbott.co.uk/project/fcdashboard/</link>
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/fcdashboard/</guid>
+      <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
       <description></description>
     </item>
     
     <item>
       <title>idmodelr</title>
-      <link>http://samabbott.co.uk/project/idmodelr/</link>
+      <link>http://www.samabbott.co.uk/project/idmodelr/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/idmodelr/</guid>
+      <guid>http://www.samabbott.co.uk/project/idmodelr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>The Pebble Game</title>
-      <link>http://samabbott.co.uk/project/thepebblegame/</link>
+      <link>http://www.samabbott.co.uk/project/thepebblegame/</link>
       <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/thepebblegame/</guid>
+      <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Funding Circle Data Anaylsis</title>
-      <link>http://samabbott.co.uk/project/funding-circle/</link>
+      <link>http://www.samabbott.co.uk/project/funding-circle/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/funding-circle/</guid>
+      <guid>http://www.samabbott.co.uk/project/funding-circle/</guid>
       <description></description>
     </item>
     
     <item>
       <title>prettypublisher</title>
-      <link>http://samabbott.co.uk/project/prettypublisher/</link>
+      <link>http://www.samabbott.co.uk/project/prettypublisher/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/prettypublisher/</guid>
+      <guid>http://www.samabbott.co.uk/project/prettypublisher/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tbinenglanddataclean</title>
-      <link>http://samabbott.co.uk/project/tbinenglanddataclean/</link>
+      <link>http://www.samabbott.co.uk/project/tbinenglanddataclean/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/tbinenglanddataclean/</guid>
+      <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
       <description></description>
     </item>
     
     <item>
       <title>The temptation of a long loan; Risk and rewards of term length</title>
-      <link>http://samabbott.co.uk/post/temp-long-loan/</link>
+      <link>http://www.samabbott.co.uk/post/temp-long-loan/</link>
       <pubDate>Wed, 08 Mar 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/post/temp-long-loan/</guid>
+      <guid>http://www.samabbott.co.uk/post/temp-long-loan/</guid>
       <description>&lt;p&gt;As a quick update to last weeks post this week we will be using the estimates of bad debt from last week to assess the true risk/rewards of loans at various lengths from the funding circle (FC) loan book. I realised recently that when picking loans my default criteria tends towards picking loans with the lowest percieved risk (i.e lowest risk band) with the highest interest rates possible. This strategy has some interesting consequences in that it preferentially selects long term loans that tend to have higher rates.&lt;/p&gt;
 
 &lt;p&gt;FC surfaces the average bad debt rate by risk band and not by the term of the loan. Whilst this is a simplifying assumption that makes the investing process easier to understand, for it to be true short term loans must be inherantly riskier than long term loans, or the risk of default must be decoupled from time. Both of these assumptions seem unlikely to me,  and in a later past we will be looking further at the lifecourse of loans, but for this week we will simply be using my function for estimating for bad debt individually for each term length. As discussed last time we estimate the percentage of bad debt by comparing the proportion of bad debt, with total debt, accounting for loan size, the principal remaining, and the interest paid on the loan. This approach also has the same caveats as last time in that it does not account for future recoveries by funding circle, and so becomes increasingly inaccurate for more recent loans.&lt;/p&gt;
@@ -279,23 +279,23 @@
 &lt;/tbody&gt;
 &lt;/table&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/est_bad_rate_risk-1.png&#34; alt=&#34;Estimated bad debt rate, accounting for repayments and the principal remaining, for the 6 most common term lengths straitifed by risk band&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/est_bad_rate_risk-1.png&#34; alt=&#34;Estimated bad debt rate, accounting for repayments and the principal remaining, for the 6 most common term lengths straitifed by risk band&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;We see that the assumption that short term loans are higher risk is only true for loans of 6 months, and for E loans of 12 months, which have a much greater risk of bad debt than all other loans. However these loans are relatively rare so this may be an artifact of low statistical power. For all other loan lengths we see that the risk of bad debt increases, with time with loans that are 36 months and over accounting for the majority of the bad debt in all risk categories. As I have not accounted for the maturity of loans, this apparent trend may be driven by the differing ages of loans in different years. Therefore we repeat the above but now stratify further by year, dropping loans with 6 month terms for clarity. Whilst this does add some variation the overall trend appears to hold with longer term loans having significantly higher proportions of bad debt, this is particularly true of E loans, where 60 month loans have much higher bad debt rates than those with shorter terms.&lt;/p&gt;
 
 &lt;p&gt;An obvious point to note is that FC adjusts interest rates by term length, so that longer term loans have higher rates, this adjustment is obviously to account for the disparity in risk over loan term. In a follow up post I will be using these estimates of bad debt by loan term to evaluate the return on loans of difffernt term lengths to assess whether these adjustments sufficiently account for the increased risk of longer term loans.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2011-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2011&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2011-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2011&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2012-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2012&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2012-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2012&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2013-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2013&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2013-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2013&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2014-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2014&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2014-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2014&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2015-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2015&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2015-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2015&#34; /&gt;&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2016-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2016&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2016-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2016&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This blog series is bi-weekly, please comment with suggestions of topics. The code for this post can be found at the &lt;a href=&#34;https://github.com/seabbs/funding_circle&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt;&lt;/p&gt;
 </description>
@@ -303,10 +303,10 @@
     
     <item>
       <title>Estimating the risk of bad debt in the funding circle loanbook</title>
-      <link>http://samabbott.co.uk/post/fc-risk-bad-debt/</link>
+      <link>http://www.samabbott.co.uk/post/fc-risk-bad-debt/</link>
       <pubDate>Wed, 25 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/post/fc-risk-bad-debt/</guid>
+      <guid>http://www.samabbott.co.uk/post/fc-risk-bad-debt/</guid>
       <description>&lt;p&gt;We are again looking at the peer to peer (P2P) loan book for funding circle (FC), with the focus being the variation in return based on portfolio composition and diversification. FC states that the average return on investment is &lt;a href=&#34;https://www.fundingcircle.com/uk/statistics/&#34; target=&#34;_blank&#34;&gt;6.6%&lt;/a&gt;,  with 93% of investors that invested in more than 100 companies, with a maximum exposure of 1% earning 5% or more. The original purpose of this blog was to look at various portfolio&amp;rsquo;s and estimate the risk that they carry for the investor. A key component of this is an understanding of the bad debt rate and it&amp;rsquo;s variation over time, which proved more complex to estimate than expected. This post will be looking in detail at various measures of the bad debt rate and raising questions for future posts.&lt;/p&gt;
 
 &lt;p&gt;FC states that the average bad debt rate across all risk categories is 1.8% (after bad debt recovery), and that 42% of all defaulted loans are recovered. Across the platform the average risk of default for each risk band is 0.6% for A+ loans,  1.5%    for A loans, 2.3% for B loans, 3.3% for C loans, 5.0% for D loans, and 8.0% for E loans. In order to optimise a portfolio, that both minimises risk and maximises profit a complete understanding of these risk levels is required.&lt;/p&gt;
@@ -315,17 +315,17 @@
 
 &lt;p&gt;To explore these assumptions we start by roughly calculating the bad debt rate, looking solely at the number of loans that defaulted in a given year and comparing this to the total number of loans. This is obviously a flawed approach as it does not account for loan size, repayments, recoveries, or the maturity of the loan. However it represents a crude initial estimate of the default rate in each risk category. This approach yields far higher estimates of bad debt, than those estimated by FC. To account for the variability in loan size we repeat the above steps but this time account for loan size. This approach can further be refined by accounting for loan repayments prior to the loan defaulting. There are multiple approaches to this, the first of which is to adjust for the amount recovered from defaulted loans, another option is to instead estimate the proportion of bad debt from the principal remaining. Finally by looking at the term length of the loan, and the number of repayments made I can estimate the amount of interest payed on a loan and use this to offset the loss made by the loan defaulting. This assumes that interest is payed on the total loan amount as opposed to the amount outstanding (therefore this measure will slightly underestimate the levels of bad debt).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-fc-risk-bad-debt/figure-html/estimate_loanbook_bad_debit-1.png&#34; alt=&#34;Estimated bad debt by year, using various methodologies&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-fc-risk-bad-debt/figure-html/estimate_loanbook_bad_debit-1.png&#34; alt=&#34;Estimated bad debt by year, using various methodologies&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;Using this approach we find higher estimates for bad debt using every approach than that estimated by funding circle, this may be due to the differing approaches used or from user error! Reassuringly the most complex approach, that includes the interest payed on loans and the amount payed of the principal gives the closest estimates to those given by funding circle. I have made no adjustments for loans that have not matured, so decreasing bad debt overtime does not necessarily indicate a trend. I have also not accounted for future recoveries by FC which may substantially reduce the proportion of bad debt.&lt;/p&gt;
 
 &lt;p&gt;To investigate this further I have estimated the bad debt rate for each risk category using all the approaches discussed above. As can be seen below this yields estimates of bad debt that are greater than those estimated by FC, interestingly this is not true for E risk loans, indicating that year of loan origination may be a factor (as E loans are the most recently offered).&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 
 &lt;p&gt;Now focussing on just using the most complex model for bad debt, we see that early investors suffered from poor risk categorisation by funding circle with high default rates across all risk bands. This indicates that holding newly introduced products to term may result in higher than expected loses, although cash back programs may compensate. Bad debt then stabilises indicating successful classification of loans into credit bands. However, these estimates are still higher than those estimated by funding circle, though this maybe due to the exclusion of future recoveries from my estimation model.&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk_year-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk_year-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 
 &lt;p&gt;Table: Bad debt by year for B (Below average risk) loans&lt;/p&gt;
 
@@ -646,10 +646,10 @@
     
     <item>
       <title>Visualising the funding circle loanbook</title>
-      <link>http://samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/</link>
+      <link>http://www.samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/</link>
       <pubDate>Tue, 17 Jan 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/</guid>
+      <guid>http://www.samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/</guid>
       <description>&lt;p&gt;This is the first in a series of blog posts looking at P2P lenders, which will be aimed at surfacing more details about the structures of their loan books. I hope to expand this series by looking at optimal strategies, predictive modelling, and interactive data science.&lt;/p&gt;
 
 &lt;p&gt;Since 2005, with the launch of &lt;a href=&#34;www.zopa.co.uk&#34; target=&#34;_blank&#34;&gt;Zopa&lt;/a&gt; P2P companies have provided a middle path between cash holdings, and investing in stocks and shares. Funding circle, which was launched in 2010, has currently facilitated over £1 Billion in loans to British businesses. It has also returned on average 6.6% after the exclusion of bad debt, fees etc.&lt;/p&gt;
@@ -709,7 +709,7 @@ loanbook %&amp;gt;%
 p1
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/offer-year-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/offer-year-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 
 &lt;p&gt;We now aggregate by month so that we can understand patterns of loan acceptances across the risk bands. For all risk bands we see that there is a increasing trend towards the end of the year, with the fewest loans originated in April, and March, indicating that this may not be a good time to move funds into FC, and consequently this may lead to an up-tick in the secondary market. E loans show the strongest growth in the second half of the year - however this may be an artefact of their relatively recent introduction, which maybe responsible for this apparent trend.&lt;/p&gt;
 
@@ -722,7 +722,7 @@ p1
 p2
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 
 &lt;p&gt;Finally we aggregate by day. There is limited evidence here that loan acceptances vary between weekdays, with a slight upward tick mid week.&lt;/p&gt;
 
@@ -735,7 +735,7 @@ p2
 p5
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/daly-risk-band-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/daly-risk-band-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 
 &lt;p&gt;To link these trends to demand from investors we plot the average interest rate of each accepted loan. We see that average rates are linked with supply for historic loans that were accepted using the biding system. However as expected since the introduction of the fixed rate loan system supply is now uncoupled from price, this presents possible advantages for the hand-picking investor who can buy loans at times of peak supply and sell loans at times of scarcity at a premium on the secondary market.&lt;/p&gt;
 
@@ -759,12 +759,12 @@ p4 &amp;lt;- plot_monthly_risk_band(loanbook, c(2014:2016))
 p3
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by-year-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by-year-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;p4
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by-year-2.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/figure-html/monthly-risk-band-split-by-year-2.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
 
 &lt;p&gt;This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the &lt;a href=&#34;https://github.com/clapping-bunny/funding_circle&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt;&lt;/p&gt;
 </description>

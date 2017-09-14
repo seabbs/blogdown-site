@@ -2,29 +2,38 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Personal Projects on Sam Abbott</title>
-    <link>http://samabbott.co.uk/tags/personal-projects/</link>
+    <link>http://www.samabbott.co.uk/tags/personal-projects/</link>
     <description>Recent content in Personal Projects on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2016 Sam Abbott</copyright>
-    <lastBuildDate>Mon, 26 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
+    <lastBuildDate>Thu, 14 Sep 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/personal-projects/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Property Partner Portfolio Visualisation</title>
+      <link>http://www.samabbott.co.uk/project/propertypartner_tableau/</link>
+      <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/propertypartner_tableau/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>FC Dashboard</title>
-      <link>http://samabbott.co.uk/project/fcdashboard/</link>
+      <link>http://www.samabbott.co.uk/project/fcdashboard/</link>
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/fcdashboard/</guid>
+      <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
       <description></description>
     </item>
     
     <item>
       <title>The Pebble Game</title>
-      <link>http://samabbott.co.uk/project/thepebblegame/</link>
+      <link>http://www.samabbott.co.uk/project/thepebblegame/</link>
       <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/thepebblegame/</guid>
+      <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
       <description></description>
     </item>
     

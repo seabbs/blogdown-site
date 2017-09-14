@@ -2,56 +2,65 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Projects on Sam Abbott</title>
-    <link>http://samabbott.co.uk/project/</link>
+    <link>http://www.samabbott.co.uk/project/</link>
     <description>Recent content in Projects on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2016 Sam Abbott</copyright>
-    <lastBuildDate>Mon, 26 Jun 2017 00:00:00 +0000</lastBuildDate>
+    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
+    <lastBuildDate>Thu, 14 Sep 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="/project/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Property Partner Portfolio Visualisation</title>
+      <link>http://www.samabbott.co.uk/project/propertypartner_tableau/</link>
+      <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/propertypartner_tableau/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>FC Dashboard</title>
-      <link>http://samabbott.co.uk/project/fcdashboard/</link>
+      <link>http://www.samabbott.co.uk/project/fcdashboard/</link>
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/fcdashboard/</guid>
+      <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
       <description></description>
     </item>
     
     <item>
       <title>idmodelr</title>
-      <link>http://samabbott.co.uk/project/idmodelr/</link>
+      <link>http://www.samabbott.co.uk/project/idmodelr/</link>
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/idmodelr/</guid>
+      <guid>http://www.samabbott.co.uk/project/idmodelr/</guid>
       <description></description>
     </item>
     
     <item>
       <title>The Pebble Game</title>
-      <link>http://samabbott.co.uk/project/thepebblegame/</link>
+      <link>http://www.samabbott.co.uk/project/thepebblegame/</link>
       <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/thepebblegame/</guid>
+      <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Funding Circle Data Anaylsis</title>
-      <link>http://samabbott.co.uk/project/funding-circle/</link>
+      <link>http://www.samabbott.co.uk/project/funding-circle/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/funding-circle/</guid>
+      <guid>http://www.samabbott.co.uk/project/funding-circle/</guid>
       <description></description>
     </item>
     
     <item>
       <title>PhD: Research Aims</title>
-      <link>http://samabbott.co.uk/project/phd-thesis-aims-objectives/</link>
+      <link>http://www.samabbott.co.uk/project/phd-thesis-aims-objectives/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/phd-thesis-aims-objectives/</guid>
+      <guid>http://www.samabbott.co.uk/project/phd-thesis-aims-objectives/</guid>
       <description>
 
 &lt;h2 id=&#34;aim&#34;&gt;Aim&lt;/h2&gt;
@@ -73,19 +82,19 @@
     
     <item>
       <title>prettypublisher</title>
-      <link>http://samabbott.co.uk/project/prettypublisher/</link>
+      <link>http://www.samabbott.co.uk/project/prettypublisher/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/prettypublisher/</guid>
+      <guid>http://www.samabbott.co.uk/project/prettypublisher/</guid>
       <description></description>
     </item>
     
     <item>
       <title>tbinenglanddataclean</title>
-      <link>http://samabbott.co.uk/project/tbinenglanddataclean/</link>
+      <link>http://www.samabbott.co.uk/project/tbinenglanddataclean/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/project/tbinenglanddataclean/</guid>
+      <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
       <description></description>
     </item>
     

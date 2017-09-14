@@ -2,20 +2,20 @@
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Tuberculosis on Sam Abbott</title>
-    <link>http://samabbott.co.uk/tags/tuberculosis/</link>
+    <link>http://www.samabbott.co.uk/tags/tuberculosis/</link>
     <description>Recent content in Tuberculosis on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2016 Sam Abbott</copyright>
+    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
     <lastBuildDate>Wed, 14 Jun 2017 00:00:00 +0000</lastBuildDate>
     <atom:link href="/tags/tuberculosis/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>An ancient disease, a scar, and classroom mathematics</title>
-      <link>http://samabbott.co.uk/post/an-ancient-disease-a-scar-and-classroom-mathematics/</link>
+      <link>http://www.samabbott.co.uk/post/an-ancient-disease-a-scar-and-classroom-mathematics/</link>
       <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://samabbott.co.uk/post/an-ancient-disease-a-scar-and-classroom-mathematics/</guid>
+      <guid>http://www.samabbott.co.uk/post/an-ancient-disease-a-scar-and-classroom-mathematics/</guid>
       <description>&lt;p&gt;How are a 10,000-year-old disease, the scar on your arm (if you are over 25 and born in the UK), and the mathematics you learnt at school related? If you are under 25, where is your scar? My research uses mathematics to understand the role of Bacillus Calmette–Guérin (BCG) vaccine in preventing Tuberculosis (TB) in England and forecast the impact of current policies. &lt;/p&gt;
 
 &lt;p&gt;TB is one of the oldest human diseases, with recorded cases in ancient Egypt, renaissance Europe, and in the modern day across the globe. The disease is spread through the air, when people with active TB cough, spit, speak, or sneeze. Classic symptoms include a chronic cough with fever, night sweats, and weight loss. After an initial infection, an individual may immediately develop active TB or enter a latent stage from which active TB may develop years later. &lt;/p&gt;
