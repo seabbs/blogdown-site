@@ -11,6 +11,7 @@ addons:
       - libxml2-dev
 
 before_script:
+  - "Rscript -e 'blogdown::install_hugo()'"
   - chmod +x ./_build.sh
   - chmod +x ./_deploy.sh
 

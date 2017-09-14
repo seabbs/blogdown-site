@@ -1,9 +1,10 @@
-baseurl = "http://samabbott.co.uk/"  # End your URL with a `/` trailing slash.
+baseurl = "http://www.samabbott.co.uk/"  # End your URL with a `/` trailing slash.
 title = "Sam Abbott"
-copyright = "&copy; 2016 Sam Abbott"
+copyright = "&copy; 2017 Sam Abbott"
 theme = "hugo-academic"
 enableEmoji = true
 footnotereturnlinkcontents = "<sup>^</sup>"
+ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 
 # Enable comments by entering your Disqus shortname
 disqusShortname = "samabbott-co-uk"
