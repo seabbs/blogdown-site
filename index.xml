@@ -20,6 +20,65 @@
     </item>
     
     <item>
+      <title>Deep Dive; Property Partner July 2017 Open House Resale Data</title>
+      <link>http://www.samabbott.co.uk/post/deep-dive-pp-open-house/</link>
+      <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/deep-dive-pp-open-house/</guid>
+      <description>&lt;p&gt;As peer to peer lending matures platforms have begun to have increasingly divergent stances on sharing their data, making it increasingly important that their is external pressure on them to improve their data sharing. This blog series will focus on platforms sharing their data, exploring what their data is saying and suggesting possible changes to their releases that would make it easier for investors to gain insights on their own.&lt;/p&gt;
+
+&lt;p&gt;For the first post I will be focussing on data from &lt;a href=&#34;https://www.propertypartner.co/aboutus#/ourstory&#34; target=&#34;_blank&#34;&gt;Property Partner&lt;/a&gt;, which is a property crowd-funding site that started in 2014 and allows investors to buy small stakes in a range of properties. The data I will be using was released as part of Property Partner&amp;rsquo;s &lt;a href=&#34;https://resources.propertypartner.co/open-house-july-2017/&#34; target=&#34;_blank&#34;&gt;July 2017 open house data&lt;/a&gt; blog, and contains information on resale&amp;rsquo;s of their property portfolio. This post will reproduce and update previous work, explore the underlying trends, and suggest possible changes for future releases. All code is available &lt;a href=&#34;https://github.com/seabbs/propertypartner&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and the data can be downloaded from this &lt;a href=&#34;https://d2ofd11qqzygs0.cloudfront.net/files/purchases-on-resale-july-2017-open-house.zip&#34; target=&#34;_blank&#34;&gt;link&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;As a starting point I have reproduced a graph of Transactions (£) over time first published &lt;a href=&#34;https://p2pblog.co.uk/property-partner-trading-analysis/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. This shows the increase in transactions (£) over time on the resale market, with a continuous increase in volume until early 2016 from which point seasonal variation has dominated. I have also stratified by transaction type, revealing the impact of the recently introduced bidding system, which has steadily increased it&amp;rsquo;s share of transactions month on month.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig1.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;The plot naturally leads to the following question - is the increase in trading volume driven by an increasing number of trades or by changes in the size of trades being made? The following plot explores this by plotting the number of transactions over time. We see that the early growth in volumes was likely driven by an increasing number of trades but that variation since then is more strongly linked to changes in trade size.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig2.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;Now that we understand how transactions (N) have varied with time we need to explore the underlying trends. The most obvious question is which properties are being traded for the most, and if possible why do these properties have so much turn over? The following plot shows trades by property, stratified by year. For the first year of trading we see that a few properties (as the portfolio was small) dominated the number of trades made. In 2016 trading was spread over more properties but with fewer trades per property. So far for 2017 there has been a greatly reduced number of trades, with trading becoming increasingly homogeneous across the  portfolio. Unfortunately the extract published by Property Partner has little detail about properties so establishing why properties are traded at different rates is difficult. Whilst I could in principle join the various data sets they produce, without a unique ID this would be difficult and prone to errors!&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig3.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;As the number of transactions is relatively stable, but the volume of transactions has increased, therefore size of transactions must have changed over time. To explore this I have plotted transactions (£) over time stratified by binned transaction size. As transaction size increases there is greater seasonal variation, which indicates that both large and small traders are key drivers of Property Partner&amp;rsquo;s trading volume with larger trades providing the year on year growth and smaller trades acting to smooth seasonal variability. Since January 2016 there has been little growth in small trades, with larger trades becoming increasingly common. However, the largest trades (£5,000-£49,999) peaked in early 2016 since when they have been decreasing year on year (although this trend is obscured by seasonal variation).&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig4.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;Whilst the binned transaction sizes used above were helpful in quickly visualising the changes transactions (£) by size they are arbitrary and may be obscuring underlying changes. The following plot explores this by plotting the distribution of transactions sizes within each binned transaction size. This plot contains a large amount of condensed information, the salient points are that mid-size trades (£100-£499) have shifted from being primary around £200 to being relatively equally distributed across the range, large trades (£500-£999) have become increasingly bi-model, and very high value transactions (£20,000+) have become more common as a subset of high value transactions (£5,000-£49,999).&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-09-15-deep-dive-pp-open-house/figure-html/trans-size-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+
+&lt;p&gt;Another approach to visualising changing transaction size over time, is to plot the proportion of trades (by number) for each binned transaction size. As indicated in the previous plots, this shows that larger trades have become increasingly common, with the large trades (£1000-£4,999) increasing to 2% of manual trades, and  5% of matched bids in 2017. The most common trade size is still small (£1-£99), but the proportion of very small trades  (£0-£1) has drastically reduced. Matched bids are more likely to be larger transactions with small trades (£1-£99) making up 54% of transactions compared to 68% of manual orders.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig5.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;The data released by Property Partner also contains information about the unit price each transaction was made at, and what premium this was against both the latest and original valuation. As this data is provided across all properties in the portfolio a single visualisation of the data may not indicate the underling relationship. A first step is to plot the monthly average (weighted by transaction size) premium on latest valuation for each property in the portfolio, by comparing premiums on latest valuation rather than raw share price properties can be compared against each other. This plot indicates a general
+downward trend in premiums but is difficult to interpret due to the number of properties in the portfolio.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig6.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;To explore this apparent trend a first step is to look at the trends in premiums across the Property Partner portfolio, using the mean premium across all properties. This indicates that premiums were originally high but have decreased over time, and since the beginning of 2016 have been negative on average. As with transactions (£) seasonal dynamics now appear to dominate with premiums being relatively stable year on year.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig7.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;As we have averaged across all properties in the Property Partner portfolio the relationship we have identified between year and premium may be confounded by a variety of factors. An obvious question is whether the quality of property purchased by Property Partner has changed over time (if we assume that premium over latest valuation is a good proxy of property quality). The plot below looks at the average weighted premium for properties made available for resale in each year (this is confounded by the rate properties are made available in a given year). From this plot we see that across all years of trading (except 2014) properties start with a small positive premium, which then gradually declines with time. Properties from 2014 have bucked this trend, which is likely due to the novelty of owning a property from the early days of Property Partner. Properties from 2015 have a linear relationship between premium and time, trading increasingly below their valuation. Properties from 2016 suffered a rapid reduction in premium, indicating a possible reduction in property quality, although this has now stabilised. So far properties from 2017 have held positive premiums, with little reduction over time.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig8.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;As a final plot for this blog post I have reproduced another plot from &lt;a href=&#34;https://p2pblog.co.uk/property-partner-trading-analysis/&#34; target=&#34;_blank&#34;&gt;this post&lt;/a&gt; (from the &lt;a href=&#34;https://p2pblog.co.uk/&#34; target=&#34;_blank&#34;&gt;p2pblog.co.uk&lt;/a&gt;), which is well worth a read.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig9.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;To see the current state of the Property Partner Portfolio you can explore for youself &lt;a href=&#34;https://public.tableau.com/views/PropertyPartnerPortfolioVisualisation/PropertyPartnerPortfolio?:embed=y&amp;amp;:display_count=yes&#34; target=&#34;_blank&#34;&gt;using this Tableau dashboard.&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;div class=&#39;tableauPlaceholder&#39; id=&#39;viz1505484367745&#39; style=&#39;position: relative&#39;&gt;&lt;noscript&gt;&lt;a href=&#39;#&#39;&gt;&lt;img alt=&#39;Property Partner Portfolio &#39; src=&#39;https:&amp;#47;&amp;#47;public.tableau.com&amp;#47;static&amp;#47;images&amp;#47;Pr&amp;#47;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&amp;#47;1_rss.png&#39; style=&#39;border: none&#39; /&gt;&lt;/a&gt;&lt;/noscript&gt;&lt;object class=&#39;tableauViz&#39;  style=&#39;display:none;&#39;&gt;&lt;param name=&#39;host_url&#39; value=&#39;https%3A%2F%2Fpublic.tableau.com%2F&#39; /&gt; &lt;param name=&#39;site_root&#39; value=&#39;&#39; /&gt;&lt;param name=&#39;name&#39; value=&#39;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&#39; /&gt;&lt;param name=&#39;tabs&#39; value=&#39;no&#39; /&gt;&lt;param name=&#39;toolbar&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;static_image&#39; value=&#39;https:&amp;#47;&amp;#47;public.tableau.com&amp;#47;static&amp;#47;images&amp;#47;Pr&amp;#47;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&amp;#47;1.png&#39; /&gt; &lt;param name=&#39;animate_transition&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_static_image&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_spinner&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_overlay&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_count&#39; value=&#39;yes&#39; /&gt;&lt;/object&gt;&lt;/div&gt;                &lt;script type=&#39;text/javascript&#39;&gt;                    var divElement = document.getElementById(&amp;lsquo;viz1505484367745&amp;rsquo;);                    var vizElement = divElement.getElementsByTagName(&amp;lsquo;object&amp;rsquo;)[0];                    vizElement.style.width=&amp;lsquo;100%&amp;rsquo;;vizElement.style.height=(divElement.offsetWidth*0.75)+&amp;lsquo;px&amp;rsquo;;                    var scriptElement = document.createElement(&amp;lsquo;script&amp;rsquo;);                    scriptElement.src = &amp;lsquo;&lt;a href=&#34;https://public.tableau.com/javascripts/api/viz_v1.js&#39;&#34; target=&#34;_blank&#34;&gt;https://public.tableau.com/javascripts/api/viz_v1.js&#39;&lt;/a&gt;;                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                &lt;/script&gt;&lt;/p&gt;
+
+&lt;p&gt;As a final note whilst it is great that Property Partner releases data this analysis was limited by the quality of the data published. If their is interest in more of these deep data dives then I would suggest contacting the peer to peer platforms that you invest in and asking that a live data extract be made available, without a login or extensive user agreement. This would ideally contain a unique ID for each loan/property etc, information on both primary and secondary market transactions, and metadata about each loan/property; such as location, type, value, etc. If you want to know more about analysis ready data then see &lt;a href=&#34;http://vita.had.co.nz/papers/tidy-data.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Property Partner Portfolio Visualisation</title>
       <link>http://www.samabbott.co.uk/project/propertypartner_tableau/</link>
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
@@ -385,349 +444,6 @@
 &lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2016-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2016&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;This blog series is bi-weekly, please comment with suggestions of topics. The code for this post can be found at the &lt;a href=&#34;https://github.com/seabbs/funding_circle&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt;&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Estimating the risk of bad debt in the funding circle loanbook</title>
-      <link>http://www.samabbott.co.uk/post/fc-risk-bad-debt/</link>
-      <pubDate>Wed, 25 Jan 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/fc-risk-bad-debt/</guid>
-      <description>&lt;p&gt;We are again looking at the peer to peer (P2P) loan book for funding circle (FC), with the focus being the variation in return based on portfolio composition and diversification. FC states that the average return on investment is &lt;a href=&#34;https://www.fundingcircle.com/uk/statistics/&#34; target=&#34;_blank&#34;&gt;6.6%&lt;/a&gt;,  with 93% of investors that invested in more than 100 companies, with a maximum exposure of 1% earning 5% or more. The original purpose of this blog was to look at various portfolio&amp;rsquo;s and estimate the risk that they carry for the investor. A key component of this is an understanding of the bad debt rate and it&amp;rsquo;s variation over time, which proved more complex to estimate than expected. This post will be looking in detail at various measures of the bad debt rate and raising questions for future posts.&lt;/p&gt;
-
-&lt;p&gt;FC states that the average bad debt rate across all risk categories is 1.8% (after bad debt recovery), and that 42% of all defaulted loans are recovered. Across the platform the average risk of default for each risk band is 0.6% for A+ loans,  1.5%    for A loans, 2.3% for B loans, 3.3% for C loans, 5.0% for D loans, and 8.0% for E loans. In order to optimise a portfolio, that both minimises risk and maximises profit a complete understanding of these risk levels is required.&lt;/p&gt;
-
-&lt;p&gt;FC estimates bad debt rates by taking the actual bad debt rate by loan amount, incorporating the estimated bad debt rate for years that have not matured, and then including the expected recoveries that are expected from each year of origination. Whilst the source of these estimates has not been surfaced it is likely that the estimated bad debt for loans that have not matured is estimated from previous years, whilst the the FC statistics page states that average recoveries are 42% of the defaulted amount.&lt;/p&gt;
-
-&lt;p&gt;To explore these assumptions we start by roughly calculating the bad debt rate, looking solely at the number of loans that defaulted in a given year and comparing this to the total number of loans. This is obviously a flawed approach as it does not account for loan size, repayments, recoveries, or the maturity of the loan. However it represents a crude initial estimate of the default rate in each risk category. This approach yields far higher estimates of bad debt, than those estimated by FC. To account for the variability in loan size we repeat the above steps but this time account for loan size. This approach can further be refined by accounting for loan repayments prior to the loan defaulting. There are multiple approaches to this, the first of which is to adjust for the amount recovered from defaulted loans, another option is to instead estimate the proportion of bad debt from the principal remaining. Finally by looking at the term length of the loan, and the number of repayments made I can estimate the amount of interest payed on a loan and use this to offset the loss made by the loan defaulting. This assumes that interest is payed on the total loan amount as opposed to the amount outstanding (therefore this measure will slightly underestimate the levels of bad debt).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-fc-risk-bad-debt/figure-html/estimate_loanbook_bad_debit-1.png&#34; alt=&#34;Estimated bad debt by year, using various methodologies&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Using this approach we find higher estimates for bad debt using every approach than that estimated by funding circle, this may be due to the differing approaches used or from user error! Reassuringly the most complex approach, that includes the interest payed on loans and the amount payed of the principal gives the closest estimates to those given by funding circle. I have made no adjustments for loans that have not matured, so decreasing bad debt overtime does not necessarily indicate a trend. I have also not accounted for future recoveries by FC which may substantially reduce the proportion of bad debt.&lt;/p&gt;
-
-&lt;p&gt;To investigate this further I have estimated the bad debt rate for each risk category using all the approaches discussed above. As can be seen below this yields estimates of bad debt that are greater than those estimated by FC, interestingly this is not true for E risk loans, indicating that year of loan origination may be a factor (as E loans are the most recently offered).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;Now focussing on just using the most complex model for bad debt, we see that early investors suffered from poor risk categorisation by funding circle with high default rates across all risk bands. This indicates that holding newly introduced products to term may result in higher than expected loses, although cash back programs may compensate. Bad debt then stabilises indicating successful classification of loans into credit bands. However, these estimates are still higher than those estimated by funding circle, though this maybe due to the exclusion of future recoveries from my estimation model.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk_year-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;Table: Bad debt by year for B (Below average risk) loans&lt;/p&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Year&lt;/th&gt;
-&lt;th&gt;Bad debt&lt;/th&gt;
-&lt;th&gt;Bad debt by loan size&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted by recoveries&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for principal remaining&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for loan repayment and principal remaining&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;2011&lt;/td&gt;
-&lt;td&gt;20.8&lt;/td&gt;
-&lt;td&gt;19.5&lt;/td&gt;
-&lt;td&gt;16.1&lt;/td&gt;
-&lt;td&gt;10.2&lt;/td&gt;
-&lt;td&gt;7.8&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2012&lt;/td&gt;
-&lt;td&gt;11.3&lt;/td&gt;
-&lt;td&gt;10.1&lt;/td&gt;
-&lt;td&gt;6.7&lt;/td&gt;
-&lt;td&gt;5.4&lt;/td&gt;
-&lt;td&gt;3.8&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2013&lt;/td&gt;
-&lt;td&gt;12.2&lt;/td&gt;
-&lt;td&gt;13.0&lt;/td&gt;
-&lt;td&gt;9.9&lt;/td&gt;
-&lt;td&gt;8.0&lt;/td&gt;
-&lt;td&gt;6.3&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2014&lt;/td&gt;
-&lt;td&gt;9.2&lt;/td&gt;
-&lt;td&gt;9.4&lt;/td&gt;
-&lt;td&gt;8.2&lt;/td&gt;
-&lt;td&gt;6.1&lt;/td&gt;
-&lt;td&gt;4.7&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2015&lt;/td&gt;
-&lt;td&gt;5.4&lt;/td&gt;
-&lt;td&gt;4.5&lt;/td&gt;
-&lt;td&gt;4.3&lt;/td&gt;
-&lt;td&gt;3.7&lt;/td&gt;
-&lt;td&gt;3.3&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2016&lt;/td&gt;
-&lt;td&gt;0.7&lt;/td&gt;
-&lt;td&gt;1.0 v                              1.0&lt;/td&gt;
-&lt;td&gt;0.9&lt;/td&gt;
-&lt;td&gt;0.9&lt;/td&gt;
-&lt;td&gt;&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Table: Bad debt by year for A+ (Very low risk) loans&lt;/p&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Year&lt;/th&gt;
-&lt;th&gt;Bad debt&lt;/th&gt;
-&lt;th&gt;Bad debt by loan size&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted by recoveries&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for principal remaining&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for loan repayment and principal remaining&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;2011&lt;/td&gt;
-&lt;td&gt;5.0&lt;/td&gt;
-&lt;td&gt;4.5&lt;/td&gt;
-&lt;td&gt;3.4&lt;/td&gt;
-&lt;td&gt;2.5&lt;/td&gt;
-&lt;td&gt;2.1&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2012&lt;/td&gt;
-&lt;td&gt;8.1&lt;/td&gt;
-&lt;td&gt;5.2&lt;/td&gt;
-&lt;td&gt;3.7&lt;/td&gt;
-&lt;td&gt;3.4&lt;/td&gt;
-&lt;td&gt;2.9&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2013&lt;/td&gt;
-&lt;td&gt;3.4&lt;/td&gt;
-&lt;td&gt;3.0&lt;/td&gt;
-&lt;td&gt;2.9&lt;/td&gt;
-&lt;td&gt;1.6&lt;/td&gt;
-&lt;td&gt;1.3&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2014&lt;/td&gt;
-&lt;td&gt;2.6&lt;/td&gt;
-&lt;td&gt;1.5&lt;/td&gt;
-&lt;td&gt;1.4&lt;/td&gt;
-&lt;td&gt;0.9&lt;/td&gt;
-&lt;td&gt;0.7&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2015&lt;/td&gt;
-&lt;td&gt;1.4&lt;/td&gt;
-&lt;td&gt;1.3&lt;/td&gt;
-&lt;td&gt;1.1&lt;/td&gt;
-&lt;td&gt;1.0&lt;/td&gt;
-&lt;td&gt;1.0&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2016&lt;/td&gt;
-&lt;td&gt;0.4&lt;/td&gt;
-&lt;td&gt;0.3&lt;/td&gt;
-&lt;td&gt;0.3&lt;/td&gt;
-&lt;td&gt;0.3&lt;/td&gt;
-&lt;td&gt;0.3&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Table: Bad debt by year for C (Average risk) loans&lt;/p&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Year&lt;/th&gt;
-&lt;th&gt;Bad debt&lt;/th&gt;
-&lt;th&gt;Bad debt by loan size&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted by recoveries&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for principal remaining&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for loan repayment and principal remaining&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;2011&lt;/td&gt;
-&lt;td&gt;9.5&lt;/td&gt;
-&lt;td&gt;12.4&lt;/td&gt;
-&lt;td&gt;7.9&lt;/td&gt;
-&lt;td&gt;10.3&lt;/td&gt;
-&lt;td&gt;9.6&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2012&lt;/td&gt;
-&lt;td&gt;11.6&lt;/td&gt;
-&lt;td&gt;12.2&lt;/td&gt;
-&lt;td&gt;9.2&lt;/td&gt;
-&lt;td&gt;6.7&lt;/td&gt;
-&lt;td&gt;4.8&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2013&lt;/td&gt;
-&lt;td&gt;11.3&lt;/td&gt;
-&lt;td&gt;11.3&lt;/td&gt;
-&lt;td&gt;8.9&lt;/td&gt;
-&lt;td&gt;6.7&lt;/td&gt;
-&lt;td&gt;4.8&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2014&lt;/td&gt;
-&lt;td&gt;11.4&lt;/td&gt;
-&lt;td&gt;12.1&lt;/td&gt;
-&lt;td&gt;10.2&lt;/td&gt;
-&lt;td&gt;8.5&lt;/td&gt;
-&lt;td&gt;6.6&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2015&lt;/td&gt;
-&lt;td&gt;7.0&lt;/td&gt;
-&lt;td&gt;7.0&lt;/td&gt;
-&lt;td&gt;6.3&lt;/td&gt;
-&lt;td&gt;5.8&lt;/td&gt;
-&lt;td&gt;5.1&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2016&lt;/td&gt;
-&lt;td&gt;1.1&lt;/td&gt;
-&lt;td&gt;1.3&lt;/td&gt;
-&lt;td&gt;1.3&lt;/td&gt;
-&lt;td&gt;1.2&lt;/td&gt;
-&lt;td&gt;1.1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Table: Bad debt by year for D loans&lt;/p&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Year&lt;/th&gt;
-&lt;th&gt;Bad debt&lt;/th&gt;
-&lt;th&gt;Bad debt by loan size&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted by recoveries&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for principal remaining&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for loan repayment and principal remaining&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;2013&lt;/td&gt;
-&lt;td&gt;23.0&lt;/td&gt;
-&lt;td&gt;23.6&lt;/td&gt;
-&lt;td&gt;20.3&lt;/td&gt;
-&lt;td&gt;15.4&lt;/td&gt;
-&lt;td&gt;11.1&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2014&lt;/td&gt;
-&lt;td&gt;12.2&lt;/td&gt;
-&lt;td&gt;11.4&lt;/td&gt;
-&lt;td&gt;9.3&lt;/td&gt;
-&lt;td&gt;7.9&lt;/td&gt;
-&lt;td&gt;6.2&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2015&lt;/td&gt;
-&lt;td&gt;7.6&lt;/td&gt;
-&lt;td&gt;6.9&lt;/td&gt;
-&lt;td&gt;6.4&lt;/td&gt;
-&lt;td&gt;5.9&lt;/td&gt;
-&lt;td&gt;5.3&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2016&lt;/td&gt;
-&lt;td&gt;2.0&lt;/td&gt;
-&lt;td&gt;2.1&lt;/td&gt;
-&lt;td&gt;2.1&lt;/td&gt;
-&lt;td&gt;1.9&lt;/td&gt;
-&lt;td&gt;1.9&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;Table: Bad debt by year for E loans&lt;/p&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Year&lt;/th&gt;
-&lt;th&gt;Bad debt&lt;/th&gt;
-&lt;th&gt;Bad debt by loan size&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted by recoveries&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for principal remaining&lt;/th&gt;
-&lt;th&gt;Bad debt adjusted for loan repayment and principal remaining&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;2015&lt;/td&gt;
-&lt;td&gt;8.8&lt;/td&gt;
-&lt;td&gt;9.8&lt;/td&gt;
-&lt;td&gt;9.4&lt;/td&gt;
-&lt;td&gt;8.9&lt;/td&gt;
-&lt;td&gt;7.8&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2016&lt;/td&gt;
-&lt;td&gt;2.4&lt;/td&gt;
-&lt;td&gt;5.7&lt;/td&gt;
-&lt;td&gt;5.6&lt;/td&gt;
-&lt;td&gt;5.3&lt;/td&gt;
-&lt;td&gt;4.9&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;In future blogs I will be further exploring loan risk and attempting to investigate investor risk in a variety of portfolio structures. I am particularly interested in exploring the default rate of loans over time, as increasing risk may indicate some beneficial strategies. Let me know if you have any blog ideas, some potential areas are:&lt;/p&gt;
-
-&lt;ol&gt;
-&lt;li&gt;Adding estimated default for newly acquired loans, coupled with a range of scenarios for loan recoveries&lt;/li&gt;
-&lt;li&gt;Loan default risk over the loan period&lt;/li&gt;
-&lt;li&gt;Comparison of property interest only loans to an ordinary FC loan&lt;/li&gt;
-&lt;li&gt;The trade off between loan length and interest rates&lt;/li&gt;
-&lt;li&gt;Portfolio structure.&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;Unfortunately future analysis may be limited by the limited dataset released by FC, as key dates are not including in the public loan book. Hopefully if there is sufficient pressure more data will be released.&lt;/p&gt;
-
-&lt;p&gt;This blog series will be bi-weekly, please comment with suggestions of topics. The code for this post can be found at the &lt;a href=&#34;https://github.com/seabbs/funding_circle&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt;&lt;/p&gt;
 </description>
     </item>
     

@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="en-uk">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.27.1" />
+  <meta name="author" content="Sam Abbott">
+  <meta name="description" content="PhD student">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="/css/highlight.min.css">
+    
+  
+  <link rel="stylesheet" href="/css/bootstrap.min.css">
+  <link rel="stylesheet" href="/css/font-awesome.min.css">
+  <link rel="stylesheet" href="/css/academicons.min.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="/css/hugo-academic.css">
+  
+
+  <link rel="alternate" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+  <link rel="feed" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+
+  <link rel="canonical" href="http://www.samabbott.co.uk/post/deep-dive-pp-open-house/">
+
+  
+
+  <title>Deep Dive; Property Partner July 2017 Open House Resale Data | Sam Abbott</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">Sam Abbott</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#publications_selected">
+            
+            <span>Publications</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#teaching">
+            
+            <span>Teaching</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="/#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Deep Dive; Property Partner July 2017 Open House Resale Data</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2017-09-15 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Fri, Sep 15, 2017
+    </time>
+  </span>
+
+  
+  
+  
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="/tags/p2p">P2P</a
+    >, 
+    
+    <a href="/tags/data-analysis">data analysis</a
+    >, 
+    
+    <a href="/tags/data-visualisation">data visualisation</a
+    >, 
+    
+    <a href="/tags/rstats">rstats</a
+    >, 
+    
+    <a href="/tags/deep-dive">deep dive</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fdeep-dive-pp-open-house%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Deep%20Dive%3b%20Property%20Partner%20July%202017%20Open%20House%20Resale%20Data&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fdeep-dive-pp-open-house%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fdeep-dive-pp-open-house%2f&amp;title=Deep%20Dive%3b%20Property%20Partner%20July%202017%20Open%20House%20Resale%20Data"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fdeep-dive-pp-open-house%2f&amp;title=Deep%20Dive%3b%20Property%20Partner%20July%202017%20Open%20House%20Resale%20Data"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Deep%20Dive%3b%20Property%20Partner%20July%202017%20Open%20House%20Resale%20Data&amp;body=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fdeep-dive-pp-open-house%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      <p>As peer to peer lending matures platforms have begun to have increasingly divergent stances on sharing their data, making it increasingly important that their is external pressure on them to improve their data sharing. This blog series will focus on platforms sharing their data, exploring what their data is saying and suggesting possible changes to their releases that would make it easier for investors to gain insights on their own.</p>
+
+<p>For the first post I will be focussing on data from <a href="https://www.propertypartner.co/aboutus#/ourstory" target="_blank">Property Partner</a>, which is a property crowd-funding site that started in 2014 and allows investors to buy small stakes in a range of properties. The data I will be using was released as part of Property Partner&rsquo;s <a href="https://resources.propertypartner.co/open-house-july-2017/" target="_blank">July 2017 open house data</a> blog, and contains information on resale&rsquo;s of their property portfolio. This post will reproduce and update previous work, explore the underlying trends, and suggest possible changes for future releases. All code is available <a href="https://github.com/seabbs/propertypartner" target="_blank">here</a> and the data can be downloaded from this <a href="https://d2ofd11qqzygs0.cloudfront.net/files/purchases-on-resale-july-2017-open-house.zip" target="_blank">link</a>.</p>
+
+<p>As a starting point I have reproduced a graph of Transactions (£) over time first published <a href="https://p2pblog.co.uk/property-partner-trading-analysis/" target="_blank">here</a>. This shows the increase in transactions (£) over time on the resale market, with a continuous increase in volume until early 2016 from which point seasonal variation has dominated. I have also stratified by transaction type, revealing the impact of the recently introduced bidding system, which has steadily increased it&rsquo;s share of transactions month on month.</p>
+
+<iframe seamless src="../../post/2017-09-15-deep-dive-pp-open-house/fig1.html" width = "100%" height="500" id="iframe_container"></iframe>
+
+<p>The plot naturally leads to the following question - is the increase in trading volume driven by an increasing number of trades or by changes in the size of trades being made? The following plot explores this by plotting the number of transactions over time. We see that the early growth in volumes was likely driven by an increasing number of trades but that variation since then is more strongly linked to changes in trade size.</p>
+
+<iframe seamless src="../../post/2017-09-15-deep-dive-pp-open-house/fig2.html" width = "100%" height="500" id="iframe_container"></iframe>
+
+<p>Now that we understand how transactions (N) have varied with time we need to explore the underlying trends. The most obvious question is which properties are being traded for the most, and if possible why do these properties have so much turn over? The following plot shows trades by property, stratified by year. For the first year of trading we see that a few properties (as the portfolio was small) dominated the number of trades made. In 2016 trading was spread over more properties but with fewer trades per property. So far for 2017 there has been a greatly reduced number of trades, with trading becoming increasingly homogeneous across the  portfolio. Unfortunately the extract published by Property Partner has little detail about properties so establishing why properties are traded at different rates is difficult. Whilst I could in principle join the various data sets they produce, without a unique ID this would be difficult and prone to errors!</p>
+
+<iframe seamless src="../../post/2017-09-15-deep-dive-pp-open-house/fig3.html" width = "100%" height="500" id="iframe_container"></iframe>
+
+<p>As the number of transactions is relatively stable, but the volume of transactions has increased, therefore size of transactions must have changed over time. To explore this I have plotted transactions (£) over time stratified by binned transaction size. As transaction size increases there is greater seasonal variation, which indicates that both large and small traders are key drivers of Property Partner&rsquo;s trading volume with larger trades providing the year on year growth and smaller trades acting to smooth seasonal variability. Since January 2016 there has been little growth in small trades, with larger trades becoming increasingly common. However, the largest trades (£5,000-£49,999) peaked in early 2016 since when they have been decreasing year on year (although this trend is obscured by seasonal variation).</p>
+
+<iframe seamless src="../../post/2017-09-15-deep-dive-pp-open-house/fig4.html" width = "100%" height="500" id="iframe_container"></iframe>
+
+<p>Whilst the binned transaction sizes used above were helpful in quickly visualising the changes transactions (£) by size they are arbitrary and may be obscuring underlying changes. The following plot explores this by plotting the distribution of transactions sizes within each binned transaction size. This plot contains a large amount of condensed information, the salient points are that mid-size trades (£100-£499) have shifted from being primary around £200 to being relatively equally distributed across the range, large trades (£500-£999) have become increasingly bi-model, and very high value transactions (£20,000+) have become more common as a subset of high value transactions (£5,000-£49,999).</p>
+
+<p><img src="/post/2017-09-15-deep-dive-pp-open-house/figure-html/trans-size-1.png" alt="" /><!-- --></p>
+
+<p>Another approach to visualising changing transaction size over time, is to plot the proportion of trades (by number) for each binned transaction size. As indicated in the previous plots, this shows that larger trades have become increasingly common, with the large trades (£1000-£4,999) increasing to 2% of manual trades, and  5% of matched bids in 2017. The most common trade size is still small (£1-£99), but the proportion of very small trades  (£0-£1) has drastically reduced. Matched bids are more likely to be larger transactions with small trades (£1-£99) making up 54% of transactions compared to 68% of manual orders.</p>
+
+<iframe seamless src="../../post/2017-09-15-deep-dive-pp-open-house/fig5.html" width = "100%" height="500" id="iframe_container"></iframe>
+
+<p>The data released by Property Partner also contains information about the unit price each transaction was made at, and what premium this was against both the latest and original valuation. As this data is provided across all properties in the portfolio a single visualisation of the data may not indicate the underling relationship. A first step is to plot the monthly average (weighted by transaction size) premium on latest valuation for each property in the portfolio, by comparing premiums on latest valuation rather than raw share price properties can be compared against each other. This plot indicates a general
+downward trend in premiums but is difficult to interpret due to the number of properties in the portfolio.</p>
+
+<iframe seamless src="../../post/2017-09-15-deep-dive-pp-open-house/fig6.html" width = "100%" height="500" id="iframe_container"></iframe>
+
+<p>To explore this apparent trend a first step is to look at the trends in premiums across the Property Partner portfolio, using the mean premium across all properties. This indicates that premiums were originally high but have decreased over time, and since the beginning of 2016 have been negative on average. As with transactions (£) seasonal dynamics now appear to dominate with premiums being relatively stable year on year.</p>
+
+<iframe seamless src="../../post/2017-09-15-deep-dive-pp-open-house/fig7.html" width = "100%" height="500" id="iframe_container"></iframe>
+
+<p>As we have averaged across all properties in the Property Partner portfolio the relationship we have identified between year and premium may be confounded by a variety of factors. An obvious question is whether the quality of property purchased by Property Partner has changed over time (if we assume that premium over latest valuation is a good proxy of property quality). The plot below looks at the average weighted premium for properties made available for resale in each year (this is confounded by the rate properties are made available in a given year). From this plot we see that across all years of trading (except 2014) properties start with a small positive premium, which then gradually declines with time. Properties from 2014 have bucked this trend, which is likely due to the novelty of owning a property from the early days of Property Partner. Properties from 2015 have a linear relationship between premium and time, trading increasingly below their valuation. Properties from 2016 suffered a rapid reduction in premium, indicating a possible reduction in property quality, although this has now stabilised. So far properties from 2017 have held positive premiums, with little reduction over time.</p>
+
+<iframe seamless src="../../post/2017-09-15-deep-dive-pp-open-house/fig8.html" width = "100%" height="500" id="iframe_container"></iframe>
+
+<p>As a final plot for this blog post I have reproduced another plot from <a href="https://p2pblog.co.uk/property-partner-trading-analysis/" target="_blank">this post</a> (from the <a href="https://p2pblog.co.uk/" target="_blank">p2pblog.co.uk</a>), which is well worth a read.</p>
+
+<iframe seamless src="../../post/2017-09-15-deep-dive-pp-open-house/fig9.html" width = "100%" height="500" id="iframe_container"></iframe>
+
+<p>To see the current state of the Property Partner Portfolio you can explore for youself <a href="https://public.tableau.com/views/PropertyPartnerPortfolioVisualisation/PropertyPartnerPortfolio?:embed=y&amp;:display_count=yes" target="_blank">using this Tableau dashboard.</a></p>
+
+<p><div class='tableauPlaceholder' id='viz1505484367745' style='position: relative'><noscript><a href='#'><img alt='Property Partner Portfolio ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pr&#47;PropertyPartnerPortfolioVisualisation&#47;PropertyPartnerPortfolio&#47;1_rss.png' style='border: none' /></a></noscript><object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> <param name='site_root' value='' /><param name='name' value='PropertyPartnerPortfolioVisualisation&#47;PropertyPartnerPortfolio' /><param name='tabs' value='no' /><param name='toolbar' value='yes' /><param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pr&#47;PropertyPartnerPortfolioVisualisation&#47;PropertyPartnerPortfolio&#47;1.png' /> <param name='animate_transition' value='yes' /><param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' /><param name='display_overlay' value='yes' /><param name='display_count' value='yes' /></object></div>                <script type='text/javascript'>                    var divElement = document.getElementById(&lsquo;viz1505484367745&rsquo;);                    var vizElement = divElement.getElementsByTagName(&lsquo;object&rsquo;)[0];                    vizElement.style.width=&lsquo;100%&rsquo;;vizElement.style.height=(divElement.offsetWidth*0.75)+&lsquo;px&rsquo;;                    var scriptElement = document.createElement(&lsquo;script&rsquo;);                    scriptElement.src = &lsquo;<a href="https://public.tableau.com/javascripts/api/viz_v1.js'" target="_blank">https://public.tableau.com/javascripts/api/viz_v1.js'</a>;                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                </script></p>
+
+<p>As a final note whilst it is great that Property Partner releases data this analysis was limited by the quality of the data published. If their is interest in more of these deep data dives then I would suggest contacting the peer to peer platforms that you invest in and asking that a live data extract be made available, without a login or extensive user agreement. This would ideally contain a unique ID for each loan/property etc, information on both primary and secondary market transactions, and metadata about each loan/property; such as location, type, value, etc. If you want to know more about analysis ready data then see <a href="http://vita.had.co.nz/papers/tidy-data.html" target="_blank">here</a>.</p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="http://www.samabbott.co.uk/post/using-the-pebble-game/"><span
+      aria-hidden="true">&larr;</span> Introducing the Pebble Game; a simple app for exploring epidemics and vaccination</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "samabbott-co-uk" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Sam Abbott &middot; 
+
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="/js/jquery-1.12.3.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-85604924-1', 'auto');
+        ga('send', 'pageview');
+
+         
+        var links = document.querySelectorAll('a');
+        Array.prototype.map.call(links, function(item) {
+            if (item.host != document.location.host) {
+                item.addEventListener('click', function() {
+                    var action = item.getAttribute('data-action') || 'follow';
+                    ga('send', 'event', 'outbound', action, item.href);
+                });
+            }
+        });
+    </script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
+    
+
+  </body>
+</html>
+
