@@ -163,11 +163,6 @@ defaultContentLanguageInSubdir = false
   name = "Projects"
   url = "#projects"
   weight = 3
- 
-[[menu.main]]
-  name = "Publications"
-  url = "#publications_selected"
-  weight = 4
 
 [[menu.main]]
   name = "Talks"
@@ -184,6 +179,10 @@ defaultContentLanguageInSubdir = false
   url = "#contact"
   weight = 7
 
+[[menu.main]]
+  name = "CV"
+  url = "pdf/cv_sea.pdf"
+  weight = 8
 # Taxonomies.
 [taxonomies]
   tag = "tags"
