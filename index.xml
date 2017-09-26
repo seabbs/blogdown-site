@@ -20,6 +20,62 @@
     </item>
     
     <item>
+      <title>Deep Dive; Premiums on Valuation in the Property Partner Portfolio</title>
+      <link>http://www.samabbott.co.uk/post/deep-dive-pp-premiums/</link>
+      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/deep-dive-pp-premiums/</guid>
+      <description>&lt;p&gt;Previously I have looked at visualising the &lt;a href=&#34;https://www.propertypartner.co/aboutus#/ourstory&#34; target=&#34;_blank&#34;&gt;Property Partner&lt;/a&gt; portfolio using &lt;a href=&#34;https://public.tableau.com/views/PropertyPartnerPortfolioVisualisation/PropertyPartnerPortfolio?:embed=y&amp;amp;:display_count=yes&#34; target=&#34;_blank&#34;&gt;tableau&lt;/a&gt;, and &lt;a href=&#34;https://www.samabbott.co.uk/post/deep-dive-pp-open-house/&#34; target=&#34;_blank&#34;&gt;explored their resale date from July 2017&lt;/a&gt;. In this post I will be exploring the &lt;a href=&#34;https://resources.propertypartner.co/open-house-august-2017/&#34; target=&#34;_blank&#34;&gt;August Open House resale&lt;/a&gt; data focussing on property premiums over both initial and latest valuation. The code for this post is available &lt;a href=&#34;https://github.com/seabbs/propertypartner/blob/master/report/17-09-18-premium/latest_initial_premium.Rmd&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;p&gt;Property Partner advertises returns by combining both projected capital and rental returns. Properties are held for 5 years at which point any capital gain can be realised. However, Property Partner provides a secondary market which allows capital returns to be realised by selling shares to other investors. The sale price of shares is set by the market, and may or may not depend on the underlying value of the property. This post will explore the premium that sales on the secondary market set on both the initial and latest valuations of properties in the Property Partner Portfolio, and how this has changed over time. A first step is to look at premiums over time, for each property, averaged over each month (as are all premiums in this post).&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig1.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;From the above plot we see that in the first year of operation all properties had premiums above 0% over initial valuation, but since then several have traded with premiums that are continuously negative. The majority of these properties have maintained steady premiums over initial valuation but several devalued in the second half of 2017. A single property (5 flats, Dutch Quarter, Colchester) has consistently traded with a negative premium although this appears to be improving over time.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig2.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;Unlike premiums over initial valuation, premiums over latest valuation appear to have decreased continuously over time for the majority of properties. This indicates that premiums are not completely adjusting for increases in property value, making it unlikely that those exiting early will fully realise capital gains. Both plots indicate a relationship between premiums and the date a property was made available for resale, with properties available earlier having higher premiums over both initial and latest valuation. The above plots are hard to interpret due to the number of properties in the portfolio, therefore the next step is to summarise the data by averaging premiums across all properties.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig3.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;As we saw in the previous plots premiums over both initial and latest valuation were highest in 2015 and have since decreased. Since 2016 premiums over initial valuation appear to have stabilised between 5% to 10% and premiums over latest valuation appear to have stabilised between 0% to -8%. The relationship between premiums over latest and initial valuation is summarised in the following plot.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig4.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;In the plots above there was some evidence that properties acquired at different dates traded differently. To investigate this the following plot shows the average monthly premium for properties launched in each year Property Partner has been operating, for both initial and latest valuation.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig5.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;We see that properties acquired earlier consistently trade at a higher premium over both initial and latest valuation. Whilst the trend in initial valuation may be driven by increased valuation this cannot be the case for latest valuation. Instead, it is likely that this is a function of scarcity due to the lower supply of earlier properties. It may also be the case that previous performance on the platform is valued. This plot also indicates that premiums over latest valuation have constantly fallen for all years. Properties appear to start trading with a slightly positive  premium, which then decreases over time. This indicates that premiums do not adjust fully as properties are revalued, meaning that realising potential capital gains early is unlikely. To explore this further the following plot compares premiums on initial and latest valuations over time, for individual properties.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-09-26-deep-dive-pp-premiums/gif1.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;From the plot we see that properties enter the market trading at a small premium to both valuations. Over time the relationship between premiums for initial and latest valuation weakens, with several properties trading at negative premiums for both valuations. To get a better idea of the relationship the following plot stratifies by the year a property was made available for resale.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-09-26-deep-dive-pp-premiums/gif2.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Here we clearly see that when properties enter the market there is a strong correlation between premiums on latest and initial valuations. As properties are revalued we see that premiums on latest valuation do not adjust fully, although this effect varies wildly. This is likely to be driven by external factors such as dividend yield - with high dividend yields commanding a premium. The following interactive plot allows the figures above to be explored in detail.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig6.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+
+&lt;p&gt;For a final visualisation of this relationship the following plot shows premiums for individual properties over time, stratified by year available for resale.&lt;/p&gt;
+
+&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-09-26-deep-dive-pp-premiums/gif3.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;Unfortunately this dataset was limited by having little additional information about each property, something which is key to understanding premiums. For example, as commented on above, it is likely that much of the variation is drive by dividend yield. However, it is clear that properties are not valued at their latest valuation and that therefore this should not be used to summarise the performance of a portfolio over the short term.&lt;/p&gt;
+
+&lt;p&gt;In a future post I will be exploring premiums further by joining the resale data used above with data on the Property Partner portfolio. The two datasets do not contain a common unique ID by which to link them, meaning that joining them will be less trivial that it should be. Hopefully Property Partner will improve the quality of the data they provide to investors so that analysis can be done more easily.&lt;/p&gt;
+
+&lt;p&gt;If you have any comments, ideas for further projects, or any similar analysis to share please comment below.&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;Bonus Plot!!&lt;/strong&gt;&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig7.html&#34; width = &#34;100%&#34; height=&#34;1000&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Deep Dive; Property Partner July 2017 Open House Resale Data</title>
       <link>http://www.samabbott.co.uk/post/deep-dive-pp-open-house/</link>
       <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
@@ -258,193 +314,6 @@ downward trend in premiums but is difficult to interpret due to the number of pr
       
       <guid>http://www.samabbott.co.uk/talk/phe-applied_epi-2017/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>The temptation of a long loan; Risk and rewards of term length</title>
-      <link>http://www.samabbott.co.uk/post/temp-long-loan/</link>
-      <pubDate>Wed, 08 Mar 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/temp-long-loan/</guid>
-      <description>&lt;p&gt;As a quick update to last weeks post this week we will be using the estimates of bad debt from last week to assess the true risk/rewards of loans at various lengths from the funding circle (FC) loan book. I realised recently that when picking loans my default criteria tends towards picking loans with the lowest percieved risk (i.e lowest risk band) with the highest interest rates possible. This strategy has some interesting consequences in that it preferentially selects long term loans that tend to have higher rates.&lt;/p&gt;
-
-&lt;p&gt;FC surfaces the average bad debt rate by risk band and not by the term of the loan. Whilst this is a simplifying assumption that makes the investing process easier to understand, for it to be true short term loans must be inherantly riskier than long term loans, or the risk of default must be decoupled from time. Both of these assumptions seem unlikely to me,  and in a later past we will be looking further at the lifecourse of loans, but for this week we will simply be using my function for estimating for bad debt individually for each term length. As discussed last time we estimate the percentage of bad debt by comparing the proportion of bad debt, with total debt, accounting for loan size, the principal remaining, and the interest paid on the loan. This approach also has the same caveats as last time in that it does not account for future recoveries by funding circle, and so becomes increasingly inaccurate for more recent loans.&lt;/p&gt;
-
-&lt;p&gt;We first identify the possible loan terms available to borrowers in the FC ecosystem, and the number in each category. We see that by far the most common loans terms are those, as might be expected, that are an integer number of years. For clarity we restrict ourselves to looking at these most common loans (6, 12, 24, 48, 36, and 60 months), stratifying by risk band.&lt;/p&gt;
-
-&lt;p&gt;Table: Number of loans by loan length across the funding circle loan book&lt;/p&gt;
-
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr&gt;
-&lt;th&gt;Term&lt;/th&gt;
-&lt;th&gt;Number of loans&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-
-&lt;tbody&gt;
-&lt;tr&gt;
-&lt;td&gt;60&lt;/td&gt;
-&lt;td&gt;12916&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;36&lt;/td&gt;
-&lt;td&gt;7199&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;48&lt;/td&gt;
-&lt;td&gt;2435&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;24&lt;/td&gt;
-&lt;td&gt;1959&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;12&lt;/td&gt;
-&lt;td&gt;1578&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;6&lt;/td&gt;
-&lt;td&gt;244&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;18&lt;/td&gt;
-&lt;td&gt;231&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;15&lt;/td&gt;
-&lt;td&gt;70&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;14&lt;/td&gt;
-&lt;td&gt;60&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;11&lt;/td&gt;
-&lt;td&gt;55&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;8&lt;/td&gt;
-&lt;td&gt;51&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;16&lt;/td&gt;
-&lt;td&gt;48&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;9&lt;/td&gt;
-&lt;td&gt;45&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;13&lt;/td&gt;
-&lt;td&gt;43&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;17&lt;/td&gt;
-&lt;td&gt;42&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;10&lt;/td&gt;
-&lt;td&gt;37&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;20&lt;/td&gt;
-&lt;td&gt;22&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;7&lt;/td&gt;
-&lt;td&gt;21&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;19&lt;/td&gt;
-&lt;td&gt;10&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;21&lt;/td&gt;
-&lt;td&gt;8&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;3&lt;/td&gt;
-&lt;td&gt;6&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;4&lt;/td&gt;
-&lt;td&gt;6&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;5&lt;/td&gt;
-&lt;td&gt;6&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;22&lt;/td&gt;
-&lt;td&gt;6&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;2&lt;/td&gt;
-&lt;td&gt;1&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;23&lt;/td&gt;
-&lt;td&gt;1&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;29&lt;/td&gt;
-&lt;td&gt;1&lt;/td&gt;
-&lt;/tr&gt;
-
-&lt;tr&gt;
-&lt;td&gt;35&lt;/td&gt;
-&lt;td&gt;1&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/est_bad_rate_risk-1.png&#34; alt=&#34;Estimated bad debt rate, accounting for repayments and the principal remaining, for the 6 most common term lengths straitifed by risk band&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;We see that the assumption that short term loans are higher risk is only true for loans of 6 months, and for E loans of 12 months, which have a much greater risk of bad debt than all other loans. However these loans are relatively rare so this may be an artifact of low statistical power. For all other loan lengths we see that the risk of bad debt increases, with time with loans that are 36 months and over accounting for the majority of the bad debt in all risk categories. As I have not accounted for the maturity of loans, this apparent trend may be driven by the differing ages of loans in different years. Therefore we repeat the above but now stratify further by year, dropping loans with 6 month terms for clarity. Whilst this does add some variation the overall trend appears to hold with longer term loans having significantly higher proportions of bad debt, this is particularly true of E loans, where 60 month loans have much higher bad debt rates than those with shorter terms.&lt;/p&gt;
-
-&lt;p&gt;An obvious point to note is that FC adjusts interest rates by term length, so that longer term loans have higher rates, this adjustment is obviously to account for the disparity in risk over loan term. In a follow up post I will be using these estimates of bad debt by loan term to evaluate the return on loans of difffernt term lengths to assess whether these adjustments sufficiently account for the increased risk of longer term loans.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2011-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2011&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2012-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2012&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2013-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2013&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2014-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2014&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2015-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2015&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/post/2017-06-10-temp-long-loan/figure-html/bad_debt_2016-1.png&#34; alt=&#34;Estimated bad debt by term length stratified by risk band, for 2016&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;This blog series is bi-weekly, please comment with suggestions of topics. The code for this post can be found at the &lt;a href=&#34;https://github.com/seabbs/funding_circle&#34; target=&#34;_blank&#34;&gt;Github repo&lt;/a&gt;&lt;/p&gt;
-</description>
     </item>
     
   </channel>
