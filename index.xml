@@ -11,6 +11,15 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Introduction to TB Modelling</title>
+      <link>http://www.samabbott.co.uk/project/intro_tb_models/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/intro_tb_models/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Beneficial effects of BCG vaccination in outcomes for patients diagnosed with TB: observational study using the Enhanced Tuberculosis surveillance system 2009-2015</title>
       <link>http://www.samabbott.co.uk/talk/union-2017/</link>
       <pubDate>Wed, 11 Oct 2017 00:00:00 +0000</pubDate>
@@ -304,15 +313,6 @@ downward trend in premiums but is difficult to interpret due to the number of pr
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Beneficial effects of BCG vaccination in outcomes for patients with active TB: observational study using the Enhanced Tuberculosis surveillance system 2000-2014</title>
-      <link>http://www.samabbott.co.uk/talk/phe-applied_epi-2017/</link>
-      <pubDate>Fri, 24 Mar 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/talk/phe-applied_epi-2017/</guid>
       <description></description>
     </item>
     
