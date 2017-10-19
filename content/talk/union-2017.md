@@ -10,7 +10,7 @@ location = "Guadalajara, Mexico"
 selected = false
 math = true
 
-url_pdf = ""
+url_pdf = "/talks/11_18_1412_Abbott.pptx"
 url_slides = ""
 url_video = ""
 
