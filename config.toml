@@ -32,9 +32,10 @@ defaultContentLanguageInSubdir = false
   skype = ""
   telegram = ""
   GithubEdit = "https://github.com/seabbs/seabbs.github.io/tree/sources/content/"
-  description = "Sam Abbott's personal blog: Writing about R, infectious disease epidemiology, and peer to peer lending."
+  description = "Sam Abbott's personal blog: Writing about infectious disease epidemiology, peer to peer lending and R."
   twitterAuthor = "@seabbs"
   twitterSite = "@seabbs"
+  logo = "portrait.jpg"
   # Enable Keybase in Contact section by entering your keybase.io username.
   keybase = ""
 
