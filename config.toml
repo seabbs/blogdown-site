@@ -35,7 +35,7 @@ defaultContentLanguageInSubdir = false
   description = "Personal blog: Writing about infectious disease epidemiology, peer to peer lending and R."
   twitterAuthor = "@seabbs"
   twitterSite = "@seabbs"
-  logo = "/img/portrait.jpg"
+  logo = "portrait.jpg"
   # Enable Keybase in Contact section by entering your keybase.io username.
   keybase = ""
 
