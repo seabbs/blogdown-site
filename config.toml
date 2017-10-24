@@ -31,7 +31,7 @@ defaultContentLanguageInSubdir = false
   phone = ""
   skype = ""
   telegram = ""
-
+  GithubEdit = "https://github.com/seabbs/seabbs.github.io/tree/sources/content/"
   # Enable Keybase in Contact section by entering your keybase.io username.
   keybase = ""
 
