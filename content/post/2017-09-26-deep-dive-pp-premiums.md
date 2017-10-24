@@ -3,6 +3,9 @@ title: Deep Dive; Premiums on Valuation in the Property Partner Portfolio
 author: ~
 date: '2017-09-26'
 slug: deep-dive-pp-premiums
+twitterImg: post/2017-09-26-deep-dive-pp-premiums/gif1.gif
+description: "Exploratory analysis of the property partner portfolio, focussing on property premiums over valuation on the secondary market."
+categories: ["R"]
 categories: []
 tags: ["P2P", "data analysis", "data visualisation", "rstats", "deep dive"]
 ---
