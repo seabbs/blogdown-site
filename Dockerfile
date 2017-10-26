@@ -14,5 +14,7 @@ RUN Rscript -e 'install.packages("devtools")'
 
 RUN Rscript -e 'devtools::install_github("rstudio/blogdown")'
 
+RUN Rscript -e  'Rscript -e "blogdown::install_hugo()"'
+
 RUN git config --global user.email "signin@samabbott.co.uk"
 RUN git config --global user.name "Sam Abbott"
