@@ -18,21 +18,21 @@
   
     
     
-    <link rel="stylesheet" href="/css/highlight.min.css">
+    <link rel="stylesheet" href="../../css/highlight.min.css">
     
   
-  <link rel="stylesheet" href="/css/bootstrap.min.css">
-  <link rel="stylesheet" href="/css/font-awesome.min.css">
-  <link rel="stylesheet" href="/css/academicons.min.css">
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../css/academicons.min.css">
   <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
-  <link rel="stylesheet" href="/css/hugo-academic.css">
+  <link rel="stylesheet" href="../../css/hugo-academic.css">
   
 
   <link rel="alternate" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
   <link rel="feed" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
 
-  <link rel="icon" type="image/png" href="/img/icon.png">
-  <link rel="apple-touch-icon" type="image/png" href="/img/apple-touch-icon.png">
+  <link rel="icon" type="image/png" href="../../img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../img/apple-touch-icon.png">
 
   <link rel="canonical" href="http://www.samabbott.co.uk/post/fc-risk-bad-debt/">
 
@@ -73,7 +73,7 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">Sam Abbott</a>
+      <a class="navbar-brand" href="../../">Sam Abbott</a>
     </div>
 
     
@@ -86,7 +86,7 @@
         
 
         <li class="nav-item">
-          <a href="/#about">
+          <a href="../../#about">
             
             <span>Home</span>
           </a>
@@ -98,7 +98,7 @@
         
 
         <li class="nav-item">
-          <a href="/#posts">
+          <a href="../../#posts">
             
             <span>Posts</span>
           </a>
@@ -110,7 +110,7 @@
         
 
         <li class="nav-item">
-          <a href="/#projects">
+          <a href="../../#projects">
             
             <span>Projects</span>
           </a>
@@ -122,7 +122,7 @@
         
 
         <li class="nav-item">
-          <a href="/#talks">
+          <a href="../../#talks">
             
             <span>Talks</span>
           </a>
@@ -134,7 +134,7 @@
         
 
         <li class="nav-item">
-          <a href="/#teaching">
+          <a href="../../#teaching">
             
             <span>Teaching</span>
           </a>
@@ -146,7 +146,7 @@
         
 
         <li class="nav-item">
-          <a href="/#contact">
+          <a href="../../#contact">
             
             <span>Contact</span>
           </a>
@@ -158,7 +158,7 @@
         
 
         <li class="nav-item">
-          <a href="/pdf/cv_sea.pdf">
+          <a href="../../pdf/cv_sea.pdf">
             
             <span>CV</span>
           </a>
@@ -203,16 +203,16 @@
   <span class="article-tags">
     <i class="fa fa-tags"></i>
     
-    <a href="/tags/p2p">P2P</a
+    <a href="../../tags/p2p">P2P</a
     >, 
     
-    <a href="/tags/data-analysis">data analysis</a
+    <a href="../../tags/data-analysis">data analysis</a
     >, 
     
-    <a href="/tags/data-visualisation">data visualisation</a
+    <a href="../../tags/data-visualisation">data visualisation</a
     >, 
     
-    <a href="/tags/rstats">rstats</a
+    <a href="../../tags/rstats">rstats</a
     >
     
   </span>
@@ -274,17 +274,17 @@
 
 <p>To explore these assumptions we start by roughly calculating the bad debt rate, looking solely at the number of loans that defaulted in a given year and comparing this to the total number of loans. This is obviously a flawed approach as it does not account for loan size, repayments, recoveries, or the maturity of the loan. However it represents a crude initial estimate of the default rate in each risk category. This approach yields far higher estimates of bad debt, than those estimated by FC. To account for the variability in loan size we repeat the above steps but this time account for loan size. This approach can further be refined by accounting for loan repayments prior to the loan defaulting. There are multiple approaches to this, the first of which is to adjust for the amount recovered from defaulted loans, another option is to instead estimate the proportion of bad debt from the principal remaining. Finally by looking at the term length of the loan, and the number of repayments made I can estimate the amount of interest payed on a loan and use this to offset the loss made by the loan defaulting. This assumes that interest is payed on the total loan amount as opposed to the amount outstanding (therefore this measure will slightly underestimate the levels of bad debt).</p>
 
-<p><img src="/post/2017-06-10-fc-risk-bad-debt/figure-html/estimate_loanbook_bad_debit-1.png" alt="Estimated bad debt by year, using various methodologies" /></p>
+<p><img src="../../post/2017-06-10-fc-risk-bad-debt/figure-html/estimate_loanbook_bad_debit-1.png" alt="Estimated bad debt by year, using various methodologies" /></p>
 
 <p>Using this approach we find higher estimates for bad debt using every approach than that estimated by funding circle, this may be due to the differing approaches used or from user error! Reassuringly the most complex approach, that includes the interest payed on loans and the amount payed of the principal gives the closest estimates to those given by funding circle. I have made no adjustments for loans that have not matured, so decreasing bad debt overtime does not necessarily indicate a trend. I have also not accounted for future recoveries by FC which may substantially reduce the proportion of bad debt.</p>
 
 <p>To investigate this further I have estimated the bad debt rate for each risk category using all the approaches discussed above. As can be seen below this yields estimates of bad debt that are greater than those estimated by FC, interestingly this is not true for E risk loans, indicating that year of loan origination may be a factor (as E loans are the most recently offered).</p>
 
-<p><img src="/post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk-1.png" alt="" /><!-- --></p>
+<p><img src="../../post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk-1.png" alt="" /><!-- --></p>
 
 <p>Now focussing on just using the most complex model for bad debt, we see that early investors suffered from poor risk categorisation by funding circle with high default rates across all risk bands. This indicates that holding newly introduced products to term may result in higher than expected loses, although cash back programs may compensate. Bad debt then stabilises indicating successful classification of loans into credit bands. However, these estimates are still higher than those estimated by funding circle, though this maybe due to the exclusion of future recoveries from my estimation model.</p>
 
-<p><img src="/post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk_year-1.png" alt="" /><!-- --></p>
+<p><img src="../../post/2017-06-10-fc-risk-bad-debt/figure-html/est_bad_rate_risk_year-1.png" alt="" /><!-- --></p>
 
 <p>Table: Bad debt by year for B (Below average risk) loans</p>
 
@@ -689,11 +689,11 @@
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
-    <script src="/js/jquery-1.12.3.min.js"></script>
-    <script src="/js/bootstrap.min.js"></script>
-    <script src="/js/isotope.pkgd.min.js"></script>
+    <script src="../../js/jquery-1.12.3.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/isotope.pkgd.min.js"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
-    <script src="/js/hugo-academic.js"></script>
+    <script src="../../js/hugo-academic.js"></script>
     
 
     

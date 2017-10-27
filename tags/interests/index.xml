@@ -26,7 +26,7 @@
 
 &lt;p&gt;The next step is to &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;open the app&lt;/a&gt;. Your screen should then look like this,&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/img/single_game.png&#34; alt=&#34;The game simulation tab from the pebble game app&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../img/single_game.png&#34; alt=&#34;The game simulation tab from the pebble game app&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;You should now be looking at 10 simulations of the pebble game, each with 100 pebbles, 60% of pebbles being vaccinated, and a &lt;a href=&#34;https://en.wikipedia.org/wiki/Basic_reproduction_number&#34; target=&#34;_blank&#34;&gt;reproduction number&lt;/a&gt; of 3 (don&amp;rsquo;t know what this is - try hovering over it in the app). These parameters can all be varied (hit the plus in the game parameters box), although if you add more stones or more simulations it may take awhile!&lt;/p&gt;
 
@@ -42,7 +42,7 @@
 
 &lt;p&gt;To help you further explore the effects of varying parameters on the outcome of the pebble game &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;the Pebble Game app&lt;/a&gt; has an additional tab (Compare diseases). This lets you simulate two diseases, each with an individual reproduction number, but otherwise using the same parameters. An example, comparing a disease with a reproduction number of 3 and another disease with a reproduction number of 12 can be seen below,&lt;/p&gt;
 
-&lt;p&gt;&lt;img src=&#34;http://www.samabbott.co.uk/img/compare_game.png&#34; alt=&#34;The disease comparision tab from the pebble game app&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;../../img/compare_game.png&#34; alt=&#34;The disease comparision tab from the pebble game app&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;The output in this tab is very similar to that in the Play the game tab, but there is now a graph of both diseases, as well as for each disease separately. In this example we see that the second disease has a much lower generation time, than the primary disease. However even for this much slower disease in over 25% of simulations all of the unvaccinated pebbles are still infected!&lt;/p&gt;
 
