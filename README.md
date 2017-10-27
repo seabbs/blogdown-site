@@ -20,7 +20,9 @@ Docker
 This website is built in a container using the [tidyverse](https://hub.docker.com/r/rocker/tidyverse/) docker image. To run the docker image run:
 
 ``` bash
-docker run -d -p 8787:8787 --name seabbs.github.io -e USER=seabbs -e PASSWORD=seabbs seabbs/seabbs.github.io
+docker pull seabbs/seabbs.github.io:sources
+
+docker run -d -p 8787:8787 --name seabbs.github.io -e USER=seabbs -e PASSWORD=seabbs seabbs/seabbs.github.io:sources
 ```
 
 The rstudio client can be found on port `:8787` at your local machines ip. The default username:password is seabbs:seabbs, set the user with `-e USER=username`, and the password with `- e PASSWORD=newpasswordhere`. The default is to save the analysis files into the user directory.
