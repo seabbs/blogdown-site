@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tb on Sam Abbott</title>
-    <link>http://www.samabbott.co.uk/tags/tb/</link>
-    <description>Recent content in Tb on Sam Abbott</description>
+    <title>Infectious Disease on Sam Abbott</title>
+    <link>http://www.samabbott.co.uk/tags/infectious-disease/</link>
+    <description>Recent content in Infectious Disease on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017 Sam Abbott</copyright>
     <lastBuildDate>Sun, 29 Oct 2017 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/tags/tb/" rel="self" type="application/rss+xml" />
+    <atom:link href="/tags/infectious-disease/" rel="self" type="application/rss+xml" />
     
     <item>
       <title>Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</title>
@@ -20,33 +20,6 @@
 
 &lt;iframe seamless src=&#34;http://seabbs.co.uk/shiny/TB_England_Wales&#34; width = &#34;100%&#34; height=&#34;1000&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Introduction to TB Modelling</title>
-      <link>http://www.samabbott.co.uk/project/intro_tb_models/</link>
-      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/intro_tb_models/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tuberculosis in England and Wales</title>
-      <link>http://www.samabbott.co.uk/project/tb_england_wales/</link>
-      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/tb_england_wales/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tbinenglanddataclean</title>
-      <link>http://www.samabbott.co.uk/project/tbinenglanddataclean/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
-      <description></description>
     </item>
     
   </channel>

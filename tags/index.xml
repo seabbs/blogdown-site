@@ -23,7 +23,7 @@
     <item>
       <title>Data Analysis</title>
       <link>http://www.samabbott.co.uk/tags/data-analysis/</link>
-      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/data-analysis/</guid>
       <description></description>
@@ -32,7 +32,7 @@
     <item>
       <title>Data Visualisation</title>
       <link>http://www.samabbott.co.uk/tags/data-visualisation/</link>
-      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/data-visualisation/</guid>
       <description></description>
@@ -44,6 +44,15 @@
       <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/deep-dive/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Infectious Disease</title>
+      <link>http://www.samabbott.co.uk/tags/infectious-disease/</link>
+      <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/infectious-disease/</guid>
       <description></description>
     </item>
     
@@ -131,18 +140,9 @@
     <item>
       <title>Rstats</title>
       <link>http://www.samabbott.co.uk/tags/rstats/</link>
-      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/rstats/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Shiny</title>
-      <link>http://www.samabbott.co.uk/tags/shiny/</link>
-      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/shiny/</guid>
       <description></description>
     </item>
     

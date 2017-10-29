@@ -11,11 +11,32 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</title>
+      <link>http://www.samabbott.co.uk/post/tb-england-wales/</link>
+      <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/tb-england-wales/</guid>
+      <description>&lt;p&gt;This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 &lt;a href=&#34;https://www.gov.uk/government/publications/tuberculosis-tb-annual-notifications-1913-onwards&#34; target=&#34;_blank&#34;&gt;released&lt;/a&gt; by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the &lt;a href=&#34;https://www.samabbott.co.uk/tbinenglanddataclean/&#34; target=&#34;_blank&#34;&gt;tbinenglanddataclean&lt;/a&gt; R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time. For a full page view of the dashboard see &lt;a href=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+
+&lt;iframe seamless src=&#34;http://seabbs.co.uk/shiny/TB_England_Wales&#34; width = &#34;100%&#34; height=&#34;1000&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Introduction to TB Modelling</title>
       <link>http://www.samabbott.co.uk/project/intro_tb_models/</link>
       <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/intro_tb_models/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tuberculosis in England and Wales</title>
+      <link>http://www.samabbott.co.uk/project/tb_england_wales/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/tb_england_wales/</guid>
       <description></description>
     </item>
     
@@ -296,24 +317,6 @@ downward trend in premiums but is difficult to interpret due to the number of pr
 &lt;li&gt;To forecast future incidence of tuberculosis in England under various transmission, importation, and vaccination scenarios; by further generalising previously developed transmission dynamic models.&lt;/li&gt;
 &lt;/ul&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>prettypublisher</title>
-      <link>http://www.samabbott.co.uk/project/prettypublisher/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/prettypublisher/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>tbinenglanddataclean</title>
-      <link>http://www.samabbott.co.uk/project/tbinenglanddataclean/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
-      <description></description>
     </item>
     
   </channel>
