@@ -18,7 +18,7 @@
       <guid>http://www.samabbott.co.uk/post/tb-england-wales/</guid>
       <description>&lt;p&gt;This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 &lt;a href=&#34;https://www.gov.uk/government/publications/tuberculosis-tb-annual-notifications-1913-onwards&#34; target=&#34;_blank&#34;&gt;released&lt;/a&gt; by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the &lt;a href=&#34;https://www.samabbott.co.uk/tbinenglanddataclean/&#34; target=&#34;_blank&#34;&gt;tbinenglanddataclean&lt;/a&gt; R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time. For a full page view of the dashboard see &lt;a href=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 
-&lt;iframe seamless src=&#34;http://seabbs.co.uk/shiny/TB_England_Wales&#34; width = &#34;100%&#34; height=&#34;1000&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
+&lt;iframe src=&#34;http://seabbs.co.uk/shiny/TB_England_Wales&#34; style=&#34;border: none; width: &#34;100%&#34;; height: 1000px&#34;&gt;&lt;/iframe&gt;
 </description>
     </item>
     
