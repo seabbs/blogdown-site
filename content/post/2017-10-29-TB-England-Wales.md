@@ -11,4 +11,4 @@ tags: ["data analysis", "data visualisation", "rstats", "TB", "infectious diseas
 
 This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 [released](https://www.gov.uk/government/publications/tuberculosis-tb-annual-notifications-1913-onwards) by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the [tbinenglanddataclean](https://www.samabbott.co.uk/tbinenglanddataclean/) R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time. For a full page view of the dashboard see [here](http://www.seabbs.co.uk/shiny/TB_England_Wales).
 
-<iframe seamless src="http://seabbs.co.uk/shiny/TB_England_Wales" width = "100%" height="1000" id="iframe_container"></iframe>
+<iframe src="http://seabbs.co.uk/shiny/TB_England_Wales" style="border: none; width: "100%"; height: 1000px"></iframe>
