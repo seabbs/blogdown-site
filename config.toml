@@ -143,6 +143,11 @@ defaultContentLanguageInSubdir = false
     link = "https://www.researchgate.net/profile/Sam_Abbott2"
 
   [[params.social]]
+    icon = "linkedin"
+    icon_pack = "fa"
+    link = "https://www.linkedin.com/in/seabbs/"
+
+  [[params.social]]
     icon = "github"
     icon_pack = "fa"
     link = "//github.com/seabbs"
