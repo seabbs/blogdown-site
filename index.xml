@@ -11,6 +11,15 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>getTBinR</title>
+      <link>http://www.samabbott.co.uk/project/gettbinr/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/gettbinr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</title>
       <link>http://www.samabbott.co.uk/post/tb-england-wales/</link>
       <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
@@ -292,31 +301,6 @@ downward trend in premiums but is difficult to interpret due to the number of pr
       
       <guid>http://www.samabbott.co.uk/project/funding-circle/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>PhD: Research Aims</title>
-      <link>http://www.samabbott.co.uk/project/phd-thesis-aims-objectives/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/phd-thesis-aims-objectives/</guid>
-      <description>
-
-&lt;h2 id=&#34;aim&#34;&gt;Aim&lt;/h2&gt;
-
-&lt;p&gt;To understand the impact of BCG vaccination on the epidemiology of tuberculosis in England, and to use this understanding to forecast the future effects of current and proposed BCG vaccination policy.&lt;/p&gt;
-
-&lt;h2 id=&#34;objectives&#34;&gt;Objectives&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;To describe the current epidemiology of Tuberculosis in England,&lt;/li&gt;
-&lt;li&gt;To assess whether there is evidence in routinely-collected surveillance data that BCG vaccination impacts outcomes for TB cases in England,&lt;/li&gt;
-&lt;li&gt;To assess the direct effects of the 2005 change in vaccination policy on those eligible for vaccination,&lt;/li&gt;
-&lt;li&gt;To develop and apply a parsimonous transmission dynamic model of tuberculosis in order to understand the trade off between vaccinating those at highest risk of poor outcomes, and those most likely to be vectors of transmission; by using the 2005 change in vaccination policy as a case study,&lt;/li&gt;
-&lt;li&gt;To develop and apply a transmission dynamic model of tuberculosis, that is robustly fitted to available data, and captures the known epidemiology of TB; in order to forecast all long term effects of the 2005 change in vaccination policy, and to provide robust estimates of epidemiological parameters for TB in England,&lt;/li&gt;
-&lt;li&gt;To forecast future incidence of tuberculosis in England under various transmission, importation, and vaccination scenarios; by further generalising previously developed transmission dynamic models.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
     </item>
     
   </channel>

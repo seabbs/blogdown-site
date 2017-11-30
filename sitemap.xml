@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/project/gettbinr/</loc>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/post/tb-england-wales/</loc>
       <lastmod>2017-10-29T00:00:00+00:00</lastmod>
     </url>
@@ -359,7 +368,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/project/</loc>
-      <lastmod>2017-10-12T00:00:00+00:00</lastmod>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -388,7 +397,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/r-package/</loc>
-      <lastmod>2017-06-23T00:00:00+00:00</lastmod>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -408,7 +417,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/rstats/</loc>
-      <lastmod>2017-10-29T00:00:00+00:00</lastmod>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -468,7 +477,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/tuberculosis/</loc>
-      <lastmod>2017-06-14T00:00:00+00:00</lastmod>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -478,7 +487,17 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/utilities/</loc>
-      <lastmod>2017-10-12T00:00:00+00:00</lastmod>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/who/</loc>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
