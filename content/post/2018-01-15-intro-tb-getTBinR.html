@@ -2,9 +2,9 @@
 title: Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR
 author: ~
 date: '2018-01-15'
-slug: tb-trends-getTBinR
-twitterImg: img/TB_England_Wales.png
-description: "Using GetTBinR to explore global trends in Tuberculosis incidence rates. Whilst evidence of regional decreases may not mean that eradication is on the horizon."
+slug: intro-getTBinR
+twitterImg: img/getTBinR/regional_tb_trends.png
+description: "Using GetTBinR to explore global trends in Tuberculosis incidence rates. Why evidence of regional decreases in incidence rates may not mean that eradication is on the horizon."
 categories: ["R"]
 tags: ["data analysis", "data visualisation", "rstats", "TB", "infectious disease"]
 ---
@@ -12,29 +12,23 @@ tags: ["data analysis", "data visualisation", "rstats", "TB", "infectious diseas
 
 
 <p>In November I attended <a href="https://www.elsevier.com/events/conferences/international-conference-on-infectious-disease-dynamics">Epidemics</a>, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.</p>
-<p>I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze!. Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle. As I didn’t want to be left out my only alternative was to produce an R package during my downtime at the conference - from which <a href="www.samabbott.co.uk/getTBinR">getTBinR</a> was born. Over the Christmas period more work has been done and the package is now available from <a href="https://cran.r-project.org/web/packages/getTBinR/index.html">CRAN</a>.</p>
+<p>I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze! Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle. As I didn’t want to be left out my only alternative was to produce an R package during my downtime at the conference - from which <a href="www.samabbott.co.uk/getTBinR">getTBinR</a> was born. Over the Christmas period more work has been done and the package is now available from <a href="https://cran.r-project.org/web/packages/getTBinR/index.html">CRAN</a>.</p>
 <p>GetTBinR wraps the World Health Organisation <a href="http://www.who.int/tb/country/data/download/en/">Tuberculosis data</a>, which includes data on Tuberculosis incidence rates, mortality rates, case reporting rates and several other metrics by country from 2000 until 2016 with varying levels of completeness. It also provides some general purpose functions for mapping and plotting the data, with the aim of kick starting any exploratory analysis of the WHO Tuberculosis data.</p>
 <p>For this post I will be quickly diving into global trends in Tuberculosis incidence rates and exploring whether Tuberculosis eradication is on the horizon.</p>
 <p>Now to get started, the first step is to get the package (for this post we are using the development version from GitHub) and to load the other packages required for this analysis.</p>
-<pre class="r"><code># install.packages(&quot;devtools&quot;)
-# devtools::install_github(&quot;seabbs/GetTBinR&quot;)
+<pre class="r"><code>install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;seabbs/GetTBinR&quot;)
 library(getTBinR)
-# install.packages(&quot;tidyverse&quot;)
+install.packages(&quot;tidyverse&quot;)
 library(tidyverse)
-# install.pacakges(&quot;viridis&quot;)
+install.packages(&quot;viridis&quot;)
 library(viridis)</code></pre>
 <p>The package is loaded, time to get the data. We download both the data itself and it’s accompanying data dictionary.</p>
-<pre class="r"><code>tb_burden &lt;- get_tb_burden(download_data = TRUE, save = TRUE)</code></pre>
-<pre><code>## Downloading data from: https://extranet.who.int/tme/generateCSV.asp?ds=estimates</code></pre>
-<pre><code>## Saving data to: /tmp/Rtmp3X6dwh/TB_burden.rds</code></pre>
-<pre class="r"><code>dict &lt;- get_data_dict(download_data = TRUE, save = TRUE)</code></pre>
-<pre><code>## Downloading data from: https://extranet.who.int/tme/generateCSV.asp?ds=dictionary</code></pre>
-<pre><code>## Saving data to: /tmp/Rtmp3X6dwh/TB_data_dict.rds</code></pre>
+<pre class="r"><code>tb_burden &lt;- get_tb_burden(download_data = TRUE, save = TRUE)
+dict &lt;- get_data_dict(download_data = TRUE, save = TRUE)</code></pre>
 <p>We want to explore incidence rates so we need to find them in the data. We can do this using the <code>getTBinR::search_data_dict</code>,</p>
-<pre class="r"><code>search_data_dict(def = &quot;incidence&quot;) %&gt;% 
+<pre class="r"><code>search_data_dict(dict = dict, def = &quot;incidence&quot;, verbose = FALSE) %&gt;% 
   knitr::kable()</code></pre>
-<pre><code>## Loading data from: /tmp/Rtmp3X6dwh/TB_data_dict.rds</code></pre>
-<pre><code>## 12 results found for your definition search for incidence</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -119,19 +113,20 @@ library(viridis)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>The first hit, <code>e_inc_100l</code>, is the TB incidence rates, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function <code>map_tb_burden</code>,</p>
-<pre class="r"><code>map_tb_burden(metric = &quot;e_inc_100k&quot;, verbose = FALSE) +
+<p>The first hit, <code>e_inc_100l</code>, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function <code>map_tb_burden</code>,</p>
+<pre class="r"><code>map_tb_burden(df = tb_burden, dict = dict,
+              metric = &quot;e_inc_100k&quot;, verbose = FALSE) +
   labs(title = &quot;Map of Global Tuberculosis Incidence Rates - 2016&quot;,
        subtitle = &quot;&quot;, caption = &quot;Source: World Health Organisation&quot;)</code></pre>
-<p><img src="/post/2018-01-15-low-burden-tb-getTBinR_files/figure-html/map-tb-2016-inc-1.png" width="672" /></p>
-<p>This shows us that incidence rates are highly heterogeneous between regions. To get an better understanding of this lets plot incidence rates by WHO region,</p>
+<p><img src="/post/2018-01-15-intro-tb-getTBinR_files/figure-html/map-tb-2016-inc-1.png" width="672" /></p>
+<p>This shows that incidence rates are highly heterogeneous between regions. To get an better understanding of this lets plot incidence rates by WHO region,</p>
 <pre class="r"><code>tb_inc_region &lt;- tb_burden %&gt;% 
   group_by(year, g_whoregion) %&gt;% 
   summarise_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi, e_pop_num),
                .funs = funs(sum(as.numeric(.), na.rm = T))) %&gt;% 
   mutate_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi),
             .funs = funs(inc_rate = . / e_pop_num * 1e5)) %&gt;% 
-  filter(!is.na(g_whoregion))
+  mutate(g_whoregion = ifelse(is.na(g_whoregion), &quot;Asia&quot;, g_whoregion))
 
 plot_tb_inc_region &lt;- function(df = NULL, title = NULL, subtitle = NULL, scales = NULL) {
   df %&gt;% 
@@ -152,14 +147,14 @@ tb_inc_region %&gt;%
   plot_tb_inc_region(title = &quot;Global Tuberculosis Incidence Rates&quot;,
                      subtitle = &quot;By WHO region, with a fixed y axis&quot;,
                      scales = &quot;fixed&quot;)</code></pre>
-<p><img src="/post/2018-01-15-low-burden-tb-getTBinR_files/figure-html/plot-region-tb-inc-1.png" width="672" /></p>
-<p>Aside for a data quality issue for WHO regions (Asia is clearly missing from this chart) we see that incidence rates are much higher in Africa than in other regions, and that incidence rates in the Americas and Europe are the lowest. This chart has a fixed y axis which makes it hard to see trends over time within regions, if we repeat it with a free y axis the trends over time become more apparent,</p>
+<p><img src="/post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-1.png" width="672" /></p>
+<p>We see that incidence rates are much higher in Africa, and in Asia, than in other regions, and that incidence rates in the Americas and Europe are the lowest. This chart has a fixed y axis which makes it hard to see trends over time within regions, if we repeat it with a free y axis the trends over time become more apparent,</p>
 <pre class="r"><code>tb_inc_region %&gt;% 
   plot_tb_inc_region(title = &quot;Global Tuberculosis Incidence Rates&quot;,
                      subtitle = &quot;By WHO region, with a variable y axis&quot;,
                      scales = &quot;free_y&quot;)</code></pre>
-<p><img src="/post/2018-01-15-low-burden-tb-getTBinR_files/figure-html/plot-region-tb-inc-free-1.png" width="672" /></p>
-<p>This plot shows that Tuberculosis incidence rates are decreasing in all regions, which is a great sign for the elimination of Tuberculosis. However whilst this is true on the regional level it may not be true for all countries in the data set, something that is required to eradicate Tuberculosis. To explore this we find the countries that had higher incidence rates in 2016 than in 2000.</p>
+<p><img src="/post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-free-1.png" width="672" /></p>
+<p>This plot shows that Tuberculosis incidence rates are decreasing in all regions, which is a great sign for the elimination of Tuberculosis. However whilst this is true on the regional level it may not be true for all countries in the data set, something that is required to truly eradicate Tuberculosis. To explore this we find the countries that had higher incidence rates in 2016 than in 2000.</p>
 <pre class="r"><code>countries_inc_up &lt;- tb_burden %&gt;% 
   filter(year %in% c(2000, 2016)) %&gt;% 
   group_by(country) %&gt;% 
@@ -179,26 +174,28 @@ high_inc_countries &lt;- tb_burden %&gt;%
   unique
 
 high_inc_up_countries &lt;- intersect(countries_inc_up, high_inc_countries)</code></pre>
-<p>This results in a list of 44 countries all of which had higher incidence rates in 2016 than in 2000. Of these countries 8 were in the top 20 countries by incidence rates in 2016. This can plotted below using <code>getTBinR::plot_tb_burden_overview</code>,</p>
-<pre class="r"><code>plot_tb_burden_overview(metric = &quot;e_inc_100k&quot;, 
+<p>This results in a list of 44 countries all of which had higher incidence rates in 2016 than in 2000. Of these countries 8 were in the top 20 countries by incidence rate in 2016. This can plotted below using <code>getTBinR::plot_tb_burden_overview</code>,</p>
+<pre class="r"><code>plot_tb_burden_overview(df = tb_burden,
+                        dict = dict, 
+                        metric = &quot;e_inc_100k&quot;, 
                         countries = high_inc_up_countries,
                         verbose = FALSE) +
   labs(title = &quot;Tuberculosis Incidence Rates from 2000-2016&quot;,
        subtitle = &quot;Showing countries with the highest incidence rates in which incidence rates are increasing&quot;,
        caption = &quot;Source: World Health Organisation&quot;)</code></pre>
-<p><img src="/post/2018-01-15-low-burden-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-overview-1.png" width="672" /></p>
+<p><img src="/post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-overview-1.png" width="672" /></p>
 <p>GetTBinR also supplies another function (<code>plot_tb_burden</code>) that can be used to visualise this,</p>
-<pre class="r"><code>plot_tb_burden(metric = &quot;e_inc_100k&quot;, countries = high_inc_up_countries, 
+<pre class="r"><code>plot_tb_burden(df = tb_burden,
+               dict = dict,
+               metric = &quot;e_inc_100k&quot;, countries = high_inc_up_countries, 
                facet = &quot;country&quot;, scales = &quot;free_y&quot;, verbose = FALSE) +
   labs(title = &quot;Tuberculosis Incidence Rates from 2000-2016&quot;,
        subtitle = &quot;Showing countries with the highest incidence rates in which incidence rates are increasing&quot;,
        caption = &quot;Source: World Health Organisation&quot;)</code></pre>
-<p><img src="/post/2018-01-15-low-burden-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-1.png" width="672" /></p>
+<p><img src="/post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-1.png" width="672" /></p>
 <p>A possible cause of this may be that reporting of Tuberculosis notifications has improved over time, to understand this we first find the required variable in the data,</p>
-<pre class="r"><code>search_data_dict(def = &quot;detection&quot;) %&gt;% 
+<pre class="r"><code>search_data_dict(dict = dict, def = &quot;detection&quot;, verbose = FALSE) %&gt;% 
   knitr::kable()</code></pre>
-<pre><code>## Loading data from: /tmp/Rtmp3X6dwh/TB_data_dict.rds</code></pre>
-<pre><code>## 3 results found for your definition search for detection</code></pre>
 <table>
 <thead>
 <tr class="header">
@@ -230,12 +227,14 @@ high_inc_up_countries &lt;- intersect(countries_inc_up, high_inc_countries)</cod
 </tbody>
 </table>
 <p>We then plot the case detection rate over time in the countries of interest,</p>
-<pre class="r"><code>plot_tb_burden(metric = &quot;c_cdr&quot;, countries = high_inc_up_countries, 
+<pre class="r"><code>plot_tb_burden(df = tb_burden,
+               dict = dict,
+               metric = &quot;c_cdr&quot;, countries = high_inc_up_countries, 
                facet = &quot;country&quot;, scales = &quot;free_y&quot;, verbose = FALSE) +
   labs(title = &quot;Tuberculosis Detection Rates from 2000-2016&quot;,
        subtitle = &quot;Showing countries with the highest incidence rates in which incidence rates are increasing&quot;,
        caption = &quot;Source: World Health Organisation&quot;)</code></pre>
-<p><img src="/post/2018-01-15-low-burden-tb-getTBinR_files/figure-html/plot-tb-inc-high-case-1.png" width="672" /></p>
+<p><img src="/post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-case-1.png" width="672" /></p>
 <p>The plot above shows that for some countries such as Mozambique and South Africa the increases in incidence rates may be linked to increases in the cases detection rate. However, it is clear that this is not the case for all countries, in particular the Congo which has seen increasing incidence rates and falling case detection rates.</p>
 <p>This post has highlighted the fact that whilst Tuberculosis is declining globally this is not the case in all countries. In order for the global eradication of Tuberculosis to be a success it is vital that resources are targeted at those countries which are struggling to reduce their incidence rates.</p>
-<p>The WHO Tuberculosis data contains many variables not mentioned in this post and has the potential to answer a number of other questions. See the <a href="https://www.samabbott.co.uk/getTBinR/">package site</a> for more details of using getTBinR if you are interested in exploring the data for yourself.</p>
+<p>The WHO Tuberculosis data contains many variables not mentioned in this post and has the potential to answer a number of other questions. See the <a href="https://www.samabbott.co.uk/getTBinR/">package site</a> for additional package features not mentioned in this post. See <a href="https://gist.github.com/seabbs">my gists</a> for code snippets to get you started. Feature requests are welcome, preferably by filing a <a href="https://github.com/seabbs/getTBinR/issues">GitHub issue</a>, as are suggestions for additional data sources to include.</p>
