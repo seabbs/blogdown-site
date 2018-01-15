@@ -127,7 +127,7 @@ dict &amp;lt;- get_data_dict(download_data = TRUE, save = TRUE)&lt;/code&gt;&lt;
 &lt;/tr&gt;
 &lt;/tbody&gt;
 &lt;/table&gt;
-&lt;p&gt;The first hit, &lt;code&gt;e_inc_100l&lt;/code&gt;, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function &lt;code&gt;map_tb_burden&lt;/code&gt;,&lt;/p&gt;
+&lt;p&gt;The first hit, &lt;code&gt;e_inc_100k&lt;/code&gt;, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function &lt;code&gt;map_tb_burden&lt;/code&gt;,&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;map_tb_burden(df = tb_burden, dict = dict,
               metric = &amp;quot;e_inc_100k&amp;quot;, verbose = FALSE) +
   labs(title = &amp;quot;Map of Global Tuberculosis Incidence Rates - 2016&amp;quot;,
