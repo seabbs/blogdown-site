@@ -47,7 +47,7 @@ search_data_dict(dict = dict, def = "incidence", verbose = FALSE) %>%
   knitr::kable()
 ```
 
-The first hit, `e_inc_100l`, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function `map_tb_burden`,
+The first hit, `e_inc_100k`, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function `map_tb_burden`,
 
 ```{r map-tb-2016-inc}
 map_tb_burden(df = tb_burden, dict = dict,
