@@ -11,6 +11,24 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Explore Infectious Disease Models</title>
+      <link>http://www.samabbott.co.uk/project/exploreidmodels/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/exploreidmodels/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Show Me Perseus</title>
+      <link>http://www.samabbott.co.uk/project/showmeperseus/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/showmeperseus/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>getTBinR</title>
       <link>http://www.samabbott.co.uk/project/gettbinr/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
@@ -283,24 +301,6 @@ downward trend in premiums but is difficult to interpret due to the number of pr
 
 &lt;p&gt;Science is nothing if not a collaborative process. Whilst mathematical models provide a powerful analytical approach, without expert knowledge and good data they can produce meaningless results. While my focus is BCG vaccination, the key lesson from my PhD has been the importance of working across disciplines in order to access expert knowledge and unlock the power of mathematics to solve real world problems.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>The Pebble Game</title>
-      <link>http://www.samabbott.co.uk/project/thepebblegame/</link>
-      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Funding Circle Data Anaylsis</title>
-      <link>http://www.samabbott.co.uk/project/funding-circle/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/funding-circle/</guid>
-      <description></description>
     </item>
     
   </channel>

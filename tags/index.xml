@@ -93,6 +93,15 @@
     </item>
     
     <item>
+      <title>Personal Project</title>
+      <link>http://www.samabbott.co.uk/tags/personal-project/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/personal-project/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Personal Projects</title>
       <link>http://www.samabbott.co.uk/tags/personal-projects/</link>
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
@@ -134,15 +143,6 @@
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/reproducible-research/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Rstats</title>
-      <link>http://www.samabbott.co.uk/tags/rstats/</link>
-      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/rstats/</guid>
       <description></description>
     </item>
     
