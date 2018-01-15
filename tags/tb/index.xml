@@ -20,6 +20,242 @@
     </item>
     
     <item>
+      <title>Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR</title>
+      <link>http://www.samabbott.co.uk/post/intro-gettbinr/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/intro-gettbinr/</guid>
+      <description>&lt;p&gt;In November I attended &lt;a href=&#34;https://www.elsevier.com/events/conferences/international-conference-on-infectious-disease-dynamics&#34;&gt;Epidemics&lt;/a&gt;, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.&lt;/p&gt;
+&lt;p&gt;I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze! Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle. As I didn’t want to be left out my only alternative was to produce an R package during my downtime at the conference - from which &lt;a href=&#34;www.samabbott.co.uk/getTBinR&#34;&gt;getTBinR&lt;/a&gt; was born. Over the Christmas period more work has been done and the package is now available from &lt;a href=&#34;https://cran.r-project.org/web/packages/getTBinR/index.html&#34;&gt;CRAN&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;GetTBinR wraps the World Health Organisation &lt;a href=&#34;http://www.who.int/tb/country/data/download/en/&#34;&gt;Tuberculosis data&lt;/a&gt;, which includes data on Tuberculosis incidence rates, mortality rates, case reporting rates and several other metrics by country from 2000 until 2016 with varying levels of completeness. It also provides some general purpose functions for mapping and plotting the data, with the aim of kick starting any exploratory analysis of the WHO Tuberculosis data.&lt;/p&gt;
+&lt;p&gt;For this post I will be quickly diving into global trends in Tuberculosis incidence rates and exploring whether Tuberculosis eradication is on the horizon.&lt;/p&gt;
+&lt;p&gt;Now to get started, the first step is to get the package (for this post we are using the development version from GitHub) and to load the other packages required for this analysis.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;install.packages(&amp;quot;devtools&amp;quot;)
+devtools::install_github(&amp;quot;seabbs/GetTBinR&amp;quot;)
+library(getTBinR)
+install.packages(&amp;quot;tidyverse&amp;quot;)
+library(tidyverse)
+install.packages(&amp;quot;viridis&amp;quot;)
+library(viridis)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The package is loaded, time to get the data. We download both the data itself and it’s accompanying data dictionary.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_burden &amp;lt;- get_tb_burden(download_data = TRUE, save = TRUE)
+dict &amp;lt;- get_data_dict(download_data = TRUE, save = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We want to explore incidence rates so we need to find them in the data. We can do this using the &lt;code&gt;getTBinR::search_data_dict&lt;/code&gt;,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;search_data_dict(dict = dict, def = &amp;quot;incidence&amp;quot;, verbose = FALSE) %&amp;gt;% 
+  knitr::kable()&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;variable_name&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;dataset&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;code_list&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_100k&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence (all forms) per 100 000 population&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_100k_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence (all forms) per 100 000 population, high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_100k_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence (all forms) per 100 000 population, low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_rr_num&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of rifampicin resistant TB (absolute number)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_rr_num_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of rifampicin resistant TB (absolute number): high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_rr_num_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of rifampicin resistant TB (absolute number): low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_100k&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive per 100 000 population&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_100k_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive per 100 000 population, high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_100k_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive per 100 000 population, low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_num&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_num_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive, high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_num_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive, low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The first hit, &lt;code&gt;e_inc_100l&lt;/code&gt;, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function &lt;code&gt;map_tb_burden&lt;/code&gt;,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;map_tb_burden(df = tb_burden, dict = dict,
+              metric = &amp;quot;e_inc_100k&amp;quot;, verbose = FALSE) +
+  labs(title = &amp;quot;Map of Global Tuberculosis Incidence Rates - 2016&amp;quot;,
+       subtitle = &amp;quot;&amp;quot;, caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/map-tb-2016-inc-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This shows that incidence rates are highly heterogeneous between regions. To get an better understanding of this lets plot incidence rates by WHO region,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_inc_region &amp;lt;- tb_burden %&amp;gt;% 
+  group_by(year, g_whoregion) %&amp;gt;% 
+  summarise_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi, e_pop_num),
+               .funs = funs(sum(as.numeric(.), na.rm = T))) %&amp;gt;% 
+  mutate_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi),
+            .funs = funs(inc_rate = . / e_pop_num * 1e5)) %&amp;gt;% 
+  mutate(g_whoregion = ifelse(is.na(g_whoregion), &amp;quot;Asia&amp;quot;, g_whoregion))
+
+plot_tb_inc_region &amp;lt;- function(df = NULL, title = NULL, subtitle = NULL, scales = NULL) {
+  df %&amp;gt;% 
+      ggplot(aes(x = year, y = e_inc_num_inc_rate, col = g_whoregion)) +
+  geom_point() +
+  geom_linerange(aes(ymin = e_inc_num_lo_inc_rate, ymax = e_inc_num_hi_inc_rate)) +
+  geom_line() +
+  scale_colour_viridis(discrete = TRUE) +
+  labs(title = title, subtitle = subtitle, 
+       x = &amp;quot;Year&amp;quot;, y = &amp;quot;Tuberculosis Incidence Rates (per 100,000 population)&amp;quot;,
+       caption = &amp;quot;Source: World Health Organisation&amp;quot;) +
+  theme_minimal() +
+  theme(legend.position = &amp;quot;none&amp;quot;) +
+  facet_wrap(~g_whoregion, scales = scales)
+}
+
+tb_inc_region %&amp;gt;% 
+  plot_tb_inc_region(title = &amp;quot;Global Tuberculosis Incidence Rates&amp;quot;,
+                     subtitle = &amp;quot;By WHO region, with a fixed y axis&amp;quot;,
+                     scales = &amp;quot;fixed&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We see that incidence rates are much higher in Africa, and in Asia, than in other regions, and that incidence rates in the Americas and Europe are the lowest. This chart has a fixed y axis which makes it hard to see trends over time within regions, if we repeat it with a free y axis the trends over time become more apparent,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_inc_region %&amp;gt;% 
+  plot_tb_inc_region(title = &amp;quot;Global Tuberculosis Incidence Rates&amp;quot;,
+                     subtitle = &amp;quot;By WHO region, with a variable y axis&amp;quot;,
+                     scales = &amp;quot;free_y&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-free-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This plot shows that Tuberculosis incidence rates are decreasing in all regions, which is a great sign for the elimination of Tuberculosis. However whilst this is true on the regional level it may not be true for all countries in the data set, something that is required to truly eradicate Tuberculosis. To explore this we find the countries that had higher incidence rates in 2016 than in 2000.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;countries_inc_up &amp;lt;- tb_burden %&amp;gt;% 
+  filter(year %in% c(2000, 2016)) %&amp;gt;% 
+  group_by(country) %&amp;gt;% 
+  arrange(desc(e_inc_100k)) %&amp;gt;% 
+  slice(1) %&amp;gt;% 
+  filter(year == 2016) %&amp;gt;% 
+  pull(country)
+
+high_inc_countries &amp;lt;- tb_burden %&amp;gt;% 
+  filter(year == 2016) %&amp;gt;% 
+  group_by(country) %&amp;gt;% 
+  summarise(e_inc_100k = max(e_inc_100k)) %&amp;gt;% 
+  ungroup %&amp;gt;% 
+  arrange(desc(e_inc_100k)) %&amp;gt;% 
+  slice(1:20) %&amp;gt;% 
+  pull(country) %&amp;gt;% 
+  unique
+
+high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This results in a list of 44 countries all of which had higher incidence rates in 2016 than in 2000. Of these countries 8 were in the top 20 countries by incidence rate in 2016. This can plotted below using &lt;code&gt;getTBinR::plot_tb_burden_overview&lt;/code&gt;,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_burden_overview(df = tb_burden,
+                        dict = dict, 
+                        metric = &amp;quot;e_inc_100k&amp;quot;, 
+                        countries = high_inc_up_countries,
+                        verbose = FALSE) +
+  labs(title = &amp;quot;Tuberculosis Incidence Rates from 2000-2016&amp;quot;,
+       subtitle = &amp;quot;Showing countries with the highest incidence rates in which incidence rates are increasing&amp;quot;,
+       caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-overview-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;GetTBinR also supplies another function (&lt;code&gt;plot_tb_burden&lt;/code&gt;) that can be used to visualise this,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_burden(df = tb_burden,
+               dict = dict,
+               metric = &amp;quot;e_inc_100k&amp;quot;, countries = high_inc_up_countries, 
+               facet = &amp;quot;country&amp;quot;, scales = &amp;quot;free_y&amp;quot;, verbose = FALSE) +
+  labs(title = &amp;quot;Tuberculosis Incidence Rates from 2000-2016&amp;quot;,
+       subtitle = &amp;quot;Showing countries with the highest incidence rates in which incidence rates are increasing&amp;quot;,
+       caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;A possible cause of this may be that reporting of Tuberculosis notifications has improved over time, to understand this we first find the required variable in the data,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;search_data_dict(dict = dict, def = &amp;quot;detection&amp;quot;, verbose = FALSE) %&amp;gt;% 
+  knitr::kable()&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;variable_name&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;dataset&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;code_list&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;c_cdr&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Case detection rate (all forms), percent&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;c_cdr_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Case detection rate (all forms), percent, high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;c_cdr_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Case detection rate (all forms), percent, low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We then plot the case detection rate over time in the countries of interest,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_burden(df = tb_burden,
+               dict = dict,
+               metric = &amp;quot;c_cdr&amp;quot;, countries = high_inc_up_countries, 
+               facet = &amp;quot;country&amp;quot;, scales = &amp;quot;free_y&amp;quot;, verbose = FALSE) +
+  labs(title = &amp;quot;Tuberculosis Detection Rates from 2000-2016&amp;quot;,
+       subtitle = &amp;quot;Showing countries with the highest incidence rates in which incidence rates are increasing&amp;quot;,
+       caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-case-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The plot above shows that for some countries such as Mozambique and South Africa the increases in incidence rates may be linked to increases in the cases detection rate. However, it is clear that this is not the case for all countries, in particular the Congo which has seen increasing incidence rates and falling case detection rates.&lt;/p&gt;
+&lt;p&gt;This post has highlighted the fact that whilst Tuberculosis is declining globally this is not the case in all countries. In order for the global eradication of Tuberculosis to be a success it is vital that resources are targeted at those countries which are struggling to reduce their incidence rates.&lt;/p&gt;
+&lt;p&gt;The WHO Tuberculosis data contains many variables not mentioned in this post and has the potential to answer a number of other questions. See the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34;&gt;package site&lt;/a&gt; for additional package features not mentioned in this post. See &lt;a href=&#34;https://gist.github.com/seabbs&#34;&gt;my gists&lt;/a&gt; for code snippets to get you started. Feature requests are welcome, preferably by filing a &lt;a href=&#34;https://github.com/seabbs/getTBinR/issues&#34;&gt;GitHub issue&lt;/a&gt;, as are suggestions for additional data sources to include.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</title>
       <link>http://www.samabbott.co.uk/post/tb-england-wales/</link>
       <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>

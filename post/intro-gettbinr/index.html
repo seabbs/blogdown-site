@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="en-uk">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.32.4" />
+  <meta name="author" content="Sam Abbott">
+  <meta name="description" content="PhD student">
+
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="../../css/highlight.min.css">
+    
+  
+  <link rel="stylesheet" href="../../css/bootstrap.min.css">
+  <link rel="stylesheet" href="../../css/font-awesome.min.css">
+  <link rel="stylesheet" href="../../css/academicons.min.css">
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7CMerriweather%7CRoboto+Mono">
+  <link rel="stylesheet" href="../../css/hugo-academic.css">
+  
+
+  <link rel="alternate" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+  <link rel="feed" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+
+  <link rel="icon" type="image/png" href="../../img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../img/apple-touch-icon.png">
+
+  <link rel="canonical" href="http://www.samabbott.co.uk/post/intro-gettbinr/">
+
+  <!DOCTYPE html>
+
+
+<title>Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR - Sam Abbott</title>
+<meta property="og:title" content="Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR - Sam Abbott">
+<meta property="og:type" content="article">
+
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="http://seabbs.github.io/img/getTBinR/regional_tb_trends.png" >
+  
+  
+
+<meta property="description" content="Using GetTBinR to explore global trends in Tuberculosis incidence rates. Why evidence of regional decreases in incidence rates may not mean that eradication is on the horizon.">
+<meta property="og:description" content="Using GetTBinR to explore global trends in Tuberculosis incidence rates. Why evidence of regional decreases in incidence rates may not mean that eradication is on the horizon.">
+
+
+<meta name="twitter:creator" content="">
+<meta name="twitter:site" content="">
+
+  <title>Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR | Sam Abbott</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#navbar-main" data-offset="71">
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="../../">Sam Abbott</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+
+        <li class="nav-item">
+          <a href="../../#about">
+            
+            <span>Home</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="../../#posts">
+            
+            <span>Posts</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="../../#projects">
+            
+            <span>Projects</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="../../#talks">
+            
+            <span>Talks</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="../../#teaching">
+            
+            <span>Teaching</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="../../#contact">
+            
+            <span>Contact</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+
+        <li class="nav-item">
+          <a href="../../pdf/cv_sea.pdf">
+            
+            <span>CV</span>
+          </a>
+        </li>
+
+        
+        
+
+        
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR</h1>
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    <time datetime="2018-01-15 00:00:00 &#43;0000 UTC" itemprop="datePublished">
+      Mon, Jan 15, 2018
+    </time>
+  </span>
+
+  
+  
+  
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="../../categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+  
+  <span class="article-tags">
+    <i class="fa fa-tags"></i>
+    
+    <a href="../../tags/data-analysis">data analysis</a
+    >, 
+    
+    <a href="../../tags/data-visualisation">data visualisation</a
+    >, 
+    
+    <a href="../../tags/rstats">rstats</a
+    >, 
+    
+    <a href="../../tags/tb">TB</a
+    >, 
+    
+    <a href="../../tags/infectious-disease">infectious disease</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fintro-gettbinr%2f"
+         target="_blank">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Exploring%20Global%20Trends%20in%20Tuberculosis%20Incidence%20Rates%20-%20with%20GetTBinR&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fintro-gettbinr%2f"
+         target="_blank">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fintro-gettbinr%2f&amp;title=Exploring%20Global%20Trends%20in%20Tuberculosis%20Incidence%20Rates%20-%20with%20GetTBinR"
+         target="_blank">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fintro-gettbinr%2f&amp;title=Exploring%20Global%20Trends%20in%20Tuberculosis%20Incidence%20Rates%20-%20with%20GetTBinR"
+         target="_blank">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Exploring%20Global%20Trends%20in%20Tuberculosis%20Incidence%20Rates%20-%20with%20GetTBinR&amp;body=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fintro-gettbinr%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+    <div class="article-style" itemprop="articleBody">
+      <p>In November I attended <a href="https://www.elsevier.com/events/conferences/international-conference-on-infectious-disease-dynamics">Epidemics</a>, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.</p>
+<p>I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze! Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle. As I didn’t want to be left out my only alternative was to produce an R package during my downtime at the conference - from which <a href="www.samabbott.co.uk/getTBinR">getTBinR</a> was born. Over the Christmas period more work has been done and the package is now available from <a href="https://cran.r-project.org/web/packages/getTBinR/index.html">CRAN</a>.</p>
+<p>GetTBinR wraps the World Health Organisation <a href="http://www.who.int/tb/country/data/download/en/">Tuberculosis data</a>, which includes data on Tuberculosis incidence rates, mortality rates, case reporting rates and several other metrics by country from 2000 until 2016 with varying levels of completeness. It also provides some general purpose functions for mapping and plotting the data, with the aim of kick starting any exploratory analysis of the WHO Tuberculosis data.</p>
+<p>For this post I will be quickly diving into global trends in Tuberculosis incidence rates and exploring whether Tuberculosis eradication is on the horizon.</p>
+<p>Now to get started, the first step is to get the package (for this post we are using the development version from GitHub) and to load the other packages required for this analysis.</p>
+<pre class="r"><code>install.packages(&quot;devtools&quot;)
+devtools::install_github(&quot;seabbs/GetTBinR&quot;)
+library(getTBinR)
+install.packages(&quot;tidyverse&quot;)
+library(tidyverse)
+install.packages(&quot;viridis&quot;)
+library(viridis)</code></pre>
+<p>The package is loaded, time to get the data. We download both the data itself and it’s accompanying data dictionary.</p>
+<pre class="r"><code>tb_burden &lt;- get_tb_burden(download_data = TRUE, save = TRUE)
+dict &lt;- get_data_dict(download_data = TRUE, save = TRUE)</code></pre>
+<p>We want to explore incidence rates so we need to find them in the data. We can do this using the <code>getTBinR::search_data_dict</code>,</p>
+<pre class="r"><code>search_data_dict(dict = dict, def = &quot;incidence&quot;, verbose = FALSE) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">variable_name</th>
+<th align="left">dataset</th>
+<th align="left">code_list</th>
+<th align="left">definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">e_inc_100k</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence (all forms) per 100 000 population</td>
+</tr>
+<tr class="even">
+<td align="left">e_inc_100k_hi</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence (all forms) per 100 000 population, high bound</td>
+</tr>
+<tr class="odd">
+<td align="left">e_inc_100k_lo</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence (all forms) per 100 000 population, low bound</td>
+</tr>
+<tr class="even">
+<td align="left">e_inc_rr_num</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence of rifampicin resistant TB (absolute number)</td>
+</tr>
+<tr class="odd">
+<td align="left">e_inc_rr_num_hi</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence of rifampicin resistant TB (absolute number): high bound</td>
+</tr>
+<tr class="even">
+<td align="left">e_inc_rr_num_lo</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence of rifampicin resistant TB (absolute number): low bound</td>
+</tr>
+<tr class="odd">
+<td align="left">e_inc_tbhiv_100k</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence of TB cases who are HIV-positive per 100 000 population</td>
+</tr>
+<tr class="even">
+<td align="left">e_inc_tbhiv_100k_hi</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence of TB cases who are HIV-positive per 100 000 population, high bound</td>
+</tr>
+<tr class="odd">
+<td align="left">e_inc_tbhiv_100k_lo</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence of TB cases who are HIV-positive per 100 000 population, low bound</td>
+</tr>
+<tr class="even">
+<td align="left">e_inc_tbhiv_num</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence of TB cases who are HIV-positive</td>
+</tr>
+<tr class="odd">
+<td align="left">e_inc_tbhiv_num_hi</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence of TB cases who are HIV-positive, high bound</td>
+</tr>
+<tr class="even">
+<td align="left">e_inc_tbhiv_num_lo</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Estimated incidence of TB cases who are HIV-positive, low bound</td>
+</tr>
+</tbody>
+</table>
+<p>The first hit, <code>e_inc_100l</code>, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function <code>map_tb_burden</code>,</p>
+<pre class="r"><code>map_tb_burden(df = tb_burden, dict = dict,
+              metric = &quot;e_inc_100k&quot;, verbose = FALSE) +
+  labs(title = &quot;Map of Global Tuberculosis Incidence Rates - 2016&quot;,
+       subtitle = &quot;&quot;, caption = &quot;Source: World Health Organisation&quot;)</code></pre>
+<p><img src="../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/map-tb-2016-inc-1.png" width="672" /></p>
+<p>This shows that incidence rates are highly heterogeneous between regions. To get an better understanding of this lets plot incidence rates by WHO region,</p>
+<pre class="r"><code>tb_inc_region &lt;- tb_burden %&gt;% 
+  group_by(year, g_whoregion) %&gt;% 
+  summarise_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi, e_pop_num),
+               .funs = funs(sum(as.numeric(.), na.rm = T))) %&gt;% 
+  mutate_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi),
+            .funs = funs(inc_rate = . / e_pop_num * 1e5)) %&gt;% 
+  mutate(g_whoregion = ifelse(is.na(g_whoregion), &quot;Asia&quot;, g_whoregion))
+
+plot_tb_inc_region &lt;- function(df = NULL, title = NULL, subtitle = NULL, scales = NULL) {
+  df %&gt;% 
+      ggplot(aes(x = year, y = e_inc_num_inc_rate, col = g_whoregion)) +
+  geom_point() +
+  geom_linerange(aes(ymin = e_inc_num_lo_inc_rate, ymax = e_inc_num_hi_inc_rate)) +
+  geom_line() +
+  scale_colour_viridis(discrete = TRUE) +
+  labs(title = title, subtitle = subtitle, 
+       x = &quot;Year&quot;, y = &quot;Tuberculosis Incidence Rates (per 100,000 population)&quot;,
+       caption = &quot;Source: World Health Organisation&quot;) +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;) +
+  facet_wrap(~g_whoregion, scales = scales)
+}
+
+tb_inc_region %&gt;% 
+  plot_tb_inc_region(title = &quot;Global Tuberculosis Incidence Rates&quot;,
+                     subtitle = &quot;By WHO region, with a fixed y axis&quot;,
+                     scales = &quot;fixed&quot;)</code></pre>
+<p><img src="../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-1.png" width="672" /></p>
+<p>We see that incidence rates are much higher in Africa, and in Asia, than in other regions, and that incidence rates in the Americas and Europe are the lowest. This chart has a fixed y axis which makes it hard to see trends over time within regions, if we repeat it with a free y axis the trends over time become more apparent,</p>
+<pre class="r"><code>tb_inc_region %&gt;% 
+  plot_tb_inc_region(title = &quot;Global Tuberculosis Incidence Rates&quot;,
+                     subtitle = &quot;By WHO region, with a variable y axis&quot;,
+                     scales = &quot;free_y&quot;)</code></pre>
+<p><img src="../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-free-1.png" width="672" /></p>
+<p>This plot shows that Tuberculosis incidence rates are decreasing in all regions, which is a great sign for the elimination of Tuberculosis. However whilst this is true on the regional level it may not be true for all countries in the data set, something that is required to truly eradicate Tuberculosis. To explore this we find the countries that had higher incidence rates in 2016 than in 2000.</p>
+<pre class="r"><code>countries_inc_up &lt;- tb_burden %&gt;% 
+  filter(year %in% c(2000, 2016)) %&gt;% 
+  group_by(country) %&gt;% 
+  arrange(desc(e_inc_100k)) %&gt;% 
+  slice(1) %&gt;% 
+  filter(year == 2016) %&gt;% 
+  pull(country)
+
+high_inc_countries &lt;- tb_burden %&gt;% 
+  filter(year == 2016) %&gt;% 
+  group_by(country) %&gt;% 
+  summarise(e_inc_100k = max(e_inc_100k)) %&gt;% 
+  ungroup %&gt;% 
+  arrange(desc(e_inc_100k)) %&gt;% 
+  slice(1:20) %&gt;% 
+  pull(country) %&gt;% 
+  unique
+
+high_inc_up_countries &lt;- intersect(countries_inc_up, high_inc_countries)</code></pre>
+<p>This results in a list of 44 countries all of which had higher incidence rates in 2016 than in 2000. Of these countries 8 were in the top 20 countries by incidence rate in 2016. This can plotted below using <code>getTBinR::plot_tb_burden_overview</code>,</p>
+<pre class="r"><code>plot_tb_burden_overview(df = tb_burden,
+                        dict = dict, 
+                        metric = &quot;e_inc_100k&quot;, 
+                        countries = high_inc_up_countries,
+                        verbose = FALSE) +
+  labs(title = &quot;Tuberculosis Incidence Rates from 2000-2016&quot;,
+       subtitle = &quot;Showing countries with the highest incidence rates in which incidence rates are increasing&quot;,
+       caption = &quot;Source: World Health Organisation&quot;)</code></pre>
+<p><img src="../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-overview-1.png" width="672" /></p>
+<p>GetTBinR also supplies another function (<code>plot_tb_burden</code>) that can be used to visualise this,</p>
+<pre class="r"><code>plot_tb_burden(df = tb_burden,
+               dict = dict,
+               metric = &quot;e_inc_100k&quot;, countries = high_inc_up_countries, 
+               facet = &quot;country&quot;, scales = &quot;free_y&quot;, verbose = FALSE) +
+  labs(title = &quot;Tuberculosis Incidence Rates from 2000-2016&quot;,
+       subtitle = &quot;Showing countries with the highest incidence rates in which incidence rates are increasing&quot;,
+       caption = &quot;Source: World Health Organisation&quot;)</code></pre>
+<p><img src="../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-1.png" width="672" /></p>
+<p>A possible cause of this may be that reporting of Tuberculosis notifications has improved over time, to understand this we first find the required variable in the data,</p>
+<pre class="r"><code>search_data_dict(dict = dict, def = &quot;detection&quot;, verbose = FALSE) %&gt;% 
+  knitr::kable()</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">variable_name</th>
+<th align="left">dataset</th>
+<th align="left">code_list</th>
+<th align="left">definition</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">c_cdr</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Case detection rate (all forms), percent</td>
+</tr>
+<tr class="even">
+<td align="left">c_cdr_hi</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Case detection rate (all forms), percent, high bound</td>
+</tr>
+<tr class="odd">
+<td align="left">c_cdr_lo</td>
+<td align="left">Estimates</td>
+<td align="left"></td>
+<td align="left">Case detection rate (all forms), percent, low bound</td>
+</tr>
+</tbody>
+</table>
+<p>We then plot the case detection rate over time in the countries of interest,</p>
+<pre class="r"><code>plot_tb_burden(df = tb_burden,
+               dict = dict,
+               metric = &quot;c_cdr&quot;, countries = high_inc_up_countries, 
+               facet = &quot;country&quot;, scales = &quot;free_y&quot;, verbose = FALSE) +
+  labs(title = &quot;Tuberculosis Detection Rates from 2000-2016&quot;,
+       subtitle = &quot;Showing countries with the highest incidence rates in which incidence rates are increasing&quot;,
+       caption = &quot;Source: World Health Organisation&quot;)</code></pre>
+<p><img src="../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-case-1.png" width="672" /></p>
+<p>The plot above shows that for some countries such as Mozambique and South Africa the increases in incidence rates may be linked to increases in the cases detection rate. However, it is clear that this is not the case for all countries, in particular the Congo which has seen increasing incidence rates and falling case detection rates.</p>
+<p>This post has highlighted the fact that whilst Tuberculosis is declining globally this is not the case in all countries. In order for the global eradication of Tuberculosis to be a success it is vital that resources are targeted at those countries which are struggling to reduce their incidence rates.</p>
+<p>The WHO Tuberculosis data contains many variables not mentioned in this post and has the potential to answer a number of other questions. See the <a href="https://www.samabbott.co.uk/getTBinR/">package site</a> for additional package features not mentioned in this post. See <a href="https://gist.github.com/seabbs">my gists</a> for code snippets to get you started. Feature requests are welcome, preferably by filing a <a href="https://github.com/seabbs/getTBinR/issues">GitHub issue</a>, as are suggestions for additional data sources to include.</p>
+
+    </div>
+  </div>
+
+</article>
+
+<div class="container">
+  <nav>
+  <ul class="pager">
+    
+    <li class="previous"><a href="http://www.samabbott.co.uk/post/tb-england-wales/"><span
+      aria-hidden="true">&larr;</span> Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</a></li>
+    
+
+    
+  </ul>
+</nav>
+
+</div>
+
+<div class="article-container">
+  
+<section id="comments">
+  <div id="disqus_thread">
+    <div id="disqus_thread"></div>
+<script>
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "samabbott-co-uk" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+  </div>
+</section>
+
+
+</div>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017 Sam Abbott &middot; 
+  
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a> &middot;
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+        
+    
+    
+    
+    
+      
+    
+    
+     <a href="https://github.com/seabbs/seabbs.github.io/tree/sources/content/post/2018-01-15-intro-tb-getTBinR.Rmd">Edit this page.</a>
+    
+   
+    </p>
+  </div>
+</footer>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/1.18.4/TweenMax.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/gsap/latest/plugins/ScrollToPlugin.min.js"></script>
+    <script src="../../js/jquery-1.12.3.min.js"></script>
+    <script src="../../js/bootstrap.min.js"></script>
+    <script src="../../js/isotope.pkgd.min.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.1/imagesloaded.pkgd.min.js"></script>
+    <script src="../../js/hugo-academic.js"></script>
+    
+
+    
+    <script>
+        (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+        (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+        m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+        })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+        ga('create', 'UA-85604924-1', 'auto');
+        ga('send', 'pageview');
+
+         
+        var links = document.querySelectorAll('a');
+        Array.prototype.map.call(links, function(item) {
+            if (item.host != document.location.host) {
+                item.addEventListener('click', function() {
+                    var action = item.getAttribute('data-action') || 'follow';
+                    ga('send', 'event', 'outbound', action, item.href);
+                });
+            }
+        });
+    </script>
+    
+
+    
+    
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.9.0/highlight.min.js"></script>
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    <script async src="//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.0/MathJax.js?config=TeX-AMS_CHTML"></script>
+    
+  </body>
+</html>
+
