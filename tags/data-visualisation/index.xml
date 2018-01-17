@@ -31,7 +31,7 @@ library(viridis)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;The package is loaded, time to get the data. We download both the data itself and it’s accompanying data dictionary.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_burden &amp;lt;- get_tb_burden(download_data = TRUE, save = TRUE)
 dict &amp;lt;- get_data_dict(download_data = TRUE, save = TRUE)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We want to explore incidence rates so we need to find them in the data. We can do this using the &lt;code&gt;getTBinR::search_data_dict&lt;/code&gt;,&lt;/p&gt;
+&lt;p&gt;We want to explore incidence rates so we need to find them in the data. We can do this using the &lt;code&gt;getTBinR::search_data_dict&lt;/code&gt; function,&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;search_data_dict(dict = dict, def = &amp;quot;incidence&amp;quot;, verbose = FALSE) %&amp;gt;% 
   knitr::kable()&lt;/code&gt;&lt;/pre&gt;
 &lt;table&gt;

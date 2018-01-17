@@ -292,7 +292,7 @@ library(viridis)</code></pre>
 <p>The package is loaded, time to get the data. We download both the data itself and it’s accompanying data dictionary.</p>
 <pre class="r"><code>tb_burden &lt;- get_tb_burden(download_data = TRUE, save = TRUE)
 dict &lt;- get_data_dict(download_data = TRUE, save = TRUE)</code></pre>
-<p>We want to explore incidence rates so we need to find them in the data. We can do this using the <code>getTBinR::search_data_dict</code>,</p>
+<p>We want to explore incidence rates so we need to find them in the data. We can do this using the <code>getTBinR::search_data_dict</code> function,</p>
 <pre class="r"><code>search_data_dict(dict = dict, def = &quot;incidence&quot;, verbose = FALSE) %&gt;% 
   knitr::kable()</code></pre>
 <table>
