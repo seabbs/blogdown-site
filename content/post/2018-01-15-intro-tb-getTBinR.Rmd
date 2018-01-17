@@ -40,7 +40,7 @@ dict <- get_data_dict(download_data = TRUE, save = TRUE)
 ```
 
 
-We want to explore incidence rates so we need to find them in the data. We can do this using the `getTBinR::search_data_dict`,
+We want to explore incidence rates so we need to find them in the data. We can do this using the `getTBinR::search_data_dict` function,
 
 ```{r search-dict-inc}
 search_data_dict(dict = dict, def = "incidence", verbose = FALSE) %>% 
