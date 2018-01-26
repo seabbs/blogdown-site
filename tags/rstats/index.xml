@@ -7,8 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017 Sam Abbott</copyright>
-    <lastBuildDate>Mon, 15 Jan 2018 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/tags/rstats/" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/rstats/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Explore Global Tuberculosis</title>
+      <link>http://www.samabbott.co.uk/project/exploreglobaltb/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/exploreglobaltb/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Explore Infectious Disease Models</title>
@@ -25,234 +36,8 @@
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/intro-gettbinr/</guid>
-      <description>&lt;p&gt;In November I attended &lt;a href=&#34;https://www.elsevier.com/events/conferences/international-conference-on-infectious-disease-dynamics&#34;&gt;Epidemics&lt;/a&gt;, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.&lt;/p&gt;
-&lt;p&gt;I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze! Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle. As I didn’t want to be left out my only alternative was to produce an R package during my downtime at the conference - from which &lt;a href=&#34;www.samabbott.co.uk/getTBinR&#34;&gt;getTBinR&lt;/a&gt; was born. Over the Christmas period more work has been done and the package is now available from &lt;a href=&#34;https://cran.r-project.org/web/packages/getTBinR/index.html&#34;&gt;CRAN&lt;/a&gt;.&lt;/p&gt;
-&lt;p&gt;GetTBinR wraps the World Health Organisation &lt;a href=&#34;http://www.who.int/tb/country/data/download/en/&#34;&gt;Tuberculosis data&lt;/a&gt;, which includes data on Tuberculosis incidence rates, mortality rates, case reporting rates and several other metrics by country from 2000 until 2016 with varying levels of completeness. It also provides some general purpose functions for mapping and plotting the data, with the aim of kick starting any exploratory analysis of the WHO Tuberculosis data.&lt;/p&gt;
-&lt;p&gt;For this post I will be quickly diving into global trends in Tuberculosis incidence rates and exploring whether Tuberculosis eradication is on the horizon.&lt;/p&gt;
-&lt;p&gt;Now to get started, the first step is to get the package (for this post we are using the development version from GitHub) and to load the other packages required for this analysis.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;install.packages(&amp;quot;devtools&amp;quot;)
-devtools::install_github(&amp;quot;seabbs/GetTBinR&amp;quot;)
-library(getTBinR)
-install.packages(&amp;quot;tidyverse&amp;quot;)
-library(tidyverse)
-install.packages(&amp;quot;viridis&amp;quot;)
-library(viridis)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;The package is loaded, time to get the data. We download both the data itself and it’s accompanying data dictionary.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_burden &amp;lt;- get_tb_burden(download_data = TRUE, save = TRUE)
-dict &amp;lt;- get_data_dict(download_data = TRUE, save = TRUE)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;We want to explore incidence rates so we need to find them in the data. We can do this using the &lt;code&gt;getTBinR::search_data_dict&lt;/code&gt; function,&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;search_data_dict(dict = dict, def = &amp;quot;incidence&amp;quot;, verbose = FALSE) %&amp;gt;% 
-  knitr::kable()&lt;/code&gt;&lt;/pre&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr class=&#34;header&#34;&gt;
-&lt;th align=&#34;left&#34;&gt;variable_name&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;dataset&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;code_list&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;definition&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr class=&#34;odd&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_100k&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence (all forms) per 100 000 population&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_100k_hi&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence (all forms) per 100 000 population, high bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;odd&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_100k_lo&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence (all forms) per 100 000 population, low bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_rr_num&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence of rifampicin resistant TB (absolute number)&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;odd&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_rr_num_hi&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence of rifampicin resistant TB (absolute number): high bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_rr_num_lo&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence of rifampicin resistant TB (absolute number): low bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;odd&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_100k&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive per 100 000 population&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_100k_hi&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive per 100 000 population, high bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;odd&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_100k_lo&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive per 100 000 population, low bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_num&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;odd&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_num_hi&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive, high bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_num_lo&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive, low bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;The first hit, &lt;code&gt;e_inc_100k&lt;/code&gt;, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function &lt;code&gt;map_tb_burden&lt;/code&gt;,&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;map_tb_burden(df = tb_burden, dict = dict,
-              metric = &amp;quot;e_inc_100k&amp;quot;, verbose = FALSE) +
-  labs(title = &amp;quot;Map of Global Tuberculosis Incidence Rates - 2016&amp;quot;,
-       subtitle = &amp;quot;&amp;quot;, caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/map-tb-2016-inc-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;This shows that incidence rates are highly heterogeneous between regions. To get an better understanding of this lets plot incidence rates by WHO region,&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_inc_region &amp;lt;- tb_burden %&amp;gt;% 
-  group_by(year, g_whoregion) %&amp;gt;% 
-  summarise_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi, e_pop_num),
-               .funs = funs(sum(as.numeric(.), na.rm = T))) %&amp;gt;% 
-  mutate_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi),
-            .funs = funs(inc_rate = . / e_pop_num * 1e5)) %&amp;gt;% 
-  mutate(g_whoregion = ifelse(is.na(g_whoregion), &amp;quot;Asia&amp;quot;, g_whoregion))
-
-plot_tb_inc_region &amp;lt;- function(df = NULL, title = NULL, subtitle = NULL, scales = NULL) {
-  df %&amp;gt;% 
-      ggplot(aes(x = year, y = e_inc_num_inc_rate, col = g_whoregion)) +
-  geom_point() +
-  geom_linerange(aes(ymin = e_inc_num_lo_inc_rate, ymax = e_inc_num_hi_inc_rate)) +
-  geom_line() +
-  scale_colour_viridis(discrete = TRUE) +
-  labs(title = title, subtitle = subtitle, 
-       x = &amp;quot;Year&amp;quot;, y = &amp;quot;Tuberculosis Incidence Rates (per 100,000 population)&amp;quot;,
-       caption = &amp;quot;Source: World Health Organisation&amp;quot;) +
-  theme_minimal() +
-  theme(legend.position = &amp;quot;none&amp;quot;) +
-  facet_wrap(~g_whoregion, scales = scales)
-}
-
-tb_inc_region %&amp;gt;% 
-  plot_tb_inc_region(title = &amp;quot;Global Tuberculosis Incidence Rates&amp;quot;,
-                     subtitle = &amp;quot;By WHO region, with a fixed y axis&amp;quot;,
-                     scales = &amp;quot;fixed&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;We see that incidence rates are much higher in Africa, and in Asia, than in other regions, and that incidence rates in the Americas and Europe are the lowest. This chart has a fixed y axis which makes it hard to see trends over time within regions, if we repeat it with a free y axis the trends over time become more apparent,&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_inc_region %&amp;gt;% 
-  plot_tb_inc_region(title = &amp;quot;Global Tuberculosis Incidence Rates&amp;quot;,
-                     subtitle = &amp;quot;By WHO region, with a variable y axis&amp;quot;,
-                     scales = &amp;quot;free_y&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-free-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;This plot shows that Tuberculosis incidence rates are decreasing in all regions, which is a great sign for the elimination of Tuberculosis. However whilst this is true on the regional level it may not be true for all countries in the data set, something that is required to truly eradicate Tuberculosis. To explore this we find the countries that had higher incidence rates in 2016 than in 2000.&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;countries_inc_up &amp;lt;- tb_burden %&amp;gt;% 
-  filter(year %in% c(2000, 2016)) %&amp;gt;% 
-  group_by(country) %&amp;gt;% 
-  arrange(desc(e_inc_100k)) %&amp;gt;% 
-  slice(1) %&amp;gt;% 
-  filter(year == 2016) %&amp;gt;% 
-  pull(country)
-
-high_inc_countries &amp;lt;- tb_burden %&amp;gt;% 
-  filter(year == 2016) %&amp;gt;% 
-  group_by(country) %&amp;gt;% 
-  summarise(e_inc_100k = max(e_inc_100k)) %&amp;gt;% 
-  ungroup %&amp;gt;% 
-  arrange(desc(e_inc_100k)) %&amp;gt;% 
-  slice(1:20) %&amp;gt;% 
-  pull(country) %&amp;gt;% 
-  unique
-
-high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;This results in a list of 44 countries all of which had higher incidence rates in 2016 than in 2000. Of these countries 8 were in the top 20 countries by incidence rate in 2016. This can plotted below using &lt;code&gt;getTBinR::plot_tb_burden_overview&lt;/code&gt;,&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_burden_overview(df = tb_burden,
-                        dict = dict, 
-                        metric = &amp;quot;e_inc_100k&amp;quot;, 
-                        countries = high_inc_up_countries,
-                        verbose = FALSE) +
-  labs(title = &amp;quot;Tuberculosis Incidence Rates from 2000-2016&amp;quot;,
-       subtitle = &amp;quot;Showing countries with the highest incidence rates in which incidence rates are increasing&amp;quot;,
-       caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-overview-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;GetTBinR also supplies another function (&lt;code&gt;plot_tb_burden&lt;/code&gt;) that can be used to visualise this,&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_burden(df = tb_burden,
-               dict = dict,
-               metric = &amp;quot;e_inc_100k&amp;quot;, countries = high_inc_up_countries, 
-               facet = &amp;quot;country&amp;quot;, scales = &amp;quot;free_y&amp;quot;, verbose = FALSE) +
-  labs(title = &amp;quot;Tuberculosis Incidence Rates from 2000-2016&amp;quot;,
-       subtitle = &amp;quot;Showing countries with the highest incidence rates in which incidence rates are increasing&amp;quot;,
-       caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;A possible cause of this may be that reporting of Tuberculosis notifications has improved over time, to understand this we first find the required variable in the data,&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;search_data_dict(dict = dict, def = &amp;quot;detection&amp;quot;, verbose = FALSE) %&amp;gt;% 
-  knitr::kable()&lt;/code&gt;&lt;/pre&gt;
-&lt;table&gt;
-&lt;thead&gt;
-&lt;tr class=&#34;header&#34;&gt;
-&lt;th align=&#34;left&#34;&gt;variable_name&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;dataset&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;code_list&lt;/th&gt;
-&lt;th align=&#34;left&#34;&gt;definition&lt;/th&gt;
-&lt;/tr&gt;
-&lt;/thead&gt;
-&lt;tbody&gt;
-&lt;tr class=&#34;odd&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;c_cdr&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Case detection rate (all forms), percent&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;even&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;c_cdr_hi&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Case detection rate (all forms), percent, high bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;tr class=&#34;odd&#34;&gt;
-&lt;td align=&#34;left&#34;&gt;c_cdr_lo&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
-&lt;td align=&#34;left&#34;&gt;Case detection rate (all forms), percent, low bound&lt;/td&gt;
-&lt;/tr&gt;
-&lt;/tbody&gt;
-&lt;/table&gt;
-&lt;p&gt;We then plot the case detection rate over time in the countries of interest,&lt;/p&gt;
-&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_burden(df = tb_burden,
-               dict = dict,
-               metric = &amp;quot;c_cdr&amp;quot;, countries = high_inc_up_countries, 
-               facet = &amp;quot;country&amp;quot;, scales = &amp;quot;free_y&amp;quot;, verbose = FALSE) +
-  labs(title = &amp;quot;Tuberculosis Detection Rates from 2000-2016&amp;quot;,
-       subtitle = &amp;quot;Showing countries with the highest incidence rates in which incidence rates are increasing&amp;quot;,
-       caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-case-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
-&lt;p&gt;The plot above shows that for some countries such as Mozambique and South Africa the increases in incidence rates may be linked to increases in the cases detection rate. However, it is clear that this is not the case for all countries, in particular the Congo which has seen increasing incidence rates and falling case detection rates.&lt;/p&gt;
-&lt;p&gt;This post has highlighted the fact that whilst Tuberculosis is declining globally this is not the case in all countries. In order for the global eradication of Tuberculosis to be a success it is vital that resources are targeted at those countries which are struggling to reduce their incidence rates.&lt;/p&gt;
-&lt;p&gt;The WHO Tuberculosis data contains many variables not mentioned in this post and has the potential to answer a number of other questions. See the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34;&gt;package site&lt;/a&gt; for additional package features not mentioned in this post. See &lt;a href=&#34;https://gist.github.com/seabbs&#34;&gt;my gists&lt;/a&gt; for code snippets to get you started. Feature requests are welcome, preferably by filing a &lt;a href=&#34;https://github.com/seabbs/getTBinR/issues&#34;&gt;GitHub issue&lt;/a&gt;, as are suggestions for additional data sources to include.&lt;/p&gt;
-</description>
+      <description>In November I attended Epidemics, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.
+I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze! Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle.</description>
     </item>
     
     <item>
@@ -279,10 +64,7 @@ high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&
       <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/tb-england-wales/</guid>
-      <description>&lt;p&gt;This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 &lt;a href=&#34;https://www.gov.uk/government/publications/tuberculosis-tb-annual-notifications-1913-onwards&#34;&gt;released&lt;/a&gt; by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the &lt;a href=&#34;https://www.samabbott.co.uk/tbinenglanddataclean/&#34;&gt;tbinenglanddataclean&lt;/a&gt; R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time. For a full page view of the dashboard see &lt;a href=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;iframe src=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales?showcase=0&#34; width=&#34;672&#34; height=&#34;2000px&#34;&gt;
-&lt;/iframe&gt;
-</description>
+      <description>This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 released by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the tbinenglanddataclean R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time.</description>
     </item>
     
     <item>
@@ -309,54 +91,8 @@ high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&
       <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/deep-dive-pp-premiums/</guid>
-      <description>&lt;p&gt;Previously I have looked at visualising the &lt;a href=&#34;https://www.propertypartner.co/aboutus#/ourstory&#34; target=&#34;_blank&#34;&gt;Property Partner&lt;/a&gt; portfolio using &lt;a href=&#34;https://public.tableau.com/views/PropertyPartnerPortfolioVisualisation/PropertyPartnerPortfolio?:embed=y&amp;amp;:display_count=yes&#34; target=&#34;_blank&#34;&gt;tableau&lt;/a&gt;, and &lt;a href=&#34;https://www.samabbott.co.uk/post/deep-dive-pp-open-house/&#34; target=&#34;_blank&#34;&gt;explored their resale date from July 2017&lt;/a&gt;. In this post I will be exploring the &lt;a href=&#34;https://resources.propertypartner.co/open-house-august-2017/&#34; target=&#34;_blank&#34;&gt;August Open House resale&lt;/a&gt; data focussing on property premiums over both initial and latest valuation. The code for this post is available &lt;a href=&#34;https://github.com/seabbs/propertypartner/blob/master/report/17-09-18-premium/latest_initial_premium.Rmd&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Property Partner advertises returns by combining both projected capital and rental returns. Properties are held for 5 years at which point any capital gain can be realised. However, Property Partner provides a secondary market which allows capital returns to be realised by selling shares to other investors. The sale price of shares is set by the market, and may or may not depend on the underlying value of the property. This post will explore the premium that sales on the secondary market set on both the initial and latest valuations of properties in the Property Partner Portfolio, and how this has changed over time. A first step is to look at premiums over time, for each property, averaged over each month (as are all premiums in this post).&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig1.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;From the above plot we see that in the first year of operation all properties had premiums above 0% over initial valuation, but since then several have traded with premiums that are continuously negative. The majority of these properties have maintained steady premiums over initial valuation but several devalued in the second half of 2017. A single property (5 flats, Dutch Quarter, Colchester) has consistently traded with a negative premium although this appears to be improving over time.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig2.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;Unlike premiums over initial valuation, premiums over latest valuation appear to have decreased continuously over time for the majority of properties. This indicates that premiums are not completely adjusting for increases in property value, making it unlikely that those exiting early will fully realise capital gains. Both plots indicate a relationship between premiums and the date a property was made available for resale, with properties available earlier having higher premiums over both initial and latest valuation. The above plots are hard to interpret due to the number of properties in the portfolio, therefore the next step is to summarise the data by averaging premiums across all properties.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig3.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As we saw in the previous plots premiums over both initial and latest valuation were highest in 2015 and have since decreased. Since 2016 premiums over initial valuation appear to have stabilised between 5% to 10% and premiums over latest valuation appear to have stabilised between 0% to -8%. The relationship between premiums over latest and initial valuation is summarised in the following plot.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig4.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;In the plots above there was some evidence that properties acquired at different dates traded differently. To investigate this the following plot shows the average monthly premium for properties launched in each year Property Partner has been operating, for both initial and latest valuation.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig5.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;We see that properties acquired earlier consistently trade at a higher premium over both initial and latest valuation. Whilst the trend in initial valuation may be driven by increased valuation this cannot be the case for latest valuation. Instead, it is likely that this is a function of scarcity due to the lower supply of earlier properties. It may also be the case that previous performance on the platform is valued. This plot also indicates that premiums over latest valuation have constantly fallen for all years. Properties appear to start trading with a slightly positive  premium, which then decreases over time. This indicates that premiums do not adjust fully as properties are revalued, meaning that realising potential capital gains early is unlikely. To explore this further the following plot compares premiums on initial and latest valuations over time, for individual properties.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/gif1.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;From the plot we see that properties enter the market trading at a small premium to both valuations. Over time the relationship between premiums for initial and latest valuation weakens, with several properties trading at negative premiums for both valuations. To get a better idea of the relationship the following plot stratifies by the year a property was made available for resale.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/gif2.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Here we clearly see that when properties enter the market there is a strong correlation between premiums on latest and initial valuations. As properties are revalued we see that premiums on latest valuation do not adjust fully, although this effect varies wildly. This is likely to be driven by external factors such as dividend yield - with high dividend yields commanding a premium. The following interactive plot allows the figures above to be explored in detail.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig6.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;For a final visualisation of this relationship the following plot shows premiums for individual properties over time, stratified by year available for resale.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/gif3.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Unfortunately this dataset was limited by having little additional information about each property, something which is key to understanding premiums. For example, as commented on above, it is likely that much of the variation is drive by dividend yield. However, it is clear that properties are not valued at their latest valuation and that therefore this should not be used to summarise the performance of a portfolio over the short term.&lt;/p&gt;
-
-&lt;p&gt;In a future post I will be exploring premiums further by joining the resale data used above with data on the Property Partner portfolio. The two datasets do not contain a common unique ID by which to link them, meaning that joining them will be less trivial that it should be. Hopefully Property Partner will improve the quality of the data they provide to investors so that analysis can be done more easily.&lt;/p&gt;
-
-&lt;p&gt;If you have any comments, ideas for further projects, or any similar analysis to share please comment below.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Bonus Plot!!&lt;/strong&gt;&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig7.html&#34; width = &#34;100%&#34; height=&#34;1000&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-</description>
+      <description>Previously I have looked at visualising the Property Partner portfolio using tableau, and explored their resale date from July 2017. In this post I will be exploring the August Open House resale data focussing on property premiums over both initial and latest valuation. The code for this post is available here.
+Property Partner advertises returns by combining both projected capital and rental returns. Properties are held for 5 years at which point any capital gain can be realised.</description>
     </item>
     
     <item>
@@ -365,57 +101,7 @@ high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&
       <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/deep-dive-pp-open-house/</guid>
-      <description>&lt;p&gt;As peer to peer lending matures platforms have begun to have increasingly divergent stances on sharing their data, making it increasingly important that their is external pressure on them to improve their data sharing. This blog series will focus on platforms sharing their data, exploring what their data is saying and suggesting possible changes to their releases that would make it easier for investors to gain insights on their own.&lt;/p&gt;
-
-&lt;p&gt;For the first post I will be focussing on data from &lt;a href=&#34;https://www.propertypartner.co/aboutus#/ourstory&#34; target=&#34;_blank&#34;&gt;Property Partner&lt;/a&gt;, which is a property crowd-funding site that started in 2014 and allows investors to buy small stakes in a range of properties. The data I will be using was released as part of Property Partner&amp;rsquo;s &lt;a href=&#34;https://resources.propertypartner.co/open-house-july-2017/&#34; target=&#34;_blank&#34;&gt;July 2017 open house data&lt;/a&gt; blog, and contains information on resale&amp;rsquo;s of their property portfolio. This post will reproduce and update previous work, explore the underlying trends, and suggest possible changes for future releases. All code is available &lt;a href=&#34;https://github.com/seabbs/propertypartner&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and the data can be downloaded from this &lt;a href=&#34;https://d2ofd11qqzygs0.cloudfront.net/files/purchases-on-resale-july-2017-open-house.zip&#34; target=&#34;_blank&#34;&gt;link&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;As a starting point I have reproduced a graph of Transactions (£) over time first published &lt;a href=&#34;https://p2pblog.co.uk/property-partner-trading-analysis/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. This shows the increase in transactions (£) over time on the resale market, with a continuous increase in volume until early 2016 from which point seasonal variation has dominated. I have also stratified by transaction type, revealing the impact of the recently introduced bidding system, which has steadily increased it&amp;rsquo;s share of transactions month on month.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig1.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;The plot naturally leads to the following question - is the increase in trading volume driven by an increasing number of trades or by changes in the size of trades being made? The following plot explores this by plotting the number of transactions over time. We see that the early growth in volumes was likely driven by an increasing number of trades but that variation since then is more strongly linked to changes in trade size.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig2.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;Now that we understand how transactions (N) have varied with time we need to explore the underlying trends. The most obvious question is which properties are being traded for the most, and if possible why do these properties have so much turn over? The following plot shows trades by property, stratified by year. For the first year of trading we see that a few properties (as the portfolio was small) dominated the number of trades made. In 2016 trading was spread over more properties but with fewer trades per property. So far for 2017 there has been a greatly reduced number of trades, with trading becoming increasingly homogeneous across the  portfolio. Unfortunately the extract published by Property Partner has little detail about properties so establishing why properties are traded at different rates is difficult. Whilst I could in principle join the various data sets they produce, without a unique ID this would be difficult and prone to errors!&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig3.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As the number of transactions is relatively stable, but the volume of transactions has increased, therefore size of transactions must have changed over time. To explore this I have plotted transactions (£) over time stratified by binned transaction size. As transaction size increases there is greater seasonal variation, which indicates that both large and small traders are key drivers of Property Partner&amp;rsquo;s trading volume with larger trades providing the year on year growth and smaller trades acting to smooth seasonal variability. Since January 2016 there has been little growth in small trades, with larger trades becoming increasingly common. However, the largest trades (£5,000-£49,999) peaked in early 2016 since when they have been decreasing year on year (although this trend is obscured by seasonal variation).&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig4.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;Whilst the binned transaction sizes used above were helpful in quickly visualising the changes transactions (£) by size they are arbitrary and may be obscuring underlying changes. The following plot explores this by plotting the distribution of transactions sizes within each binned transaction size. This plot contains a large amount of condensed information, the salient points are that mid-size trades (£100-£499) have shifted from being primary around £200 to being relatively equally distributed across the range, large trades (£500-£999) have become increasingly bi-model, and very high value transactions (£20,000+) have become more common as a subset of high value transactions (£5,000-£49,999).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/figure-html/trans-size-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;Another approach to visualising changing transaction size over time, is to plot the proportion of trades (by number) for each binned transaction size. As indicated in the previous plots, this shows that larger trades have become increasingly common, with the large trades (£1000-£4,999) increasing to 2% of manual trades, and  5% of matched bids in 2017. The most common trade size is still small (£1-£99), but the proportion of very small trades  (£0-£1) has drastically reduced. Matched bids are more likely to be larger transactions with small trades (£1-£99) making up 54% of transactions compared to 68% of manual orders.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig5.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;The data released by Property Partner also contains information about the unit price each transaction was made at, and what premium this was against both the latest and original valuation. As this data is provided across all properties in the portfolio a single visualisation of the data may not indicate the underling relationship. A first step is to plot the monthly average (weighted by transaction size) premium on latest valuation for each property in the portfolio, by comparing premiums on latest valuation rather than raw share price properties can be compared against each other. This plot indicates a general
-downward trend in premiums but is difficult to interpret due to the number of properties in the portfolio.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig6.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;To explore this apparent trend a first step is to look at the trends in premiums across the Property Partner portfolio, using the mean premium across all properties. This indicates that premiums were originally high but have decreased over time, and since the beginning of 2016 have been negative on average. As with transactions (£) seasonal dynamics now appear to dominate with premiums being relatively stable year on year.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig7.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As we have averaged across all properties in the Property Partner portfolio the relationship we have identified between year and premium may be confounded by a variety of factors. An obvious question is whether the quality of property purchased by Property Partner has changed over time (if we assume that premium over latest valuation is a good proxy of property quality). The plot below looks at the average weighted premium for properties made available for resale in each year (this is confounded by the rate properties are made available in a given year). From this plot we see that across all years of trading (except 2014) properties start with a small positive premium, which then gradually declines with time. Properties from 2014 have bucked this trend, which is likely due to the novelty of owning a property from the early days of Property Partner. Properties from 2015 have a linear relationship between premium and time, trading increasingly below their valuation. Properties from 2016 suffered a rapid reduction in premium, indicating a possible reduction in property quality, although this has now stabilised. So far properties from 2017 have held positive premiums, with little reduction over time.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig8.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As a final plot for this blog post I have reproduced another plot from &lt;a href=&#34;https://p2pblog.co.uk/property-partner-trading-analysis/&#34; target=&#34;_blank&#34;&gt;this post&lt;/a&gt; (from the &lt;a href=&#34;https://p2pblog.co.uk/&#34; target=&#34;_blank&#34;&gt;p2pblog.co.uk&lt;/a&gt;), which is well worth a read.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig9.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;To see the current state of the Property Partner Portfolio you can explore for youself &lt;a href=&#34;https://public.tableau.com/views/PropertyPartnerPortfolioVisualisation/PropertyPartnerPortfolio?:embed=y&amp;amp;:display_count=yes&#34; target=&#34;_blank&#34;&gt;using this Tableau dashboard.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#39;tableauPlaceholder&#39; id=&#39;viz1505484367745&#39; style=&#39;position: relative&#39;&gt;&lt;noscript&gt;&lt;a href=&#39;#&#39;&gt;&lt;img alt=&#39;Property Partner Portfolio &#39; src=&#39;https:&amp;#47;&amp;#47;public.tableau.com&amp;#47;static&amp;#47;images&amp;#47;Pr&amp;#47;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&amp;#47;1_rss.png&#39; style=&#39;border: none&#39; /&gt;&lt;/a&gt;&lt;/noscript&gt;&lt;object class=&#39;tableauViz&#39;  style=&#39;display:none;&#39;&gt;&lt;param name=&#39;host_url&#39; value=&#39;https%3A%2F%2Fpublic.tableau.com%2F&#39; /&gt; &lt;param name=&#39;site_root&#39; value=&#39;&#39; /&gt;&lt;param name=&#39;name&#39; value=&#39;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&#39; /&gt;&lt;param name=&#39;tabs&#39; value=&#39;no&#39; /&gt;&lt;param name=&#39;toolbar&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;static_image&#39; value=&#39;https:&amp;#47;&amp;#47;public.tableau.com&amp;#47;static&amp;#47;images&amp;#47;Pr&amp;#47;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&amp;#47;1.png&#39; /&gt; &lt;param name=&#39;animate_transition&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_static_image&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_spinner&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_overlay&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_count&#39; value=&#39;yes&#39; /&gt;&lt;/object&gt;&lt;/div&gt;                &lt;script type=&#39;text/javascript&#39;&gt;                    var divElement = document.getElementById(&amp;lsquo;viz1505484367745&amp;rsquo;);                    var vizElement = divElement.getElementsByTagName(&amp;lsquo;object&amp;rsquo;)[0];                    vizElement.style.width=&amp;lsquo;100%&amp;rsquo;;vizElement.style.height=(divElement.offsetWidth*0.75)+&amp;lsquo;px&amp;rsquo;;                    var scriptElement = document.createElement(&amp;lsquo;script&amp;rsquo;);                    scriptElement.src = &amp;lsquo;&lt;a href=&#34;https://public.tableau.com/javascripts/api/viz_v1.js&#39;&#34; target=&#34;_blank&#34;&gt;https://public.tableau.com/javascripts/api/viz_v1.js&#39;&lt;/a&gt;;                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                &lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;As a final note whilst it is great that Property Partner releases data this analysis was limited by the quality of the data published. If their is interest in more of these deep data dives then I would suggest contacting the peer to peer platforms that you invest in and asking that a live data extract be made available, without a login or extensive user agreement. This would ideally contain a unique ID for each loan/property etc, information on both primary and secondary market transactions, and metadata about each loan/property; such as location, type, value, etc. If you want to know more about analysis ready data then see &lt;a href=&#34;http://vita.had.co.nz/papers/tidy-data.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-</description>
+      <description>As peer to peer lending matures platforms have begun to have increasingly divergent stances on sharing their data, making it increasingly important that their is external pressure on them to improve their data sharing. This blog series will focus on platforms sharing their data, exploring what their data is saying and suggesting possible changes to their releases that would make it easier for investors to gain insights on their own.</description>
     </item>
     
     <item>
@@ -424,48 +110,7 @@ downward trend in premiums but is difficult to interpret due to the number of pr
       <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/using-the-pebble-game/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;http://seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;The Pebble Game&lt;/a&gt; is a shiny application that simulates a simple game which has been designed  to reflect real world epidemics and the vaccination programmes used to control them. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease. Each game can then be thought of as a single stochastic (with a random element) epidemic, by combining multiple simulations of the game, the dynamics of the system can be understood. Hopefully by playing the game and exploring the app you will gain an insight into how a single vaccination can contribute to protecting the rest of society.&lt;/p&gt;
-
-&lt;h2 id=&#34;playing-a-single-game&#34;&gt;Playing a single game&lt;/h2&gt;
-
-&lt;p&gt;The first step is to understand what is being simulated, hopefully if you have just played the game with me in person you should have a good idea of this! If you haven&amp;rsquo;t played the game with me, and the simple explanation above wasn&amp;rsquo;t enough then see the instructions for &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;playing the game physcially&lt;/a&gt; (click on the how to play the game tab)- it might even be worth giving it a go at home.&lt;/p&gt;
-
-&lt;p&gt;The next step is to &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;open the app&lt;/a&gt;. Your screen should then look like this,&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../img/single_game.png&#34; alt=&#34;The game simulation tab from the pebble game app&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You should now be looking at 10 simulations of the pebble game, each with 100 pebbles, 60% of pebbles being vaccinated, and a &lt;a href=&#34;https://en.wikipedia.org/wiki/Basic_reproduction_number&#34; target=&#34;_blank&#34;&gt;reproduction number&lt;/a&gt; of 3 (don&amp;rsquo;t know what this is - try hovering over it in the app). These parameters can all be varied (hit the plus in the game parameters box), although if you add more stones or more simulations it may take awhile!&lt;/p&gt;
-
-&lt;p&gt;The graph on the right summarises each simulation, recording the number of pebbles in each generation. You should notice that some paths are darker blue than others, this indicates that multiple simulations traced the same pathway. From this you should see that there are two distinct solutions, a rapid die out of the disease or an epidemic that infects everyone (try varying the parameters to see what effects they have on these &lt;a href=&#34;https://en.wikipedia.org/wiki/Steady_state&#34; target=&#34;_blank&#34;&gt;steady states&lt;/a&gt;). To get a clearer picture of this try setting the summary statistic to plot to the number of pebbles, this will show how the disease spreads with each generation (known as the epidemic curve).&lt;/p&gt;
-
-&lt;p&gt;The dark blue line, and shaded ribbon, summarise all your simulations (using the &lt;a href=&#34;https://en.wikipedia.org/wiki/Mean&#34; target=&#34;_blank&#34;&gt;mean&lt;/a&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/Confidence_interval&#34; target=&#34;_blank&#34;&gt;95% confidence intervals&lt;/a&gt;), whilst this is helpful it doesn&amp;rsquo;t always tell the full story! This is because if you have diverging solutions, as in this example, a single summary statistic cannot accurately represent either of them and instead represents an overview of the system. This is a well known problem in statistics so watch out for it cropping up elsewhere.&lt;/p&gt;
-
-&lt;p&gt;The table below the graph helps with this problem by providing a variety of summary measures, including the number in each generation, the number of generations, the total number infected, and the percentage of unvaccinated pebbles  that are infected. Each one of these is presented with several measures (mean, median, 25%, and 75% quantiles), this allows you to get an understanding of the distribution (which you can&amp;rsquo;t get from a single point estimate). In this example you should see that mean number of generations is about 7, which parameters effect this measure? Can you vary the parameters so that the mean is still about 7 but the other summary measures change?&lt;/p&gt;
-
-&lt;p&gt;Now it is time to investigate an epidemic using the app. A common goal of vaccination programmes is to vaccinate a sufficient proportion of the population that a disease cannot cause an epidemic. The lower bound for this is known as the &lt;a href=&#34;https://en.wikipedia.org/wiki/Herd_immunity&#34; target=&#34;_blank&#34;&gt;vaccination thresold&lt;/a&gt;, which can often be found mathematically. By varying the parameters of the game you should be able to estimate this threshold! The key question is now what factors influence this vaccination threshold (try varying the game parameters)? Once you&amp;rsquo;ve investigated all the parameters try looking up some real world diseases (for example &lt;a href=&#34;https://blogs.scientificamerican.com/roots-of-unity/understand-the-measles-outbreak-with-this-one-weird-number/&#34; target=&#34;_blank&#34;&gt;measles&lt;/a&gt;) and seeing how the vaccination threshold of your disease compares to theirs. Why do you think it is different?&lt;/p&gt;
-
-&lt;h2 id=&#34;comparing-diseases&#34;&gt;Comparing diseases&lt;/h2&gt;
-
-&lt;p&gt;To help you further explore the effects of varying parameters on the outcome of the pebble game &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;the Pebble Game app&lt;/a&gt; has an additional tab (Compare diseases). This lets you simulate two diseases, each with an individual reproduction number, but otherwise using the same parameters. An example, comparing a disease with a reproduction number of 3 and another disease with a reproduction number of 12 can be seen below,&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../img/compare_game.png&#34; alt=&#34;The disease comparision tab from the pebble game app&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The output in this tab is very similar to that in the Play the game tab, but there is now a graph of both diseases, as well as for each disease separately. In this example we see that the second disease has a much lower generation time, than the primary disease. However even for this much slower disease in over 25% of simulations all of the unvaccinated pebbles are still infected!&lt;/p&gt;
-
-&lt;h2 id=&#34;ideas-for-further-exploration&#34;&gt;Ideas for further exploration&lt;/h2&gt;
-
-&lt;p&gt;If you are interested in exploring the pebble game further then here are a few ideas of what to questions to investigate;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;What effect does varying the number of simulations have? Are there parameters for which this has a greater impact? If so what implications does this have for real world diseases?&lt;/li&gt;
-&lt;li&gt;Can you identify stages of an epidemic by looking at plots of the number of pebbles  in each generation? At which stage is the disease most likely to die out? What does this mean for epidemic control?&lt;/li&gt;
-&lt;li&gt;What features of epidemics is the Pebble Game not capturing? How do you think these features might influence the results?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Hopefully this post was a useful introduction to the Pebble Game and to the simple dynamics of infectious disease dynamics and vaccination. If you have any suggests for another blog post, or future developments to the Pebble Game then please comment below or contact me by &lt;a href=&#34;https://twitter.com/seabbs&#34; target=&#34;_blank&#34;&gt;twitter&lt;/a&gt; or &lt;a href=&#34;https://www.samabbott.co.uk/#contact&#34; target=&#34;_blank&#34;&gt;email&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>The Pebble Game is a shiny application that simulates a simple game which has been designed to reflect real world epidemics and the vaccination programmes used to control them. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease.</description>
     </item>
     
     <item>
@@ -511,6 +156,43 @@ downward trend in premiums but is difficult to interpret due to the number of pr
       
       <guid>http://www.samabbott.co.uk/project/prettypublisher/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>tbinenglanddataclean</title>
+      <link>http://www.samabbott.co.uk/project/tbinenglanddataclean/</link>
+      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>The temptation of a long loan; Risk and rewards of term length</title>
+      <link>http://www.samabbott.co.uk/post/temp-long-loan/</link>
+      <pubDate>Wed, 08 Mar 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/temp-long-loan/</guid>
+      <description>As a quick update to last weeks post this week we will be using the estimates of bad debt from last week to assess the true risk/rewards of loans at various lengths from the funding circle (FC) loan book. I realised recently that when picking loans my default criteria tends towards picking loans with the lowest percieved risk (i.e lowest risk band) with the highest interest rates possible. This strategy has some interesting consequences in that it preferentially selects long term loans that tend to have higher rates.</description>
+    </item>
+    
+    <item>
+      <title>Estimating the risk of bad debt in the funding circle loanbook</title>
+      <link>http://www.samabbott.co.uk/post/fc-risk-bad-debt/</link>
+      <pubDate>Wed, 25 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/fc-risk-bad-debt/</guid>
+      <description>We are again looking at the peer to peer (P2P) loan book for funding circle (FC), with the focus being the variation in return based on portfolio composition and diversification. FC states that the average return on investment is 6.6%, with 93% of investors that invested in more than 100 companies, with a maximum exposure of 1% earning 5% or more. The original purpose of this blog was to look at various portfolio&amp;rsquo;s and estimate the risk that they carry for the investor.</description>
+    </item>
+    
+    <item>
+      <title>Visualising the funding circle loanbook</title>
+      <link>http://www.samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/</link>
+      <pubDate>Tue, 17 Jan 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/2017-06-10-vis-fc-loanbook-md/</guid>
+      <description>This is the first in a series of blog posts looking at P2P lenders, which will be aimed at surfacing more details about the structures of their loan books. I hope to expand this series by looking at optimal strategies, predictive modelling, and interactive data science.
+Since 2005, with the launch of Zopa P2P companies have provided a middle path between cash holdings, and investing in stocks and shares. Funding circle, which was launched in 2010, has currently facilitated over £1 Billion in loans to British businesses.</description>
     </item>
     
   </channel>

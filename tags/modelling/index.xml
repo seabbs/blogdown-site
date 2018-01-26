@@ -8,7 +8,9 @@
     <language>en-uk</language>
     <copyright>&amp;copy; 2017 Sam Abbott</copyright>
     <lastBuildDate>Thu, 12 Oct 2017 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/tags/modelling/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/modelling/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Introduction to TB Modelling</title>

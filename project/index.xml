@@ -7,8 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017 Sam Abbott</copyright>
-    <lastBuildDate>Mon, 15 Jan 2018 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/project/" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Fri, 26 Jan 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.samabbott.co.uk/project/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Explore Global Tuberculosis</title>
+      <link>http://www.samabbott.co.uk/project/exploreglobaltb/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/exploreglobaltb/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Explore Infectious Disease Models</title>
@@ -106,23 +117,8 @@
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/phd-thesis-aims-objectives/</guid>
-      <description>
-
-&lt;h2 id=&#34;aim&#34;&gt;Aim&lt;/h2&gt;
-
-&lt;p&gt;To understand the impact of BCG vaccination on the epidemiology of tuberculosis in England, and to use this understanding to forecast the future effects of current and proposed BCG vaccination policy.&lt;/p&gt;
-
-&lt;h2 id=&#34;objectives&#34;&gt;Objectives&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;To describe the current epidemiology of Tuberculosis in England,&lt;/li&gt;
-&lt;li&gt;To assess whether there is evidence in routinely-collected surveillance data that BCG vaccination impacts outcomes for TB cases in England,&lt;/li&gt;
-&lt;li&gt;To assess the direct effects of the 2005 change in vaccination policy on those eligible for vaccination,&lt;/li&gt;
-&lt;li&gt;To develop and apply a parsimonous transmission dynamic model of tuberculosis in order to understand the trade off between vaccinating those at highest risk of poor outcomes, and those most likely to be vectors of transmission; by using the 2005 change in vaccination policy as a case study,&lt;/li&gt;
-&lt;li&gt;To develop and apply a transmission dynamic model of tuberculosis, that is robustly fitted to available data, and captures the known epidemiology of TB; in order to forecast all long term effects of the 2005 change in vaccination policy, and to provide robust estimates of epidemiological parameters for TB in England,&lt;/li&gt;
-&lt;li&gt;To forecast future incidence of tuberculosis in England under various transmission, importation, and vaccination scenarios; by further generalising previously developed transmission dynamic models.&lt;/li&gt;
-&lt;/ul&gt;
-</description>
+      <description>Aim To understand the impact of BCG vaccination on the epidemiology of tuberculosis in England, and to use this understanding to forecast the future effects of current and proposed BCG vaccination policy.
+Objectives  To describe the current epidemiology of Tuberculosis in England, To assess whether there is evidence in routinely-collected surveillance data that BCG vaccination impacts outcomes for TB cases in England, To assess the direct effects of the 2005 change in vaccination policy on those eligible for vaccination, To develop and apply a parsimonous transmission dynamic model of tuberculosis in order to understand the trade off between vaccinating those at highest risk of poor outcomes, and those most likely to be vectors of transmission; by using the 2005 change in vaccination policy as a case study, To develop and apply a transmission dynamic model of tuberculosis, that is robustly fitted to available data, and captures the known epidemiology of TB; in order to forecast all long term effects of the 2005 change in vaccination policy, and to provide robust estimates of epidemiological parameters for TB in England, To forecast future incidence of tuberculosis in England under various transmission, importation, and vaccination scenarios; by further generalising previously developed transmission dynamic models.</description>
     </item>
     
     <item>

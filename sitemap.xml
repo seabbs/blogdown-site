@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/project/exploreglobaltb/</loc>
+      <lastmod>2018-01-26T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/project/exploreidmodels/</loc>
       <lastmod>2018-01-15T00:00:00+00:00</lastmod>
     </url>
@@ -405,7 +414,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/project/</loc>
-      <lastmod>2018-01-15T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-26T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -454,7 +463,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/rstats/</loc>
-      <lastmod>2018-01-15T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-26T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -474,7 +483,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/shiny/</loc>
-      <lastmod>2018-01-15T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-26T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -504,7 +513,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/tb/</loc>
-      <lastmod>2018-01-15T00:00:00+00:00</lastmod>
+      <lastmod>2018-01-26T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

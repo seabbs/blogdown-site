@@ -8,7 +8,9 @@
     <language>en-uk</language>
     <copyright>&amp;copy; 2017 Sam Abbott</copyright>
     <lastBuildDate>Tue, 15 Aug 2017 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/tags/interests/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/interests/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Introducing the Pebble Game; a simple app for exploring epidemics and vaccination</title>
@@ -16,48 +18,7 @@
       <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/using-the-pebble-game/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;http://seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;The Pebble Game&lt;/a&gt; is a shiny application that simulates a simple game which has been designed  to reflect real world epidemics and the vaccination programmes used to control them. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease. Each game can then be thought of as a single stochastic (with a random element) epidemic, by combining multiple simulations of the game, the dynamics of the system can be understood. Hopefully by playing the game and exploring the app you will gain an insight into how a single vaccination can contribute to protecting the rest of society.&lt;/p&gt;
-
-&lt;h2 id=&#34;playing-a-single-game&#34;&gt;Playing a single game&lt;/h2&gt;
-
-&lt;p&gt;The first step is to understand what is being simulated, hopefully if you have just played the game with me in person you should have a good idea of this! If you haven&amp;rsquo;t played the game with me, and the simple explanation above wasn&amp;rsquo;t enough then see the instructions for &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;playing the game physcially&lt;/a&gt; (click on the how to play the game tab)- it might even be worth giving it a go at home.&lt;/p&gt;
-
-&lt;p&gt;The next step is to &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;open the app&lt;/a&gt;. Your screen should then look like this,&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../img/single_game.png&#34; alt=&#34;The game simulation tab from the pebble game app&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You should now be looking at 10 simulations of the pebble game, each with 100 pebbles, 60% of pebbles being vaccinated, and a &lt;a href=&#34;https://en.wikipedia.org/wiki/Basic_reproduction_number&#34; target=&#34;_blank&#34;&gt;reproduction number&lt;/a&gt; of 3 (don&amp;rsquo;t know what this is - try hovering over it in the app). These parameters can all be varied (hit the plus in the game parameters box), although if you add more stones or more simulations it may take awhile!&lt;/p&gt;
-
-&lt;p&gt;The graph on the right summarises each simulation, recording the number of pebbles in each generation. You should notice that some paths are darker blue than others, this indicates that multiple simulations traced the same pathway. From this you should see that there are two distinct solutions, a rapid die out of the disease or an epidemic that infects everyone (try varying the parameters to see what effects they have on these &lt;a href=&#34;https://en.wikipedia.org/wiki/Steady_state&#34; target=&#34;_blank&#34;&gt;steady states&lt;/a&gt;). To get a clearer picture of this try setting the summary statistic to plot to the number of pebbles, this will show how the disease spreads with each generation (known as the epidemic curve).&lt;/p&gt;
-
-&lt;p&gt;The dark blue line, and shaded ribbon, summarise all your simulations (using the &lt;a href=&#34;https://en.wikipedia.org/wiki/Mean&#34; target=&#34;_blank&#34;&gt;mean&lt;/a&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/Confidence_interval&#34; target=&#34;_blank&#34;&gt;95% confidence intervals&lt;/a&gt;), whilst this is helpful it doesn&amp;rsquo;t always tell the full story! This is because if you have diverging solutions, as in this example, a single summary statistic cannot accurately represent either of them and instead represents an overview of the system. This is a well known problem in statistics so watch out for it cropping up elsewhere.&lt;/p&gt;
-
-&lt;p&gt;The table below the graph helps with this problem by providing a variety of summary measures, including the number in each generation, the number of generations, the total number infected, and the percentage of unvaccinated pebbles  that are infected. Each one of these is presented with several measures (mean, median, 25%, and 75% quantiles), this allows you to get an understanding of the distribution (which you can&amp;rsquo;t get from a single point estimate). In this example you should see that mean number of generations is about 7, which parameters effect this measure? Can you vary the parameters so that the mean is still about 7 but the other summary measures change?&lt;/p&gt;
-
-&lt;p&gt;Now it is time to investigate an epidemic using the app. A common goal of vaccination programmes is to vaccinate a sufficient proportion of the population that a disease cannot cause an epidemic. The lower bound for this is known as the &lt;a href=&#34;https://en.wikipedia.org/wiki/Herd_immunity&#34; target=&#34;_blank&#34;&gt;vaccination thresold&lt;/a&gt;, which can often be found mathematically. By varying the parameters of the game you should be able to estimate this threshold! The key question is now what factors influence this vaccination threshold (try varying the game parameters)? Once you&amp;rsquo;ve investigated all the parameters try looking up some real world diseases (for example &lt;a href=&#34;https://blogs.scientificamerican.com/roots-of-unity/understand-the-measles-outbreak-with-this-one-weird-number/&#34; target=&#34;_blank&#34;&gt;measles&lt;/a&gt;) and seeing how the vaccination threshold of your disease compares to theirs. Why do you think it is different?&lt;/p&gt;
-
-&lt;h2 id=&#34;comparing-diseases&#34;&gt;Comparing diseases&lt;/h2&gt;
-
-&lt;p&gt;To help you further explore the effects of varying parameters on the outcome of the pebble game &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;the Pebble Game app&lt;/a&gt; has an additional tab (Compare diseases). This lets you simulate two diseases, each with an individual reproduction number, but otherwise using the same parameters. An example, comparing a disease with a reproduction number of 3 and another disease with a reproduction number of 12 can be seen below,&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../img/compare_game.png&#34; alt=&#34;The disease comparision tab from the pebble game app&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The output in this tab is very similar to that in the Play the game tab, but there is now a graph of both diseases, as well as for each disease separately. In this example we see that the second disease has a much lower generation time, than the primary disease. However even for this much slower disease in over 25% of simulations all of the unvaccinated pebbles are still infected!&lt;/p&gt;
-
-&lt;h2 id=&#34;ideas-for-further-exploration&#34;&gt;Ideas for further exploration&lt;/h2&gt;
-
-&lt;p&gt;If you are interested in exploring the pebble game further then here are a few ideas of what to questions to investigate;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;What effect does varying the number of simulations have? Are there parameters for which this has a greater impact? If so what implications does this have for real world diseases?&lt;/li&gt;
-&lt;li&gt;Can you identify stages of an epidemic by looking at plots of the number of pebbles  in each generation? At which stage is the disease most likely to die out? What does this mean for epidemic control?&lt;/li&gt;
-&lt;li&gt;What features of epidemics is the Pebble Game not capturing? How do you think these features might influence the results?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Hopefully this post was a useful introduction to the Pebble Game and to the simple dynamics of infectious disease dynamics and vaccination. If you have any suggests for another blog post, or future developments to the Pebble Game then please comment below or contact me by &lt;a href=&#34;https://twitter.com/seabbs&#34; target=&#34;_blank&#34;&gt;twitter&lt;/a&gt; or &lt;a href=&#34;https://www.samabbott.co.uk/#contact&#34; target=&#34;_blank&#34;&gt;email&lt;/a&gt;&lt;/p&gt;
-</description>
+      <description>The Pebble Game is a shiny application that simulates a simple game which has been designed to reflect real world epidemics and the vaccination programmes used to control them. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease.</description>
     </item>
     
     <item>
@@ -66,24 +27,7 @@
       <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/an-ancient-disease-a-scar-and-classroom-mathematics/</guid>
-      <description>&lt;p&gt;How are a 10,000-year-old disease, the scar on your arm (if you are over 25 and born in the UK), and the mathematics you learnt at school related? If you are under 25, where is your scar? My research uses mathematics to understand the role of Bacillus Calmette–Guérin (BCG) vaccine in preventing Tuberculosis (TB) in England and forecast the impact of current policies. &lt;/p&gt;
-
-&lt;p&gt;TB is one of the oldest human diseases, with recorded cases in ancient Egypt, renaissance Europe, and in the modern day across the globe. The disease is spread through the air, when people with active TB cough, spit, speak, or sneeze. Classic symptoms include a chronic cough with fever, night sweats, and weight loss. After an initial infection, an individual may immediately develop active TB or enter a latent stage from which active TB may develop years later. &lt;/p&gt;
-
-&lt;p&gt;It is thought that roughly one-third of the world&amp;rsquo;s population has been infected with TB, with 1% of the world&amp;rsquo;s population being infected annually. However, the vast majority of these cases will never develop active disease. This reservoir of disease presents a challenge for control and eradication as, even if transmission can be halted, new cases will still occur for many years to come. While many people might consider TB to be a problem of the past in England, in 2015 there were 5,758 notified cases, the majority of which occurred in vulnerable communities; where incidence rates can be as much as 15 times higher than in the general population.&lt;/p&gt;
-
-&lt;p&gt;The BCG vaccine was developed in 1921 and was introduced to the UK in 1953. Globally, it has been shown to offer variable protection that may reduce over time. However, there is strong evidence that BCG offers high levels of protection for children, and more generally within the UK born population. It remains the only TB vaccine with over 100 million doses given globally each year. Serious side effects are very rare but scarring commonly occurs at the site of injection.&lt;/p&gt;
-
-&lt;p&gt;In 2005, the UK withdrew the universal BCG program for those at school age and introduced a targeted program of vaccination for babies that were deemed to be at high risk. This was motivated by several years of declining transmission, the evidence of high levels of protection in children and a belief that other control measures would be more cost-effective. Since this change in policy, declining incidence appears to support this decision. However, due to TB’s complex dynamics, the long-term effects are difficult to predict. More recently there has been a global shortage of the vaccine, which has led to some at risk children not being vaccinated; the potential effects of which are unknown.&lt;/p&gt;
-
-&lt;p&gt;The availability of data is revolutionising the way we view the world; in few other areas has this revolution been felt more than in public health. In 2000, Public Health England launched a routine surveillance system for TB, which records demographic, clinical, and microbiological information on all notified cases. This dataset allows us to study the details of TB epidemiology in England more easily than ever before. Whilst this information would present much of interest by itself, by combining it with other datasets we can adjust for the changing demographics of the English population to study the trends in TB over time.&lt;/p&gt;
-
-&lt;p&gt;My research has two strands. The first of these is aimed at understanding the current impact of BCG on TB in England. This involves investigating evidence that suggests BCG vaccination may improve outcomes for those who have developed active TB and estimating the direct effects of the 2005 change in vaccination policy. These results will enable policy makers to gain a greater understanding of the role of BCG vaccination in England and hopefully facilitate future decision making.&lt;/p&gt;
-
-&lt;p&gt;The second strand uses the power of simple mathematical systems to reproduce complex dynamics. Examples of these techniques can be seen in modelling the weather and understanding the shoaling behaviour of fish. In infectious diseases, mathematical models have been used for over 100 years but have recently become increasingly data driven. By developing simple models, harnessing secondary school level mathematics, I am attempting to explain some of the patterns in TB incidence that have been observed in England over the last 15 years, in the context of changing vaccination policy. The simplicity of these models means that hypothetical scenarios can be explored, via simulation, and forecasts of future TB trends made.&lt;/p&gt;
-
-&lt;p&gt;Science is nothing if not a collaborative process. Whilst mathematical models provide a powerful analytical approach, without expert knowledge and good data they can produce meaningless results. While my focus is BCG vaccination, the key lesson from my PhD has been the importance of working across disciplines in order to access expert knowledge and unlock the power of mathematics to solve real world problems.&lt;/p&gt;
-</description>
+      <description>How are a 10,000-year-old disease, the scar on your arm (if you are over 25 and born in the UK), and the mathematics you learnt at school related? If you are under 25, where is your scar? My research uses mathematics to understand the role of Bacillus Calmette–Guérin (BCG) vaccine in preventing Tuberculosis (TB) in England and forecast the impact of current policies. TB is one of the oldest human diseases, with recorded cases in ancient Egypt, renaissance Europe, and in the modern day across the globe.</description>
     </item>
     
   </channel>

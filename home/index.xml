@@ -8,7 +8,63 @@
     <language>en-uk</language>
     <copyright>&amp;copy; 2017 Sam Abbott</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/home/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.samabbott.co.uk/home/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title></title>
+      <link>http://www.samabbott.co.uk/home/about/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/home/about/</guid>
+      <description>Biography I am a mathematical modeller interested in developing and fitting models for infectious disease, using data driven approaches. I studied Mathematics at the University of Durham, completing an MMath degree in 2014. I then completed a Masters in Advanced Mathematical Biology at the University of York. As part of my thesis project I spent a summer at the University of Glasgow, studying the patterns of drug resistance in E-coli.</description>
+    </item>
+    
+    <item>
+      <title>Recent Posts</title>
+      <link>http://www.samabbott.co.uk/home/posts/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/home/posts/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Projects</title>
+      <link>http://www.samabbott.co.uk/home/projects/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/home/projects/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Recent &amp; Upcoming Talks</title>
+      <link>http://www.samabbott.co.uk/home/talks/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/home/talks/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Teaching</title>
+      <link>http://www.samabbott.co.uk/home/teaching/</link>
+      <pubDate>Tue, 20 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/home/teaching/</guid>
+      <description>I am helping to develop practicals for a short course at the School of Social and Community Medicine at the University of Bristol. As part of this I am developing a shiny app to allow exploration of a range of simple infectious disease models.</description>
+    </item>
+    
+    <item>
+      <title>Contact</title>
+      <link>http://www.samabbott.co.uk/home/contact/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/home/contact/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>

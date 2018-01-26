@@ -8,7 +8,9 @@
     <language>en-uk</language>
     <copyright>&amp;copy; 2017 Sam Abbott</copyright>
     <lastBuildDate>Tue, 26 Sep 2017 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/tags/deep-dive/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/deep-dive/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Deep Dive; Premiums on Valuation in the Property Partner Portfolio</title>
@@ -16,54 +18,8 @@
       <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/deep-dive-pp-premiums/</guid>
-      <description>&lt;p&gt;Previously I have looked at visualising the &lt;a href=&#34;https://www.propertypartner.co/aboutus#/ourstory&#34; target=&#34;_blank&#34;&gt;Property Partner&lt;/a&gt; portfolio using &lt;a href=&#34;https://public.tableau.com/views/PropertyPartnerPortfolioVisualisation/PropertyPartnerPortfolio?:embed=y&amp;amp;:display_count=yes&#34; target=&#34;_blank&#34;&gt;tableau&lt;/a&gt;, and &lt;a href=&#34;https://www.samabbott.co.uk/post/deep-dive-pp-open-house/&#34; target=&#34;_blank&#34;&gt;explored their resale date from July 2017&lt;/a&gt;. In this post I will be exploring the &lt;a href=&#34;https://resources.propertypartner.co/open-house-august-2017/&#34; target=&#34;_blank&#34;&gt;August Open House resale&lt;/a&gt; data focussing on property premiums over both initial and latest valuation. The code for this post is available &lt;a href=&#34;https://github.com/seabbs/propertypartner/blob/master/report/17-09-18-premium/latest_initial_premium.Rmd&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Property Partner advertises returns by combining both projected capital and rental returns. Properties are held for 5 years at which point any capital gain can be realised. However, Property Partner provides a secondary market which allows capital returns to be realised by selling shares to other investors. The sale price of shares is set by the market, and may or may not depend on the underlying value of the property. This post will explore the premium that sales on the secondary market set on both the initial and latest valuations of properties in the Property Partner Portfolio, and how this has changed over time. A first step is to look at premiums over time, for each property, averaged over each month (as are all premiums in this post).&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig1.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;From the above plot we see that in the first year of operation all properties had premiums above 0% over initial valuation, but since then several have traded with premiums that are continuously negative. The majority of these properties have maintained steady premiums over initial valuation but several devalued in the second half of 2017. A single property (5 flats, Dutch Quarter, Colchester) has consistently traded with a negative premium although this appears to be improving over time.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig2.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;Unlike premiums over initial valuation, premiums over latest valuation appear to have decreased continuously over time for the majority of properties. This indicates that premiums are not completely adjusting for increases in property value, making it unlikely that those exiting early will fully realise capital gains. Both plots indicate a relationship between premiums and the date a property was made available for resale, with properties available earlier having higher premiums over both initial and latest valuation. The above plots are hard to interpret due to the number of properties in the portfolio, therefore the next step is to summarise the data by averaging premiums across all properties.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig3.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As we saw in the previous plots premiums over both initial and latest valuation were highest in 2015 and have since decreased. Since 2016 premiums over initial valuation appear to have stabilised between 5% to 10% and premiums over latest valuation appear to have stabilised between 0% to -8%. The relationship between premiums over latest and initial valuation is summarised in the following plot.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig4.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;In the plots above there was some evidence that properties acquired at different dates traded differently. To investigate this the following plot shows the average monthly premium for properties launched in each year Property Partner has been operating, for both initial and latest valuation.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig5.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;We see that properties acquired earlier consistently trade at a higher premium over both initial and latest valuation. Whilst the trend in initial valuation may be driven by increased valuation this cannot be the case for latest valuation. Instead, it is likely that this is a function of scarcity due to the lower supply of earlier properties. It may also be the case that previous performance on the platform is valued. This plot also indicates that premiums over latest valuation have constantly fallen for all years. Properties appear to start trading with a slightly positive  premium, which then decreases over time. This indicates that premiums do not adjust fully as properties are revalued, meaning that realising potential capital gains early is unlikely. To explore this further the following plot compares premiums on initial and latest valuations over time, for individual properties.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/gif1.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;From the plot we see that properties enter the market trading at a small premium to both valuations. Over time the relationship between premiums for initial and latest valuation weakens, with several properties trading at negative premiums for both valuations. To get a better idea of the relationship the following plot stratifies by the year a property was made available for resale.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/gif2.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Here we clearly see that when properties enter the market there is a strong correlation between premiums on latest and initial valuations. As properties are revalued we see that premiums on latest valuation do not adjust fully, although this effect varies wildly. This is likely to be driven by external factors such as dividend yield - with high dividend yields commanding a premium. The following interactive plot allows the figures above to be explored in detail.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig6.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;For a final visualisation of this relationship the following plot shows premiums for individual properties over time, stratified by year available for resale.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/gif3.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Unfortunately this dataset was limited by having little additional information about each property, something which is key to understanding premiums. For example, as commented on above, it is likely that much of the variation is drive by dividend yield. However, it is clear that properties are not valued at their latest valuation and that therefore this should not be used to summarise the performance of a portfolio over the short term.&lt;/p&gt;
-
-&lt;p&gt;In a future post I will be exploring premiums further by joining the resale data used above with data on the Property Partner portfolio. The two datasets do not contain a common unique ID by which to link them, meaning that joining them will be less trivial that it should be. Hopefully Property Partner will improve the quality of the data they provide to investors so that analysis can be done more easily.&lt;/p&gt;
-
-&lt;p&gt;If you have any comments, ideas for further projects, or any similar analysis to share please comment below.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Bonus Plot!!&lt;/strong&gt;&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig7.html&#34; width = &#34;100%&#34; height=&#34;1000&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-</description>
+      <description>Previously I have looked at visualising the Property Partner portfolio using tableau, and explored their resale date from July 2017. In this post I will be exploring the August Open House resale data focussing on property premiums over both initial and latest valuation. The code for this post is available here.
+Property Partner advertises returns by combining both projected capital and rental returns. Properties are held for 5 years at which point any capital gain can be realised.</description>
     </item>
     
     <item>
@@ -72,57 +28,7 @@
       <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/deep-dive-pp-open-house/</guid>
-      <description>&lt;p&gt;As peer to peer lending matures platforms have begun to have increasingly divergent stances on sharing their data, making it increasingly important that their is external pressure on them to improve their data sharing. This blog series will focus on platforms sharing their data, exploring what their data is saying and suggesting possible changes to their releases that would make it easier for investors to gain insights on their own.&lt;/p&gt;
-
-&lt;p&gt;For the first post I will be focussing on data from &lt;a href=&#34;https://www.propertypartner.co/aboutus#/ourstory&#34; target=&#34;_blank&#34;&gt;Property Partner&lt;/a&gt;, which is a property crowd-funding site that started in 2014 and allows investors to buy small stakes in a range of properties. The data I will be using was released as part of Property Partner&amp;rsquo;s &lt;a href=&#34;https://resources.propertypartner.co/open-house-july-2017/&#34; target=&#34;_blank&#34;&gt;July 2017 open house data&lt;/a&gt; blog, and contains information on resale&amp;rsquo;s of their property portfolio. This post will reproduce and update previous work, explore the underlying trends, and suggest possible changes for future releases. All code is available &lt;a href=&#34;https://github.com/seabbs/propertypartner&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and the data can be downloaded from this &lt;a href=&#34;https://d2ofd11qqzygs0.cloudfront.net/files/purchases-on-resale-july-2017-open-house.zip&#34; target=&#34;_blank&#34;&gt;link&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;As a starting point I have reproduced a graph of Transactions (£) over time first published &lt;a href=&#34;https://p2pblog.co.uk/property-partner-trading-analysis/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. This shows the increase in transactions (£) over time on the resale market, with a continuous increase in volume until early 2016 from which point seasonal variation has dominated. I have also stratified by transaction type, revealing the impact of the recently introduced bidding system, which has steadily increased it&amp;rsquo;s share of transactions month on month.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig1.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;The plot naturally leads to the following question - is the increase in trading volume driven by an increasing number of trades or by changes in the size of trades being made? The following plot explores this by plotting the number of transactions over time. We see that the early growth in volumes was likely driven by an increasing number of trades but that variation since then is more strongly linked to changes in trade size.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig2.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;Now that we understand how transactions (N) have varied with time we need to explore the underlying trends. The most obvious question is which properties are being traded for the most, and if possible why do these properties have so much turn over? The following plot shows trades by property, stratified by year. For the first year of trading we see that a few properties (as the portfolio was small) dominated the number of trades made. In 2016 trading was spread over more properties but with fewer trades per property. So far for 2017 there has been a greatly reduced number of trades, with trading becoming increasingly homogeneous across the  portfolio. Unfortunately the extract published by Property Partner has little detail about properties so establishing why properties are traded at different rates is difficult. Whilst I could in principle join the various data sets they produce, without a unique ID this would be difficult and prone to errors!&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig3.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As the number of transactions is relatively stable, but the volume of transactions has increased, therefore size of transactions must have changed over time. To explore this I have plotted transactions (£) over time stratified by binned transaction size. As transaction size increases there is greater seasonal variation, which indicates that both large and small traders are key drivers of Property Partner&amp;rsquo;s trading volume with larger trades providing the year on year growth and smaller trades acting to smooth seasonal variability. Since January 2016 there has been little growth in small trades, with larger trades becoming increasingly common. However, the largest trades (£5,000-£49,999) peaked in early 2016 since when they have been decreasing year on year (although this trend is obscured by seasonal variation).&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig4.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;Whilst the binned transaction sizes used above were helpful in quickly visualising the changes transactions (£) by size they are arbitrary and may be obscuring underlying changes. The following plot explores this by plotting the distribution of transactions sizes within each binned transaction size. This plot contains a large amount of condensed information, the salient points are that mid-size trades (£100-£499) have shifted from being primary around £200 to being relatively equally distributed across the range, large trades (£500-£999) have become increasingly bi-model, and very high value transactions (£20,000+) have become more common as a subset of high value transactions (£5,000-£49,999).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/figure-html/trans-size-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;Another approach to visualising changing transaction size over time, is to plot the proportion of trades (by number) for each binned transaction size. As indicated in the previous plots, this shows that larger trades have become increasingly common, with the large trades (£1000-£4,999) increasing to 2% of manual trades, and  5% of matched bids in 2017. The most common trade size is still small (£1-£99), but the proportion of very small trades  (£0-£1) has drastically reduced. Matched bids are more likely to be larger transactions with small trades (£1-£99) making up 54% of transactions compared to 68% of manual orders.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig5.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;The data released by Property Partner also contains information about the unit price each transaction was made at, and what premium this was against both the latest and original valuation. As this data is provided across all properties in the portfolio a single visualisation of the data may not indicate the underling relationship. A first step is to plot the monthly average (weighted by transaction size) premium on latest valuation for each property in the portfolio, by comparing premiums on latest valuation rather than raw share price properties can be compared against each other. This plot indicates a general
-downward trend in premiums but is difficult to interpret due to the number of properties in the portfolio.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig6.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;To explore this apparent trend a first step is to look at the trends in premiums across the Property Partner portfolio, using the mean premium across all properties. This indicates that premiums were originally high but have decreased over time, and since the beginning of 2016 have been negative on average. As with transactions (£) seasonal dynamics now appear to dominate with premiums being relatively stable year on year.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig7.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As we have averaged across all properties in the Property Partner portfolio the relationship we have identified between year and premium may be confounded by a variety of factors. An obvious question is whether the quality of property purchased by Property Partner has changed over time (if we assume that premium over latest valuation is a good proxy of property quality). The plot below looks at the average weighted premium for properties made available for resale in each year (this is confounded by the rate properties are made available in a given year). From this plot we see that across all years of trading (except 2014) properties start with a small positive premium, which then gradually declines with time. Properties from 2014 have bucked this trend, which is likely due to the novelty of owning a property from the early days of Property Partner. Properties from 2015 have a linear relationship between premium and time, trading increasingly below their valuation. Properties from 2016 suffered a rapid reduction in premium, indicating a possible reduction in property quality, although this has now stabilised. So far properties from 2017 have held positive premiums, with little reduction over time.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig8.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As a final plot for this blog post I have reproduced another plot from &lt;a href=&#34;https://p2pblog.co.uk/property-partner-trading-analysis/&#34; target=&#34;_blank&#34;&gt;this post&lt;/a&gt; (from the &lt;a href=&#34;https://p2pblog.co.uk/&#34; target=&#34;_blank&#34;&gt;p2pblog.co.uk&lt;/a&gt;), which is well worth a read.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig9.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;To see the current state of the Property Partner Portfolio you can explore for youself &lt;a href=&#34;https://public.tableau.com/views/PropertyPartnerPortfolioVisualisation/PropertyPartnerPortfolio?:embed=y&amp;amp;:display_count=yes&#34; target=&#34;_blank&#34;&gt;using this Tableau dashboard.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#39;tableauPlaceholder&#39; id=&#39;viz1505484367745&#39; style=&#39;position: relative&#39;&gt;&lt;noscript&gt;&lt;a href=&#39;#&#39;&gt;&lt;img alt=&#39;Property Partner Portfolio &#39; src=&#39;https:&amp;#47;&amp;#47;public.tableau.com&amp;#47;static&amp;#47;images&amp;#47;Pr&amp;#47;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&amp;#47;1_rss.png&#39; style=&#39;border: none&#39; /&gt;&lt;/a&gt;&lt;/noscript&gt;&lt;object class=&#39;tableauViz&#39;  style=&#39;display:none;&#39;&gt;&lt;param name=&#39;host_url&#39; value=&#39;https%3A%2F%2Fpublic.tableau.com%2F&#39; /&gt; &lt;param name=&#39;site_root&#39; value=&#39;&#39; /&gt;&lt;param name=&#39;name&#39; value=&#39;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&#39; /&gt;&lt;param name=&#39;tabs&#39; value=&#39;no&#39; /&gt;&lt;param name=&#39;toolbar&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;static_image&#39; value=&#39;https:&amp;#47;&amp;#47;public.tableau.com&amp;#47;static&amp;#47;images&amp;#47;Pr&amp;#47;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&amp;#47;1.png&#39; /&gt; &lt;param name=&#39;animate_transition&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_static_image&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_spinner&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_overlay&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_count&#39; value=&#39;yes&#39; /&gt;&lt;/object&gt;&lt;/div&gt;                &lt;script type=&#39;text/javascript&#39;&gt;                    var divElement = document.getElementById(&amp;lsquo;viz1505484367745&amp;rsquo;);                    var vizElement = divElement.getElementsByTagName(&amp;lsquo;object&amp;rsquo;)[0];                    vizElement.style.width=&amp;lsquo;100%&amp;rsquo;;vizElement.style.height=(divElement.offsetWidth*0.75)+&amp;lsquo;px&amp;rsquo;;                    var scriptElement = document.createElement(&amp;lsquo;script&amp;rsquo;);                    scriptElement.src = &amp;lsquo;&lt;a href=&#34;https://public.tableau.com/javascripts/api/viz_v1.js&#39;&#34; target=&#34;_blank&#34;&gt;https://public.tableau.com/javascripts/api/viz_v1.js&#39;&lt;/a&gt;;                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                &lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;As a final note whilst it is great that Property Partner releases data this analysis was limited by the quality of the data published. If their is interest in more of these deep data dives then I would suggest contacting the peer to peer platforms that you invest in and asking that a live data extract be made available, without a login or extensive user agreement. This would ideally contain a unique ID for each loan/property etc, information on both primary and secondary market transactions, and metadata about each loan/property; such as location, type, value, etc. If you want to know more about analysis ready data then see &lt;a href=&#34;http://vita.had.co.nz/papers/tidy-data.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-</description>
+      <description>As peer to peer lending matures platforms have begun to have increasingly divergent stances on sharing their data, making it increasingly important that their is external pressure on them to improve their data sharing. This blog series will focus on platforms sharing their data, exploring what their data is saying and suggesting possible changes to their releases that would make it easier for investors to gain insights on their own.</description>
     </item>
     
   </channel>

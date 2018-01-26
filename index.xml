@@ -11,6 +11,15 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Explore Global Tuberculosis</title>
+      <link>http://www.samabbott.co.uk/project/exploreglobaltb/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/exploreglobaltb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Explore Infectious Disease Models</title>
       <link>http://www.samabbott.co.uk/project/exploreidmodels/</link>
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
@@ -501,15 +510,6 @@ downward trend in premiums but is difficult to interpret due to the number of pr
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>idmodelr</title>
-      <link>http://www.samabbott.co.uk/project/idmodelr/</link>
-      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/idmodelr/</guid>
       <description></description>
     </item>
     

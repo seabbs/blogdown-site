@@ -8,7 +8,9 @@
     <language>en-uk</language>
     <copyright>&amp;copy; 2017 Sam Abbott</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
-    <atom:link href="/tags/" rel="self" type="application/rss+xml" />
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/index.xml" rel="self" type="application/rss+xml" />
+    
     
     <item>
       <title>Content tagged as &#39;Academic&#39;</title>
@@ -16,8 +18,7 @@
       <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/academic/</guid>
-      <description>&lt;p&gt;Here is a list of all the content that has been tagged as &lt;em&gt;academic&lt;/em&gt;.&lt;/p&gt;
-</description>
+      <description>Here is a list of all the content that has been tagged as academic.</description>
     </item>
     
     <item>
@@ -143,6 +144,69 @@
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/reproducible-research/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Rstats</title>
+      <link>http://www.samabbott.co.uk/tags/rstats/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/rstats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Shiny</title>
+      <link>http://www.samabbott.co.uk/tags/shiny/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/shiny/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tableau</title>
+      <link>http://www.samabbott.co.uk/tags/tableau/</link>
+      <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/tableau/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tb</title>
+      <link>http://www.samabbott.co.uk/tags/tb/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/tb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tuberculosis</title>
+      <link>http://www.samabbott.co.uk/tags/tuberculosis/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/tuberculosis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Utilities</title>
+      <link>http://www.samabbott.co.uk/tags/utilities/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/utilities/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Who</title>
+      <link>http://www.samabbott.co.uk/tags/who/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/who/</guid>
       <description></description>
     </item>
     
