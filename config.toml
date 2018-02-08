@@ -151,6 +151,11 @@ defaultContentLanguageInSubdir = false
     icon = "github"
     icon_pack = "fa"
     link = "//github.com/seabbs"
+    
+  [[params.social]]
+    icon = "stack-overflow"
+    icon_pack = "fa"
+    link = "https://stackoverflow.com/users/9295446/sam-abbott"
 
 
 # Navigation Links
