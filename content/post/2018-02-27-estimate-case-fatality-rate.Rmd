@@ -248,7 +248,7 @@ plot_inc_high_cfr +
 
 We see that for some countries on this list (i.e Anguilla, the United Arab Emirates, and Barbados) the high case fatality ratio estimates are likely to be based on a very low sample size and therefore may not be trustworthy. Worryingly however for several countries (Lesotho, Tanzania, Kenya, Mozambique, Guinea-Bissau, and Ghana, and Nigeria) with extremely high case fatality ratios incidence rates are also very high, which will correspond to very high mortality rates. These countries are all in Africa, which as a region also had the highest incidence rates and the highest case fatality ratio. It is clear from these plots that Africa, and these countries in particular should be a particular focus of TB control efforts if TB mortality rates are to be reduced more quickly.
 
-Finally we summarise this post using `patchwork`, a great new package by [Thomas Pederson](https://twitter.com/thomasp85), which lets you easily compose ggplot plots into a single plot. The resulting storyboard (below) neatly summarises the exploratory plots, and the narrative they provide, that we have made in this post.
+Finally we summarise this post using `patchwork`, a great new package by [Thomas Pederson](https://twitter.com/thomasp85), which lets you easily combine ggplot plots into a single plot. The resulting storyboard (below) neatly summarises the exploratory plots, and the narrative they provide, that we have made in this post.
 
 ```{r pathwork-storyboard, fig.width = 24, fig.height = 16, dpi = 330, message = FALSE}
 storyboard <- (mp1 | mp2 ) /
@@ -265,7 +265,6 @@ storyboard <- (mp1 | mp2 ) /
 
 ggsave("../../static/img/getTBinR/storyboard_tb_case_fatality_rate.png",
        storyboard, width = 20, height = 15, dpi = 330)
-
 
 storyboard
 ```
