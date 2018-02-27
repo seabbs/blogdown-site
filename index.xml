@@ -292,7 +292,7 @@ plot_inc_high_cfr +
   labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-inc-rates-high-cfr-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;We see that for some countries on this list (i.e Anguilla, the United Arab Emirates, and Barbados) the high case fatality ratio estimates are likely to be based on a very low sample size and therefore may not be trustworthy. Worryingly however for several countries (Lesotho, Tanzania, Kenya, Mozambique, Guinea-Bissau, and Ghana, and Nigeria) with extremely high case fatality ratios incidence rates are also very high, which will correspond to very high mortality rates. These countries are all in Africa, which as a region also had the highest incidence rates and the highest case fatality ratio. It is clear from these plots that Africa, and these countries in particular should be a particular focus of TB control efforts if TB mortality rates are to be reduced more quickly.&lt;/p&gt;
-&lt;p&gt;Finally we summarise this post using &lt;code&gt;patchwork&lt;/code&gt;, a great new package by &lt;a href=&#34;https://twitter.com/thomasp85&#34;&gt;Thomas Pederson&lt;/a&gt;, which lets you easily compose ggplot plots into a single plot. The resulting storyboard (below) neatly summarises the exploratory plots, and the narrative they provide, that we have made in this post.&lt;/p&gt;
+&lt;p&gt;Finally we summarise this post using &lt;code&gt;patchwork&lt;/code&gt;, a great new package by &lt;a href=&#34;https://twitter.com/thomasp85&#34;&gt;Thomas Pederson&lt;/a&gt;, which lets you easily combine ggplot plots into a single plot. The resulting storyboard (below) neatly summarises the exploratory plots, and the narrative they provide, that we have made in this post.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;storyboard &amp;lt;- (mp1 | mp2 ) /
     {
       plot_region_case_fatality + {
@@ -307,7 +307,6 @@ plot_inc_high_cfr +
 
 ggsave(&amp;quot;../../static/img/getTBinR/storyboard_tb_case_fatality_rate.png&amp;quot;,
        storyboard, width = 20, height = 15, dpi = 330)
-
 
 storyboard&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/pathwork-storyboard-1.png&#34; width=&#34;7920&#34; /&gt;&lt;/p&gt;
