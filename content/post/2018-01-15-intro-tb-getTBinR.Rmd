@@ -6,7 +6,7 @@ slug: intro-getTBinR
 twitterImg: img/getTBinR/regional_tb_trends.png
 description: "Using GetTBinR to explore global trends in Tuberculosis incidence rates. Why evidence of regional decreases in incidence rates may not mean that eradication is on the horizon."
 categories: ["R"]
-tags: ["data analysis", "data visualisation", "rstats", "TB", "infectious disease"]
+tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "infectious disease"]
 ---
 
 ```{r knitr-opts, echo = FALSE}
