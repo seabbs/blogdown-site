@@ -1,5 +1,5 @@
 ---
-title: "Exploring Estimates of the Tuberculosis Case Fatality Rate - with getTBinR"
+title: "Exploring Estimates of the Tuberculosis Case Fatality Ratio - with getTBinR"
 author: "null"
 date: '2018-02-27'
 description: "Using GetTBinR to estimate and explore the tuberculosis case fatality rate and it's relationship to incidence rates and mortality rates."
