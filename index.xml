@@ -11,6 +11,311 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Exploring Estimates of the Tuberculosis Case Fatality Rate - with getTBinR</title>
+      <link>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</link>
+      <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</guid>
+      <description>&lt;p&gt;This is a quick post exploring estimates of the case fatality ratio for Tuberculosis (TB) from &lt;a href=&#34;http://www.who.int/tb/country/data/download/en/&#34;&gt;data&lt;/a&gt; published by the World Health Organisation (WHO). It makes use of &lt;a href=&#34;www.samabbott.co.uk/getTBinR&#34;&gt;getTBinR&lt;/a&gt; (which is now on &lt;a href=&#34;https://cran.r-project.org/web/packages/getTBinR/index.html&#34;&gt;CRAN&lt;/a&gt;), &lt;a href=&#34;https://github.com/trinker/pacman&#34;&gt;pacman&lt;/a&gt; for package management, &lt;a href=&#34;https://github.com/hrbrmstr/hrbrthemes&#34;&gt;hrbrthemes&lt;/a&gt; for plot themes, and &lt;a href=&#34;https://github.com/thomasp85/patchwork&#34;&gt;pathwork&lt;/a&gt; for combining multiple plots into a storyboard. For an introduction to using getTBinR to explore the WHO TB data see &lt;a href=&#34;https://www.samabbott.co.uk/post/intro-gettbinr/&#34;&gt;this&lt;/a&gt; post.&lt;/p&gt;
+&lt;p&gt;It is estimated that in 2016 there was more than 10 million cases of active TB, with 1.3 million deaths (&lt;a href=&#34;https://en.wikipedia.org/wiki/Tuberculosis&#34;&gt;source&lt;/a&gt;). This makes TB the leading cause of death from an infectious disease. Despite the high numbers of cases globally, and high levels of mortality, TB is often considered a historic disease in developed countries. However, in recent years previously declining trends have flattened out and there is increasing concern surrounding multi-drug resistant TB, which has a greatly reduced the rate of successful treatment (&lt;a href=&#34;http://www.who.int/mediacentre/factsheets/fs104/en/&#34;&gt;source&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;A key component of TB control is reducing the case fatality rate from active TB, this post explores WHO estimates for the TB case fatality rate in 2016 and then estimates the case fatality rates in previous years. The first step is to download and install the required packages, &lt;code&gt;pacman&lt;/code&gt; is used to manage this process.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (!require(pacman)) install.packages(&amp;quot;pacman&amp;quot;); library(pacman)
+p_load(&amp;quot;getTBinR&amp;quot;)
+p_load(&amp;quot;tidyverse&amp;quot;)
+p_load(&amp;quot;viridis&amp;quot;)
+p_load(&amp;quot;hrbrthemes&amp;quot;)
+p_load(&amp;quot;scales&amp;quot;)
+p_load_gh(&amp;quot;thomasp85/patchwork&amp;quot;, dependencies = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we use &lt;code&gt;getTBinR&lt;/code&gt; to download the TB burden data and its accompanying data dictionary.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_burden &amp;lt;- get_tb_burden(verbose = FALSE)
+dict &amp;lt;- get_data_dict(verbose = FALSE)
+
+tb_burden&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3,651 x 71
+##    country  iso2  iso3  iso_numeric g_whoregion  year e_pop_num e_inc_100k
+##    &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;       &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;       &amp;lt;int&amp;gt;     &amp;lt;int&amp;gt;      &amp;lt;dbl&amp;gt;
+##  1 Afghani… AF    AFG             4 Eastern Me…  2000  20093756       190.
+##  2 Afghani… AF    AFG             4 Eastern Me…  2001  20966463       189.
+##  3 Afghani… AF    AFG             4 Eastern Me…  2002  21979923       189.
+##  4 Afghani… AF    AFG             4 Eastern Me…  2003  23064851       189.
+##  5 Afghani… AF    AFG             4 Eastern Me…  2004  24118979       189.
+##  6 Afghani… AF    AFG             4 Eastern Me…  2005  25070798       189.
+##  7 Afghani… AF    AFG             4 Eastern Me…  2006  25893450       189.
+##  8 Afghani… AF    AFG             4 Eastern Me…  2007  26616792       189.
+##  9 Afghani… AF    AFG             4 Eastern Me…  2008  27294031       189.
+## 10 Afghani… AF    AFG             4 Eastern Me…  2009  28004331       189.
+## # ... with 3,641 more rows, and 63 more variables: e_inc_100k_lo &amp;lt;dbl&amp;gt;,
+## #   e_inc_100k_hi &amp;lt;dbl&amp;gt;, e_inc_num &amp;lt;int&amp;gt;, e_inc_num_lo &amp;lt;int&amp;gt;,
+## #   e_inc_num_hi &amp;lt;int&amp;gt;, e_inc_num_f014 &amp;lt;int&amp;gt;, e_inc_num_f014_lo &amp;lt;int&amp;gt;,
+## #   e_inc_num_f014_hi &amp;lt;int&amp;gt;, e_inc_num_f15plus &amp;lt;int&amp;gt;,
+## #   e_inc_num_f15plus_lo &amp;lt;int&amp;gt;, e_inc_num_f15plus_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_f &amp;lt;int&amp;gt;, e_inc_num_f_lo &amp;lt;int&amp;gt;, e_inc_num_f_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_m014 &amp;lt;int&amp;gt;, e_inc_num_m014_lo &amp;lt;int&amp;gt;,
+## #   e_inc_num_m014_hi &amp;lt;int&amp;gt;, e_inc_num_m15plus &amp;lt;int&amp;gt;,
+## #   e_inc_num_m15plus_lo &amp;lt;int&amp;gt;, e_inc_num_m15plus_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_m &amp;lt;int&amp;gt;, e_inc_num_m_lo &amp;lt;int&amp;gt;, e_inc_num_m_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_014 &amp;lt;int&amp;gt;, e_inc_num_014_lo &amp;lt;int&amp;gt;, e_inc_num_014_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_15plus &amp;lt;int&amp;gt;, e_inc_num_15plus_lo &amp;lt;int&amp;gt;,
+## #   e_inc_num_15plus_hi &amp;lt;int&amp;gt;, e_tbhiv_prct &amp;lt;dbl&amp;gt;, e_tbhiv_prct_lo &amp;lt;dbl&amp;gt;,
+## #   e_tbhiv_prct_hi &amp;lt;dbl&amp;gt;, e_inc_tbhiv_100k &amp;lt;dbl&amp;gt;,
+## #   e_inc_tbhiv_100k_lo &amp;lt;dbl&amp;gt;, e_inc_tbhiv_100k_hi &amp;lt;dbl&amp;gt;,
+## #   e_inc_tbhiv_num &amp;lt;int&amp;gt;, e_inc_tbhiv_num_lo &amp;lt;int&amp;gt;,
+## #   e_inc_tbhiv_num_hi &amp;lt;int&amp;gt;, e_mort_exc_tbhiv_100k &amp;lt;dbl&amp;gt;,
+## #   e_mort_exc_tbhiv_100k_lo &amp;lt;dbl&amp;gt;, e_mort_exc_tbhiv_100k_hi &amp;lt;dbl&amp;gt;,
+## #   e_mort_exc_tbhiv_num &amp;lt;int&amp;gt;, e_mort_exc_tbhiv_num_lo &amp;lt;int&amp;gt;,
+## #   e_mort_exc_tbhiv_num_hi &amp;lt;int&amp;gt;, e_mort_tbhiv_100k &amp;lt;dbl&amp;gt;,
+## #   e_mort_tbhiv_100k_lo &amp;lt;dbl&amp;gt;, e_mort_tbhiv_100k_hi &amp;lt;dbl&amp;gt;,
+## #   e_mort_tbhiv_num &amp;lt;int&amp;gt;, e_mort_tbhiv_num_lo &amp;lt;int&amp;gt;,
+## #   e_mort_tbhiv_num_hi &amp;lt;int&amp;gt;, e_mort_100k &amp;lt;dbl&amp;gt;, e_mort_100k_lo &amp;lt;dbl&amp;gt;,
+## #   e_mort_100k_hi &amp;lt;dbl&amp;gt;, e_mort_num &amp;lt;int&amp;gt;, e_mort_num_lo &amp;lt;int&amp;gt;,
+## #   e_mort_num_hi &amp;lt;int&amp;gt;, cfr &amp;lt;dbl&amp;gt;, cfr_lo &amp;lt;dbl&amp;gt;, cfr_hi &amp;lt;dbl&amp;gt;,
+## #   c_newinc_100k &amp;lt;dbl&amp;gt;, c_cdr &amp;lt;dbl&amp;gt;, c_cdr_lo &amp;lt;dbl&amp;gt;, c_cdr_hi &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dict&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 402 x 4
+##    variable_name            dataset              code_list   definition   
+##    &amp;lt;chr&amp;gt;                    &amp;lt;chr&amp;gt;                &amp;lt;chr&amp;gt;       &amp;lt;chr&amp;gt;        
+##  1 bmu                      Community engagement &amp;quot;&amp;quot;          Number of TB…
+##  2 bmu_community_impl       Community engagement &amp;quot;&amp;quot;          Number of TB…
+##  3 bmu_ref_data             Community engagement &amp;quot;&amp;quot;          Number of Ba…
+##  4 bmu_rxsupport_data       Community engagement &amp;quot;&amp;quot;          Number of Ba…
+##  5 bmu_rxsupport_data_coh   Community engagement &amp;quot;&amp;quot;          Total number…
+##  6 community_data_available Community engagement 0=No; 1=Yes Are data ava…
+##  7 notified_ref             Community engagement &amp;quot;&amp;quot;          Total number…
+##  8 notified_ref_community   Community engagement &amp;quot;&amp;quot;          Total number…
+##  9 rxsupport_community_coh  Community engagement &amp;quot;&amp;quot;          Total number…
+## 10 rxsupport_community_succ Community engagement &amp;quot;&amp;quot;          Total number…
+## # ... with 392 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We want to explore the case fatality rate (&lt;code&gt;cfr&lt;/code&gt;), lets first look at the WHO definition.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;search_data_dict(&amp;quot;cfr&amp;quot;, verbose = FALSE) %&amp;gt;% 
+  knitr::kable()&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;variable_name&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;dataset&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;code_list&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;cfr&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated TB case fatality ratio&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Maps can be a useful first visualisation for summarising spatial data, although they can also be misleading for more complex comparisons. Lets look at global TB incidence rates (per 100,000 population) in 2016, and the WHO estimate of the case fatality ratio in the same year.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Map TB incidence rates - 2016
+mp1 &amp;lt;- map_tb_burden(year = 2016, verbose = FALSE) +
+  scale_fill_viridis(option = &amp;quot;cividis&amp;quot;, direction = -1) +
+  labs(title = &amp;quot;Map of Tuberculosis Incidence Rates - 2016&amp;quot;,
+       subtitle = &amp;quot;Incidence rates are per 100,000 population&amp;quot;)
+
+mp1 +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/make-inc-map-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Map TB case fatality ratio -2016
+mp2 &amp;lt;- map_tb_burden(metric = &amp;quot;cfr&amp;quot;, year = 2016, verbose= FALSE) +
+  scale_fill_viridis(option = &amp;quot;cividis&amp;quot;, direction = -1) +
+  labs(title = &amp;quot;Map of Tuberculosis Case Fatality Ratio - 2016&amp;quot;,
+       subtitle = &amp;quot;Case fatality rate estimated by the WHO&amp;quot;)
+
+mp2 +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/make-cfr-map-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Whilst quantitative insights are hard to glean from the above maps we can see that incidence rates appear to be highest in Africa and Asia. It also looks like the case fatality ratios are highest in these regions as well.&lt;/p&gt;
+&lt;p&gt;The WHO have only provided estimates for the case fatality ratio for 2016, estimating the case fatality ratio for other years will allow trends over time to be explored. We do this by first summarising TB incidence rates, and mortality rates by region. This allows insights into the general global picture to be more easily extracted. The first step is to write a function to summarise rates on regional levels, we do this using &lt;code&gt;dplyr::summarise_at&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Make function to summarise rates in a given region
+rate_region &amp;lt;- function(df = NULL, metric = NULL) {
+  
+  metric_vars &amp;lt;- c(metric, paste0(metric, &amp;quot;_lo&amp;quot;), paste0(metric, &amp;quot;_hi&amp;quot;))
+  
+  df &amp;lt;- df %&amp;gt;% 
+    group_by(year, g_whoregion) %&amp;gt;% 
+    summarise_at(.vars = c(metric_vars, &amp;quot;e_pop_num&amp;quot;),
+                 .funs = funs(sum(as.numeric(.), na.rm = T))) %&amp;gt;% 
+    ungroup() %&amp;gt;% 
+    mutate_at(.vars = metric_vars,
+              .funs = funs(. / e_pop_num * 1e5))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We then write a reusable plotting function to visualise this data (making use of &lt;code&gt;aes_string&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Plotting function for rates
+plot_rate_region &amp;lt;- function(df = NULL, metric = NULL, title = NULL, subtitle = NULL, 
+                             y_lab = NULL, scales = NULL) {
+  
+  metric_vars &amp;lt;- c(metric, paste0(metric, &amp;quot;_lo&amp;quot;), paste0(metric, &amp;quot;_hi&amp;quot;))
+  
+  df %&amp;gt;% 
+    ggplot(aes_string(x = &amp;quot;year&amp;quot;, y = metric, col = &amp;quot;g_whoregion&amp;quot;, 
+                      fill = &amp;quot;g_whoregion&amp;quot;)) +
+    geom_point(size = 1.3) +
+    geom_ribbon(aes_string(ymin = metric_vars[2], ymax = metric_vars[3]), alpha = 0.3) +
+    geom_line(size = 1.1) +
+    scale_y_continuous(labels = comma) +
+    scale_colour_viridis(discrete = TRUE, option = &amp;quot;E&amp;quot;) +
+    scale_fill_viridis(discrete = TRUE, option = &amp;quot;E&amp;quot;) +
+    labs(title = title, subtitle = subtitle, 
+         x = &amp;quot;Year&amp;quot;, y = y_lab) +
+    theme_ipsum() +
+    theme(legend.position = &amp;quot;none&amp;quot;) +
+    facet_wrap(~g_whoregion, scales = scales)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can now quickly plot TB incidence rates by region, as well as mortality rates by region.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_inc_region &amp;lt;- tb_burden %&amp;gt;% 
+  rate_region(metric = &amp;quot;e_inc_num&amp;quot;) %&amp;gt;% 
+  plot_rate_region(metric = &amp;quot;e_inc_num&amp;quot;,
+                   title = &amp;quot;Tuberculosis Incidence Rates&amp;quot;,
+                   subtitle = &amp;quot;By WHO region: 2000 to 2016&amp;quot;,
+                   scales = &amp;quot;free_y&amp;quot;,
+                   y_lab = &amp;quot;Tuberculosis Incidence Rates (per 100,000 population)&amp;quot;)
+
+plot_inc_region +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-tb-inc-reg-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_mort_region &amp;lt;- tb_burden %&amp;gt;% 
+  rate_region(metric = &amp;quot;e_mort_num&amp;quot;) %&amp;gt;% 
+  plot_rate_region(metric = &amp;quot;e_mort_num&amp;quot;,
+                   title = &amp;quot;Tuberculosis Mortality Rates&amp;quot;,
+                   subtitle = &amp;quot;By WHO region: 2000 to 2016&amp;quot;,
+                   scales = &amp;quot;free_y&amp;quot;,
+                   y_lab = &amp;quot;Tuberculosis Mortality Rates (per 100,000 population)&amp;quot;)
+
+plot_mort_region +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-tb-mort-reg-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This gives an encouraging picture with both incidence rates and mortality rates declining in all regions. As we observed from the maps above incidence rates (and mortality rates) are highest in Africa, and South-East Asia. We also see that the rate of decline in incidence rates varies across regions, with South-East Asia and the Eastern Mediterranean experiencing the slowest decreases. Interestingly it also appears that mortality rates in some areas are decreasing more quickly than incidence rates, this is most notable for Europe. As mortality rates and incidence rates are highly correlated to explore in more depth we need to estimate the case fatality ratio for all years in the data.&lt;/p&gt;
+&lt;p&gt;To validate our estimates we first extract the regional estimates for the case fatality ratio based on the WHO estimates, by taking the mean (and standard deviation) of case fatality ratios by country in each region. This gives an estimate for case fatality rates at the regional level as well as the between country variation.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Summarise Case fatality rate by region - only availble for 2016
+region_case_fat &amp;lt;- tb_burden %&amp;gt;% 
+  filter(year %in% 2016) %&amp;gt;% 
+  group_by(year, g_whoregion) %&amp;gt;% 
+  summarise(mean = mean(cfr, na.rm = TRUE),
+            sd = sd(cfr, na.rm = TRUE)) %&amp;gt;% 
+  mutate(ll = mean - sd,
+         lll = mean - 2*sd,
+         hh = mean + sd,
+         hhh = mean + 2 * sd)
+
+region_case_fat&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 8
+## # Groups:   year [1]
+##    year g_whoregion             mean     sd       ll      lll    hh   hhh
+##   &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;                  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+## 1  2016 Africa                0.238  0.0899  0.148    0.0581  0.328 0.418
+## 2  2016 Americas              0.132  0.133  -0.00116 -0.134   0.265 0.397
+## 3  2016 Eastern Mediterranean 0.131  0.129   0.00173 -0.127   0.260 0.389
+## 4  2016 Europe                0.0837 0.0458  0.0379  -0.00792 0.130 0.175
+## 5  2016 South-East Asia       0.135  0.0439  0.0916   0.0477  0.179 0.223
+## 6  2016 Western Pacific       0.0885 0.0483  0.0402  -0.00810 0.137 0.185&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We then estimate the regional case fatality ratio by taking the regional mortality rate and dividing it by the regional incidence rate for each year. We also do this for the high and low mortality rate estimates (using the lowest estimate for TB mortality and the highest estimate for incidence rates to get the lower bound, and vice versa for the high bound). This gives,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;region_case_fatality &amp;lt;- tb_burden %&amp;gt;% 
+  rate_region(metric = &amp;quot;e_inc_num&amp;quot;) %&amp;gt;% 
+  left_join(tb_burden %&amp;gt;% 
+              rate_region(metric = &amp;quot;e_mort_num&amp;quot;)) %&amp;gt;% 
+  mutate(case_fat_rate = e_mort_num / e_inc_num,
+         case_fat_rate_lo = e_mort_num_lo / e_inc_num_hi,
+         case_fat_rate_hi = e_mort_num_hi / e_inc_num_lo)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Joining, by = c(&amp;quot;year&amp;quot;, &amp;quot;g_whoregion&amp;quot;, &amp;quot;e_pop_num&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;region_case_fatality&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 102 x 12
+##     year g_whoregion        e_inc_num e_inc_num_lo e_inc_num_hi  e_pop_num
+##    &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;                  &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;
+##  1  2000 Africa                 332.         210.         481.      6.59e8
+##  2  2000 Americas                36.5         28.6         45.6     8.38e8
+##  3  2000 Eastern Mediterra…     127.          87.0        175.      4.81e8
+##  4  2000 Europe                  52.3         38.1         68.8     8.69e8
+##  5  2000 South-East Asia        305.         175.         473.      1.57e9
+##  6  2000 Western Pacific        131.          91.9        178.      1.70e9
+##  7  2001 Africa                 337.         215.         487.      6.76e8
+##  8  2001 Americas                35.0         27.4         43.6     8.48e8
+##  9  2001 Eastern Mediterra…     126.          86.2        174.      4.92e8
+## 10  2001 Europe                  51.9         37.7         68.3     8.70e8
+## # ... with 92 more rows, and 6 more variables: e_mort_num &amp;lt;dbl&amp;gt;,
+## #   e_mort_num_lo &amp;lt;dbl&amp;gt;, e_mort_num_hi &amp;lt;dbl&amp;gt;, case_fat_rate &amp;lt;dbl&amp;gt;,
+## #   case_fat_rate_lo &amp;lt;dbl&amp;gt;, case_fat_rate_hi &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can then plot this using the &lt;code&gt;plot_rate_region&lt;/code&gt; function outlined above, combined with addition layers to compare our estimate to that produced by the WHO.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_region_case_fatality &amp;lt;- region_case_fatality %&amp;gt;%
+  plot_rate_region(metric = &amp;quot;case_fat_rate&amp;quot;,
+                   title = &amp;quot;Tuberculosis Case Fatality Rate&amp;quot;,
+                   subtitle = &amp;quot;By WHO region: 2000 to 2016&amp;quot;,
+                   scales = &amp;quot;free_y&amp;quot;,
+                   y_lab = &amp;quot;Estimated TB Case Fatality Ratio&amp;quot;) +
+  labs(caption = &amp;quot;Case fatality ratio estimated by taking the ratio of TB mortality rates and TB incidence rates each year in all years. For 2016 
+       the mean regional case fatality ratio estimated by the WHO is also shown (along with one and two standard deviations)&amp;quot;) +
+  geom_point(data = region_case_fat, aes(y = mean, x = year, fill = g_whoregion), shape = 2, size = 1.3, col = &amp;quot;black&amp;quot;) +
+  geom_linerange(data = region_case_fat, aes(ymin = ll, ymax = hh, y = NULL), alpha = 0.4, size = 1.2, col = &amp;quot;black&amp;quot;) +
+  geom_linerange(data = region_case_fat, aes(ymin = lll, ymax = hhh, y = NULL), alpha = 0.2, size = 1.2, col = &amp;quot;black&amp;quot;)
+  
+plot_region_case_fatality +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-regional-cfr-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We see that the estimate using mortality rates / incidence rates compares well to the estimate published for 2016 by the WHO, although there is substantial within country variation. For all regions our estimate has substantial uncertainty. The plot suggests that the TB case fatality ratio is decreasing over time in all regions, although this reduction appears to be very minimal in some regions (such as the Americas, Africa, and the Eastern Mediterranean). It is likely that this trend does not hold across all countries, but this is beyond the scope of this post (watch this space).&lt;/p&gt;
+&lt;p&gt;As a first look at the case fatality ratios in individual countries we can quickly pull out the 10 countries with the highest case fatality ratio in 2016. These are,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;highest_case_fataltity_countries &amp;lt;- tb_burden %&amp;gt;% 
+  filter(year %in% 2016) %&amp;gt;% 
+  arrange(desc(cfr)) %&amp;gt;% 
+  slice(1:10) %&amp;gt;% 
+  pull(country)
+
+highest_case_fataltity_countries&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;Barbados&amp;quot;                    &amp;quot;United Arab Emirates&amp;quot;       
+##  [3] &amp;quot;Anguilla&amp;quot;                    &amp;quot;Lesotho&amp;quot;                    
+##  [5] &amp;quot;Ghana&amp;quot;                       &amp;quot;Guinea-Bissau&amp;quot;              
+##  [7] &amp;quot;Nigeria&amp;quot;                     &amp;quot;United Republic of Tanzania&amp;quot;
+##  [9] &amp;quot;Mozambique&amp;quot;                  &amp;quot;Kenya&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can then plot the TB case fatality ratio in these countries, as well as the TB incidence rates over time.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Plot overview of cases fatality ratios
+plot_high_cfr &amp;lt;- plot_tb_burden_overview(metric = &amp;quot;cfr&amp;quot;, 
+                                         countries = highest_case_fataltity_countries,
+                                         verbose = FALSE) +
+  scale_color_viridis(option = &amp;quot;cividis&amp;quot;, direction = -1) +
+  theme_ipsum() +
+  theme(legend.position = &amp;quot;none&amp;quot;) +
+  labs(title = &amp;quot;Tuberculosis Case Fatality Ratio - 2016&amp;quot;,
+       subtitle = &amp;quot;For the countries with the 10 highest ratios&amp;quot;)
+
+plot_high_cfr +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-highest-cfr-countries-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_inc_high_cfr &amp;lt;- plot_tb_burden_overview(countries = highest_case_fataltity_countries,
+                                             verbose = FALSE) +
+  theme(legend.position = &amp;quot;none&amp;quot;) +
+  scale_color_viridis(option = &amp;quot;cividis&amp;quot;, direction = -1) +
+  theme_ipsum() +
+  theme(legend.position = &amp;quot;bottom&amp;quot;) +
+  labs(title = &amp;quot;Tuberculosis Incidence Rates - 2000:2016&amp;quot;,
+       subtitle = &amp;quot;In the countries with the 10 highest TB case fatality ratios&amp;quot;)
+
+plot_inc_high_cfr +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-inc-rates-high-cfr-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We see that for some countries on this list (i.e Anguilla, the United Arab Emirates, and Barbados) the high case fatality ratio estimates are likely to be based on a very low sample size and therefore may not be trustworthy. Worryingly however for several countries (Lesotho, Tanzania, Kenya, Mozambique, Guinea-Bissau, and Ghana, and Nigeria) with extremely high case fatality ratios incidence rates are also very high, which will correspond to very high mortality rates. These countries are all in Africa, which as a region also had the highest incidence rates and the highest case fatality ratio. It is clear from these plots that Africa, and these countries in particular should be a particular focus of TB control efforts if TB mortality rates are to be reduced more quickly.&lt;/p&gt;
+&lt;p&gt;Finally we summarise this post using &lt;code&gt;patchwork&lt;/code&gt;, a great new package by &lt;a href=&#34;https://twitter.com/thomasp85&#34;&gt;Thomas Pederson&lt;/a&gt;, which lets you easily compose ggplot plots into a single plot. The resulting storyboard (below) neatly summarises the exploratory plots, and the narrative they provide, that we have made in this post.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;storyboard &amp;lt;- (mp1 | mp2 ) /
+    {
+      plot_region_case_fatality + {
+        plot_high_cfr +
+          plot_inc_high_cfr +
+          labs(caption = &amp;quot;@seabbs Source: World Health Organisation&amp;quot;) +
+          plot_layout(ncol = 1)
+      } +
+        plot_layout(ncol = 2, widths = c(3, 1))
+    } +
+  plot_layout(ncol = 1, heights = c(2, 4))
+
+ggsave(&amp;quot;../../static/img/getTBinR/storyboard_tb_case_fatality_rate.png&amp;quot;,
+       storyboard, width = 20, height = 15, dpi = 330)
+
+
+storyboard&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/pathwork-storyboard-1.png&#34; width=&#34;7920&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The WHO TB data contains many more variables not mentioned in this post and getTBinR contains additional features, see the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34;&gt;site for getTBinR&lt;/a&gt; for details. See &lt;a href=&#34;https://gist.github.com/seabbs&#34;&gt;my gists&lt;/a&gt; for code snippets to get you started in exploring the data further. Package feature requests are welcome, preferably by filing a &lt;a href=&#34;https://github.com/seabbs/getTBinR/issues&#34;&gt;GitHub issue&lt;/a&gt;, as are suggestions for additional data sources to include.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Explore Global Tuberculosis</title>
       <link>http://www.samabbott.co.uk/project/exploreglobaltb/</link>
       <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
@@ -501,15 +806,6 @@ downward trend in premiums but is difficult to interpret due to the number of pr
       <pubDate>Thu, 03 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/talk/group_talk_17_08/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FC Dashboard</title>
-      <link>http://www.samabbott.co.uk/project/fcdashboard/</link>
-      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
       <description></description>
     </item>
     

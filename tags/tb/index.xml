@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017 Sam Abbott</copyright>
-    <lastBuildDate>Fri, 26 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 27 Feb 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/tb/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Exploring Estimates of the Tuberculosis Case Fatality Rate - with getTBinR</title>
+      <link>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</link>
+      <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</guid>
+      <description>This is a quick post exploring estimates of the case fatality ratio for Tuberculosis (TB) from data published by the World Health Organisation (WHO). It makes use of getTBinR (which is now on CRAN), pacman for package management, hrbrthemes for plot themes, and pathwork for combining multiple plots into a storyboard. For an introduction to using getTBinR to explore the WHO TB data see this post.
+It is estimated that in 2016 there was more than 10 million cases of active TB, with 1.</description>
+    </item>
     
     <item>
       <title>Explore Global Tuberculosis</title>
