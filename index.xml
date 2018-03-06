@@ -11,6 +11,15 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Introduction to getTBinR</title>
+      <link>http://www.samabbott.co.uk/talk/bidd_group_talk_18_03_06/</link>
+      <pubDate>Tue, 06 Mar 2018 14:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/talk/bidd_group_talk_18_03_06/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Exploring Estimates of the Tuberculosis Case Fatality Ratio - with getTBinR</title>
       <link>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
@@ -797,15 +806,6 @@ downward trend in premiums but is difficult to interpret due to the number of pr
 
 &lt;p&gt;Hopefully this post was a useful introduction to the Pebble Game and to the simple dynamics of infectious disease dynamics and vaccination. If you have any suggests for another blog post, or future developments to the Pebble Game then please comment below or contact me by &lt;a href=&#34;https://twitter.com/seabbs&#34; target=&#34;_blank&#34;&gt;twitter&lt;/a&gt; or &lt;a href=&#34;https://www.samabbott.co.uk/#contact&#34; target=&#34;_blank&#34;&gt;email&lt;/a&gt;&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Modelling BCG vaccination in the UK: What is the impact of changing vaccination policy?</title>
-      <link>http://www.samabbott.co.uk/talk/group_talk_17_08/</link>
-      <pubDate>Thu, 03 Aug 2017 14:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/talk/group_talk_17_08/</guid>
-      <description></description>
     </item>
     
   </channel>
