@@ -6,7 +6,7 @@
     <description>Recent content in Homes on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
+    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
     <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/home/index.xml" rel="self" type="application/rss+xml" />
@@ -51,7 +51,7 @@
     <item>
       <title>Teaching</title>
       <link>http://www.samabbott.co.uk/home/teaching/</link>
-      <pubDate>Tue, 20 Jun 2017 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/home/teaching/</guid>
       <description>I am helping to develop practicals for a short course at the School of Social and Community Medicine at the University of Bristol. As part of this I am developing a shiny app to allow exploration of a range of simple infectious disease models.</description>
@@ -63,6 +63,15 @@
       <pubDate>Wed, 20 Apr 2016 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/home/contact/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tags</title>
+      <link>http://www.samabbott.co.uk/home/tags/</link>
+      <pubDate>Wed, 20 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/home/tags/</guid>
       <description></description>
     </item>
     
