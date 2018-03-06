@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Introduction to getTBinR</title>
+    <meta charset="utf-8">
+    <meta name="author" content="Sam Abbott" />
+    <link href="libs/remark-css/default.css" rel="stylesheet" />
+    <link href="libs/remark-css/default-fonts.css" rel="stylesheet" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# Introduction to getTBinR
+## Explore WHO Tuberculosis data using R
+### Sam Abbott
+### 2018/03/06
+
+---
+
+
+
+
+# Aims
+
+1. Introduce [getTBinR](https://www.samabbott.co.uk/getTBinR/)
+
+1. Explore package functionality
+
+1. Look at package structure
+
+1. Outreach
+
+1. Planned functionality
+
+1. Wrap up and analysis ideas
+
+---
+class: center, middle, inverse
+
+# Background
+
+---
+
+# Motivation
+
+- Attended Epidemics at which there were many great R packages being presented, this made me very jealous!
+
+- All my analytical work is wrapped in R packages so this gave me the tools I needed to quickly make a package.
+
+- Working on the WHO TB data for several projects I found myself constantly downloading it and cleaning it.
+
+- Started developing some tools to make this process quicker, along the way I realised more people might find the package useful.
+
+- getTBinR is born!
+
+---
+
+# World Health Organisation TB data
+
+The WHO provide multiple cleaned datasets via their website. They also have a backend API through which other datasets can be accessed, although these tend to be far from tidy. All analysis ready datasets come with a complete data dictionary.
+
+![](img/who-data.png)&lt;!-- --&gt;
+
+---
+class: center, middle, inverse
+
+# Set-up
+
+---
+# Install the package
+
+CRAN version:
+
+
+```r
+install.packages("getTBinR")
+```
+
+Alternatively install the GitHub development version:
+
+
+```r
+install.packages("devtools")
+devtools::install_github("seabbs/getTBinR")
+```
+
+---
+
+# Packages for this presentation
+
+This presentation makes use of the [tidyverse](https://www.tidyverse.org/), and [knitr](https://yihui.name/knitr/). It was built using [xaringan](https://github.com/yihui/xaringan).
+
+
+```r
+library(getTBinR)
+#install.packages("tidyverse")
+library(tidyverse)
+#install.packages("knitr")
+library(knitr)
+```
+
+---
+
+# Getting the WHO TB burden data
+
+Get the WHO TB burden data.
+
+```r
+tb_burden &lt;- getTBinR::get_tb_burden()
+```
+
+```
+## Downloading data from: https://extranet.who.int/tme/generateCSV.asp?ds=estimates
+```
+
+```
+## Saving data to: /tmp/RtmpJgWBcF/TB_burden.rds
+```
+
+Inspect the dimensions.
+
+```r
+dim(tb_burden)
+```
+
+```
+## [1] 3651   71
+```
+
+---
+
+# Getting the WHO TB burden data
+
+Inspect variables.
+
+
+```r
+names(tb_burden)
+```
+
+```
+##  [1] "country"                  "iso2"                    
+##  [3] "iso3"                     "iso_numeric"             
+##  [5] "g_whoregion"              "year"                    
+##  [7] "e_pop_num"                "e_inc_100k"              
+##  [9] "e_inc_100k_lo"            "e_inc_100k_hi"           
+## [11] "e_inc_num"                "e_inc_num_lo"            
+## [13] "e_inc_num_hi"             "e_inc_num_f014"          
+## [15] "e_inc_num_f014_lo"        "e_inc_num_f014_hi"       
+## [17] "e_inc_num_f15plus"        "e_inc_num_f15plus_lo"    
+## [19] "e_inc_num_f15plus_hi"     "e_inc_num_f"             
+## [21] "e_inc_num_f_lo"           "e_inc_num_f_hi"          
+## [23] "e_inc_num_m014"           "e_inc_num_m014_lo"       
+## [25] "e_inc_num_m014_hi"        "e_inc_num_m15plus"       
+## [27] "e_inc_num_m15plus_lo"     "e_inc_num_m15plus_hi"    
+## [29] "e_inc_num_m"              "e_inc_num_m_lo"          
+## [31] "e_inc_num_m_hi"           "e_inc_num_014"           
+## [33] "e_inc_num_014_lo"         "e_inc_num_014_hi"        
+## [35] "e_inc_num_15plus"         "e_inc_num_15plus_lo"     
+## [37] "e_inc_num_15plus_hi"      "e_tbhiv_prct"            
+## [39] "e_tbhiv_prct_lo"          "e_tbhiv_prct_hi"         
+## [41] "e_inc_tbhiv_100k"         "e_inc_tbhiv_100k_lo"     
+## [43] "e_inc_tbhiv_100k_hi"      "e_inc_tbhiv_num"         
+## [45] "e_inc_tbhiv_num_lo"       "e_inc_tbhiv_num_hi"      
+## [47] "e_mort_exc_tbhiv_100k"    "e_mort_exc_tbhiv_100k_lo"
+## [49] "e_mort_exc_tbhiv_100k_hi" "e_mort_exc_tbhiv_num"    
+## [51] "e_mort_exc_tbhiv_num_lo"  "e_mort_exc_tbhiv_num_hi" 
+## [53] "e_mort_tbhiv_100k"        "e_mort_tbhiv_100k_lo"    
+## [55] "e_mort_tbhiv_100k_hi"     "e_mort_tbhiv_num"        
+## [57] "e_mort_tbhiv_num_lo"      "e_mort_tbhiv_num_hi"     
+## [59] "e_mort_100k"              "e_mort_100k_lo"          
+## [61] "e_mort_100k_hi"           "e_mort_num"              
+## [63] "e_mort_num_lo"            "e_mort_num_hi"           
+## [65] "cfr"                      "cfr_lo"                  
+## [67] "cfr_hi"                   "c_newinc_100k"           
+## [69] "c_cdr"                    "c_cdr_lo"                
+## [71] "c_cdr_hi"
+```
+
+---
+
+# Getting the WHO TB data dictionary
+
+Get the WHO TB data dictionary.
+
+
+```r
+tb_dict &lt;- getTBinR::get_data_dict()
+```
+
+```
+## Downloading data from: https://extranet.who.int/tme/generateCSV.asp?ds=dictionary
+```
+
+```
+## Saving data to: /tmp/RtmpJgWBcF/TB_data_dict.rds
+```
+
+Inspect the dimensions.
+
+```r
+dim(tb_dict)
+```
+
+```
+## [1] 402   4
+```
+
+Inspect variables.
+
+```r
+names(tb_dict)
+```
+
+```
+## [1] "variable_name" "dataset"       "code_list"     "definition"
+```
+
+---
+class: center, middle, inverse
+
+# Exploring getTBinR functionality
+
+---
+
+# Search for a variable
+
+
+```r
+vars_of_interest &lt;- getTBinR::search_data_dict(var = c("e_inc_100k"),
+                                               def = "incidence")
+```
+
+```
+## Loading data from: /tmp/RtmpJgWBcF/TB_data_dict.rds
+```
+
+```
+## 1 results found for your variable search for e_inc_100k
+```
+
+```
+## 12 results found for your definition search for incidence
+```
+
+---
+
+# Search Result
+
+
+```r
+kable(vars_of_interest, "html")
+```
+
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; variable_name &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; dataset &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; code_list &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; definition &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_100k &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence (all forms) per 100 000 population &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_100k_hi &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence (all forms) per 100 000 population, high bound &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_100k_lo &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence (all forms) per 100 000 population, low bound &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_rr_num &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence of rifampicin resistant TB (absolute number) &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_rr_num_hi &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence of rifampicin resistant TB (absolute number): high bound &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_rr_num_lo &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence of rifampicin resistant TB (absolute number): low bound &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_tbhiv_100k &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence of TB cases who are HIV-positive per 100 000 population &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_tbhiv_100k_hi &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence of TB cases who are HIV-positive per 100 000 population, high bound &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_tbhiv_100k_lo &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence of TB cases who are HIV-positive per 100 000 population, low bound &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_tbhiv_num &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence of TB cases who are HIV-positive &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_tbhiv_num_hi &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence of TB cases who are HIV-positive, high bound &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; e_inc_tbhiv_num_lo &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimates &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt;  &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Estimated incidence of TB cases who are HIV-positive, low bound &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+
+---
+
+# Map Global Incidence Rates
+
+
+```r
+getTBinR::map_tb_burden(metric = "e_inc_100k", verbose = FALSE, interactive = FALSE)
+```
+
+![](presentation_files/figure-html/map-global-inc-1.svg)&lt;!-- --&gt;
+
+---
+
+# Get 10 countries with highest incidence rates in 2016
+
+
+```r
+high_inc_countries &lt;- tb_burden %&gt;% 
+  filter(year == 2016) %&gt;% 
+  group_by(country) %&gt;% 
+  summarise(e_inc_100k = max(e_inc_100k)) %&gt;% 
+  ungroup %&gt;% 
+  arrange(desc(e_inc_100k)) %&gt;% 
+  slice(1:10) %&gt;% 
+  pull(country) %&gt;% 
+  unique
+```
+
+---
+
+# 10 countries with highest incidence rates in 2016
+
+
+```r
+high_inc_countries
+```
+
+```
+##  [1] "South Africa"                         
+##  [2] "Lesotho"                              
+##  [3] "Kiribati"                             
+##  [4] "Philippines"                          
+##  [5] "Mozambique"                           
+##  [6] "Democratic People's Republic of Korea"
+##  [7] "Timor-Leste"                          
+##  [8] "Gabon"                                
+##  [9] "Namibia"                              
+## [10] "Papua New Guinea"
+```
+
+---
+
+# Overview of TB incidence rates
+
+For the countries with the 10 highest incidence rates
+
+
+```r
+getTBinR::plot_tb_burden_overview(metric = "e_inc_100k", countries = high_inc_countries,
+                                  verbose = FALSE)
+```
+
+![](presentation_files/figure-html/plot-tb-inc-overview-1.svg)&lt;!-- --&gt;
+---
+
+# Trends over time in TB incidence rates
+
+For the countries with the 10 highest incidence rates
+
+
+```r
+plot_tb_burden(metric = "e_inc_100k",  
+               countries = high_inc_countries,
+               facet = "country", scales = "free_y",
+               verbose = FALSE)
+```
+
+![](presentation_files/figure-html/plot-inc--by-country-1.svg)&lt;!-- --&gt;
+
+---
+
+# For non R users
+
+getTBinR has a built in `shiny` dashboard which can be run locally using `getTBinR::run_tb_dashboard()`. Alternatively there is a [hosted version](http://www.seabbs.co.uk/shiny/ExploreGlobalTB/). 
+
+![](img/ExploreGlobalTB.png)&lt;!-- --&gt;
+---
+class: center, middle, inverse
+
+# Package Structure
+
+---
+
+# Documentation
+
+Documentation is built using `roxygen`, this is then used to generate a package website using `pkgdown`. See [here](https://github.com/seabbs/getTBinR/blob/master/_pkgdown.yml) for the yaml and [here](https://www.samabbott.co.uk/getTBinR/index.html) for the site.
+
+![](img/pkgdown_site.png)&lt;!-- --&gt;
+
+---
+
+# Testing
+
+- Unit tests are implemented using the `testthat` package. 
+
+- The package is then tested on Linux and Mac using [Travis](https://travis-ci.com/), and on Windows using [AppVeyor](https://ci.appveyor.com/login). See [here](https://github.com/seabbs/getTBinR/tree/master/tests/testthat) for tests, [here](https://github.com/seabbs/getTBinR/blob/master/.travis.yml) for travis set-up , and [here] for [here](https://github.com/seabbs/getTBinR/blob/master/appveyor.yml) Appveyor set-up.
+
+- Code coverage is then checked using [Codecov](https://codecov.io/github/seabbs/getTBinR?branch=master). 
+
+Example test:
+
+
+```r
+test_that("TB burden data is the same when downloaded using utils::read.csv", {
+  tb_data_utils &lt;- get_tb_burden(download_data = TRUE,
+                                 use_utils = TRUE,
+                                 burden_save_name = "TB_with_utils")
+  
+  skip_on_cran()
+  expect_equal(tb_data, tb_data_utils)
+})
+```
+
+---
+class: center, middle, inverse
+
+# Outreach
+
+---
+
+# Blog posts
+
+I have written several blog posts which have then be editted into vignettes, see [here](https://www.samabbott.co.uk/tags/who/)
+
+![](img/blog.png)&lt;!-- --&gt;
+
+---
+
+# Gists and Tweets
+
+Gists [here](https://gist.github.com/seabbs) and twitter [here](https://twitter.com/seabbs).
+
+![](img/gists.png)&lt;!-- --&gt;
+
+---
+class: center, middle, inverse
+
+# Planned Funtionality
+
+---
+
+# Issues
+
+Currently planned functionality has been outlined in the GitHub issues, found [here](https://github.com/seabbs/getTBinR/issues).
+
+![](img/issues.png)&lt;!-- --&gt;
+
+---
+class: center, middle, inverse
+
+# Wrap up
+
+---
+
+# Wrap up
+
+
+Hopefully you enjoyed your whistle stop tour of `getTBinR` and R package construction. I'm interested in your ideas of what can be done with this data. An example;
+
+- Multilevel model to explore country level contributions to incidence rates.
+---
+    </textarea>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function() {
+  var d = document, s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})();</script>
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+  tex2jax: {
+    skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+  }
+});
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://cdn.bootcss.com/mathjax/2.7.1/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>
