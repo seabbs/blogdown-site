@@ -49,7 +49,7 @@ search_data_dict(dict = dict, def = "incidence", verbose = FALSE) %>%
 
 The first hit, `e_inc_100k`, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function `map_tb_burden`,
 
-```{r map-tb-2016-inc}
+```{r map-tb-2016-inc, message = FALSE}
 map_tb_burden(df = tb_burden, dict = dict,
               metric = "e_inc_100k", verbose = FALSE) +
   labs(title = "Map of Global Tuberculosis Incidence Rates - 2016",
@@ -58,7 +58,7 @@ map_tb_burden(df = tb_burden, dict = dict,
 
 This shows that incidence rates are highly heterogeneous between regions. To get an better understanding of this lets plot incidence rates by WHO region, 
 
-```{r plot-region-tb-inc}
+```{r plot-region-tb-inc, message = FALSE}
 tb_inc_region <- tb_burden %>% 
   group_by(year, g_whoregion) %>% 
   summarise_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi, e_pop_num),
@@ -90,7 +90,7 @@ tb_inc_region %>%
 
 We see that incidence rates are much higher in Africa, and in Asia, than in other regions, and that incidence rates in the Americas and Europe are the lowest. This chart has a fixed y axis which makes it hard to see trends over time within regions, if we repeat it with a free y axis the trends over time become more apparent,
 
-```{r plot-region-tb-inc-free}
+```{r plot-region-tb-inc-free, message = FALSE}
 tb_inc_region %>% 
   plot_tb_inc_region(title = "Global Tuberculosis Incidence Rates",
                      subtitle = "By WHO region, with a variable y axis",
@@ -123,7 +123,7 @@ high_inc_up_countries <- intersect(countries_inc_up, high_inc_countries)
 
 This results in a list of `r length(countries_inc_up)` countries all of which had higher incidence rates in 2016 than in 2000. Of these countries `r  length(high_inc_up_countries)` were in the top 20 countries by incidence rate in 2016. This can plotted below using `getTBinR::plot_tb_burden_overview`, 
 
-```{r plot-tb-inc-high-inc-overview}
+```{r plot-tb-inc-high-inc-overview, message = FALSE}
 plot_tb_burden_overview(df = tb_burden,
                         dict = dict, 
                         metric = "e_inc_100k", 
@@ -136,7 +136,7 @@ plot_tb_burden_overview(df = tb_burden,
 
 GetTBinR also supplies another function (`plot_tb_burden`) that can be used to visualise this,
 
-```{r plot-tb-inc-high-inc}
+```{r plot-tb-inc-high-inc, message = FALSE}
 plot_tb_burden(df = tb_burden,
                dict = dict,
                metric = "e_inc_100k", countries = high_inc_up_countries, 
@@ -155,7 +155,7 @@ search_data_dict(dict = dict, def = "detection", verbose = FALSE) %>%
 
 We then plot the case detection rate over time in the countries of interest,
 
-```{r plot-tb-inc-high-case}
+```{r plot-tb-inc-high-case, message = FALSE}
 plot_tb_burden(df = tb_burden,
                dict = dict,
                metric = "c_cdr", countries = high_inc_up_countries, 

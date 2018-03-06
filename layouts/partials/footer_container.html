@@ -1,0 +1,37 @@
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      {{ with .Site.Copyright }}{{ . | markdownify}} &middot; {{ end }}
+  
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a> &middot;
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+        {{ if .File.Path }}
+    {{ $.Scratch.Set "FilePath" .File.Path }}
+    {{ $RmdFile := (print .File.BaseFileName ".Rmd") }}
+    {{ $Files := readDir (print "content/" .File.Dir) }}
+    {{ if (where $Files "Name" $RmdFile) }}
+      {{ $.Scratch.Set "FilePath" (print .File.Dir $RmdFile) }}
+    {{ else }}
+      {{ $RmdFile := (print .File.BaseFileName ".Rmarkdown") }}
+      {{ $mdFile := (print .File.BaseFileName ".md") }}
+      {{ if (where $Files "Name" $RmdFile) }}
+        {{ $.Scratch.Set "FilePath" (print .File.Dir $RmdFile) }}
+      {{ else }} 
+        {{ $.Scratch.Set "FilePath" (print .File.Dir $mdFile) }}
+      {{ end }}
+    {{ end }}
+    {{ with .Site.Params.GithubEdit}}
+     <a href="{{ . }}{{ $.Scratch.Get "FilePath" }}">Edit this page.</a>
+    {{ end }}
+  {{ end }} 
+    </p>
+  </div>
+</footer>

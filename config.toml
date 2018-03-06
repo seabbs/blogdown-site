@@ -1,11 +1,14 @@
 baseurl = "http://www.samabbott.co.uk/"  # End your URL with a `/` trailing slash.
 title = "Sam Abbott"
-copyright = "&copy; 2017 Sam Abbott"
+copyright = "&copy; 2018 Sam Abbott"
 theme = "hugo-academic"
 enableEmoji = true
 footnotereturnlinkcontents = "<sup>^</sup>"
 ignoreFiles = ["\\.Rmd$", "\\.Rmarkdown$", "_files$", "_cache$"]
 relativeurls = true
+preserveTaxonomyNames = true
+paginate = 10
+
 # Enable comments by entering your Disqus shortname
 disqusShortname = "samabbott-co-uk"
 
@@ -16,14 +19,30 @@ googleAnalytics = "UA-85604924-1"
 defaultContentLanguage = "en"
 defaultContentLanguageInSubdir = false
 
+[outputs]
+  home = [ "HTML", "CSS", "RSS" ]
+  section = [ "HTML", "RSS" ]
+  
 [blackfriday]
   hrefTargetBlank = true
+  fractions = true  # `false` disables smart fractions (e.g. 5/12 formatted as a fraction).
+  smartypants = true  # `false` disables all smart punctuation substitutions (e.g. smart quotes, dashes, fractions).
 
 [params]
+  # Color theme.
+  #   Choose from `default`, `ocean`, `forest`, `coffee`, `dark`, or `1950s`.
+  color_theme = "default"
+  
+    # Font style.
+  #   Choose from `default`, `classic`, or `playfair`.
+  font = "default"
+  
   name = "Sam Abbott"
-  role = "PhD student"
-  organization = "BIDD, University of Bristol"
-  organization_url = "http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/"
+  role = "PhD student and Data Scientist"
+  organizations =  [ { name = "BIDD, University of Bristol", url = "http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/"},
+  { name = "Funding Circle", url = "http://fundingcircle.com"}]
+  
+  gravatar = false  # Get your avatar from Gravatar.com? (true/false)
   avatar = "portrait.jpg"
   email = "contact@samabbott.co.uk"
   address = "BF8, Oakfield House, School of Social and Community Medicine, University of Bristol "
@@ -35,14 +54,50 @@ defaultContentLanguageInSubdir = false
   description = "Personal blog: Writing about infectious disease epidemiology, peer to peer lending and R."
   twitterAuthor = "@seabbs"
   twitterSite = "@seabbs"
-  logo = "portrait.jpg"
+  
+  logo = ""
+  
+    # Enable/disable map in Contact widget.
+  # To show your address on a map in the contact widget, you need to enter your latitude, longitude and choose
+  # a map provider below.
+  # To use Google Maps, set `map = 1` and enter your API key that can be obtained here:
+  #   https://developers.google.com/maps/documentation/javascript/get-api-key
+  # To use OpenStreetMap tiles, set `map = 2`.
+  # To use OpenStreetMap on a high traffic site, set `map = 3` and enter your API key that can be obtained here:
+  #   https://www.mapbox.com/studio/account/tokens
+  # To get your coordinates, right-click on Google Maps and choose "What's here?". The coords will show up at the bottom.
+  #
+  # Map provider:
+  #   0: No map
+  #   1: Google Maps
+  #   2: OpenStreetMap (Mapnik)
+  #   3: OpenStreetMap (Mapbox)
+  map = 0
+  map_api_key = ""
+  latitude = "51.4545"
+  longitude = "-2.5879"
+  zoom = 15
+
+
   # Enable Keybase in Contact section by entering your keybase.io username.
   keybase = ""
 
   # Date format (refer to Go's date format: http://flippinggodateformat.com )
   #   Examples: "Mon, Jan 2, 2006" or "2006-01-02"
   date_format = "Mon, Jan 2, 2006"
+  #   Examples: "3:04 pm" or "15:04"
+  time_format = "3:04 PM"
 
+
+  # Show estimated reading time for posts?
+  reading_time = true
+
+  # Display comment count? Requires commenting to be enabled.
+  comment_count = true
+
+  # Display next/previous section pager?
+  section_pager = false
+  
   # Enable global LaTeX math rendering?
   #   If false, you can enable it locally on a per page basis.
   math = true
@@ -69,21 +124,14 @@ defaultContentLanguageInSubdir = false
   #
   #     Example: highlight_style = "github-gist"
   #
-  #   highlight_version
-  #     Choose the version of highlight.js you want. Setting this
-  #     option in a page's preamble has no effect.
-  #
-  #     Example: highlight_version = "9.9.0"
-  #
-  #   For the list of supported languages, styles, and versions, see:
+  #   For the list of supported languages and styles, see:
   #   https://cdnjs.com/libraries/highlight.js/
   #
   #   For more info on the highlighting options, see:
-  #   https://gcushen.github.io/hugo-academic-demo/post/writing-markdown-latex/#highlighting-options
+  #   https://sourcethemes.com/academic/post/writing-markdown-latex/#highlighting-options
   highlight = true
   highlight_languages = []
   # highlight_style = "github"
-  # highlight_version = "9.9.0"
 
   # Enable native social sharing buttons?
   sharing = true
@@ -98,17 +146,42 @@ defaultContentLanguageInSubdir = false
   #   The index of the publication type in the list is used as its unique numerical identifier.
   #   The numeric ID is used in a publication's frontmatter to categorize it.
   #   The language can be edited below.
-  #   For multi-lingual sites, copy this block to each language section at the end of this file.
+  #   For multilingual sites, `publication_types` can be copied to each language section at the end of this file and
+  #   translated.
   publication_types = [
     'Uncategorized',  # 0
-    'Conference proceedings',  # 1
-    'Journal',  # 2
-    'Work in progress',  # 3
-    'Technical report',  # 4
+    'Conference paper',  # 1
+    'Journal article',  # 2
+    'Manuscript',  # 3
+    'Report',  # 4
     'Book',  # 5
-    'Book chapter'  # 6
+    'Book section'  # 6
   ]
+  
+  
+    # Configuration of talk pages.
+  [params.talks]
+    # Show talk time?
+    time = false
 
+  # Configuration of publication pages.
+  [params.publications]
+    # Date format (refer to Go's date format: http://fuckinggodateformat.com )
+    #   Examples: "Mon, Jan 2, 2006" or "2006-01-02"
+    date_format = "January, 2006"
+
+  # Configuration of project pages.
+  [params.projects]
+    # List publications and talks related to the project?
+    list_children = true
+  
+      # Publication list format.
+    #   0 = Simple
+    #   1 = Detailed
+    #   2 = APA
+    #   3 = MLA
+    publication_format = 3
+    
   # Social/Academic Networking
   #
   # Icon pack "fa" includes the following social network icons:
@@ -163,6 +236,10 @@ defaultContentLanguageInSubdir = false
 #     desired widget in your `content/home/` folder.
 #   The weight parameter defines the order that the links will appear in.
 
+[params.menus]
+  # Align the main menu to the right of the page? (true/false)
+  align_right = true
+  
 [[menu.main]]
   name = "Home"
   url = "#about"
@@ -194,9 +271,15 @@ defaultContentLanguageInSubdir = false
   weight = 7
 
 [[menu.main]]
+  name = "Tags"
+  url = "#tags"
+  weight = 8
+  
+[[menu.main]]
   name = "CV"
   url = "pdf/cv_sea.pdf"
-  weight = 8
+  weight = 9
+  
 # Taxonomies.
 [taxonomies]
   tag = "tags"

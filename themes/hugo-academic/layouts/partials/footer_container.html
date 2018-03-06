@@ -3,9 +3,11 @@
     <p class="powered-by">
 
       {{ with .Site.Copyright }}{{ . | markdownify}} &middot; {{ end }}
-  
-      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
-      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a> &middot;
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
       <span class="pull-right" aria-hidden="true">
         <a href="#" id="back_to_top">
           <span class="button_icon">
@@ -13,25 +15,31 @@
           </span>
         </a>
       </span>
-        {{ if .File.Path }}
-    {{ $.Scratch.Set "FilePath" .File.Path }}
-    {{ $RmdFile := (print .File.BaseFileName ".Rmd") }}
-    {{ $Files := readDir (print "content/" .File.Dir) }}
-    {{ if (where $Files "Name" $RmdFile) }}
-      {{ $.Scratch.Set "FilePath" (print .File.Dir $RmdFile) }}
-    {{ else }}
-      {{ $RmdFile := (print .File.BaseFileName ".Rmarkdown") }}
-      {{ $mdFile := (print .File.BaseFileName ".md") }}
-      {{ if (where $Files "Name" $RmdFile) }}
-        {{ $.Scratch.Set "FilePath" (print .File.Dir $RmdFile) }}
-      {{ else }} 
-        {{ $.Scratch.Set "FilePath" (print .File.Dir $mdFile) }}
-      {{ end }}
-    {{ end }}
-    {{ with .Site.Params.GithubEdit}}
-     <a href="{{ . }}{{ $.Scratch.Get "FilePath" }}">Edit this page.</a>
-    {{ end }}
-  {{ end }} 
+
     </p>
   </div>
 </footer>
+
+<!-- Citation modal -->
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">{{ i18n "btn_cite" }}</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> {{ i18n "btn_copy" }}
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> {{ i18n "btn_download" }}
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>

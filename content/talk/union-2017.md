@@ -1,5 +1,8 @@
 +++
-date = "2017-10-11T00:00:00"
+date = "2017-10-11T15:00:00"
+time_start = 2017-10-11T15:00:00
+time_end = 2017-10-11T15:15:00
+
 title = "Beneficial effects of BCG vaccination in outcomes for patients diagnosed with TB: observational study using the Enhanced Tuberculosis surveillance system 2009-2015"
 abstract = ""
 abstract_short = ""
