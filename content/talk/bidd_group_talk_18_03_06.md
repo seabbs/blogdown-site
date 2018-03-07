@@ -14,7 +14,7 @@ math = true
 
 projects = ["gettbinr"]
 
-url_slides = "https://www.samabbott.co.uk/talks/bidd_group_pres_18_03_06.html"
+url_slides = "https://www.samabbott.co.uk/talks/bidd_group_talk_18_03_06.html"
 url_video = ""
 
 # Optional featured image (relative to `static/img/` folder).
