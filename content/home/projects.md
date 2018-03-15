@@ -53,6 +53,10 @@ filter_default = 0
   tag = ".phd-thesis"
   
 [[filter]]
+  name = "Courses"
+  tag = ".course"
+  
+[[filter]]
   name = "P2P Finance"
   tag = ".p2p"
 
