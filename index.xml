@@ -11,6 +11,15 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Estimating the effect of the 2005 UK BCG vaccination policy change: A retrospective cohort study using the Enhanced Tuberculosis Surveillance system, 2000-2015</title>
+      <link>http://www.samabbott.co.uk/talk/phe-applied-epi-2018/</link>
+      <pubDate>Tue, 20 Mar 2018 11:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/talk/phe-applied-epi-2018/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Introduction to getTBinR</title>
       <link>http://www.samabbott.co.uk/talk/bidd_group_talk_18_03_06/</link>
       <pubDate>Tue, 06 Mar 2018 14:00:00 +0000</pubDate>
@@ -756,15 +765,6 @@ downward trend in premiums but is difficult to interpret due to the number of pr
 
 &lt;p&gt;As a final note whilst it is great that Property Partner releases data this analysis was limited by the quality of the data published. If their is interest in more of these deep data dives then I would suggest contacting the peer to peer platforms that you invest in and asking that a live data extract be made available, without a login or extensive user agreement. This would ideally contain a unique ID for each loan/property etc, information on both primary and secondary market transactions, and metadata about each loan/property; such as location, type, value, etc. If you want to know more about analysis ready data then see &lt;a href=&#34;http://vita.had.co.nz/papers/tidy-data.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Property Partner Portfolio Visualisation</title>
-      <link>http://www.samabbott.co.uk/project/propertypartner_tableau/</link>
-      <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/propertypartner_tableau/</guid>
-      <description></description>
     </item>
     
   </channel>
