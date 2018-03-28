@@ -1,0 +1,352 @@
+---
+title: "Clustering Counties in England based on Tuberculosis Monitoring Indicators - using fingertipsR "
+author: "null"
+date: '2018-03-28'
+description: "Using fingertipsR, principal component analysis, and partitioning around medoids to identify clusters of counties based on Tuberculosis monitoring indicators"
+slug: cluster-england-tb
+categories: ["R"]
+tags: ["data analysis", "data visualisation", "rstats", "TB", "PHE", "infectious disease"]
+draft: true
+---
+
+```{r knitr-opts, echo = FALSE}
+knitr::opts_chunk$set(cache = TRUE, dpi = 330, 
+                      fig.height = 8, fig.width = 8,
+                      warning = FALSE)
+```
+
+Using fingertipsR, principal component analysis, and partitioning around medoids to identify clusters of counties based on Tuberculosis monitoring indicators.
+
+Get packages for analysis.
+
+```{r get-packages, message = FALSE}
+if (!require(pacman)) install.packages("pacman"); library(pacman)
+p_load("viridis")
+p_load("broom")
+p_load("knitr")
+p_load("ggfortify")
+p_load("purrr")
+p_load("FactoMineR")
+p_load("cluster")
+p_load("scales")
+p_load("fingertipsR")
+p_load("tidyverse")
+p_load("knitr")
+p_load_gh("thomasp85/patchwork", dependencies = TRUE)
+```
+
+
+Use fingertipsR to find TB related profiles.
+
+```{r get-tb-profiles}
+profs <- profiles()
+
+sel_profs <- profs[grepl("TB", profs$ProfileName),]
+
+sel_profs
+```
+
+Find the indicators available for each profile.
+
+```{r get-tb-indicators}
+tb_inds <- indicators(ProfileID = sel_profs$ProfileID)
+
+kable(tb_inds)
+```
+
+Get the data for each indicator as a list of tibbles. This results in 12 tibbles, with the first being empty (TB incidence rates).
+
+```{r get-tb_indicator-tibbles}
+tb_df <- tb_inds$IndicatorID %>% map(~fingertips_data(IndicatorID = .))
+```
+
+Explore 3 year average TB incidence rates, extracting data for counties. Recode the value variable as recent incidence rates, also pulling the overall incidence of cases. According to the [fingertips](https://fingertips.phe.org.uk/profile/tb-monitoring) website (which contains tools to interactively explore the data) local authorities and CCGs with fewer than 20 TB cases per year, have had all data for the indicators (apart from three-year average TB incidence) suppressed to avoid deductive disclosure. We can therefore filter out these counties now to avoid issues with missing data later. We can also adjust the time period to represent the final year for each rolling average.
+
+```{r get-tb-inc-rates}
+tb_inc <- tb_df[[2]] %>% 
+  filter(AreaType %in% "County & UA") %>% 
+  select(AreaName, Sex, Age, Timeperiod,
+         rec_inc_rate = Value, rec_inc = Count) %>% 
+  filter(rec_inc >= 20) %>% 
+  mutate(Timeperiod = Timeperiod %>% 
+           str_split(" - ") %>% 
+           map_chr(first) %>% 
+           as.numeric %>% 
+           {. + 2} %>% 
+           as.character) %>% 
+  select(-rec_inc)
+```
+
+Looking through the other tibbles they all have the same structure - we can write a function using this knowledge to speed up data extraction.
+
+```{r fun-extract-raw-data}
+tb_df_extraction <- function(tb_df, var_name, area_type = "County & UA") {
+  df <- tb_df %>% 
+    filter(AreaType %in% area_type) %>% 
+    select(AreaName, Sex, Age, Value, Timeperiod) %>% 
+    rename_at(.vars = vars(Value), funs(paste0(var_name)))
+  
+  return(df)
+}
+```
+
+We now extract data for all remaining indicators, rename variables with meaningful names, join into a single tibble and then left join onto the TB incidence rate tibble. Data is only available aggregated for all ages and genders so we also drop these variables here. Finally we clean up Timeperiod into years.
+
+```{r make-com-tibble, messages = FALSE}
+var_names <- c("prop_pul_cc", "prop_cc_ds_front", "prop_ds_treat_com_12",
+               "prop_ds_lost_to_follow", "prop_ds_died",
+               "prop_tb_offered_hiv_test", "prop_ds_rf_treat_com_12",
+               "prop_cc_dr_front", "prop_p_start_treat_2_m_sym",
+               "prop_p_start_treat_4_m_sym"
+)
+
+extracted_tb <- map2(tb_df[-(1:2)], var_names, ~tb_df_extraction(.x, .y)) %>% 
+  reduce(full_join)
+
+com_tb_df <- tb_inc %>% 
+  left_join(extracted_tb) %>% 
+  mutate(year = Timeperiod %>% as.numeric) %>% 
+  mutate_if(is.character, as.factor) %>% 
+  select(-Timeperiod) %>% 
+  filter(Sex %in% "Persons", Age %in% "All ages") %>% 
+  select(-Sex, -Age)
+
+com_tb_df
+```
+
+We now need to check the completeness of the data. Ideally we would use the most recent year of data for our clustering analysis but this may not be possible if variables are highly missing.
+
+```{r explore-missing-data-per-year}
+get_frac_missing <- function(df) {
+  df %>% 
+    nest() %>% 
+    mutate(missing = map(data,~map_dfr(. ,~sum(is.na(.))/length(.)))) %>% 
+    select(-data) %>% 
+    unnest(missing) 
+}
+
+## Get the proportion missing per variableby year
+tb_miss_per_year <- com_tb_df %>% 
+  group_by(year) %>% 
+  get_frac_missing %>% 
+  arrange(year) 
+
+kable(tb_miss_per_year)
+```
+
+We see that data completeness increases with time but that some variables are completely missing (`prop_ds_rf_treat_com_12` and	`prop_cc_dr_front`). We therefore drop these variables and then identify which year has the lowest amount of missing data across all variables (by looking at mean missingness).
+
+```{r drop-miss-explore-year-miss}
+## Drop full missing variables
+tb_partial_miss_year <- tb_miss_per_year %>% 
+  select_if(~!sum(.) == length(.))
+
+## Full missing variables
+com_miss_vars <- setdiff(names(tb_miss_per_year), names(tb_partial_miss_year))
+
+## Which year has the most complete data
+tb_complete_years_all_vars <- com_tb_df %>% 
+  group_by(year) %>% 
+  nest() %>% 
+  mutate(missing = map(data,~mean(colSums(is.na(.))/nrow(.)))) %>% 
+  select(-data) %>% 
+  unnest(missing) %>% 
+  arrange(year)
+
+kable(tb_complete_years_all_vars)
+```
+
+
+The above table indicates that 2016 has a high proportion of missing data. From the previous table we saw that this was partially due some variables being completely missing. The next best option is 2015, this has a higher proportion of missing data to previous years, but has no variables that are completely missing and is the most relevant after 2016. The final question is to what extent missingness is still related to TB incidence rate, the following table investigates this by looking at what happens as counties are excluded using varying incidence rate cut-offs.
+
+```{r miss-df-miss-per-year, message = FALSE}
+com_tb_df %>%
+  filter(year == 2015) %>% 
+  select(-map_dbl(com_miss_vars, contains)) %>% 
+  mutate(inc_rate_lower = list(seq(2, 20, 2))) %>% 
+  unnest(inc_rate_lower) %>% 
+  group_by(year, inc_rate_lower) %>% 
+  filter(rec_inc_rate > inc_rate_lower) %>% 
+  nest() %>% 
+  mutate(missing = map(data,~mean(colSums(is.na(.))/nrow(.)))) %>% 
+  select(-data, -year) %>% 
+  unnest(missing) %>% 
+  kable
+```
+
+The choice of incidence rate cut-off is somewhat arbitary. However, it appears that a cut-off of at least 10 (per 100,000) is sufficient to deal with the majority of missing data. This is also a sensible cut-off as it represents the World Health Organisation's 2035 target for TB eradication. This means that our analysis will focus on counties that have relatively high incidence rates in comparision to the median in England. Using everything we have learnt about about the qaulity of the data we now identify the near final analysis dataset.
+
+```{r get-analysis-df, message = FALSE}
+tb_df_2015 <- com_tb_df %>% 
+  select(-map_dbl(com_miss_vars, contains)) %>% 
+  filter(year == 2015) %>% 
+  filter(rec_inc_rate > 10)
+
+tb_df_2015 
+```
+
+The final step is to deal with the remaining missing data. As all variables except incidence rate is missing we cannot reliably impute the data, we therefore drop it and make a note of the counties for which data was not avialable.
+
+```{r final-analysis-df}
+tb_clean_2015 <- tb_df_2015 %>% 
+  drop_na() %>% 
+  select(-year)
+
+missing_regions <- setdiff(tb_df_2015$AreaName %>% as.character, tb_clean_2015$AreaName %>% as.character)
+
+missing_regions
+```
+
+We are now ready to conduct some clustering analysis on this data. The first step is to reduce the dimensionality of the data using principal component analysis (PCA). We use the `estim_ncp` function from the `FactoMineR` package to estimate the number of principal components required, perform PCA, and the plot the variance explained by each component as a rough check on `estim_ncp`. All of the following analysis is done using nested tibbles and so can be easily generalised to higher dimensional use cases. 
+
+```{r perform-pca}
+tb_pca <- tb_clean_2015 %>% 
+  nest() %>% 
+  mutate(
+    numeric_data = map(data, ~select_if(., is.numeric) %>% 
+                         as.data.frame()),
+    optimal_pca_no = map(numeric_data, ~estim_ncp(., 
+                                                  scale = TRUE, 
+                                                  ncp.min = 2, 
+                                                  ncp.max = 10)) %>% 
+      map_dbl(~.$ncp),
+    pca = map(numeric_data, ~prcomp(.x, 
+                                    center = TRUE, 
+                                    scale = TRUE)),
+    pca_data = map(pca, ~.$x),
+    pca_aug = map2(pca, data, ~augment(.x, data = .y)))
+```
+
+
+We find that the optimal number of principal components is `tb_pca$optimal_pca_no`. We can also plot the percentage of variance explained in order to evaluate this choice.
+
+```{r extract-var-explained}
+## Variance explained
+var_exp <- tb_pca %>% 
+  select(-optimal_pca_no) %>% 
+  unnest(pca_aug) %>% 
+  summarize_at(.vars = vars(contains("PC")), .funs = funs(var)) %>% 
+  gather(key = pc, value = variance) %>% 
+  mutate(var_exp = variance/sum(variance) * 100,
+         cum_var_exp = cumsum(var_exp),
+         pc = str_replace(pc, ".fitted", "") %>% 
+           str_replace("PC", ""))
+```
+
+```{r plot-var-explained}
+var_exp %>% 
+  rename(
+    `Variance Explained` = var_exp,
+    `Cumulative Variance Explained` = cum_var_exp
+  ) %>% 
+  gather(key = key, value = value, `Variance Explained`, `Cumulative Variance Explained`) %>%
+  mutate(key = key %>% 
+           factor(levels  = c("Variance Explained", 
+                              "Cumulative Variance Explained"))) %>% 
+  mutate(value = value / 100) %>% 
+  mutate(pc = factor(pc, levels = as.character(1:max(var_exp$pc %>% as.numeric)))) %>% 
+  ggplot(aes(pc, value, group = key)) + 
+  geom_point(size = 2, alpha = 0.8) + 
+  geom_line(size = 1.1, alpha = 0.6) + 
+  facet_wrap(~key, scales = "free_y") +
+  theme_minimal() +
+  scale_y_continuous(breaks = seq(0, 1, 0.05), lim = c(0, NA),
+                     minor_breaks = NULL, labels = percent) +
+  labs(
+    title = "Variance Explained by Principal Component",
+    subtitle = paste0("The optimal number of principal components suggested by estim_ncp was ",
+                      tb_pca$optimal_pca_no),
+    x = "Principal Component",
+    y = "Variance Explained (%)",
+    caption = "@seabbs Source: Public Health England (fingertipsR)"
+  )
+```
+
+
+We now perform clustering using partitioning around medoids, this approach should be more stable than K means and also has the benefit of producing a metric (the avg. silhouette width) which can be used to assess the number of clusters which provides the  best fitting model. Again we use an approach that makes use of nested tibbles, this should be easier to generalise to other use cases.
+
+```{r pam-on-tb}
+## Perform pam on pca data 1 to 10 groups
+tb_pca_pam <- tb_pca %>%
+  mutate(centers = list(2:10)) %>% 
+  unnest(centers, .preserve = everything()) %>% 
+  select(-centers, centers = centers1) %>% 
+  group_by(centers) %>% 
+  mutate(
+    pam = map(pca_data,
+              ~ pam(x = .x[, 1:optimal_pca_no], k = centers, stand = TRUE)),
+    clusters = map(pam, ~.$clustering),
+    avg_silhouette_width = map(pam, ~.$silinfo$avg.width),
+    data_with_clusters = map2(.x = data, .y = clusters, ~mutate(.x, cluster = factor(.y, ordered = TRUE)))
+  ) %>% 
+  ungroup
+
+tb_pca_pam
+```
+
+To asssess the optimal number of clusters we can plot the average silhouette width.
+
+```{r avg-silhouette}
+## Get max silhouette width
+max_silhouette_width <- tb_pca_pam %>% 
+  select(centers, avg_silhouette_width) %>% 
+  unnest(avg_silhouette_width) %>% 
+  arrange(desc(avg_silhouette_width)) %>% 
+  slice(1)
+  
+## Plot average silhouette width
+tb_pca_pam %>% 
+  select(centers, avg_silhouette_width) %>% 
+  unnest(avg_silhouette_width) %>% 
+  ggplot(aes(x = centers, y = avg_silhouette_width)) +
+  geom_line(size = 1.1, alpha = 0.6) +
+  geom_point(size = 2, alpha = 0.8) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(1, 10, 1), minor_breaks = NULL) +
+  scale_y_continuous(limits = c(0, NA), breaks = seq(0, 1, 0.05), minor_breaks = NULL) +
+  labs(title = "Average Silhouette Width by Number of PAM Clusters",
+       subtitle = paste0("The optimal number of clusters identifed by avg. silhouette width was ",
+                      max_silhouette_width$centers,
+                      " with an avg. silhouette width of ", 
+                      round(max_silhouette_width$avg_silhouette_width, 2)
+       ),
+       x = "Clusters",
+       y = "Avg. Silhouette Width",
+       caption = "@seabbs Source: Public Health England (fingertipsR)")
+```
+
+We can now explore the clusters we have identified. A useful way to do this is to visual the first two principal components, overlaid with the original variable loadings, and the clusters we have identified.
+
+```{r plot-pca}
+## Plot clusters
+pca_plot <- tb_pca_pam %>% 
+  filter(centers == max_silhouette_width$centers) %>% 
+  select(data_with_clusters, pca) %>% 
+  mutate(pca_graph = map2(.x = pca, 
+                          .y = data_with_clusters,
+                          ~ autoplot(.x, x = 1, y = 2, loadings = TRUE, loadings.label = TRUE,
+                                     loadings.label.repel = TRUE, loadings.label.size = 2, loadings.alpha = 0.8,
+                                     loadings.label.vjust = -1,
+                                     data = .y, label = TRUE, label.label = "AreaName", label.size = 1.5,
+                                     label.vjust = -1, alpha = 0.3, frame = TRUE, frame.type = 'convex',
+                                     frame.alpha= 0.05,
+                                     colour = "cluster", size = "rec_inc_rate") +
+                            theme_minimal() +
+                            labs(x = paste0("Principal Component 1 (Variance Explained: ",
+                                            round(var_exp$var_exp[[1]], 1), "%)"),
+                                 y = paste0("Principal Component 2 (Variance Explained: ",
+                                            round(var_exp$var_exp[[2]], 1), "%)")) +
+                            guides(colour=guide_legend(title = "Cluster", ncol = 2), 
+                                   fill=guide_legend(title= "Cluster", ncol = 2),
+                                   size = guide_legend(title = "TB Incidence Rate (per 100,000 population)",
+                                                       ncol = 2)) +
+                            scale_colour_viridis(option = "viridis", discrete = TRUE, end = 0.9) +
+                            scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.9) +
+                            theme(legend.position = "bottom", legend.box = "horizontal")
+  )) %>% 
+  pull(pca_graph) %>% 
+  first
+
+
+pca_plot
+```

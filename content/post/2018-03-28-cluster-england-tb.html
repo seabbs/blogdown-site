@@ -1,0 +1,815 @@
+---
+title: "Clustering Counties in England based on Tuberculosis Monitoring Indicators - using fingertipsR "
+author: "null"
+date: '2018-03-28'
+description: "Using fingertipsR, principal component analysis, and partitioning around medoids to identify clusters of counties based on Tuberculosis monitoring indicators"
+slug: cluster-england-tb
+categories: ["R"]
+tags: ["data analysis", "data visualisation", "rstats", "TB", "PHE", "infectious disease"]
+draft: true
+---
+
+
+
+<p>Using fingertipsR, principal component analysis, and partitioning around medoids to identify clusters of counties based on Tuberculosis monitoring indicators.</p>
+<p>Get packages for analysis.</p>
+<pre class="r"><code>if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
+p_load(&quot;viridis&quot;)
+p_load(&quot;broom&quot;)
+p_load(&quot;knitr&quot;)
+p_load(&quot;ggfortify&quot;)
+p_load(&quot;purrr&quot;)
+p_load(&quot;FactoMineR&quot;)
+p_load(&quot;cluster&quot;)
+p_load(&quot;scales&quot;)
+p_load(&quot;fingertipsR&quot;)
+p_load(&quot;tidyverse&quot;)
+p_load(&quot;knitr&quot;)
+p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)</code></pre>
+<p>Use fingertipsR to find TB related profiles.</p>
+<pre class="r"><code>profs &lt;- profiles()
+
+sel_profs &lt;- profs[grepl(&quot;TB&quot;, profs$ProfileName),]
+
+sel_profs</code></pre>
+<pre><code>## # A tibble: 2 x 4
+##   ProfileID ProfileName                         DomainID DomainName       
+##       &lt;int&gt; &lt;chr&gt;                                  &lt;int&gt; &lt;chr&gt;            
+## 1        86 TB Strategy Monitoring Indicators 1938132814 Key Indicators   
+## 2        86 TB Strategy Monitoring Indicators 1938133208 LTBI programme m…</code></pre>
+<p>Find the indicators available for each profile.</p>
+<pre class="r"><code>tb_inds &lt;- indicators(ProfileID = sel_profs$ProfileID)
+
+kable(tb_inds)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">IndicatorID</th>
+<th align="left">IndicatorName</th>
+<th align="right">DomainID</th>
+<th align="left">DomainName</th>
+<th align="right">ProfileID</th>
+<th align="left">ProfileName</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">91359</td>
+<td align="left">TB incidence in England</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="even">
+<td align="right">91361</td>
+<td align="left">TB incidence (three year average)</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="odd">
+<td align="right">91365</td>
+<td align="left">Proportion of pulmonary TB cases that were culture confirmed</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="even">
+<td align="right">91366</td>
+<td align="left">Proportion of culture confirmed TB cases with drug susceptibility testing reported for the four first line agents</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="odd">
+<td align="right">91367</td>
+<td align="left">Proportion of drug sensitive TB cases who had completed a full course of treatment by 12 months</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="even">
+<td align="right">91368</td>
+<td align="left">Proportion of drug sensitive TB cases who were lost to follow up at last reported outcome</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="odd">
+<td align="right">91369</td>
+<td align="left">Proportion of drug sensitive TB cases who had died at last reported outcome</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="even">
+<td align="right">91373</td>
+<td align="left">Proportion of TB cases offered an HIV test</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="odd">
+<td align="right">91374</td>
+<td align="left">Proportion of drug sensitive TB cases with at least one social risk factor who completed treatment within 12 months</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="even">
+<td align="right">91375</td>
+<td align="left">Proportion of culture confirmed TB cases with any first line drug resistance</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="odd">
+<td align="right">91450</td>
+<td align="left">Proportion of pulmonary TB cases starting treatment within two months of symptom onset</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+<tr class="even">
+<td align="right">91451</td>
+<td align="left">Proportion of pulmonary TB cases starting treatment within four months of symptom onset</td>
+<td align="right">1938132814</td>
+<td align="left">Key Indicators</td>
+<td align="right">86</td>
+<td align="left">TB Strategy Monitoring Indicators</td>
+</tr>
+</tbody>
+</table>
+<p>Get the data for each indicator as a list of tibbles. This results in 12 tibbles, with the first being empty (TB incidence rates).</p>
+<pre class="r"><code>tb_df &lt;- tb_inds$IndicatorID %&gt;% map(~fingertips_data(IndicatorID = .))</code></pre>
+<p>Explore 3 year average TB incidence rates, extracting data for counties. Recode the value variable as recent incidence rates, also pulling the overall incidence of cases. According to the <a href="https://fingertips.phe.org.uk/profile/tb-monitoring">fingertips</a> website (which contains tools to interactively explore the data) local authorities and CCGs with fewer than 20 TB cases per year, have had all data for the indicators (apart from three-year average TB incidence) suppressed to avoid deductive disclosure. We can therefore filter out these counties now to avoid issues with missing data later. We can also adjust the time period to represent the final year for each rolling average.</p>
+<pre class="r"><code>tb_inc &lt;- tb_df[[2]] %&gt;% 
+  filter(AreaType %in% &quot;County &amp; UA&quot;) %&gt;% 
+  select(AreaName, Sex, Age, Timeperiod,
+         rec_inc_rate = Value, rec_inc = Count) %&gt;% 
+  filter(rec_inc &gt;= 20) %&gt;% 
+  mutate(Timeperiod = Timeperiod %&gt;% 
+           str_split(&quot; - &quot;) %&gt;% 
+           map_chr(first) %&gt;% 
+           as.numeric %&gt;% 
+           {. + 2} %&gt;% 
+           as.character) %&gt;% 
+  select(-rec_inc)</code></pre>
+<p>Looking through the other tibbles they all have the same structure - we can write a function using this knowledge to speed up data extraction.</p>
+<pre class="r"><code>tb_df_extraction &lt;- function(tb_df, var_name, area_type = &quot;County &amp; UA&quot;) {
+  df &lt;- tb_df %&gt;% 
+    filter(AreaType %in% area_type) %&gt;% 
+    select(AreaName, Sex, Age, Value, Timeperiod) %&gt;% 
+    rename_at(.vars = vars(Value), funs(paste0(var_name)))
+  
+  return(df)
+}</code></pre>
+<p>We now extract data for all remaining indicators, rename variables with meaningful names, join into a single tibble and then left join onto the TB incidence rate tibble. Data is only available aggregated for all ages and genders so we also drop these variables here. Finally we clean up Timeperiod into years.</p>
+<pre class="r"><code>var_names &lt;- c(&quot;prop_pul_cc&quot;, &quot;prop_cc_ds_front&quot;, &quot;prop_ds_treat_com_12&quot;,
+               &quot;prop_ds_lost_to_follow&quot;, &quot;prop_ds_died&quot;,
+               &quot;prop_tb_offered_hiv_test&quot;, &quot;prop_ds_rf_treat_com_12&quot;,
+               &quot;prop_cc_dr_front&quot;, &quot;prop_p_start_treat_2_m_sym&quot;,
+               &quot;prop_p_start_treat_4_m_sym&quot;
+)
+
+extracted_tb &lt;- map2(tb_df[-(1:2)], var_names, ~tb_df_extraction(.x, .y)) %&gt;% 
+  reduce(full_join)</code></pre>
+<pre><code>## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)
+## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)
+## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)
+## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)
+## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)
+## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)
+## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)
+## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)
+## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)</code></pre>
+<pre class="r"><code>com_tb_df &lt;- tb_inc %&gt;% 
+  left_join(extracted_tb) %&gt;% 
+  mutate(year = Timeperiod %&gt;% as.numeric) %&gt;% 
+  mutate_if(is.character, as.factor) %&gt;% 
+  select(-Timeperiod) %&gt;% 
+  filter(Sex %in% &quot;Persons&quot;, Age %in% &quot;All ages&quot;) %&gt;% 
+  select(-Sex, -Age)</code></pre>
+<pre><code>## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)</code></pre>
+<pre class="r"><code>com_tb_df</code></pre>
+<pre><code>## # A tibble: 2,026 x 13
+##    AreaName     rec_inc_rate prop_pul_cc prop_cc_ds_front prop_ds_treat_c…
+##    &lt;fct&gt;               &lt;dbl&gt;       &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Hartlepool          10.0         NA                NA            NA    
+##  2 Middlesbrou…        16.1         72.7             100.           82.6  
+##  3 Stockton-on…         5.99        NA                NA            NA    
+##  4 Blackburn w…        37.7         61.8             100.           80.7  
+##  5 Blackpool            7.95        NA                NA            NA    
+##  6 Kingston up…         5.06        NA                NA            NA    
+##  7 East Riding…         3.28        NA                NA            NA    
+##  8 Derby               19.3         66.7             100.           76.7  
+##  9 Leicester           71.1         62.6             100.            0.546
+## 10 Nottingham          16.9         80.0             100.           73.0  
+## # ... with 2,016 more rows, and 8 more variables:
+## #   prop_ds_lost_to_follow &lt;dbl&gt;, prop_ds_died &lt;dbl&gt;,
+## #   prop_tb_offered_hiv_test &lt;dbl&gt;, prop_ds_rf_treat_com_12 &lt;dbl&gt;,
+## #   prop_cc_dr_front &lt;dbl&gt;, prop_p_start_treat_2_m_sym &lt;dbl&gt;,
+## #   prop_p_start_treat_4_m_sym &lt;dbl&gt;, year &lt;dbl&gt;</code></pre>
+<p>We now need to check the completeness of the data. Ideally we would use the most recent year of data for our clustering analysis but this may not be possible if variables are highly missing.</p>
+<pre class="r"><code>get_frac_missing &lt;- function(df) {
+  df %&gt;% 
+    nest() %&gt;% 
+    mutate(missing = map(data,~map_dfr(. ,~sum(is.na(.))/length(.)))) %&gt;% 
+    select(-data) %&gt;% 
+    unnest(missing) 
+}
+
+## Get the proportion missing per variableby year
+tb_miss_per_year &lt;- com_tb_df %&gt;% 
+  group_by(year) %&gt;% 
+  get_frac_missing %&gt;% 
+  arrange(year) 
+
+kable(tb_miss_per_year)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">year</th>
+<th align="right">AreaName</th>
+<th align="right">rec_inc_rate</th>
+<th align="right">prop_pul_cc</th>
+<th align="right">prop_cc_ds_front</th>
+<th align="right">prop_ds_treat_com_12</th>
+<th align="right">prop_ds_lost_to_follow</th>
+<th align="right">prop_ds_died</th>
+<th align="right">prop_tb_offered_hiv_test</th>
+<th align="right">prop_ds_rf_treat_com_12</th>
+<th align="right">prop_cc_dr_front</th>
+<th align="right">prop_p_start_treat_2_m_sym</th>
+<th align="right">prop_p_start_treat_4_m_sym</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2002</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3615385</td>
+<td align="right">0.3615385</td>
+<td align="right">0.3615385</td>
+<td align="right">0.3615385</td>
+<td align="right">0.3615385</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="right">2003</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3643411</td>
+<td align="right">0.3643411</td>
+<td align="right">0.3643411</td>
+<td align="right">0.3643411</td>
+<td align="right">0.3643411</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="right">2004</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3435115</td>
+<td align="right">0.3435115</td>
+<td align="right">0.3435115</td>
+<td align="right">0.3435115</td>
+<td align="right">0.3435115</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="right">2005</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3129771</td>
+<td align="right">0.3129771</td>
+<td align="right">0.3129771</td>
+<td align="right">0.3129771</td>
+<td align="right">0.3129771</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="right">2006</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3257576</td>
+<td align="right">0.3257576</td>
+<td align="right">0.3257576</td>
+<td align="right">0.3257576</td>
+<td align="right">0.3257576</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="right">2007</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3037037</td>
+<td align="right">0.3037037</td>
+<td align="right">0.3037037</td>
+<td align="right">0.3037037</td>
+<td align="right">0.3037037</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="right">2008</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3529412</td>
+<td align="right">0.3529412</td>
+<td align="right">0.3529412</td>
+<td align="right">0.3529412</td>
+<td align="right">0.3529412</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="right">2009</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.2733813</td>
+<td align="right">0.2733813</td>
+<td align="right">0.2733813</td>
+<td align="right">0.2733813</td>
+<td align="right">0.2733813</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="odd">
+<td align="right">2010</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3333333</td>
+<td align="right">0.3333333</td>
+<td align="right">0.3333333</td>
+<td align="right">0.3333333</td>
+<td align="right">0.3333333</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+</tr>
+<tr class="even">
+<td align="right">2011</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3093525</td>
+<td align="right">0.3093525</td>
+<td align="right">0.3093525</td>
+<td align="right">0.3093525</td>
+<td align="right">0.3093525</td>
+<td align="right">1.0000000</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.3093525</td>
+<td align="right">0.3093525</td>
+</tr>
+<tr class="odd">
+<td align="right">2012</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.2700730</td>
+<td align="right">0.2700730</td>
+<td align="right">0.2700730</td>
+<td align="right">0.2700730</td>
+<td align="right">0.2700730</td>
+<td align="right">0.2846715</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.2773723</td>
+<td align="right">0.2773723</td>
+</tr>
+<tr class="even">
+<td align="right">2013</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.3478261</td>
+<td align="right">0.3478261</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.3405797</td>
+<td align="right">0.3405797</td>
+</tr>
+<tr class="even">
+<td align="right">2015</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3941606</td>
+<td align="right">0.3941606</td>
+<td align="right">0.3941606</td>
+<td align="right">0.3941606</td>
+<td align="right">0.3941606</td>
+<td align="right">0.3941606</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.3941606</td>
+<td align="right">0.3941606</td>
+</tr>
+<tr class="odd">
+<td align="right">2016</td>
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="right">0.3897059</td>
+<td align="right">0.3897059</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">1.0000000</td>
+<td align="right">0.3897059</td>
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="right">0.3897059</td>
+<td align="right">0.3897059</td>
+</tr>
+</tbody>
+</table>
+<p>We see that data completeness increases with time but that some variables are completely missing (<code>prop_ds_rf_treat_com_12</code> and <code>prop_cc_dr_front</code>). We therefore drop these variables and then identify which year has the lowest amount of missing data across all variables (by looking at mean missingness).</p>
+<pre class="r"><code>## Drop full missing variables
+tb_partial_miss_year &lt;- tb_miss_per_year %&gt;% 
+  select_if(~!sum(.) == length(.))
+
+## Full missing variables
+com_miss_vars &lt;- setdiff(names(tb_miss_per_year), names(tb_partial_miss_year))
+
+## Which year has the most complete data
+tb_complete_years_all_vars &lt;- com_tb_df %&gt;% 
+  group_by(year) %&gt;% 
+  nest() %&gt;% 
+  mutate(missing = map(data,~mean(colSums(is.na(.))/nrow(.)))) %&gt;% 
+  select(-data) %&gt;% 
+  unnest(missing) %&gt;% 
+  arrange(year)
+
+kable(tb_complete_years_all_vars)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">year</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2002</td>
+<td align="right">0.5673077</td>
+</tr>
+<tr class="even">
+<td align="right">2003</td>
+<td align="right">0.5684755</td>
+</tr>
+<tr class="odd">
+<td align="right">2004</td>
+<td align="right">0.5597964</td>
+</tr>
+<tr class="even">
+<td align="right">2005</td>
+<td align="right">0.5470738</td>
+</tr>
+<tr class="odd">
+<td align="right">2006</td>
+<td align="right">0.5523990</td>
+</tr>
+<tr class="even">
+<td align="right">2007</td>
+<td align="right">0.5432099</td>
+</tr>
+<tr class="odd">
+<td align="right">2008</td>
+<td align="right">0.5637255</td>
+</tr>
+<tr class="even">
+<td align="right">2009</td>
+<td align="right">0.5305755</td>
+</tr>
+<tr class="odd">
+<td align="right">2010</td>
+<td align="right">0.5555556</td>
+</tr>
+<tr class="even">
+<td align="right">2011</td>
+<td align="right">0.4304556</td>
+</tr>
+<tr class="odd">
+<td align="right">2012</td>
+<td align="right">0.3491484</td>
+</tr>
+<tr class="even">
+<td align="right">2013</td>
+<td align="right">0.3949275</td>
+</tr>
+<tr class="odd">
+<td align="right">2014</td>
+<td align="right">0.3937198</td>
+</tr>
+<tr class="even">
+<td align="right">2015</td>
+<td align="right">0.4294404</td>
+</tr>
+<tr class="odd">
+<td align="right">2016</td>
+<td align="right">0.5790441</td>
+</tr>
+</tbody>
+</table>
+<p>The above table indicates that 2016 has a high proportion of missing data. From the previous table we saw that this was partially due some variables being completely missing. The next best option is 2015, this has a higher proportion of missing data to previous years, but has no variables that are completely missing and is the most relevant after 2016. The final question is to what extent missingness is still related to TB incidence rate, the following table investigates this by looking at what happens as counties are excluded using varying incidence rate cut-offs.</p>
+<pre class="r"><code>com_tb_df %&gt;%
+  filter(year == 2015) %&gt;% 
+  select(-map_dbl(com_miss_vars, contains)) %&gt;% 
+  mutate(inc_rate_lower = list(seq(2, 20, 2))) %&gt;% 
+  unnest(inc_rate_lower) %&gt;% 
+  group_by(year, inc_rate_lower) %&gt;% 
+  filter(rec_inc_rate &gt; inc_rate_lower) %&gt;% 
+  nest() %&gt;% 
+  mutate(missing = map(data,~mean(colSums(is.na(.))/nrow(.)))) %&gt;% 
+  select(-data, -year) %&gt;% 
+  unnest(missing) %&gt;% 
+  kable</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">inc_rate_lower</th>
+<th align="right">missing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">2</td>
+<td align="right">0.3117647</td>
+</tr>
+<tr class="even">
+<td align="right">4</td>
+<td align="right">0.2598291</td>
+</tr>
+<tr class="odd">
+<td align="right">6</td>
+<td align="right">0.1934066</td>
+</tr>
+<tr class="even">
+<td align="right">8</td>
+<td align="right">0.1014085</td>
+</tr>
+<tr class="odd">
+<td align="right">10</td>
+<td align="right">0.0387097</td>
+</tr>
+<tr class="even">
+<td align="right">12</td>
+<td align="right">0.0148148</td>
+</tr>
+<tr class="odd">
+<td align="right">14</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="right">16</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="odd">
+<td align="right">18</td>
+<td align="right">0.0000000</td>
+</tr>
+<tr class="even">
+<td align="right">20</td>
+<td align="right">0.0000000</td>
+</tr>
+</tbody>
+</table>
+<p>The choice of incidence rate cut-off is somewhat arbitary. However, it appears that a cut-off of at least 10 (per 100,000) is sufficient to deal with the majority of missing data. This is also a sensible cut-off as it represents the World Health Organisation’s 2035 target for TB eradication. This means that our analysis will focus on counties that have relatively high incidence rates in comparision to the median in England. Using everything we have learnt about about the qaulity of the data we now identify the near final analysis dataset.</p>
+<pre class="r"><code>tb_df_2015 &lt;- com_tb_df %&gt;% 
+  select(-map_dbl(com_miss_vars, contains)) %&gt;% 
+  filter(year == 2015) %&gt;% 
+  filter(rec_inc_rate &gt; 10)
+
+tb_df_2015 </code></pre>
+<pre><code>## # A tibble: 62 x 11
+##    AreaName     rec_inc_rate prop_pul_cc prop_cc_ds_front prop_ds_treat_c…
+##    &lt;fct&gt;               &lt;dbl&gt;       &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Blackburn w…         29.0        71.4            100.              87.5
+##  2 Derby                14.0        72.7            100.              71.9
+##  3 Leicester            41.8        81.2             97.6             78.4
+##  4 Nottingham           17.1        82.1             97.1             80.4
+##  5 Stoke-on-Tr…         12.1        66.7            100.              80.8
+##  6 Bristol              20.6        53.1             95.1             79.0
+##  7 Swindon              10.7        57.1            100.              75.0
+##  8 Peterborough         23.2        66.7            100.              69.0
+##  9 Luton                30.1        80.0            100.              82.4
+## 10 Reading              34.7        64.3             95.0             97.0
+## # ... with 52 more rows, and 6 more variables:
+## #   prop_ds_lost_to_follow &lt;dbl&gt;, prop_ds_died &lt;dbl&gt;,
+## #   prop_tb_offered_hiv_test &lt;dbl&gt;, prop_p_start_treat_2_m_sym &lt;dbl&gt;,
+## #   prop_p_start_treat_4_m_sym &lt;dbl&gt;, year &lt;dbl&gt;</code></pre>
+<p>The final step is to deal with the remaining missing data. As all variables except incidence rate is missing we cannot reliably impute the data, we therefore drop it and make a note of the counties for which data was not avialable.</p>
+<pre class="r"><code>tb_clean_2015 &lt;- tb_df_2015 %&gt;% 
+  drop_na() %&gt;% 
+  select(-year)
+
+missing_regions &lt;- setdiff(tb_df_2015$AreaName %&gt;% as.character, tb_clean_2015$AreaName %&gt;% as.character)
+
+missing_regions</code></pre>
+<pre><code>## [1] &quot;Wokingham&quot; &quot;Bedford&quot;   &quot;Bury&quot;</code></pre>
+<p>We are now ready to conduct some clustering analysis on this data. The first step is to reduce the dimensionality of the data using principal component analysis (PCA). We use the <code>estim_ncp</code> function from the <code>FactoMineR</code> package to estimate the number of principal components required, perform PCA, and the plot the variance explained by each component as a rough check on <code>estim_ncp</code>. All of the following analysis is done using nested tibbles and so can be easily generalised to higher dimensional use cases.</p>
+<pre class="r"><code>tb_pca &lt;- tb_clean_2015 %&gt;% 
+  nest() %&gt;% 
+  mutate(
+    numeric_data = map(data, ~select_if(., is.numeric) %&gt;% 
+                         as.data.frame()),
+    optimal_pca_no = map(numeric_data, ~estim_ncp(., 
+                                                  scale = TRUE, 
+                                                  ncp.min = 2, 
+                                                  ncp.max = 10)) %&gt;% 
+      map_dbl(~.$ncp),
+    pca = map(numeric_data, ~prcomp(.x, 
+                                    center = TRUE, 
+                                    scale = TRUE)),
+    pca_data = map(pca, ~.$x),
+    pca_aug = map2(pca, data, ~augment(.x, data = .y)))</code></pre>
+<p>We find that the optimal number of principal components is <code>tb_pca$optimal_pca_no</code>. We can also plot the percentage of variance explained in order to evaluate this choice.</p>
+<pre class="r"><code>## Variance explained
+var_exp &lt;- tb_pca %&gt;% 
+  select(-optimal_pca_no) %&gt;% 
+  unnest(pca_aug) %&gt;% 
+  summarize_at(.vars = vars(contains(&quot;PC&quot;)), .funs = funs(var)) %&gt;% 
+  gather(key = pc, value = variance) %&gt;% 
+  mutate(var_exp = variance/sum(variance) * 100,
+         cum_var_exp = cumsum(var_exp),
+         pc = str_replace(pc, &quot;.fitted&quot;, &quot;&quot;) %&gt;% 
+           str_replace(&quot;PC&quot;, &quot;&quot;))</code></pre>
+<pre class="r"><code>var_exp %&gt;% 
+  rename(
+    `Variance Explained` = var_exp,
+    `Cumulative Variance Explained` = cum_var_exp
+  ) %&gt;% 
+  gather(key = key, value = value, `Variance Explained`, `Cumulative Variance Explained`) %&gt;%
+  mutate(key = key %&gt;% 
+           factor(levels  = c(&quot;Variance Explained&quot;, 
+                              &quot;Cumulative Variance Explained&quot;))) %&gt;% 
+  mutate(value = value / 100) %&gt;% 
+  mutate(pc = factor(pc, levels = as.character(1:max(var_exp$pc %&gt;% as.numeric)))) %&gt;% 
+  ggplot(aes(pc, value, group = key)) + 
+  geom_point(size = 2, alpha = 0.8) + 
+  geom_line(size = 1.1, alpha = 0.6) + 
+  facet_wrap(~key, scales = &quot;free_y&quot;) +
+  theme_minimal() +
+  scale_y_continuous(breaks = seq(0, 1, 0.05), lim = c(0, NA),
+                     minor_breaks = NULL, labels = percent) +
+  labs(
+    title = &quot;Variance Explained by Principal Component&quot;,
+    subtitle = paste0(&quot;The optimal number of principal components suggested by estim_ncp was &quot;,
+                      tb_pca$optimal_pca_no),
+    x = &quot;Principal Component&quot;,
+    y = &quot;Variance Explained (%)&quot;,
+    caption = &quot;@seabbs Source: Public Health England (fingertipsR)&quot;
+  )</code></pre>
+<p><img src="/post/2018-03-28-cluster-england-tb_files/figure-html/plot-var-explained-1.png" width="2640" /></p>
+<p>We now perform clustering using partitioning around medoids, this approach should be more stable than K means and also has the benefit of producing a metric (the avg. silhouette width) which can be used to assess the number of clusters which provides the best fitting model. Again we use an approach that makes use of nested tibbles, this should be easier to generalise to other use cases.</p>
+<pre class="r"><code>## Perform pam on pca data 1 to 10 groups
+tb_pca_pam &lt;- tb_pca %&gt;%
+  mutate(centers = list(2:10)) %&gt;% 
+  unnest(centers, .preserve = everything()) %&gt;% 
+  select(-centers, centers = centers1) %&gt;% 
+  group_by(centers) %&gt;% 
+  mutate(
+    pam = map(pca_data,
+              ~ pam(x = .x[, 1:optimal_pca_no], k = centers, stand = TRUE)),
+    clusters = map(pam, ~.$clustering),
+    avg_silhouette_width = map(pam, ~.$silinfo$avg.width),
+    data_with_clusters = map2(.x = data, .y = clusters, ~mutate(.x, cluster = factor(.y, ordered = TRUE)))
+  ) %&gt;% 
+  ungroup
+
+tb_pca_pam</code></pre>
+<pre><code>## # A tibble: 9 x 11
+##   optimal_pca_no data   numeric_data  pca   pca_data pca_aug centers pam  
+##            &lt;dbl&gt; &lt;list&gt; &lt;list&gt;        &lt;lis&gt; &lt;list&gt;   &lt;list&gt;    &lt;int&gt; &lt;lis&gt;
+## 1             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…       2 &lt;S3:…
+## 2             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…       3 &lt;S3:…
+## 3             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…       4 &lt;S3:…
+## 4             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…       5 &lt;S3:…
+## 5             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…       6 &lt;S3:…
+## 6             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…       7 &lt;S3:…
+## 7             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…       8 &lt;S3:…
+## 8             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…       9 &lt;S3:…
+## 9             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…      10 &lt;S3:…
+## # ... with 3 more variables: clusters &lt;list&gt;, avg_silhouette_width &lt;list&gt;,
+## #   data_with_clusters &lt;list&gt;</code></pre>
+<p>To asssess the optimal number of clusters we can plot the average silhouette width.</p>
+<pre class="r"><code>## Get max silhouette width
+max_silhouette_width &lt;- tb_pca_pam %&gt;% 
+  select(centers, avg_silhouette_width) %&gt;% 
+  unnest(avg_silhouette_width) %&gt;% 
+  arrange(desc(avg_silhouette_width)) %&gt;% 
+  slice(1)
+  
+## Plot average silhouette width
+tb_pca_pam %&gt;% 
+  select(centers, avg_silhouette_width) %&gt;% 
+  unnest(avg_silhouette_width) %&gt;% 
+  ggplot(aes(x = centers, y = avg_silhouette_width)) +
+  geom_line(size = 1.1, alpha = 0.6) +
+  geom_point(size = 2, alpha = 0.8) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(1, 10, 1), minor_breaks = NULL) +
+  scale_y_continuous(limits = c(0, NA), breaks = seq(0, 1, 0.05), minor_breaks = NULL) +
+  labs(title = &quot;Average Silhouette Width by Number of PAM Clusters&quot;,
+       subtitle = paste0(&quot;The optimal number of clusters identifed by avg. silhouette width was &quot;,
+                      max_silhouette_width$centers,
+                      &quot; with an avg. silhouette width of &quot;, 
+                      round(max_silhouette_width$avg_silhouette_width, 2)
+       ),
+       x = &quot;Clusters&quot;,
+       y = &quot;Avg. Silhouette Width&quot;,
+       caption = &quot;@seabbs Source: Public Health England (fingertipsR)&quot;)</code></pre>
+<p><img src="/post/2018-03-28-cluster-england-tb_files/figure-html/avg-silhouette-1.png" width="2640" /></p>
+<p>We can now explore the clusters we have identified. A useful way to do this is to visual the first two principal components, overlaid with the original variable loadings, and the clusters we have identified.</p>
+<pre class="r"><code>## Plot clusters
+pca_plot &lt;- tb_pca_pam %&gt;% 
+  filter(centers == max_silhouette_width$centers) %&gt;% 
+  select(data_with_clusters, pca) %&gt;% 
+  mutate(pca_graph = map2(.x = pca, 
+                          .y = data_with_clusters,
+                          ~ autoplot(.x, x = 1, y = 2, loadings = TRUE, loadings.label = TRUE,
+                                     loadings.label.repel = TRUE, loadings.label.size = 2, loadings.alpha = 0.8,
+                                     loadings.label.vjust = -1,
+                                     data = .y, label = TRUE, label.label = &quot;AreaName&quot;, label.size = 1.5,
+                                     label.vjust = -1, alpha = 0.3, frame = TRUE, frame.type = &#39;convex&#39;,
+                                     frame.alpha= 0.05,
+                                     colour = &quot;cluster&quot;, size = &quot;rec_inc_rate&quot;) +
+                            theme_minimal() +
+                            labs(x = paste0(&quot;Principal Component 1 (Variance Explained: &quot;,
+                                            round(var_exp$var_exp[[1]], 1), &quot;%)&quot;),
+                                 y = paste0(&quot;Principal Component 2 (Variance Explained: &quot;,
+                                            round(var_exp$var_exp[[2]], 1), &quot;%)&quot;)) +
+                            guides(colour=guide_legend(title = &quot;Cluster&quot;, ncol = 2), 
+                                   fill=guide_legend(title= &quot;Cluster&quot;, ncol = 2),
+                                   size = guide_legend(title = &quot;TB Incidence Rate (per 100,000 population)&quot;,
+                                                       ncol = 2)) +
+                            scale_colour_viridis(option = &quot;viridis&quot;, discrete = TRUE, end = 0.9) +
+                            scale_fill_viridis(option = &quot;viridis&quot;, discrete = TRUE, end = 0.9) +
+                            theme(legend.position = &quot;bottom&quot;, legend.box = &quot;horizontal&quot;)
+  )) %&gt;% 
+  pull(pca_graph) %&gt;% 
+  first
+
+
+pca_plot</code></pre>
+<p><img src="/post/2018-03-28-cluster-england-tb_files/figure-html/plot-pca-1.png" width="2640" /></p>
