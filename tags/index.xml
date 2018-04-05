@@ -6,23 +6,23 @@
     <description>Recent content in Tags on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
-    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
+    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
+    <lastBuildDate>Mon, 15 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Content tagged as &#39;Academic&#39;</title>
-      <link>http://www.samabbott.co.uk/tags/academic/</link>
-      <pubDate>Sun, 01 Jan 2017 00:00:00 +0000</pubDate>
+      <title>Course</title>
+      <link>http://www.samabbott.co.uk/tags/course/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
-      <guid>http://www.samabbott.co.uk/tags/academic/</guid>
-      <description>Here is a list of all the content that has been tagged as academic.</description>
+      <guid>http://www.samabbott.co.uk/tags/course/</guid>
+      <description></description>
     </item>
     
     <item>
-      <title>Data Analysis</title>
+      <title>Data analysis</title>
       <link>http://www.samabbott.co.uk/tags/data-analysis/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
       
@@ -31,7 +31,7 @@
     </item>
     
     <item>
-      <title>Data Visualisation</title>
+      <title>Data visualisation</title>
       <link>http://www.samabbott.co.uk/tags/data-visualisation/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
       
@@ -40,7 +40,7 @@
     </item>
     
     <item>
-      <title>Deep Dive</title>
+      <title>Deep dive</title>
       <link>http://www.samabbott.co.uk/tags/deep-dive/</link>
       <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
       
@@ -49,7 +49,7 @@
     </item>
     
     <item>
-      <title>Infectious Disease</title>
+      <title>Infectious disease</title>
       <link>http://www.samabbott.co.uk/tags/infectious-disease/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
       
@@ -78,9 +78,27 @@
     <item>
       <title>Outreach</title>
       <link>http://www.samabbott.co.uk/tags/outreach/</link>
+      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/outreach/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Outreach</title>
+      <link>http://www.samabbott.co.uk/tags/outreach/</link>
       <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/outreach/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>P2P</title>
+      <link>http://www.samabbott.co.uk/tags/p2p/</link>
+      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/p2p/</guid>
       <description></description>
     </item>
     
@@ -94,7 +112,7 @@
     </item>
     
     <item>
-      <title>Personal Project</title>
+      <title>Personal-project</title>
       <link>http://www.samabbott.co.uk/tags/personal-project/</link>
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
@@ -103,7 +121,7 @@
     </item>
     
     <item>
-      <title>Personal Projects</title>
+      <title>Personal-projects</title>
       <link>http://www.samabbott.co.uk/tags/personal-projects/</link>
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
@@ -112,7 +130,7 @@
     </item>
     
     <item>
-      <title>Phd</title>
+      <title>PhD</title>
       <link>http://www.samabbott.co.uk/tags/phd/</link>
       <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
@@ -121,7 +139,7 @@
     </item>
     
     <item>
-      <title>Phd Thesis</title>
+      <title>Phd-thesis</title>
       <link>http://www.samabbott.co.uk/tags/phd-thesis/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
@@ -130,7 +148,7 @@
     </item>
     
     <item>
-      <title>R Package</title>
+      <title>R-package</title>
       <link>http://www.samabbott.co.uk/tags/r-package/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
@@ -139,7 +157,7 @@
     </item>
     
     <item>
-      <title>Reproducible Research</title>
+      <title>Reproducible-research</title>
       <link>http://www.samabbott.co.uk/tags/reproducible-research/</link>
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
@@ -159,9 +177,27 @@
     <item>
       <title>Shiny</title>
       <link>http://www.samabbott.co.uk/tags/shiny/</link>
+      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/shiny/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Shiny</title>
+      <link>http://www.samabbott.co.uk/tags/shiny/</link>
       <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/shiny/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TB</title>
+      <link>http://www.samabbott.co.uk/tags/tb/</link>
+      <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/tb/</guid>
       <description></description>
     </item>
     
@@ -175,18 +211,18 @@
     </item>
     
     <item>
-      <title>Tb</title>
-      <link>http://www.samabbott.co.uk/tags/tb/</link>
-      <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
+      <title>Tuberculosis</title>
+      <link>http://www.samabbott.co.uk/tags/tuberculosis/</link>
+      <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.samabbott.co.uk/tags/tb/</guid>
+      <guid>http://www.samabbott.co.uk/tags/tuberculosis/</guid>
       <description></description>
     </item>
     
     <item>
       <title>Tuberculosis</title>
       <link>http://www.samabbott.co.uk/tags/tuberculosis/</link>
-      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/tuberculosis/</guid>
       <description></description>
@@ -202,7 +238,7 @@
     </item>
     
     <item>
-      <title>Who</title>
+      <title>WHO</title>
       <link>http://www.samabbott.co.uk/tags/who/</link>
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
       

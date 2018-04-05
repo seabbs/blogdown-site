@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>P2p on Sam Abbott</title>
+    <title>P2P on Sam Abbott</title>
     <link>http://www.samabbott.co.uk/tags/p2p/</link>
-    <description>Recent content in P2p on Sam Abbott</description>
+    <description>Recent content in P2P on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
+    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
     <lastBuildDate>Tue, 26 Sep 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/p2p/index.xml" rel="self" type="application/rss+xml" />
@@ -29,33 +29,6 @@ Property Partner advertises returns by combining both projected capital and rent
       
       <guid>http://www.samabbott.co.uk/post/deep-dive-pp-open-house/</guid>
       <description>As peer to peer lending matures platforms have begun to have increasingly divergent stances on sharing their data, making it increasingly important that their is external pressure on them to improve their data sharing. This blog series will focus on platforms sharing their data, exploring what their data is saying and suggesting possible changes to their releases that would make it easier for investors to gain insights on their own.</description>
-    </item>
-    
-    <item>
-      <title>Property Partner Portfolio Visualisation</title>
-      <link>http://www.samabbott.co.uk/project/propertypartner_tableau/</link>
-      <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/propertypartner_tableau/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FC Dashboard</title>
-      <link>http://www.samabbott.co.uk/project/fcdashboard/</link>
-      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Funding Circle Data Anaylsis</title>
-      <link>http://www.samabbott.co.uk/project/funding-circle/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/funding-circle/</guid>
-      <description></description>
     </item>
     
     <item>

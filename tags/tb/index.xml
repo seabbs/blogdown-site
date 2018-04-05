@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Tb on Sam Abbott</title>
+    <title>TB on Sam Abbott</title>
     <link>http://www.samabbott.co.uk/tags/tb/</link>
-    <description>Recent content in Tb on Sam Abbott</description>
+    <description>Recent content in TB on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
+    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
     <lastBuildDate>Tue, 27 Feb 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/tb/index.xml" rel="self" type="application/rss+xml" />
@@ -28,6 +28,15 @@ It is estimated that in 2016 there was more than 10 million cases of active TB, 
       <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/exploreglobaltb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>BIDD Modelling Course</title>
+      <link>http://www.samabbott.co.uk/project/biddmodellingcourse/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/biddmodellingcourse/</guid>
       <description></description>
     </item>
     
