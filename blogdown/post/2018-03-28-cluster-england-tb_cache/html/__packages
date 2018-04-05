@@ -20,3 +20,5 @@ stringr
 forcats
 patchwork
 bindrcpp
+BiocInstaller
+DT

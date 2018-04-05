@@ -197,7 +197,7 @@ missing_regions <- setdiff(tb_df_2015$AreaName %>% as.character, tb_clean_2015$A
 missing_regions
 ```
 
-We are now ready to conduct some clustering analysis on this data. The first step is to reduce the dimensionality of the data using principal component analysis (PCA). We use the `estim_ncp` function from the `FactoMineR` package to estimate the number of principal components required, perform PCA, and the plot the variance explained by each component as a rough check on `estim_ncp`. All of the following analysis is done using nested tibbles and so can be easily generalised to higher dimensional use cases. 
+We are now ready to conduct some clustering analysis on this data. The first step is to reduce the dimensionality of the data using principal component analysis (PCA). We use the `estim_ncp` function (which uses a method outlined in [paper](https://www.sciencedirect.com/science/article/pii/S0167947311004099)) from the `FactoMineR` package to estimate the number of principal components required, perform PCA, and the plot the variance explained by each component as a check on `estim_ncp`. All of the following analysis is done using nested tibbles and so can be easily generalised to higher dimensional use cases. 
 
 ```{r perform-pca}
 tb_pca <- tb_clean_2015 %>% 
@@ -217,7 +217,6 @@ tb_pca <- tb_clean_2015 %>%
     pca_aug = map2(pca, data, ~augment(.x, data = .y)))
 ```
 
-
 We find that the optimal number of principal components is `tb_pca$optimal_pca_no`. We can also plot the percentage of variance explained in order to evaluate this choice.
 
 ```{r extract-var-explained}
@@ -233,7 +232,7 @@ var_exp <- tb_pca %>%
            str_replace("PC", ""))
 ```
 
-```{r plot-var-explained}
+```{r plot-var-explained, fig.height = 8, fig.width = 8, dpi = 330}
 var_exp %>% 
   rename(
     `Variance Explained` = var_exp,
@@ -255,15 +254,16 @@ var_exp %>%
   labs(
     title = "Variance Explained by Principal Component",
     subtitle = paste0("The optimal number of principal components suggested by estim_ncp was ",
-                      tb_pca$optimal_pca_no),
+                      tb_pca$optimal_pca_no, " which explains ", round(var_exp$cum_var_exp[[2]], 0), "% of the data."),
     x = "Principal Component",
     y = "Variance Explained (%)",
     caption = "@seabbs Source: Public Health England (fingertipsR)"
   )
 ```
 
+The above plot shows that only `r paste0(round(var_exp$cum_var_exp[[2]], 0), "%")` of the variance in the data is explained by the first two principle components even though the `estim_ncp` function suggested that this was the optimal number. This indicates that there is large amount of noise in the data, with a large amount of non-systematic between county variation.
 
-We now perform clustering using partitioning around medoids, this approach should be more stable than K means and also has the benefit of producing a metric (the avg. silhouette width) which can be used to assess the number of clusters which provides the  best fitting model. Again we use an approach that makes use of nested tibbles, this should be easier to generalise to other use cases.
+We can now perform clustering using the partitioning around medoids algorithm on the first two principal components, this approach should be more stable than K means and also has the benefit of producing a metric (the average silhouette width) which can be used to estimate the number of clusters which provides the best fitting model. Again we use an approach that makes use of nested tibbles, this should be easier to generalise to other use cases.
 
 ```{r pam-on-tb}
 ## Perform pam on pca data 1 to 10 groups
@@ -284,9 +284,9 @@ tb_pca_pam <- tb_pca %>%
 tb_pca_pam
 ```
 
-To asssess the optimal number of clusters we can plot the average silhouette width.
+To asssess the optimal number of clusters we can plot the average silhouette width. This indicates that two clusters are optimal, although this estimate may not be that robust as the average silhouette width is low (0.38), with 6, 7, 8 clusters also having average silhouette widths that are comparable. In general however we should prefer the parsimonous model and therefore we will only investigate two clusters for the remainder of this post.
 
-```{r avg-silhouette}
+```{r avg-silhouette, fig.height = 8, fig.weight = 8, dpi = 330}
 ## Get max silhouette width
 max_silhouette_width <- tb_pca_pam %>% 
   select(centers, avg_silhouette_width) %>% 
@@ -317,7 +317,7 @@ tb_pca_pam %>%
 
 We can now explore the clusters we have identified. A useful way to do this is to visual the first two principal components, overlaid with the original variable loadings, and the clusters we have identified.
 
-```{r plot-pca}
+```{r plot-pca, fig.height = 8, fig.width = 8, dpi = 330}
 ## Plot clusters
 pca_plot <- tb_pca_pam %>% 
   filter(centers == max_silhouette_width$centers) %>% 
@@ -340,13 +340,76 @@ pca_plot <- tb_pca_pam %>%
                                    fill=guide_legend(title= "Cluster", ncol = 2),
                                    size = guide_legend(title = "TB Incidence Rate (per 100,000 population)",
                                                        ncol = 2)) +
-                            scale_colour_viridis(option = "viridis", discrete = TRUE, end = 0.9) +
-                            scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.9) +
-                            theme(legend.position = "bottom", legend.box = "horizontal")
+                            scale_colour_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
+                            scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
+                            theme(legend.position = "bottom", legend.box = "horizontal") +
+                            labs(
+                              title = "Tuberculosis Data in England; First Two Principal Components",
+                              subtitle = "The arrows are variable loadings and points are counties coloured by cluster membership",
+                              caption = "@seabbs Source: Public Health England (fingertipsR)"
+                            )
   )) %>% 
   pull(pca_graph) %>% 
   first
 
 
 pca_plot
+```
+
+From this we see that the clusters are generally split by incidence rates with lower incidence rate counties also having a higher proportion of cases die and a higher proportion of cases lost to follow up. The higher incidence counties have a higher proportion of cases that are pulmonary, and more cases that complete treatment within 6 months. It appears that the proportion of cases that start treatment within 2 and 4 months varies over both clusters. Another way of summarising the between cluster differences is to summarise the data by cluster, which is presented in the following plot.
+
+
+```{r summary-plot, fig.height = 8, fig.width = 8, dpi = 330}
+sum_tb_df <- tb_pca_pam %>% 
+  filter(centers == max_silhouette_width$centers) %>% 
+  pull(data_with_clusters) %>% 
+  map(~ gather(., key = "Variable", value = "value", -AreaName, -cluster)) %>% 
+  first %>% 
+  rename(Cluster = cluster) 
+
+sum_tb_df %>% 
+  ggplot(aes(x = Variable, y = value, col = Cluster, fill = Cluster)) +
+  geom_violin(draw_quantiles = c(0.025, 0.5, 0.975), alpha = 0.2, scale = "width") +
+  geom_jitter(position = position_jitterdodge(), alpha = 0.3) +
+  coord_flip() +
+  theme_minimal() +
+  scale_y_continuous(breaks = seq(0, 100, 5), minor_breaks = NULL) +
+  scale_colour_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
+  scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
+  labs( 
+    title = "Tuberculosis in England; Summarised by Cluster",
+    subtitle = "Violin plots are scaled by width, with the 2.5%, 50% and 97.5% quantiles shown.",
+    x = "Variable",
+    y = "Incidence rate (per 100,000) for rec_int_rate, otherwise proportion (0-100%)",
+    caption = "@seabbs Source: Public Health England (fingertipsR)")
+```
+
+To explore this further we can calculate the percentage difference between clusters for each several summary statistics, for each variable. The following table does this for the mean, the median, the 2.5% quantile, and the 97.5% quantile.
+
+```{r diff-tab}
+sum_tb_df %>% 
+  group_by(Cluster, Variable) %>% 
+  summarise(mean = mean(value), median = median(value),
+            lll = quantile(value, 0.025),
+            hhh = quantile(value, 0.975)) %>% 
+  group_by(Variable) %>% 
+  mutate_if(is.numeric, .funs = funs((lag(.) - .)/ .)) %>% 
+  drop_na %>% 
+  mutate_if(is.numeric, .funs = funs(paste0(round(. * 100, 1), "%"))) %>% 
+  ungroup %>% 
+  mutate(Variable = factor(Variable, levels = rev(.$Variable))) %>% 
+  arrange(Variable) %>% 
+  rename(Mean = mean, Median = median, `2.5% Quantile` = lll, `97.5% Quantile` = hhh) %>% 
+  select(-Cluster) %>% 
+  kable
+```
+
+A final way to understand the clustering of Tuberculosis in England based on the data we have extracted using the `fingertipsR` package is to plot the cluster membership for each country on a map.
+
+```{r map-cluster-membership}
+tb_pca_pam %>% 
+  filter(centers == max_silhouette_width$centers) %>% 
+  pull(data_with_clusters)
+
+
 ```
