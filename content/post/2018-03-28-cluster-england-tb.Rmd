@@ -47,6 +47,7 @@ p_load("scales")
 p_load("fingertipsR")
 p_load("tidyverse")
 p_load("knitr")
+p_load("ggthemes")
 p_load_gh("thomasp85/patchwork", dependencies = TRUE)
 ```
 
@@ -412,6 +413,7 @@ sum_tb_df %>%
   geom_jitter(position = position_jitterdodge(), alpha = 0.3) +
   coord_flip() +
   theme_minimal() +
+  theme(legend.position = "bottom") +
   scale_y_continuous(breaks = seq(0, 100, 5), minor_breaks = NULL) +
   scale_colour_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
   scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
@@ -450,7 +452,7 @@ A final way to understand the clustering of Tuberculosis in England based on the
 
 
 
-```{r map-cluster-membership, fig.height = 8, fig.width = 8, dpi = 330}
+```{r map-cluster-membership, fig.height = 8, fig.width = 8, dpi = 330, warning = FALSE}
 ## Some issues here with extracting code from the sp file
 ## Solvied using the folling maptools functions - improvements appreciated!
 gpclibPermit()
@@ -478,11 +480,11 @@ cluster_map <- ggplot(tb_cluster_results,
                      fill = cluster)) +
     geom_path(aes(group = group), alpha = 0.3) +
     geom_polygon(aes(group = group, fill = NULL), alpha = 0.1) +
-    geom_polygon(aes(group = group)) +
+    geom_polygon(aes(group = group), alpha = 0.6) +
     scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
-    coord_map() +
-    theme_minimal() +
-    theme(legend.position = "none") +
+    coord_equal() +
+    theme_map() +
+    theme(legend.position = "bottom") +
     labs(caption = "Contains National Statistics data © Crown copyright and database right 2018. 
          Contains OS data © Crown copyright and database right 2018")
 

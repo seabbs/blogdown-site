@@ -9,6 +9,8 @@ addons:
   apt:
     packages:
       - libxml2-dev
+      - libproj-dev
+      - libgdal-dev
 
 before_script:
   - "Rscript -e 'blogdown::install_hugo()'"
