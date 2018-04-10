@@ -36,6 +36,10 @@ p_load("viridis")
 p_load("broom")
 p_load("knitr")
 p_load("ggfortify")
+p_load("gpclib")
+p_load("rgdal")
+p_load("raster")
+p_load("maptools")
 p_load("purrr")
 p_load("FactoMineR")
 p_load("cluster")
@@ -43,7 +47,6 @@ p_load("scales")
 p_load("fingertipsR")
 p_load("tidyverse")
 p_load("knitr")
-p_load("raster")
 p_load_gh("thomasp85/patchwork", dependencies = TRUE)
 ```
 
@@ -447,11 +450,14 @@ A final way to understand the clustering of Tuberculosis in England based on the
 
 
 
-```{r map-cluster-membership, fig.height = 8, fig.width = 8, }
-england_counties <- shapefile("../../static/data/shapefiles/england-2011-ct-shape/england_ct_2011.shp") %>%
-  fortify %>% 
-  as_tibble
+```{r map-cluster-membership, fig.height = 8, fig.width = 8, dpi = 330}
+## Some issues here with extracting code from the sp file
+## Solvied using the folling maptools functions - improvements appreciated!
+gpclibPermit()
 
+england_counties <- shapefile("../../static/data/shapefiles/england-2011-ct-shape/england_ct_2011.shp") %>%
+  fortify(region = "code") %>% 
+  as_tibble
 
 tb_cluster_results <- tb_pca_pam %>% 
   filter(centers == max_silhouette_width$centers) %>% 
@@ -464,15 +470,23 @@ tb_cluster_results <- tb_df[[2]] %>%
               unique %>% 
   left_join(tb_cluster_results,
             by = "AreaName") %>% 
-  left_join(england_counties, by = c("AreaCode" = "code"))
+  left_join(england_counties, by = c("AreaCode" = "id"))
 
-ggplot(tb_cluster_results, 
-                 aes(x = lat, 
-                     y = log)) +
-    geom_polygon(aes(group = name)) + 
-    coord_equal() +
-    theme(legend.position = "bottom") +
-    labs(caption = "Contains National Statistics data © Crown copyright and database right 2018. Contains OS data © Crown copyright and database right 2018")
+cluster_map <- ggplot(tb_cluster_results, 
+                 aes(x = long, 
+                     y = lat,
+                     fill = cluster)) +
+    geom_path(aes(group = group), alpha = 0.3) +
+    geom_polygon(aes(group = group, fill = NULL), alpha = 0.1) +
+    geom_polygon(aes(group = group)) +
+    scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
+    coord_map() +
+    theme_minimal() +
+    theme(legend.position = "none") +
+    labs(caption = "Contains National Statistics data © Crown copyright and database right 2018. 
+         Contains OS data © Crown copyright and database right 2018")
+
+cluster_map
 ```
 
 ## Summary and Wrap-up
