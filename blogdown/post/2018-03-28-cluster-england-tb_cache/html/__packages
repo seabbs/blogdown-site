@@ -6,6 +6,11 @@ broom
 knitr
 ggplot2
 ggfortify
+gpclib
+sp
+rgdal
+raster
+maptools
 purrr
 FactoMineR
 cluster
@@ -18,13 +23,6 @@ readr
 dplyr
 stringr
 forcats
+ggthemes
 patchwork
 bindrcpp
-BiocInstaller
-DT
-gpclib
-sp
-rgdal
-raster
-maptools
-ggthemes
