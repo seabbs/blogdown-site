@@ -22,3 +22,9 @@ patchwork
 bindrcpp
 BiocInstaller
 DT
+gpclib
+sp
+rgdal
+raster
+maptools
+ggthemes
