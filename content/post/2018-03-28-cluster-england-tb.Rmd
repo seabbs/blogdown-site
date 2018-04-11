@@ -362,12 +362,13 @@ pca_plot <- tb_pca_pam %>%
   select(data_with_clusters, pca) %>% 
   mutate(pca_graph = map2(.x = pca, 
                           .y = data_with_clusters,
-                          ~ autoplot(.x, x = 1, y = 2, loadings = TRUE, loadings.label = TRUE,
-                                     loadings.label.repel = TRUE, loadings.label.size = 2, loadings.alpha = 0.8,
-                                     loadings.label.vjust = -1,
-                                     data = .y, label = TRUE, label.label = "AreaName", label.size = 1.5,
-                                     label.vjust = -1, alpha = 0.3, frame = TRUE, frame.type = 'convex',
-                                     frame.alpha= 0.05,
+                          ~ autoplot(.x, x = 1, y = 2, loadings = TRUE,
+                                     loadings.label = TRUE, loadings.label.repel = TRUE,
+                                     loadings.label.size = 2, loadings.alpha = 0.8,
+                                     loadings.label.vjust = -1, data = .y, label = TRUE,
+                                     label.label = "AreaName", label.size = 1.5,
+                                     label.vjust = -1, alpha = 0.3, frame = TRUE, 
+                                     frame.type = 'convex', frame.alpha= 0.05,
                                      colour = "cluster", size = "rec_inc_rate") +
                             theme_minimal() +
                             labs(x = paste0("Principal Component 1 (Variance Explained: ",
@@ -503,17 +504,25 @@ tb_cluster_results <- tb_df[[2]] %>%
                  aes(x = long, 
                      y = lat,
                      fill = Cluster)) +
-    geom_polygon(data = england_urban_areas, aes(group = group, fill = NULL), alpha = 0.4) +
-    geom_path(data = tb_cluster_results, aes(group = group, fill = NULL), alpha = 0.4) +
-    geom_polygon(data = tb_cluster_results, aes(group = group, fill = NULL), alpha = 0.1) +
+    geom_polygon(data = england_urban_areas, 
+                 aes(group = group, fill = NULL),
+                 alpha = 0.4) +
+    geom_path(data = tb_cluster_results, 
+              aes(group = group, fill = NULL), 
+              alpha = 0.4) +
+    geom_polygon(data = tb_cluster_results, 
+                 aes(group = group, fill = NULL),
+                 alpha = 0.1) +
     geom_polygon(aes(group = group), alpha = 0.6) +
     geom_line(data = urban_area_labels %>% 
                 bind_rows(urban_area_labels %>% 
-                            mutate(long = long + 200000, lat = lat - 20000)),
+                            mutate(long = long + 200000, 
+                                   lat = lat - 20000)),
               aes(fill = NA, group = id), alpha = 0.8) + 
     geom_label(data = urban_area_labels,
               aes(label = id), fill = "grey") +
-    scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
+    scale_fill_viridis(option = "viridis", discrete = TRUE,
+                       end = 0.5) +
     coord_equal() +
     theme_map() +
     theme(legend.position = "bottom") +
