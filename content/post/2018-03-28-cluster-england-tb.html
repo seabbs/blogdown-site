@@ -1,11 +1,10 @@
 ---
-title: Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction
-  and Clustering
+title: "Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction
+  and Clustering"
 author: 'null'
 date: '2018-03-28'
-output: word_document
-description: Using fingertipsR, principal component analysis, and partitioning around
-  medoids to identify clusters of counties based on Tuberculosis monitoring indicators
+description: "Using fingertipsR, principal component analysis, and partitioning around
+  medoids to identify clusters of counties based on Tuberculosis monitoring indicators"
 slug: cluster-england-tb
 tags:
 - data analysis
@@ -14,7 +13,7 @@ tags:
 - TB
 - PHE
 - infectious disease
-categories: R
+categories: ["R"]
 twitterImg: img/fingertips/storyboard-fingertips-tb-clust.png
 ---
 
@@ -23,9 +22,9 @@ twitterImg: img/fingertips/storyboard-fingertips-tb-clust.png
 <div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>I recently attended the <a href="Public%20Health%20Research%20and%20Science%20Conference">Public Health Research and Science Conference</a>, run by <a href="https://www.gov.uk/government/organisations/public-health-england">Public Health England</a> (PHE), at the University of Warwick. I was mainly there to present some work that I have been doing (along with my co-authors) estimating the direct effects of the 2005 change in BCG vaccination policy on Tuberculosis (TB) incidence rates (<a href="https://www.samabbott.co.uk/talk/phe-applied-epi-2018/">slides</a>) but it was also a great opportunity to see what research is being done within, and partnered with, PHE. The standout out work for me was the nascent data science work that is being undertaken within PHE, which is currently focused around the <a href="https://github.com/ropensci/fingertipsR"><code>fingertipsR</code></a> R package by Sebastian Fox. <a href="https://github.com/ropensci/fingertipsR"><code>fingertipsR</code></a> provides an easy interface to access the <a href="https://fingertips.phe.org.uk">fingertips</a> API, which contains data on a large variety of public health issues, and can be explored interactively online (see previous link).</p>
-<p>In this post we will focus on data on <a href="https://en.wikipedia.org/wiki/Tuberculosis">Tuberculosis</a> (TB), which is predominately a respiratory disease and if left untreated kills approximately half of those infected. The majority of cases are symptom-less (known as latent TB), with 10% of latent cases progressing to active disease. It is thought that immediately after infection individuals are at a higher risk of proceeding to active cases, with the risk diminishing after several years. However, individuals who have carried the disease for many years can, and do, progress to active TB disease. This makes the control and management of TB on a population scale challenging as cases may either be due to recent transmission or be from the activation of latent cases who have carried the disease for many years. <a href="https://en.wikipedia.org/wiki/HIV">HIV</a> infection is known to drastically increase the likelihood of progression to active TB disease and TB is the leading cause of death among people living with HIV (<a href="http://www.who.int/hiv/topics/tb/tbhiv_facts_2015/en/">source</a>). Globally 10.4 million people fell ill with TB in 2016 alone, with 1.7 million deaths (<a href="http://www.who.int/mediacentre/factsheets/fs104/en/">source</a>).</p>
+<p>In this post we will focus on data on <a href="https://en.wikipedia.org/wiki/Tuberculosis">Tuberculosis</a> (TB), which is predominately a respiratory disease and if left untreated kills approximately half of those infected. The majority of cases are symptom-less (known as latent TB), with 10% of latent cases progressing to active disease. It is thought that immediately after infection individuals are at a higher risk of proceeding to active disease, with the risk diminishing after several years. However, individuals who have carried the disease for many years can, and do, progress to active TB disease. This makes the control and management of TB on a population scale challenging as cases may either be due to recent transmission or be from the activation of latent cases who have carried the disease for many years. <a href="https://en.wikipedia.org/wiki/HIV">HIV</a> infection is known to drastically increase the likelihood of progression to active TB disease and TB is the leading cause of death among people living with HIV (<a href="http://www.who.int/hiv/topics/tb/tbhiv_facts_2015/en/">source</a>). Globally 10.4 million people fell ill with TB in 2016 alone, with 1.7 million deaths (<a href="http://www.who.int/mediacentre/factsheets/fs104/en/">source</a>).</p>
 <p>In England, TB incidence rates have declined drastically over the course of the last century, with the introduction of BCG vaccination, effective TB treatments and improved standards of living. However, over the previous two decades incidence rates have remained relatively stable with incidence becoming increasing focused in at risk communities, such as the homeless population and the non-UK born living in high density urban areas (<a href="https://www.gov.uk/government/publications/tuberculosis-in-england-annual-report">source</a>). Recently it has been recognised that TB interventions in England must be collaborative and consistent across the country (<a href="http://www.thelancet.com/journals/lancet/article/PIIS0140-6736(14)61638-X/fulltext">source</a>), as this has proven to be effective in other countries such as the USA.</p>
-<p>This post uses dimension reduction (<a href="https://en.wikipedia.org/wiki/Principal_component_analysis">Principal Component Analysis</a>(PCA)) and clustering (<a href="https://en.wikipedia.org/wiki/K-medoids">Partitioning Around Mediods</a>(PAM)) to explore the Tuberculosis monitoring indicators available from the <a href="https://fingertips.phe.org.uk"><code>fingertips</code></a> API, using the <a href="https://github.com/ropensci/fingertipsR"><code>fingertipsR</code></a> R package, for England. It aims to use hypothesis free techniques to generate clusters of counties with similar characteristics of TB indicators. This may help to identify regional variation in Tuberculosis monitoring indicators and possibly provide a framework for future improvements to TB control efforts. It also seeks to act as an example of dimension reduction and clustering analysis. Therefore, comments to improve this aspect of this post would be greatly appreciated (paper links, package recommendations, methodology improvements etc.)!</p>
+<p>This post uses dimension reduction (<a href="https://en.wikipedia.org/wiki/Principal_component_analysis">Principal Component Analysis</a> (PCA)) and clustering (<a href="https://en.wikipedia.org/wiki/K-medoids">Partitioning Around Mediods</a> (PAM)) to explore the Tuberculosis monitoring indicators available from the <a href="https://fingertips.phe.org.uk">fingertips</a> API, using the <a href="https://github.com/ropensci/fingertipsR"><code>fingertipsR</code></a> R package, for England. It aims to use hypothesis free techniques to generate clusters of counties with similar characteristics of TB indicators. This may help to identify regional variation in Tuberculosis monitoring indicators and possibly provide a framework for future improvements to TB control efforts. It also seeks to act as an example of dimension reduction and clustering analysis. Therefore, comments to improve this aspect of this post would be greatly appreciated (paper links, package recommendations, methodology improvements etc.)!</p>
 </div>
 <div id="packages" class="section level2">
 <h2>Packages</h2>
@@ -51,7 +50,7 @@ p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)</code></pre>
 </div>
 <div id="data" class="section level2">
 <h2>Data</h2>
-<p>As discussed in the introduction we are using the <a href="https://github.com/ropensci/fingertipsR"><code>fingertipsR</code></a> as our data source. The first step is to investigate the data profiles provided by the package for the mention of TB.</p>
+<p>As discussed in the introduction we are using the <a href="https://github.com/ropensci/fingertipsR"><code>fingertipsR</code></a> as our data source. The first step is to investigate the data profiles provided by the package which mention TB.</p>
 <pre class="r"><code>profs &lt;- profiles()
 
 sel_profs &lt;- profs[grepl(&quot;TB&quot;, profs$ProfileName),]
@@ -81,7 +80,7 @@ kable(sel_profs)</code></pre>
 </tr>
 </tbody>
 </table>
-<p>We find that there are two profiles: key indicators and LTBI programme monitoring (screen the at-risk population for latent TB). We use the <code>indicators</code> function to explore the variables available in each profile.</p>
+<p>We find that there are two profiles: key indicators and LTBI programme monitoring (screening the at-risk population for latent TB). We use the <code>indicators</code> function to explore the variables available in each profile.</p>
 <pre class="r"><code>tb_inds &lt;- indicators(ProfileID = sel_profs$ProfileID)
 
 kable(tb_inds)</code></pre>
@@ -197,7 +196,7 @@ kable(tb_inds)</code></pre>
 </table>
 <p>This gives us 12 TB indicators, which we can now extract using the <code>fingertips_data</code> function combined with a call to <code>purrr::map</code>. This results in 12 tibbles, with the first being empty (TB incidence rates).</p>
 <pre class="r"><code>tb_df &lt;- tb_inds$IndicatorID %&gt;% map(~fingertips_data(IndicatorID = .))</code></pre>
-<p>The key indicator, which we will match all of the remaining data, is the three-year average TB incidence rates (as the annual TB incidence rate is missing and would also be more susceptible to noise). The following code extracts this at the county level, re-codes the value variable as recent incidence rates and pulls the overall incidence of cases. According to the <a href="https://fingertips.phe.org.uk/profile/tb-monitoring">fingertips</a> website, local authorities and CCGs with fewer than 20 TB cases per year have had all data for the indicators (apart from three-year average TB incidence) suppressed to avoid deductive disclosure. We can therefore filter out these counties now to avoid issues with missing data later. We also adjust the time period to represent the final year for each rolling average.</p>
+<p>The key indicator, which we will match all of the remaining data too, is the three-year average TB incidence rates (as the annual TB incidence rate is missing and would also be more susceptible to noise). The following code extracts this at the county level, re-codes the value variable as recent incidence rates and pulls the overall incidence of cases. According to the <a href="https://fingertips.phe.org.uk/profile/tb-monitoring">fingertips</a> website, local authorities and CCGs with fewer than 20 TB cases per year have had all data for the indicators (apart from three-year average TB incidence) suppressed to avoid deductive disclosure. We can therefore filter out these counties now to avoid issues with missing data later. We also adjust the time period to represent the final year for each rolling average.</p>
 <pre class="r"><code>tb_inc &lt;- tb_df[[2]] %&gt;% 
   filter(AreaType %in% &quot;County &amp; UA&quot;) %&gt;% 
   dplyr::select(AreaName, Sex, Age, Timeperiod,
@@ -231,14 +230,14 @@ extracted_tb &lt;- map2(tb_df[-(1:2)], var_names, ~tb_df_extraction(.x, .y)) %&g
   reduce(full_join, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;))
 
 com_tb_df &lt;- tb_inc %&gt;% 
-  left_join(extracted_tb) %&gt;% 
+  left_join(extracted_tb, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)) %&gt;% 
   mutate(year = Timeperiod %&gt;% as.numeric) %&gt;% 
   mutate_if(is.character, as.factor) %&gt;% 
   dplyr::select(-Timeperiod) %&gt;% 
   filter(Sex %in% &quot;Persons&quot;, Age %in% &quot;All ages&quot;) %&gt;% 
-  dplyr::select(-Sex, -Age)</code></pre>
-<pre><code>## Joining, by = c(&quot;AreaName&quot;, &quot;Sex&quot;, &quot;Age&quot;, &quot;Timeperiod&quot;)</code></pre>
-<pre class="r"><code>com_tb_df</code></pre>
+  dplyr::select(-Sex, -Age)
+
+com_tb_df</code></pre>
 <pre><code>## # A tibble: 2,026 x 13
 ##    AreaName     rec_inc_rate prop_pul_cc prop_cc_ds_front prop_ds_treat_c…
 ##    &lt;fct&gt;               &lt;dbl&gt;       &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
@@ -257,7 +256,7 @@ com_tb_df &lt;- tb_inc %&gt;%
 ## #   prop_tb_offered_hiv_test &lt;dbl&gt;, prop_ds_rf_treat_com_12 &lt;dbl&gt;,
 ## #   prop_cc_dr_front &lt;dbl&gt;, prop_p_start_treat_2_m_sym &lt;dbl&gt;,
 ## #   prop_p_start_treat_4_m_sym &lt;dbl&gt;, year &lt;dbl&gt;</code></pre>
-<p>Next, we now need to check the completeness of the data. Ideally, we would use the most recent year of data for our clustering analysis but this may not be possible if variables are highly missing. The following function calculates the proportion of missing data in each year for each variable.</p>
+<p>Next, we need to check the completeness of the data. Ideally, we would use the most recent year of data for our clustering analysis but this may not be possible if variables are highly missing. The following function calculates the proportion of missing data in each year for each variable.</p>
 <pre class="r"><code>get_frac_missing &lt;- function(df) {
   df %&gt;% 
     nest() %&gt;% 
@@ -758,7 +757,7 @@ var_exp &lt;- tb_pca %&gt;%
     caption = &quot;@seabbs Source: Public Health England (fingertipsR)&quot;
   )</code></pre>
 <p><img src="/post/2018-03-28-cluster-england-tb_files/figure-html/plot-var-explained-1.png" width="2640" /></p>
-<p>The above plot shows that only 42% of the variance in the data is explained by the first two principle components (PCs) even though the <code>estim_ncp</code> function suggested that this was the optimal number. This indicates that there is large amount of noise in the data with a large amount of non-systematic between county variation. Another approach, using the ‘elbow’ (change from decreasing to stable amount of variance explained), would estimate that 7 PCs are required to explain the variance in the data.</p>
+<p>The above plot shows that only 42% of the variance in the data is explained by the first two principle components (PCs) even though the <code>estim_ncp</code> function suggested that this was the optimal number. This indicates that there is large amount of noise in the data with a large amount of non-systematic between county variation. Another approach, using the ‘elbow’ (change from decreasing to stable amount of variance explained), would estimate that 8 PCs are required to explain the variance in the data.</p>
 </div>
 <div id="clustering-of-tb-monitoring-indicators" class="section level2">
 <h2>Clustering of TB Monitoring Indicators</h2>
@@ -801,7 +800,7 @@ tb_pca_pam</code></pre>
 ## 9             2. &lt;tibb… &lt;data.frame … &lt;S3:… &lt;dbl [5… &lt;data.…      10 &lt;S3:…
 ## # ... with 3 more variables: clusters &lt;list&gt;, avg_silhouette_width &lt;list&gt;,
 ## #   data_with_clusters &lt;list&gt;</code></pre>
-<p>To assess the optimal number of clusters we can plot the average silhouette width. This indicates that two clusters are optimal, although this estimate may not be that robust as the average silhouette width is low (0.38) with 6, 7, and 8 clusters also having average silhouette widths that are comparable. In general, we prefer the parsimonious model and therefore we will only investigate two clusters for the remainder of this post. Note that this does not currently test for no clustering (i.e a single cluster).</p>
+<p>To assess the optimal number of clusters we can plot the average silhouette width. This indicates that two clusters are optimal, although this estimate may not be that robust as the average silhouette width is low (0.38) with 6, 7, and 8 clusters also having average silhouette widths that are comparable. In general, we prefer the parsimonious model and therefore we will only investigate two clusters for the remainder of this post. <em>Note that this does not test for no clustering (i.e a single cluster).</em></p>
 <pre class="r"><code>## Get max silhouette width
 max_silhouette_width &lt;- tb_pca_pam %&gt;% 
   dplyr::select(centers, avg_silhouette_width) %&gt;% 
@@ -995,6 +994,24 @@ england_counties &lt;- shapefile(&quot;../../static/data/shapefiles/england-2011
   fortify(region = &quot;code&quot;) %&gt;% 
   as_tibble
 
+england_urban_areas &lt;- shapefile(&quot;../../static/data/shapefiles/england-urb-2001-shape/england_urb_2001.shp&quot;) %&gt;% 
+  fortify(region = &quot;name&quot;) %&gt;% 
+  as_tibble %&gt;% 
+  filter(id %in% c(&quot;Greater London Urban Area&quot;, 
+                   &quot;Greater Manchester Urban Area&quot;,
+                   &quot;Bristol Urban Area&quot;,
+                   &quot;West Midlands Urban Area&quot;,
+                   &quot;Milton Keynes Urban Area&quot;))
+
+## Make custom positions for urban area labels
+urban_area_labels &lt;- england_urban_areas %&gt;%
+  group_by(id) %&gt;% 
+  slice(100) %&gt;% 
+  ungroup() %&gt;% 
+  mutate(long = long - 200000,
+         lat = lat + 20000)
+  
+  
 tb_cluster_results &lt;- tb_pca_pam %&gt;% 
   filter(centers == max_silhouette_width$centers) %&gt;% 
   pull(data_with_clusters) %&gt;% 
@@ -1016,16 +1033,24 @@ tb_cluster_results &lt;- tb_df[[2]] %&gt;%
                  aes(x = long, 
                      y = lat,
                      fill = Cluster)) +
+    geom_polygon(data = england_urban_areas, aes(group = group, fill = NULL), alpha = 0.4) +
     geom_path(data = tb_cluster_results, aes(group = group, fill = NULL), alpha = 0.4) +
     geom_polygon(data = tb_cluster_results, aes(group = group, fill = NULL), alpha = 0.1) +
     geom_polygon(aes(group = group), alpha = 0.6) +
+    geom_line(data = urban_area_labels %&gt;% 
+                bind_rows(urban_area_labels %&gt;% 
+                            mutate(long = long + 200000, lat = lat - 20000)),
+              aes(fill = NA, group = id), alpha = 0.8) + 
+    geom_label(data = urban_area_labels,
+              aes(label = id), fill = &quot;grey&quot;) +
     scale_fill_viridis(option = &quot;viridis&quot;, discrete = TRUE, end = 0.5) +
     coord_equal() +
     theme_map() +
     theme(legend.position = &quot;bottom&quot;) +
     labs(title = &quot;Tuberculosis Monitoriing Indicators; Map of County Level Clusters in England&quot;,
          subtitle = &quot;Using data from 2015 - only counties with incidence rates above 10 per 100,000 population and complete data are shown&quot;,
-         caption = &quot;@seabbs Source: Public Health England (fingertipsR)
+         caption = &quot;Selected urban areas are shown (dark grey) and labelled.
+@seabbs Source: Public Health England (fingertipsR)
 Contains National Statistics data © Crown copyright and database right 2018. 
          Contains OS data © Crown copyright and database right 2018&quot;)
 }
