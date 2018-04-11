@@ -538,10 +538,10 @@ plot_tb_cluster_map <- tb_cluster_map(tb_pca_pam)
 ggsave("../../static/img/fingertips/map-tb-clust.png",
        plot_tb_cluster_map, width = 8, height = 8, dpi = 330)
 
+plot_tb_cluster_map
+
 ## Remove objects to reduce stored chunk size
 rm("plot_tb_cluster_map")
-
-knitr::include_graphics("../../static/img/fingertips/map-tb-clust.png")
 ```
 
 In the map above we see that cluster 1 is mainly made up of counties in London, Birmingham, and in the North West of England. Cluster 2 accounts for the majority of counties that are not within these large urban areas, as well the remaining as several counties in Birmingham and the North West and a single county in London. As expected we see that the majority of counties in England have been excluded from our analysis due to low incidence rates or missing data.
@@ -560,7 +560,7 @@ Hopefully this post proved useful for informing you about the present state of T
 
 To wrap-up this post we use the `patchwork` package to quickly compose a storyboard of the results from the clustering analysis carried out above. See [here](https://www.samabbott.co.uk/post/2018-03-28-cluster-england-tb_files/figure-html/storyboard-1.png) for a full size version.
 
-```{r storyboard, fig.height = 8, fig.width = 8, dpi = 330, warning = FALSE}
+```{r storyboard, fig.height = 16, fig.width = 20, dpi = 330, warning = FALSE}
 plot_tb_cluster_map <- tb_cluster_map(tb_pca_pam)
 
 storyboard <- plot_tb_cluster_map | ( pca_plot / plot_cluster_diff)
@@ -568,9 +568,9 @@ storyboard <- plot_tb_cluster_map | ( pca_plot / plot_cluster_diff)
 ggsave("../../static/img/fingertips/storyboard-fingertips-tb-clust.png",
        storyboard, width = 20, height = 16, dpi = 330)
 
+storyboard
+
 ## Remove to reduce chunk size as over 100mb git limit
 rm("storyboard", "plot_tb_cluster_map")
-
-knitr::include_graphics("../../static/img/fingertips/storyboard-fingertips-tb-clust.png")
 ```
 
