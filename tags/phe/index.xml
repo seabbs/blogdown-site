@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>PHE on Sam Abbott</title>
+    <link>http://www.samabbott.co.uk/tags/phe/</link>
+    <description>Recent content in PHE on Sam Abbott</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
+    <lastBuildDate>Wed, 28 Mar 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/phe/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction and Clustering</title>
+      <link>http://www.samabbott.co.uk/post/cluster-england-tb/</link>
+      <pubDate>Wed, 28 Mar 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/cluster-england-tb/</guid>
+      <description>Introduction I recently attended the Public Health Research and Science Conference, run by Public Health England (PHE), at the University of Warwick. I was mainly there to present some work that I have been doing (along with my co-authors) estimating the direct effects of the 2005 change in BCG vaccination policy on Tuberculosis (TB) incidence rates (slides) but it was also a great opportunity to see what research is being done within, and partnered with, PHE.</description>
+    </item>
+    
+  </channel>
+</rss>
