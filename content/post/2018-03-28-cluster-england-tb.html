@@ -830,12 +830,15 @@ pca_plot &lt;- tb_pca_pam %&gt;%
   select(data_with_clusters, pca) %&gt;% 
   mutate(pca_graph = map2(.x = pca, 
                           .y = data_with_clusters,
-                          ~ autoplot(.x, x = 1, y = 2, loadings = TRUE, loadings.label = TRUE,
-                                     loadings.label.repel = TRUE, loadings.label.size = 2, loadings.alpha = 0.8,
-                                     loadings.label.vjust = -1,
-                                     data = .y, label = TRUE, label.label = &quot;AreaName&quot;, label.size = 1.5,
-                                     label.vjust = -1, alpha = 0.3, frame = TRUE, frame.type = &#39;convex&#39;,
-                                     frame.alpha= 0.05,
+                          ~ autoplot(.x, x = 1, y = 2, 
+                                     loadings = TRUE, loadings.label = TRUE,
+                                     loadings.label.repel = TRUE,
+                                     loadings.label.size = 2, loadings.alpha = 0.8,
+                                     loadings.label.vjust = -1, data = .y, 
+                                     label = TRUE, label.label = &quot;AreaName&quot;,
+                                     label.size = 1.5, label.vjust = -1, 
+                                     alpha = 0.3, frame = TRUE, 
+                                     frame.type = &#39;convex&#39;, frame.alpha= 0.05,
                                      colour = &quot;cluster&quot;, size = &quot;rec_inc_rate&quot;) +
                             theme_minimal() +
                             labs(x = paste0(&quot;Principal Component 1 (Variance Explained: &quot;,
@@ -846,9 +849,12 @@ pca_plot &lt;- tb_pca_pam %&gt;%
                                    fill=guide_legend(title= &quot;Cluster&quot;, ncol = 2),
                                    size = guide_legend(title = &quot;TB Incidence Rate (per 100,000 population)&quot;,
                                                        ncol = 2)) +
-                            scale_colour_viridis(option = &quot;viridis&quot;, discrete = TRUE, end = 0.5) +
-                            scale_fill_viridis(option = &quot;viridis&quot;, discrete = TRUE, end = 0.5) +
-                            theme(legend.position = &quot;bottom&quot;, legend.box = &quot;horizontal&quot;) +
+                            scale_colour_viridis(option = &quot;viridis&quot;, 
+                                                 discrete = TRUE, end = 0.5) +
+                            scale_fill_viridis(option = &quot;viridis&quot;, 
+                                               discrete = TRUE, end = 0.5) +
+                            theme(legend.position = &quot;bottom&quot;, 
+                                  legend.box = &quot;horizontal&quot;) +
                             labs(
                               title = &quot;Tuberculosis Data in England; First Two Principal Components&quot;,
                               subtitle = &quot;The arrows are variable loadings and points are counties coloured by cluster membership&quot;,
@@ -1025,17 +1031,25 @@ tb_cluster_results &lt;- tb_df[[2]] %&gt;%
                  aes(x = long, 
                      y = lat,
                      fill = Cluster)) +
-    geom_polygon(data = england_urban_areas, aes(group = group, fill = NULL), alpha = 0.4) +
-    geom_path(data = tb_cluster_results, aes(group = group, fill = NULL), alpha = 0.4) +
-    geom_polygon(data = tb_cluster_results, aes(group = group, fill = NULL), alpha = 0.1) +
+    geom_polygon(data = england_urban_areas, 
+                 aes(group = group, fill = NULL),
+                 alpha = 0.4) +
+    geom_path(data = tb_cluster_results, 
+              aes(group = group, fill = NULL), 
+              alpha = 0.4) +
+    geom_polygon(data = tb_cluster_results, 
+                 aes(group = group, fill = NULL),
+                 alpha = 0.1) +
     geom_polygon(aes(group = group), alpha = 0.6) +
     geom_line(data = urban_area_labels %&gt;% 
                 bind_rows(urban_area_labels %&gt;% 
-                            mutate(long = long + 200000, lat = lat - 20000)),
+                            mutate(long = long + 200000, 
+                                   lat = lat - 20000)),
               aes(fill = NA, group = id), alpha = 0.8) + 
     geom_label(data = urban_area_labels,
               aes(label = id), fill = &quot;grey&quot;) +
-    scale_fill_viridis(option = &quot;viridis&quot;, discrete = TRUE, end = 0.5) +
+    scale_fill_viridis(option = &quot;viridis&quot;, discrete = TRUE,
+                       end = 0.5) +
     coord_equal() +
     theme_map() +
     theme(legend.position = &quot;bottom&quot;) +

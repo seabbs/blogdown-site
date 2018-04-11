@@ -362,12 +362,14 @@ pca_plot <- tb_pca_pam %>%
   select(data_with_clusters, pca) %>% 
   mutate(pca_graph = map2(.x = pca, 
                           .y = data_with_clusters,
-                          ~ autoplot(.x, x = 1, y = 2, loadings = TRUE,
-                                     loadings.label = TRUE, loadings.label.repel = TRUE,
+                          ~ autoplot(.x, x = 1, y = 2, 
+                                     loadings = TRUE, loadings.label = TRUE,
+                                     loadings.label.repel = TRUE,
                                      loadings.label.size = 2, loadings.alpha = 0.8,
-                                     loadings.label.vjust = -1, data = .y, label = TRUE,
-                                     label.label = "AreaName", label.size = 1.5,
-                                     label.vjust = -1, alpha = 0.3, frame = TRUE, 
+                                     loadings.label.vjust = -1, data = .y, 
+                                     label = TRUE, label.label = "AreaName",
+                                     label.size = 1.5, label.vjust = -1, 
+                                     alpha = 0.3, frame = TRUE, 
                                      frame.type = 'convex', frame.alpha= 0.05,
                                      colour = "cluster", size = "rec_inc_rate") +
                             theme_minimal() +
@@ -379,9 +381,12 @@ pca_plot <- tb_pca_pam %>%
                                    fill=guide_legend(title= "Cluster", ncol = 2),
                                    size = guide_legend(title = "TB Incidence Rate (per 100,000 population)",
                                                        ncol = 2)) +
-                            scale_colour_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
-                            scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
-                            theme(legend.position = "bottom", legend.box = "horizontal") +
+                            scale_colour_viridis(option = "viridis", 
+                                                 discrete = TRUE, end = 0.5) +
+                            scale_fill_viridis(option = "viridis", 
+                                               discrete = TRUE, end = 0.5) +
+                            theme(legend.position = "bottom", 
+                                  legend.box = "horizontal") +
                             labs(
                               title = "Tuberculosis Data in England; First Two Principal Components",
                               subtitle = "The arrows are variable loadings and points are counties coloured by cluster membership",
