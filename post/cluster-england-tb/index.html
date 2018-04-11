@@ -1431,11 +1431,10 @@ plot_tb_cluster_map &lt;- tb_cluster_map(tb_pca_pam)
 ggsave(&quot;../../static/img/fingertips/map-tb-clust.png&quot;,
        plot_tb_cluster_map, width = 8, height = 8, dpi = 330)
 
-## Remove objects to reduce stored chunk size
-rm(&quot;plot_tb_cluster_map&quot;)
-
-knitr::include_graphics(&quot;../../static/img/fingertips/map-tb-clust.png&quot;)</code></pre>
-<p><img src="../../static/img/fingertips/map-tb-clust.png" /><!-- --></p>
+plot_tb_cluster_map</code></pre>
+<p><img src="../../post/2018-03-28-cluster-england-tb_files/figure-html/map-cluster-membership-1.png" width="2640" /></p>
+<pre class="r"><code>## Remove objects to reduce stored chunk size
+rm(&quot;plot_tb_cluster_map&quot;)</code></pre>
 <p>In the map above we see that cluster 1 is mainly made up of counties in London, Birmingham, and in the North West of England. Cluster 2 accounts for the majority of counties that are not within these large urban areas, as well the remaining as several counties in Birmingham and the North West and a single county in London. As expected we see that the majority of counties in England have been excluded from our analysis due to low incidence rates or missing data.</p>
 </div>
 <div id="summary-and-wrap-up" class="section level2">
@@ -1453,11 +1452,10 @@ storyboard &lt;- plot_tb_cluster_map | ( pca_plot / plot_cluster_diff)
 ggsave(&quot;../../static/img/fingertips/storyboard-fingertips-tb-clust.png&quot;,
        storyboard, width = 20, height = 16, dpi = 330)
 
-## Remove to reduce chunk size as over 100mb git limit
-rm(&quot;storyboard&quot;, &quot;plot_tb_cluster_map&quot;)
-
-knitr::include_graphics(&quot;../../static/img/fingertips/storyboard-fingertips-tb-clust.png&quot;)</code></pre>
-<p><img src="../../static/img/fingertips/storyboard-fingertips-tb-clust.png" /><!-- --></p>
+storyboard</code></pre>
+<p><img src="../../post/2018-03-28-cluster-england-tb_files/figure-html/storyboard-1.png" width="6600" /></p>
+<pre class="r"><code>## Remove to reduce chunk size as over 100mb git limit
+rm(&quot;storyboard&quot;, &quot;plot_tb_cluster_map&quot;)</code></pre>
 </div>
 
     </div>

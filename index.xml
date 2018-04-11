@@ -1057,11 +1057,10 @@ plot_tb_cluster_map &amp;lt;- tb_cluster_map(tb_pca_pam)
 ggsave(&amp;quot;../../static/img/fingertips/map-tb-clust.png&amp;quot;,
        plot_tb_cluster_map, width = 8, height = 8, dpi = 330)
 
-## Remove objects to reduce stored chunk size
-rm(&amp;quot;plot_tb_cluster_map&amp;quot;)
-
-knitr::include_graphics(&amp;quot;../../static/img/fingertips/map-tb-clust.png&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../static/img/fingertips/map-tb-clust.png&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+plot_tb_cluster_map&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-28-cluster-england-tb_files/figure-html/map-cluster-membership-1.png&#34; width=&#34;2640&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Remove objects to reduce stored chunk size
+rm(&amp;quot;plot_tb_cluster_map&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;In the map above we see that cluster 1 is mainly made up of counties in London, Birmingham, and in the North West of England. Cluster 2 accounts for the majority of counties that are not within these large urban areas, as well the remaining as several counties in Birmingham and the North West and a single county in London. As expected we see that the majority of counties in England have been excluded from our analysis due to low incidence rates or missing data.&lt;/p&gt;
 &lt;/div&gt;
 &lt;div id=&#34;summary-and-wrap-up&#34; class=&#34;section level2&#34;&gt;
@@ -1079,11 +1078,10 @@ storyboard &amp;lt;- plot_tb_cluster_map | ( pca_plot / plot_cluster_diff)
 ggsave(&amp;quot;../../static/img/fingertips/storyboard-fingertips-tb-clust.png&amp;quot;,
        storyboard, width = 20, height = 16, dpi = 330)
 
-## Remove to reduce chunk size as over 100mb git limit
-rm(&amp;quot;storyboard&amp;quot;, &amp;quot;plot_tb_cluster_map&amp;quot;)
-
-knitr::include_graphics(&amp;quot;../../static/img/fingertips/storyboard-fingertips-tb-clust.png&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;../../static/img/fingertips/storyboard-fingertips-tb-clust.png&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+storyboard&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-28-cluster-england-tb_files/figure-html/storyboard-1.png&#34; width=&#34;6600&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Remove to reduce chunk size as over 100mb git limit
+rm(&amp;quot;storyboard&amp;quot;, &amp;quot;plot_tb_cluster_map&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 </description>
     </item>
