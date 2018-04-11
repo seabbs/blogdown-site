@@ -6,7 +6,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/post/cluster-england-tb/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -312,7 +312,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/clustering/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -332,7 +332,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/data-analysis/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -342,7 +342,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/data-visualisation/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -362,7 +362,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/infectious-disease/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -432,7 +432,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/phe/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -482,7 +482,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/post/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -511,7 +511,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/categories/r/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -541,7 +541,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/rstats/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -561,16 +561,6 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/shiny/</loc>
-      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/shiny/</loc>
       <lastmod>2018-01-26T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
@@ -580,8 +570,18 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/shiny/</loc>
+      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/tags/tb/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -601,7 +601,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/</loc>
-      <lastmod>2018-03-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
