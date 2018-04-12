@@ -580,3 +580,12 @@ storyboard
 rm("storyboard", "plot_tb_cluster_map")
 ```
 
+```{r save-clustered-data, include = FALSE}
+## Save the data for later use
+tb_cluster_results <- tb_pca_pam %>% 
+  filter(centers == max_silhouette_width$centers) %>% 
+  pull(data_with_clusters) %>% 
+  first
+
+saveRDS(tb_cluster_results, "../../static/data/fingertips/tb-pam-clusters.rds")
+```

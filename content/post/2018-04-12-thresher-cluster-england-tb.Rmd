@@ -1,0 +1,45 @@
+---
+title: "Validating Clusters in Tuberculosis Monitoring Indicators - using Thresher"
+author: 'null'
+date: '2018-04-12'
+description: "Using fingertipsR, principal component analysis, and partitioning around medoids to identify clusters of counties based on Tuberculosis monitoring indicators"
+slug: thresh-cluster-england-tb
+draft: yes
+tags: ["data analysis", "data visualisation", "rstats", "TB", "PHE", "infectious disease", "clustering", "thresher"]
+categories: ["R"]
+twitterImg: "img/fingertips/storyboard-fingertips-tb-clust.png"
+---
+
+```{r knitr-opts, echo = FALSE}
+knitr::opts_chunk$set(cache = TRUE, dpi = 330, 
+                      fig.height = 8, fig.width = 8,
+                      warning = FALSE)
+```
+
+## Introduction
+
+- Previous post using `fingertipsR` to extract Tuberculosis monitoring indicators for England
+- Used PCA and PAM clustering to determine the optimal number of clusters in the data and then compared these clusters
+- This post using new package Thresher, explore package functionality, compare results to previous findings
+- What is the impact of excluding Incidence rates from the analysis?
+
+## Packages
+
+The first step is to load the packages required for the analysis, we do this using the fantastic `pacman` package.
+
+```{r get-packages, message = FALSE}
+if (!require(pacman)) install.packages("pacman"); library(pacman)
+p_load("tidyverse")
+p_load("purrr")
+p_load_gh("thomasp85/patchwork", dependencies = TRUE)
+```
+
+## Data
+
+```{r get-prev-post-data}
+tb_monitoring_indicators <- readRDS("../../static/data/fingertips/tb-pam-clusters.rds")
+
+tb_monitoring_indicators
+```
+
+## Analysis

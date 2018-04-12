@@ -1,0 +1,57 @@
+---
+title: "Validating Clusters in Tuberculosis Monitoring Indicators - using Thresher"
+author: 'null'
+date: '2018-04-12'
+description: "Using fingertipsR, principal component analysis, and partitioning around medoids to identify clusters of counties based on Tuberculosis monitoring indicators"
+slug: thresh-cluster-england-tb
+draft: yes
+tags: ["data analysis", "data visualisation", "rstats", "TB", "PHE", "infectious disease", "clustering", "thresher"]
+categories: ["R"]
+twitterImg: "img/fingertips/storyboard-fingertips-tb-clust.png"
+---
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<ul>
+<li>Previous post using <code>fingertipsR</code> to extract Tuberculosis monitoring indicators for England</li>
+<li>Used PCA and PAM clustering to determine the optimal number of clusters in the data and then compared these clusters</li>
+<li>This post using new package Thresher, explore package functionality, compare results to previous findings</li>
+<li>What is the impact of excluding Incidence rates from the analysis?</li>
+</ul>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>The first step is to load the packages required for the analysis, we do this using the fantastic <code>pacman</code> package.</p>
+<pre class="r"><code>if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
+p_load(&quot;tidyverse&quot;)
+p_load(&quot;purrr&quot;)
+p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)</code></pre>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<pre class="r"><code>tb_monitoring_indicators &lt;- readRDS(&quot;../../static/data/fingertips/tb-pam-clusters.rds&quot;)
+
+tb_monitoring_indicators</code></pre>
+<pre><code>## # A tibble: 59 x 11
+##    AreaName     rec_inc_rate prop_pul_cc prop_cc_ds_front prop_ds_treat_c…
+##    &lt;fct&gt;               &lt;dbl&gt;       &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;
+##  1 Blackburn w…         29.0        71.4            100.              87.5
+##  2 Derby                14.0        72.7            100.              71.9
+##  3 Leicester            41.8        81.2             97.6             78.4
+##  4 Nottingham           17.1        82.1             97.1             80.4
+##  5 Stoke-on-Tr…         12.1        66.7            100.              80.8
+##  6 Bristol              20.6        53.1             95.1             79.0
+##  7 Swindon              10.7        57.1            100.              75.0
+##  8 Peterborough         23.2        66.7            100.              69.0
+##  9 Luton                30.1        80.0            100.              82.4
+## 10 Reading              34.7        64.3             95.0             97.0
+## # ... with 49 more rows, and 6 more variables:
+## #   prop_ds_lost_to_follow &lt;dbl&gt;, prop_ds_died &lt;dbl&gt;,
+## #   prop_tb_offered_hiv_test &lt;dbl&gt;, prop_p_start_treat_2_m_sym &lt;dbl&gt;,
+## #   prop_p_start_treat_4_m_sym &lt;dbl&gt;, cluster &lt;ord&gt;</code></pre>
+</div>
+<div id="analysis" class="section level2">
+<h2>Analysis</h2>
+</div>
