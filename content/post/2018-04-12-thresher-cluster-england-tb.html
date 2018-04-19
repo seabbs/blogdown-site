@@ -27,6 +27,7 @@ twitterImg: "img/fingertips/storyboard-fingertips-tb-clust.png"
 <pre class="r"><code>if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
 p_load(&quot;tidyverse&quot;)
 p_load(&quot;purrr&quot;)
+p_load(&quot;Thresher&quot;)
 p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)</code></pre>
 </div>
 <div id="data" class="section level2">
@@ -54,4 +55,18 @@ tb_monitoring_indicators</code></pre>
 </div>
 <div id="analysis" class="section level2">
 <h2>Analysis</h2>
+<pre class="r"><code>threshed &lt;- mtcars %&gt;% 
+  select_if(is.numeric) %&gt;% 
+  as.matrix %&gt;% 
+  Thresher</code></pre>
+<pre class="r"><code>reaped &lt;- Reaper(threshed, 
+                 useLoadings = TRUE)</code></pre>
+<pre class="r"><code>colnames(mtcars)[!reaped@keep]</code></pre>
+<pre><code>## character(0)</code></pre>
+<pre class="r"><code>plot(reaped)</code></pre>
+<p><img src="/post/2018-04-12-thresher-cluster-england-tb_files/figure-html/Plot%20features%20onto%20PC%20space-1.png" width="2640" /></p>
+<pre class="r"><code>reaped@nGroups</code></pre>
+<pre><code>## [1] 2</code></pre>
+<pre class="r"><code>heat(reaped)</code></pre>
+<p><img src="/post/2018-04-12-thresher-cluster-england-tb_files/figure-html/heat-map-1.png" width="2640" /></p>
 </div>
