@@ -53,7 +53,7 @@ p_load_gh("thomasp85/patchwork", dependencies = TRUE)
 
 ## Data
 
-As discussed in the introduction we are using the [`fingertipsR`](https://github.com/ropensci/fingertipsR) as our data source. The first step is to investigate the data profiles provided by the package which mention TB.
+As discussed in the introduction we are using [`fingertipsR`](https://github.com/ropensci/fingertipsR) as our data source. The first step is to investigate the data profiles provided by the package which mention TB.
 
 ```{r get-tb-profiles}
 profs <- profiles()
