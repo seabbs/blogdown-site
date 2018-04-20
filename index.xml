@@ -47,7 +47,7 @@ p_load_gh(&amp;quot;thomasp85/patchwork&amp;quot;, dependencies = TRUE)&lt;/code
 &lt;/div&gt;
 &lt;div id=&#34;data&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Data&lt;/h2&gt;
-&lt;p&gt;As discussed in the introduction we are using the &lt;a href=&#34;https://github.com/ropensci/fingertipsR&#34;&gt;&lt;code&gt;fingertipsR&lt;/code&gt;&lt;/a&gt; as our data source. The first step is to investigate the data profiles provided by the package which mention TB.&lt;/p&gt;
+&lt;p&gt;As discussed in the introduction we are using &lt;a href=&#34;https://github.com/ropensci/fingertipsR&#34;&gt;&lt;code&gt;fingertipsR&lt;/code&gt;&lt;/a&gt; as our data source. The first step is to investigate the data profiles provided by the package which mention TB.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;profs &amp;lt;- profiles()
 
 sel_profs &amp;lt;- profs[grepl(&amp;quot;TB&amp;quot;, profs$ProfileName),]
