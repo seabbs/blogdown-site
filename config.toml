@@ -131,7 +131,7 @@ defaultContentLanguageInSubdir = false
   #   https://sourcethemes.com/academic/post/writing-markdown-latex/#highlighting-options
   highlight = true
   highlight_languages = ["r", "python", "yaml"]
-  highlight_style = "darcula"
+  highlight_style = "github"
   # highlight_style = "github"
 
   # Enable native social sharing buttons?
