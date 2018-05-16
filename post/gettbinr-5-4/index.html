@@ -17,10 +17,10 @@
       
     
   
-  <meta name="description" content="This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 released by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the tbinenglanddataclean R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time.">
+  <meta name="description" content="getTBinR 0.5.4 is now on CRAN and should be available on a mirror near you shortly! This update includes an additional data set for 2016 containing variables related to drug resistant Tuberculosis, some aesthetic updates to mapping functionality and a new summarise_tb_burden function for summarising TB metrics. Behind the scenes there has been an extensive test overhaul, with vdiffr being used to test images, and several bugs fixes. See below for a full list of changes and some example code exploring the new functionality.">
 
   
-  <link rel="alternate" hreflang="en-uk" href="http://www.samabbott.co.uk/post/tb-england-wales/">
+  <link rel="alternate" hreflang="en-uk" href="http://www.samabbott.co.uk/post/gettbinr-5-4/">
 
   
 
@@ -80,7 +80,7 @@
   <link rel="icon" type="image/png" href="../../img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="../../img/icon-192.png">
 
-  <link rel="canonical" href="http://www.samabbott.co.uk/post/tb-england-wales/">
+  <link rel="canonical" href="http://www.samabbott.co.uk/post/gettbinr-5-4/">
 
   <meta property="twitter:card" content="summary_large_image">
   
@@ -88,37 +88,37 @@
   <meta property="twitter:creator" content="@seabbs">
   
   <meta property="og:site_name" content="Sam Abbott">
-  <meta property="og:url" content="http://www.samabbott.co.uk/post/tb-england-wales/">
-  <meta property="og:title" content="Tuberculosis Incidence and Interventions in England and Wales, 1913-2016 | Sam Abbott">
-  <meta property="og:description" content="This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 released by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the tbinenglanddataclean R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time.">
+  <meta property="og:url" content="http://www.samabbott.co.uk/post/gettbinr-5-4/">
+  <meta property="og:title" content="getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function. | Sam Abbott">
+  <meta property="og:description" content="getTBinR 0.5.4 is now on CRAN and should be available on a mirror near you shortly! This update includes an additional data set for 2016 containing variables related to drug resistant Tuberculosis, some aesthetic updates to mapping functionality and a new summarise_tb_burden function for summarising TB metrics. Behind the scenes there has been an extensive test overhaul, with vdiffr being used to test images, and several bugs fixes. See below for a full list of changes and some example code exploring the new functionality.">
   <meta property="og:locale" content="en-uk">
   
-  <meta property="article:published_time" content="2017-10-29T00:00:00&#43;00:00">
+  <meta property="article:published_time" content="2018-05-16T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2017-10-29T00:00:00&#43;00:00">
+  <meta property="article:modified_time" content="2018-05-16T00:00:00&#43;00:00">
   
 
   <!DOCTYPE html>
 
 
-<title>Tuberculosis Incidence and Interventions in England and Wales, 1913-2016 - Sam Abbott</title>
-<meta property="og:title" content="Tuberculosis Incidence and Interventions in England and Wales, 1913-2016 - Sam Abbott">
+<title>getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function. - Sam Abbott</title>
+<meta property="og:title" content="getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function. - Sam Abbott">
 <meta property="og:type" content="article">
 
   
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://samabbott.co.uk/img/TB_England_Wales.png" >
+  <meta name="twitter:image" content="https://samabbott.co.uk/img/getTBinR/storyboard-5-4.png" >
   
   
 
-<meta property="description" content="An interative dashboard exploring publicly available TB incidence data for England and Wales in the context of interventions">
-<meta property="og:description" content="An interative dashboard exploring publicly available TB incidence data for England and Wales in the context of interventions">
+<meta property="description" content="Announcing getTBinR version 0.5.4, now including MDR data, improved maps and a summary function.">
+<meta property="og:description" content="Announcing getTBinR version 0.5.4, now including MDR data, improved maps and a summary function.">
 
 
 <meta name="twitter:creator" content="">
 <meta name="twitter:site" content="">
 
-  <title>Tuberculosis Incidence and Interventions in England and Wales, 1913-2016 | Sam Abbott</title>
+  <title>getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function. | Sam Abbott</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
@@ -315,7 +315,7 @@
 
 
   <div class="article-container">
-    <h1 itemprop="name">Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</h1>
+    <h1 itemprop="name">getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function.</h1>
 
     
 
@@ -323,8 +323,8 @@
 
   <span class="article-date">
     
-    <time datetime="2017-10-29 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
-      Sun, Oct 29, 2017
+    <time datetime="2018-05-16 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Wed, May 16, 2018
     </time>
   </span>
   <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
@@ -334,14 +334,14 @@
   
   <span class="middot-divider"></span>
   <span class="article-reading-time">
-    1 min read
+    4 min read
   </span>
   
 
   
   
   <span class="middot-divider"></span>
-  <a href="http://www.samabbott.co.uk/post/tb-england-wales/#disqus_thread"></a>
+  <a href="http://www.samabbott.co.uk/post/gettbinr-5-4/#disqus_thread"></a>
   
 
   
@@ -364,35 +364,35 @@
   <ul class="share">
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=Tuberculosis%20Incidence%20and%20Interventions%20in%20England%20and%20Wales%2c%201913-2016&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2ftb-england-wales%2f"
+         href="https://twitter.com/intent/tweet?text=getTBinR%200.5.4%20now%20on%20CRAN%20-%20new%20data%2c%20map%20updates%20and%20a%20new%20summary%20function.&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-4%2f"
          target="_blank" rel="noopener">
         <i class="fa fa-twitter"></i>
       </a>
     </li>
     <li>
       <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2ftb-england-wales%2f"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-4%2f"
          target="_blank" rel="noopener">
         <i class="fa fa-facebook"></i>
       </a>
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2ftb-england-wales%2f&amp;title=Tuberculosis%20Incidence%20and%20Interventions%20in%20England%20and%20Wales%2c%201913-2016"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-4%2f&amp;title=getTBinR%200.5.4%20now%20on%20CRAN%20-%20new%20data%2c%20map%20updates%20and%20a%20new%20summary%20function."
          target="_blank" rel="noopener">
         <i class="fa fa-linkedin"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2ftb-england-wales%2f&amp;title=Tuberculosis%20Incidence%20and%20Interventions%20in%20England%20and%20Wales%2c%201913-2016"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-4%2f&amp;title=getTBinR%200.5.4%20now%20on%20CRAN%20-%20new%20data%2c%20map%20updates%20and%20a%20new%20summary%20function."
          target="_blank" rel="noopener">
         <i class="fa fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=Tuberculosis%20Incidence%20and%20Interventions%20in%20England%20and%20Wales%2c%201913-2016&amp;body=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2ftb-england-wales%2f">
+         href="mailto:?subject=getTBinR%200.5.4%20now%20on%20CRAN%20-%20new%20data%2c%20map%20updates%20and%20a%20new%20summary%20function.&amp;body=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-4%2f">
         <i class="fa fa-envelope"></i>
       </a>
     </li>
@@ -406,9 +406,116 @@
 
 
     <div class="article-style" itemprop="articleBody">
-      <p>This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 <a href="https://www.gov.uk/government/publications/tuberculosis-tb-annual-notifications-1913-onwards">released</a> by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the <a href="https://www.samabbott.co.uk/tbinenglanddataclean/">tbinenglanddataclean</a> R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time. For a full page view of the dashboard see <a href="http://www.seabbs.co.uk/shiny/TB_England_Wales">here</a>.</p>
-<iframe src="http://www.seabbs.co.uk/shiny/TB_England_Wales?showcase=0" width="672" height="2000px">
-</iframe>
+      
+
+<p><a href="https://www.samabbott.co.uk/getTBinR/" target="_blank"><code>getTBinR 0.5.4</code></a> is now on CRAN and should be available on a mirror near you shortly! This update includes an additional data set for 2016 containing variables related to drug resistant Tuberculosis, some aesthetic updates to mapping functionality and a new <code>summarise_tb_burden</code> function for summarising TB metrics. Behind the scenes there has been an extensive test overhaul, with <a href="https://github.com/lionel-/vdiffr" target="_blank"><code>vdiffr</code></a> being used to test images, and several bugs fixes. See below for a full list of changes and some example code exploring the new functionality.</p>
+
+<h2 id="feature-updates">Feature updates</h2>
+
+<ul>
+<li>Added MDR-TB data for 2016, see <a href="http://www.who.int/tb/country/data/download/en/" target="_blank">here</a> for the dataset. The MDR-TB data is automatically joined to the WHO TB burden data.</li>
+<li>Aesthetic updates to <code>map_tb_burden</code>.</li>
+<li>Added new <code>summarise_tb_burden</code> function for summarising metrics across regions, across custom groups and globally.</li>
+</ul>
+
+<h2 id="package-updates">Package updates</h2>
+
+<ul>
+<li>Improved data cleaning, converting <code>Inf</code> and <code>NaN</code> values to <code>NA</code> when the data is read in.</li>
+<li>Added <code>pgknet</code> report.</li>
+<li>Improved test robustness and scope</li>
+<li>Added <code>vdiffr</code> to test plots when not on CRAN.</li>
+<li>Fixed bug for <code>map_tb_burden</code> which was adding duplicate variables which caused map build to fail.</li>
+</ul>
+
+<h2 id="example-exploring-global-tb-incidence-rates">Example: Exploring Global TB Incidence Rates</h2>
+
+<p>For a quick example the code below pulls the WHO TB data, summarises it by region using <code>getTBinR</code> and <a href="https://github.com/clauswilke/ggridges" target="_blank"><code>ggridges</code></a>, maps global TB incidence rates in 2016, and finally plots an overview of incidence rates in the 10 countries with highest TB incidence rates in 2016. The figures generated are then combined into a single storyboard using the <a href="https://github.com/thomasp85/patchwork" target="_blank"><code>pathwork</code></a> package. See <a href="https://www.samabbott.co.uk/img/getTBinR/storyboard-5-4.png" target="_blank">here</a> for a full size version of the storyboard.</p>
+
+<pre><code>## Get required packages - managed using pacman
+if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
+p_load(&quot;getTBinR&quot;)
+p_load(&quot;ggplot2&quot;)
+p_load(&quot;viridis&quot;)
+p_load(&quot;dplyr&quot;)
+p_load(&quot;forcats&quot;)
+p_load(&quot;ggridges&quot;)
+p_load_gh(&quot;thomasp85/patchwork&quot;)
+
+## Pull TB data and summarise TB incidence rates by region using the median
+tb_sum &lt;- summarise_tb_burden(metric = &quot;e_inc_100k&quot;,
+                              stat = &quot;median&quot;,
+                              compare_all_regions = TRUE,
+                              samples = 1000)
+
+## Plot the median and IQR for each region
+sum &lt;- tb_sum %&gt;% 
+  rename(Region = area) %&gt;% 
+  ggplot(aes(x = year, y = e_inc_100k, col = Region, fill = Region)) +
+  geom_ribbon(alpha = 0.2, aes(ymin = e_inc_100k_lo, ymax = e_inc_100k_hi)) +
+  scale_color_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  geom_line(alpha = 0.6, size = 1.2) +
+  geom_point(size = 1.3) +
+  theme_minimal() +
+  facet_wrap(~Region, scales = &quot;free_y&quot;) +
+  theme(legend.position = &quot;none&quot;) +
+  labs(y = search_data_dict(&quot;e_inc_100k&quot;)$definition,
+       x = &quot;Year&quot;,
+       title = &quot;Regional Summary of Tuberculosis Incidence Rates - 2000 to 2016&quot;,
+       subtitle = &quot;Median country level incidence rates (with 95% interquartile ranges) are shown&quot;)
+
+## Get the full TB burden dataset (including MDR TB)
+tb &lt;- get_tb_burden()
+
+## Plot the distribution of country level TB incidence rates using ggridges
+dist &lt;- tb %&gt;% 
+  rename(Region = g_whoregion) %&gt;% 
+  mutate(year = year %&gt;% 
+           factor(ordered = TRUE) %&gt;% 
+           fct_rev) %&gt;% 
+  ggplot(aes(x = e_inc_100k, y = year, col = Region, fill = Region)) +
+  geom_density_ridges(alpha = 0.6) +
+  scale_color_viridis(discrete = TRUE) +
+  scale_fill_viridis(discrete = TRUE) +
+  theme_minimal() +
+  facet_wrap(~Region, scales = &quot;free_x&quot;) +
+  theme(legend.position = &quot;none&quot;) +
+  labs(x = search_data_dict(&quot;e_inc_100k&quot;)$definition,
+       y = &quot;Year&quot;,
+       title = &quot;Distribution of Country Level Tuberculosis Incidence Rates by Region - 2000 to 2016&quot;,
+       caption = &quot;By @seabbs | Made with getTBinR | Source: World Health Organisation&quot;)
+
+## Map global TB incidence rates for 2016 using getTBinR
+map &lt;- map_tb_burden() +
+  labs(caption = &quot;&quot;,
+       title = &quot;Map of Tuberculosis Incidence Rates - 2016&quot;)
+
+## Extract the top 10 high incidence countries in 2016.
+high_inc_countries &lt;- tb %&gt;% 
+  filter(year == 2016) %&gt;% 
+  arrange(desc(e_inc_100k)) %&gt;% 
+  slice(1:10) %&gt;% 
+  pull(country)
+
+## Plot an overview of TB incidence rates in 2016.
+high_inc_overview &lt;- plot_tb_burden_overview(countries = high_inc_countries) +
+  labs(caption = &quot;&quot;,
+       title = &quot;10 Countries with the Highest Tuberculosis Incidence Rates - 2016&quot;) 
+
+## Compose storyboard
+storyboard &lt;- (map + high_inc_overview) /
+                 (sum | dist) +
+                 plot_layout(heights = c(1, 2))
+
+## Save storyboard
+ggsave(&quot;storyboard.png&quot;,
+       storyboard, width = 20, height = 15, dpi = 330)
+</code></pre>
+
+<p><img src="../../img/getTBinR/storyboard-5-4.png" alt="getTBinR 0.5.4 storyboard" /></p>
+
+<p>For other examples of using <code>getTBinR</code> to visualise the WHO TB data see <a href="https://gist.github.com/seabbs" target="_blank">my</a> gists, previous blog <a href="https://www.samabbott.co.uk/tags/who/" target="_blank">posts</a>, and the <a href="https://www.samabbott.co.uk/getTBinR/" target="_blank"><code>getTBinR</code> website</a>.</p>
 
     </div>
 
@@ -425,6 +532,10 @@
   
   <a class="btn btn-primary btn-outline" href="../../tags/tb">TB</a>
   
+  <a class="btn btn-primary btn-outline" href="../../tags/who">WHO</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/gettbinr">getTBinR</a>
+  
   <a class="btn btn-primary btn-outline" href="../../tags/infectious-disease">infectious disease</a>
   
 </div>
@@ -439,15 +550,15 @@
       <h3>Related</h3>
       <ul>
         
+        <li><a href="../../post/est-cfr-gettbinr/">Exploring Estimates of the Tuberculosis Case Fatality Ratio - with getTBinR</a></li>
+        
+        <li><a href="../../post/intro-gettbinr/">Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR</a></li>
+        
+        <li><a href="../../post/cluster-england-tb/">Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction and Clustering</a></li>
+        
+        <li><a href="../../post/tb-england-wales/">Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</a></li>
+        
         <li><a href="../../post/deep-dive-pp-premiums/">Deep Dive; Premiums on Valuation in the Property Partner Portfolio</a></li>
-        
-        <li><a href="../../post/deep-dive-pp-open-house/">Deep Dive; Property Partner July 2017 Open House Resale Data</a></li>
-        
-        <li><a href="../../post/fc-risk-bad-debt/">Estimating the risk of bad debt in the funding circle loanbook</a></li>
-        
-        <li><a href="../../post/2017-06-10-vis-fc-loanbook-md/">Visualising the funding circle loanbook</a></li>
-        
-        <li><a href="../../project/tb_england_wales/">Tuberculosis in England and Wales</a></li>
         
       </ul>
     </div>
@@ -505,9 +616,13 @@
     
     
       
+      
+       
+        
+      
     
     
-     <a href="https://github.com/seabbs/seabbs.github.io/tree/sources/content/post/2017-10-29-TB-England-Wales.Rmd">Edit this page.</a>
+     <a href="https://github.com/seabbs/seabbs.github.io/tree/sources/content/post/2018-05-16-gettbinr-5-4.md">Edit this page.</a>
     
    
     </p>

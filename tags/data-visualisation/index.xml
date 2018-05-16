@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Wed, 16 May 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/data-visualisation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function.</title>
+      <link>http://www.samabbott.co.uk/post/gettbinr-5-4/</link>
+      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/gettbinr-5-4/</guid>
+      <description>getTBinR 0.5.4 is now on CRAN and should be available on a mirror near you shortly! This update includes an additional data set for 2016 containing variables related to drug resistant Tuberculosis, some aesthetic updates to mapping functionality and a new summarise_tb_burden function for summarising TB metrics. Behind the scenes there has been an extensive test overhaul, with vdiffr being used to test images, and several bugs fixes. See below for a full list of changes and some example code exploring the new functionality.</description>
+    </item>
     
     <item>
       <title>Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction and Clustering</title>
