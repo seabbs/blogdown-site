@@ -125,12 +125,13 @@ defaultContentLanguageInSubdir = false
   #     Example: highlight_style = "github-gist"
   #
   #   For the list of supported languages and styles, see:
-  #   https://cdnjs.com/libraries/highlight.js/
+  #  
   #
   #   For more info on the highlighting options, see:
   #   https://sourcethemes.com/academic/post/writing-markdown-latex/#highlighting-options
   highlight = true
-  highlight_languages = []
+  highlight_languages = ["r", "python", "yaml"]
+  highlight_style = "darcula"
   # highlight_style = "github"
 
   # Enable native social sharing buttons?
