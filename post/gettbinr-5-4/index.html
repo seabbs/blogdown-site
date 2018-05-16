@@ -432,7 +432,8 @@
 
 <p>For a quick example the code below pulls the WHO TB data, summarises it by region using <code>getTBinR</code> and <a href="https://github.com/clauswilke/ggridges" target="_blank"><code>ggridges</code></a>, maps global TB incidence rates in 2016, and finally plots an overview of incidence rates in the 10 countries with highest TB incidence rates in 2016. The figures generated are then combined into a single storyboard using the <a href="https://github.com/thomasp85/patchwork" target="_blank"><code>pathwork</code></a> package. See <a href="https://www.samabbott.co.uk/img/getTBinR/storyboard-5-4.png" target="_blank">here</a> for a full size version of the storyboard.</p>
 
-<pre><code>## Get required packages - managed using pacman
+<pre><code class="language-r">
+## Get required packages - managed using pacman
 if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
 p_load(&quot;getTBinR&quot;)
 p_load(&quot;ggplot2&quot;)
