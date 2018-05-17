@@ -1,0 +1,56 @@
+==================================================================
+https://keybase.io/seabbs
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of https://samabbott.co.uk
+  * I am seabbs (https://keybase.io/seabbs) on keybase.
+  * I have a public key ASDWcflm0qRi8bGzqTjCLreVJSfzjC9UKr0UnsWBtQzM4wo
+
+To do so, I am signing this object:
+
+{
+  "body": {
+    "key": {
+      "eldest_kid": "0120d671f966d2a462f1b1b3a938c22eb7952527f38c2f542abd149ec581b50ccce30a",
+      "host": "keybase.io",
+      "kid": "0120d671f966d2a462f1b1b3a938c22eb7952527f38c2f542abd149ec581b50ccce30a",
+      "uid": "025e36367f60ccf0b9f4b45718336219",
+      "username": "seabbs"
+    },
+    "merkle_root": {
+      "ctime": 1526546595,
+      "hash": "3273264a9d288eb28f32fdca013f11283f08ada2b1ba8182ef34c41dfd8fc713646e6e943ca744211721075e7c637bd582f75239667a32efbbd26a0de7ce7c43",
+      "hash_meta": "b2ea2d1a78d619578c286db74e4817ae253c89755d14b25d9969be278970267e",
+      "seqno": 2762877
+    },
+    "service": {
+      "entropy": "nZDyKNfUxN+dWW3O1Q+Bsh9S",
+      "hostname": "samabbott.co.uk",
+      "protocol": "https:"
+    },
+    "type": "web_service_binding",
+    "version": 2
+  },
+  "client": {
+    "name": "keybase.io go client",
+    "version": "1.0.48"
+  },
+  "ctime": 1526546629,
+  "expire_in": 504576000,
+  "prev": "23d687a1a32d17576bb63d79fed1ffa1b3e35873322fdf9e67b99b1e5d34f8ff",
+  "seqno": 6,
+  "tag": "signature"
+}
+
+which yields the signature:
+
+hKRib2R5hqhkZXRhY2hlZMOpaGFzaF90eXBlCqNrZXnEIwEg1nH5ZtKkYvGxs6k4wi63lSUn84wvVCq9FJ7FgbUMzOMKp3BheWxvYWTESpcCBsQgI9aHoaMtF1drtj15/tH/obPjWHMyL9+eZ7mbHl00+P/EIKAAbZbCYWr/zlOlGXrUbCFEtzsWIcuQfx8N4IM0lY2tAgHCo3NpZ8RA0uC3U4XhxIN84gxMWJd9Q0xYRn4OLz/vgNnHDqbQ8Hb88UO7G06OfN8pDYjBJNBeLVaMIPHDn6rgYOZlgHqjDKhzaWdfdHlwZSCkaGFzaIKkdHlwZQildmFsdWXEIDlaBhwSxSP+NwyTqxCc39cVzmBNeRD8zDONqoaDhaAKo3RhZ80CAqd2ZXJzaW9uAQ==
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/seabbs
+
+==================================================================
