@@ -15,10 +15,10 @@
 
   {{ if .Params.twitterImg }}
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:image" content="https://samabbott.co.uk/{{ .Params.twitterImg }}" >
+  <meta name="og:image" content="https://samabbott.co.uk/{{ .Params.twitterImg }}" >
   {{ else }}
   <meta name="twitter:card" content="summary">
-  <meta name="twitter:image" content="https://samabbott.co.uk/img/{{ .Site.Params.logo }}" >
+  <meta name="og:image" content="https://samabbott.co.uk/img/{{ .Site.Params.logo }}" >
   {{ end }}
   
 {{ $defaultDescription := printf "Article posted by %s, on %s" .Params.author (.Date.Format "Monday, January 2nd, 2006") }}
