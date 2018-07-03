@@ -18,7 +18,9 @@ RUN apt-get update -qq \
 ADD . /home/rstudio/seabbs.github.io
 
 RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("Biobase")'
+RUN Rscript -e 'devtools::install_github("yihui/xfun")'
 RUN Rscript -e 'devtools::install_github("rstudio/blogdown")'
+
 
 RUN Rscript -e  'blogdown::install_hugo()'
 
