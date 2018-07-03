@@ -22,25 +22,6 @@
     </item>
     
     <item>
-      <title>Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction and Clustering</title>
-      <link>http://www.samabbott.co.uk/post/cluster-england-tb/</link>
-      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/cluster-england-tb/</guid>
-      <description>Introduction I recently attended the Public Health Research and Science Conference, run by Public Health England (PHE), at the University of Warwick. I was mainly there to present some work that I have been doing (along with my co-authors) estimating the direct effects of the 2005 change in BCG vaccination policy on Tuberculosis (TB) incidence rates (slides) but it was also a great opportunity to see what research is being done within, and partnered with, PHE.</description>
-    </item>
-    
-    <item>
-      <title>Exploring Estimates of the Tuberculosis Case Fatality Ratio - with getTBinR</title>
-      <link>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</link>
-      <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</guid>
-      <description>This is a quick post exploring estimates of the case fatality ratio for Tuberculosis (TB) from data published by the World Health Organisation (WHO). It makes use of getTBinR (which is now on CRAN), pacman for package management, hrbrthemes for plot themes, and pathwork for combining multiple plots into a storyboard. For an introduction to using getTBinR to explore the WHO TB data see this post.
-It is estimated that in 2016 there was more than 10 million cases of active TB, with 1.</description>
-    </item>
-    
-    <item>
       <title>Explore Global Tuberculosis</title>
       <link>http://www.samabbott.co.uk/project/exploreglobaltb/</link>
       <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
@@ -68,16 +49,6 @@ It is estimated that in 2016 there was more than 10 million cases of active TB, 
     </item>
     
     <item>
-      <title>Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR</title>
-      <link>http://www.samabbott.co.uk/post/intro-gettbinr/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/intro-gettbinr/</guid>
-      <description>In November I attended Epidemics, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.
-I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze! Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle.</description>
-    </item>
-    
-    <item>
       <title>Show Me Perseus</title>
       <link>http://www.samabbott.co.uk/project/showmeperseus/</link>
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
@@ -93,15 +64,6 @@ I’ve recently begun wrapping all my analytical work in R packages, as it makes
       
       <guid>http://www.samabbott.co.uk/project/gettbinr/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</title>
-      <link>http://www.samabbott.co.uk/post/tb-england-wales/</link>
-      <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/tb-england-wales/</guid>
-      <description>This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 released by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the tbinenglanddataclean R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time.</description>
     </item>
     
     <item>

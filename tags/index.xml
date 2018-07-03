@@ -7,19 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Mon, 15 Jan 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Clustering</title>
-      <link>http://www.samabbott.co.uk/tags/clustering/</link>
-      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/clustering/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Course</title>
@@ -96,7 +87,7 @@
     <item>
       <title>Outreach</title>
       <link>http://www.samabbott.co.uk/tags/outreach/</link>
-      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
+      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/outreach/</guid>
       <description></description>
@@ -105,7 +96,7 @@
     <item>
       <title>Outreach</title>
       <link>http://www.samabbott.co.uk/tags/outreach/</link>
-      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/outreach/</guid>
       <description></description>
@@ -126,15 +117,6 @@
       <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/p2p/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>PHE</title>
-      <link>http://www.samabbott.co.uk/tags/phe/</link>
-      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/phe/</guid>
       <description></description>
     </item>
     
@@ -204,7 +186,7 @@
     <item>
       <title>Shiny</title>
       <link>http://www.samabbott.co.uk/tags/shiny/</link>
-      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/shiny/</guid>
       <description></description>
@@ -213,7 +195,7 @@
     <item>
       <title>Shiny</title>
       <link>http://www.samabbott.co.uk/tags/shiny/</link>
-      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/shiny/</guid>
       <description></description>
