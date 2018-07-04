@@ -4,6 +4,7 @@ author: 'null'
 date: '2018-04-11'
 description: "Using fingertipsR, principal component analysis, and partitioning around medoids to identify clusters of counties based on Tuberculosis monitoring indicators"
 slug: cluster-england-tb
+draft: no 
 tags: ["data analysis", "data visualisation", "rstats", "TB", "PHE", "infectious disease", "clustering"]
 categories: ["R"]
 twitterImg: "img/fingertips/storyboard-fingertips-tb-clust.png"

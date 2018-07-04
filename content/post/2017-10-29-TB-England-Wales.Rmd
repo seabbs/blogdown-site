@@ -3,6 +3,7 @@ title: Tuberculosis Incidence and Interventions in England and Wales, 1913-2016
 author: ~
 date: '2017-10-29'
 slug: Tb-England-Wales
+draft: no 
 twitterImg: img/TB_England_Wales.png
 description: "An interative dashboard exploring publicly available TB incidence data for England and Wales in the context of interventions"
 categories: ["R"]

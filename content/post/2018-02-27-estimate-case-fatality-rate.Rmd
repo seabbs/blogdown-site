@@ -4,6 +4,7 @@ author: "null"
 date: '2018-02-27'
 description: "Using GetTBinR to estimate and explore the tuberculosis case fatality rate and it's relationship to incidence rates and mortality rates."
 slug: est-cfr-gettbinr
+draft: no 
 categories: ["R"]
 tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "infectious disease"]
 twitterImg: "img/getTBinR/storyboard_tb_case_fatality_rate.png"
