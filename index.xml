@@ -131,6 +131,1096 @@ ggsave(&amp;quot;storyboard.png&amp;quot;,
     </item>
     
     <item>
+      <title>Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction and Clustering</title>
+      <link>http://www.samabbott.co.uk/post/cluster-england-tb/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/cluster-england-tb/</guid>
+      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Introduction&lt;/h2&gt;
+&lt;p&gt;I recently attended the &lt;a href=&#34;Public%20Health%20Research%20and%20Science%20Conference&#34;&gt;Public Health Research and Science Conference&lt;/a&gt;, run by &lt;a href=&#34;https://www.gov.uk/government/organisations/public-health-england&#34;&gt;Public Health England&lt;/a&gt; (PHE), at the University of Warwick. I was mainly there to present some work that I have been doing (along with my co-authors) estimating the direct effects of the 2005 change in BCG vaccination policy on Tuberculosis (TB) incidence rates (&lt;a href=&#34;https://www.samabbott.co.uk/talk/phe-applied-epi-2018/&#34;&gt;slides&lt;/a&gt;) but it was also a great opportunity to see what research is being done within, and partnered with, PHE. The standout out work for me was the nascent data science work that is being undertaken within PHE, which is currently focused around the &lt;a href=&#34;https://github.com/ropensci/fingertipsR&#34;&gt;&lt;code&gt;fingertipsR&lt;/code&gt;&lt;/a&gt; R package by Sebastian Fox. &lt;a href=&#34;https://github.com/ropensci/fingertipsR&#34;&gt;&lt;code&gt;fingertipsR&lt;/code&gt;&lt;/a&gt; provides an easy interface to access the &lt;a href=&#34;https://fingertips.phe.org.uk&#34;&gt;fingertips&lt;/a&gt; API, which contains data on a large variety of public health issues, and can be explored interactively online (see previous link).&lt;/p&gt;
+&lt;p&gt;In this post we will focus on data on &lt;a href=&#34;https://en.wikipedia.org/wiki/Tuberculosis&#34;&gt;Tuberculosis&lt;/a&gt; (TB), which is predominately a respiratory disease and if left untreated kills approximately half of those infected. The majority of cases are symptom-less (known as latent TB), with 10% of latent cases progressing to active disease. It is thought that immediately after infection individuals are at a higher risk of proceeding to active disease, with the risk diminishing after several years. However, individuals who have carried the disease for many years can, and do, progress to active TB disease. This makes the control and management of TB on a population scale challenging as cases may either be due to recent transmission or be from the activation of latent cases who have carried the disease for many years. &lt;a href=&#34;https://en.wikipedia.org/wiki/HIV&#34;&gt;HIV&lt;/a&gt; infection is known to drastically increase the likelihood of progression to active TB disease and TB is the leading cause of death among people living with HIV (&lt;a href=&#34;http://www.who.int/hiv/topics/tb/tbhiv_facts_2015/en/&#34;&gt;source&lt;/a&gt;). Globally 10.4 million people fell ill with TB in 2016 alone, with 1.7 million deaths (&lt;a href=&#34;http://www.who.int/mediacentre/factsheets/fs104/en/&#34;&gt;source&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;In England, TB incidence rates have declined drastically over the course of the last century, with the introduction of BCG vaccination, effective TB treatments and improved standards of living. However, over the previous two decades incidence rates have remained relatively stable with incidence becoming increasing focused in at risk communities, such as the homeless population and the non-UK born living in high density urban areas (&lt;a href=&#34;https://www.gov.uk/government/publications/tuberculosis-in-england-annual-report&#34;&gt;source&lt;/a&gt;). Recently it has been recognised that TB interventions in England must be collaborative and consistent across the country (&lt;a href=&#34;http://www.thelancet.com/journals/lancet/article/PIIS0140-6736(14)61638-X/fulltext&#34;&gt;source&lt;/a&gt;), as this has proven to be effective in other countries such as the USA.&lt;/p&gt;
+&lt;p&gt;This post uses dimension reduction (&lt;a href=&#34;https://en.wikipedia.org/wiki/Principal_component_analysis&#34;&gt;Principal Component Analysis&lt;/a&gt; (PCA)) and clustering (&lt;a href=&#34;https://en.wikipedia.org/wiki/K-medoids&#34;&gt;Partitioning Around Mediods&lt;/a&gt; (PAM)) to explore the Tuberculosis monitoring indicators available from the &lt;a href=&#34;https://fingertips.phe.org.uk&#34;&gt;fingertips&lt;/a&gt; API, using the &lt;a href=&#34;https://github.com/ropensci/fingertipsR&#34;&gt;&lt;code&gt;fingertipsR&lt;/code&gt;&lt;/a&gt; R package, for England. It aims to use hypothesis free techniques to generate clusters of counties with similar characteristics of TB indicators. This may help to identify regional variation in Tuberculosis monitoring indicators and possibly provide a framework for future improvements to TB control efforts. It also seeks to act as an example of dimension reduction and clustering analysis. Therefore, comments to improve this aspect of this post would be greatly appreciated (paper links, package recommendations, methodology improvements etc.)!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;packages&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Packages&lt;/h2&gt;
+&lt;p&gt;The first step is to load the packages required for the analysis, we do this using the fantastic &lt;code&gt;pacman&lt;/code&gt; package.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (!require(pacman)) install.packages(&amp;quot;pacman&amp;quot;); library(pacman)
+p_load(&amp;quot;viridis&amp;quot;)
+p_load(&amp;quot;broom&amp;quot;)
+p_load(&amp;quot;knitr&amp;quot;)
+p_load(&amp;quot;ggfortify&amp;quot;)
+p_load(&amp;quot;gpclib&amp;quot;)
+p_load(&amp;quot;rgdal&amp;quot;)
+p_load(&amp;quot;raster&amp;quot;)
+p_load(&amp;quot;maptools&amp;quot;)
+p_load(&amp;quot;purrr&amp;quot;)
+p_load(&amp;quot;FactoMineR&amp;quot;)
+p_load(&amp;quot;cluster&amp;quot;)
+p_load(&amp;quot;scales&amp;quot;)
+p_load(&amp;quot;fingertipsR&amp;quot;)
+p_load(&amp;quot;tidyverse&amp;quot;)
+p_load(&amp;quot;knitr&amp;quot;)
+p_load(&amp;quot;ggthemes&amp;quot;)
+p_load_gh(&amp;quot;thomasp85/patchwork&amp;quot;, dependencies = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Data&lt;/h2&gt;
+&lt;p&gt;As discussed in the introduction we are using &lt;a href=&#34;https://github.com/ropensci/fingertipsR&#34;&gt;&lt;code&gt;fingertipsR&lt;/code&gt;&lt;/a&gt; as our data source. The first step is to investigate the data profiles provided by the package which mention TB.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;profs &amp;lt;- profiles()
+
+sel_profs &amp;lt;- profs[grepl(&amp;quot;TB&amp;quot;, profs$ProfileName),]
+
+kable(sel_profs)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;ProfileID&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;ProfileName&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;DomainID&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;DomainName&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938133208&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;LTBI programme monitoring&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We find that there are two profiles: key indicators and LTBI programme monitoring (screening the at-risk population for latent TB). We use the &lt;code&gt;indicators&lt;/code&gt; function to explore the variables available in each profile.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_inds &amp;lt;- indicators(ProfileID = sel_profs$ProfileID)
+
+kable(tb_inds)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;IndicatorID&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;IndicatorName&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;DomainID&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;DomainName&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;ProfileID&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;ProfileName&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91359&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB incidence in England&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91361&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB incidence (three year average)&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91365&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of pulmonary TB cases that were culture confirmed&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91366&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of culture confirmed TB cases with drug susceptibility testing reported for the four first line agents&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91367&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of drug sensitive TB cases who had completed a full course of treatment by 12 months&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91368&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of drug sensitive TB cases who were lost to follow up at last reported outcome&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91369&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of drug sensitive TB cases who had died at last reported outcome&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91373&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of TB cases offered an HIV test&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91374&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of drug sensitive TB cases with at least one social risk factor who completed treatment within 12 months&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91375&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of culture confirmed TB cases with any first line drug resistance&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91450&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of pulmonary TB cases starting treatment within two months of symptom onset&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;91451&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Proportion of pulmonary TB cases starting treatment within four months of symptom onset&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;1938132814&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Key Indicators&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;86&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;TB Strategy Monitoring Indicators&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;This gives us 12 TB indicators, which we can now extract using the &lt;code&gt;fingertips_data&lt;/code&gt; function combined with a call to &lt;code&gt;purrr::map&lt;/code&gt;. This results in 12 tibbles, with the first being empty (TB incidence rates).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_df &amp;lt;- tb_inds$IndicatorID %&amp;gt;% map(~fingertips_data(IndicatorID = .))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The key indicator, which we will match all of the remaining data too, is the three-year average TB incidence rates (as the annual TB incidence rate is missing and would also be more susceptible to noise). The following code extracts this at the county level, re-codes the value variable as recent incidence rates and pulls the overall incidence of cases. According to the &lt;a href=&#34;https://fingertips.phe.org.uk/profile/tb-monitoring&#34;&gt;fingertips&lt;/a&gt; website, local authorities and CCGs with fewer than 20 TB cases per year have had all data for the indicators (apart from three-year average TB incidence) suppressed to avoid deductive disclosure. We can therefore filter out these counties now to avoid issues with missing data later. We also adjust the time period to represent the final year for each rolling average.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_inc &amp;lt;- tb_df[[2]] %&amp;gt;% 
+  filter(AreaType %in% &amp;quot;County &amp;amp; UA&amp;quot;) %&amp;gt;% 
+  dplyr::select(AreaName, Sex, Age, Timeperiod,
+         rec_inc_rate = Value, rec_inc = Count) %&amp;gt;% 
+  filter(rec_inc &amp;gt;= 20) %&amp;gt;% 
+  mutate(Timeperiod = Timeperiod %&amp;gt;% 
+           str_split(&amp;quot; - &amp;quot;) %&amp;gt;% 
+           map_chr(first) %&amp;gt;% 
+           as.numeric %&amp;gt;% 
+           {. + 2} %&amp;gt;% 
+           as.character) %&amp;gt;% 
+  dplyr::select(-rec_inc)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Looking through the other tibbles they all have the same structure - we can write a function using this knowledge to speed up data extraction.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_df_extraction &amp;lt;- function(tb_df, var_name, area_type = &amp;quot;County &amp;amp; UA&amp;quot;) {
+  df &amp;lt;- tb_df %&amp;gt;% 
+    filter(AreaType %in% area_type) %&amp;gt;% 
+    dplyr::select(AreaName, Sex, Age, Value, Timeperiod) %&amp;gt;% 
+    rename_at(.vars = vars(Value), funs(paste0(var_name)))
+  
+  return(df)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We now extract data for all remaining indicators, rename variables with meaningful names, join into a single tibble and then left join onto the TB incidence rate tibble. Data is only available aggregated for all ages and genders so we also drop these variables here. Finally we clean up Timeperiod into years.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;var_names &amp;lt;- c(&amp;quot;prop_pul_cc&amp;quot;, &amp;quot;prop_cc_ds_front&amp;quot;, &amp;quot;prop_ds_treat_com_12&amp;quot;,
+               &amp;quot;prop_ds_lost_to_follow&amp;quot;, &amp;quot;prop_ds_died&amp;quot;,
+               &amp;quot;prop_tb_offered_hiv_test&amp;quot;, &amp;quot;prop_ds_rf_treat_com_12&amp;quot;,
+               &amp;quot;prop_cc_dr_front&amp;quot;, &amp;quot;prop_p_start_treat_2_m_sym&amp;quot;,
+               &amp;quot;prop_p_start_treat_4_m_sym&amp;quot;
+)
+
+extracted_tb &amp;lt;- map2(tb_df[-(1:2)], var_names, ~tb_df_extraction(.x, .y)) %&amp;gt;% 
+  reduce(full_join, by = c(&amp;quot;AreaName&amp;quot;, &amp;quot;Sex&amp;quot;, &amp;quot;Age&amp;quot;, &amp;quot;Timeperiod&amp;quot;))
+
+com_tb_df &amp;lt;- tb_inc %&amp;gt;% 
+  left_join(extracted_tb, by = c(&amp;quot;AreaName&amp;quot;, &amp;quot;Sex&amp;quot;, &amp;quot;Age&amp;quot;, &amp;quot;Timeperiod&amp;quot;)) %&amp;gt;% 
+  mutate(year = Timeperiod %&amp;gt;% as.numeric) %&amp;gt;% 
+  mutate_if(is.character, as.factor) %&amp;gt;% 
+  dplyr::select(-Timeperiod) %&amp;gt;% 
+  filter(Sex %in% &amp;quot;Persons&amp;quot;, Age %in% &amp;quot;All ages&amp;quot;) %&amp;gt;% 
+  dplyr::select(-Sex, -Age)
+
+com_tb_df&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 2,026 x 13
+##    AreaName     rec_inc_rate prop_pul_cc prop_cc_ds_front prop_ds_treat_c…
+##    &amp;lt;fct&amp;gt;               &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;            &amp;lt;dbl&amp;gt;            &amp;lt;dbl&amp;gt;
+##  1 Hartlepool          10.0         NA                NA            NA    
+##  2 Middlesbrou…        16.1         72.7             100.           82.6  
+##  3 Stockton-on…         5.99        NA                NA            NA    
+##  4 Blackburn w…        37.7         61.8             100.           80.7  
+##  5 Blackpool            7.95        NA                NA            NA    
+##  6 Kingston up…         5.06        NA                NA            NA    
+##  7 East Riding…         3.28        NA                NA            NA    
+##  8 Derby               19.3         66.7             100.           76.7  
+##  9 Leicester           71.1         62.6             100.            0.546
+## 10 Nottingham          16.9         80.0             100.           73.0  
+## # ... with 2,016 more rows, and 8 more variables:
+## #   prop_ds_lost_to_follow &amp;lt;dbl&amp;gt;, prop_ds_died &amp;lt;dbl&amp;gt;,
+## #   prop_tb_offered_hiv_test &amp;lt;dbl&amp;gt;, prop_ds_rf_treat_com_12 &amp;lt;dbl&amp;gt;,
+## #   prop_cc_dr_front &amp;lt;dbl&amp;gt;, prop_p_start_treat_2_m_sym &amp;lt;dbl&amp;gt;,
+## #   prop_p_start_treat_4_m_sym &amp;lt;dbl&amp;gt;, year &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Next, we need to check the completeness of the data. Ideally, we would use the most recent year of data for our clustering analysis but this may not be possible if variables are highly missing. The following function calculates the proportion of missing data in each year for each variable.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;get_frac_missing &amp;lt;- function(df) {
+  df %&amp;gt;% 
+    nest() %&amp;gt;% 
+    mutate(missing = map(data,~map_dfr(. ,~sum(is.na(.))/length(.)))) %&amp;gt;% 
+    dplyr::select(-data) %&amp;gt;% 
+    unnest(missing) 
+}
+
+## Get the proportion missing per variableby year
+tb_miss_per_year &amp;lt;- com_tb_df %&amp;gt;% 
+  group_by(year) %&amp;gt;% 
+  get_frac_missing %&amp;gt;% 
+  mutate_all(~round(., 2)) %&amp;gt;% 
+  arrange(year) 
+
+tb_miss_per_year %&amp;gt;% 
+  mutate(year = as.character(year)) %&amp;gt;% 
+  t %&amp;gt;%
+  kable&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;year&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2002&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2003&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2004&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2005&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2006&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2007&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2008&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2009&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2010&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2011&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2012&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2013&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2014&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2015&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2016&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;AreaName&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;rec_inc_rate&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_pul_cc&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.30&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.35&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_cc_ds_front&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.30&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.35&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_ds_treat_com_12&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.30&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.35&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_ds_lost_to_follow&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.30&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.35&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_ds_died&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.36&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.30&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.35&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.33&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.27&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_tb_offered_hiv_test&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.28&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_ds_rf_treat_com_12&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_cc_dr_front&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_p_start_treat_2_m_sym&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.28&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.35&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_p_start_treat_4_m_sym&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;1.00&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.31&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.28&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.35&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.34&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.39&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We see that data completeness increases with time but that some variables are completely missing (e.g. &lt;code&gt;prop_ds_rf_treat_com_12&lt;/code&gt; and &lt;code&gt;prop_cc_dr_front&lt;/code&gt;). We therefore drop these variables and then identify which year has the lowest amount of missing data across all remaining variables (by looking at mean missingness).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Drop full missing variables
+tb_partial_miss_year &amp;lt;- tb_miss_per_year %&amp;gt;% 
+  select_if(~!sum(.) == length(.))
+
+## Full missing variables
+com_miss_vars &amp;lt;- setdiff(names(tb_miss_per_year), names(tb_partial_miss_year))
+
+## Which year has the most complete data
+tb_complete_years_all_vars &amp;lt;- com_tb_df %&amp;gt;% 
+  group_by(year) %&amp;gt;% 
+  nest() %&amp;gt;% 
+  mutate(missing = map(data,~mean(colSums(is.na(.))/nrow(.)))) %&amp;gt;% 
+  dplyr::select(-data) %&amp;gt;% 
+  unnest(missing) %&amp;gt;% 
+  mutate(missing = round(missing, 2)) %&amp;gt;% 
+  arrange(year)
+
+kable(tb_complete_years_all_vars)&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;year&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;missing&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2002&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.57&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2003&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.57&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2004&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.56&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2005&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.55&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2006&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.55&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2007&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.54&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2008&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.56&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2009&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.53&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2010&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.56&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2011&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.43&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2012&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.35&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2013&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.39&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2014&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.39&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2015&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.43&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2016&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.58&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The above table indicates that 2016 has a high proportion of missing data. From the previous table we saw that this was partially due to some variables being completely missing. The next best option is 2015 - this has a slightly higher proportion of missing data than previous years but has no variables that are completely missing and is the most relevant after 2016. The final question is to what extent missingness is still related to TB incidence rates. The following table investigates this by looking at what happens as counties are excluded using varying incidence rate cut-offs.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;com_tb_df %&amp;gt;%
+  filter(year == 2015) %&amp;gt;% 
+  dplyr::select(-map_dbl(com_miss_vars, contains)) %&amp;gt;% 
+  mutate(inc_rate_lower = list(seq(2, 20, 2))) %&amp;gt;% 
+  unnest(inc_rate_lower) %&amp;gt;% 
+  group_by(year, inc_rate_lower) %&amp;gt;% 
+  filter(rec_inc_rate &amp;gt; inc_rate_lower) %&amp;gt;% 
+  nest() %&amp;gt;% 
+  mutate(missing = map(data,~mean(colSums(is.na(.))/nrow(.)))) %&amp;gt;% 
+  dplyr::select(-data, -year) %&amp;gt;% 
+  unnest(missing) %&amp;gt;% 
+  kable&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;right&#34;&gt;inc_rate_lower&lt;/th&gt;
+&lt;th align=&#34;right&#34;&gt;missing&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.3117647&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.2598291&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1934066&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;8&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.1014085&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;10&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0387097&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0148148&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;14&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0000000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;16&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0000000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;18&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0000000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;right&#34;&gt;20&lt;/td&gt;
+&lt;td align=&#34;right&#34;&gt;0.0000000&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The choice of incidence rate cut-off is somewhat arbitrary. However, it appears that a cut-off of at least 10 (per 100,000) is sufficient to deal with the majority of missing data. This is also a sensible cut-off as it represents the World Health Organisations 2035 target for TB eradication (&lt;a href=&#34;http://www.who.int/tb/post2015_TBstrategy.pdf&#34;&gt;source&lt;/a&gt;). This means that our analysis will focus on counties that have relatively high incidence rates in comparison to the median in England. Using everything we have learnt about the quality of the indicator data we now identify the near final analysis dataset.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_df_2015 &amp;lt;- com_tb_df %&amp;gt;% 
+  dplyr::select(-map_dbl(com_miss_vars, contains)) %&amp;gt;% 
+  filter(year == 2015) %&amp;gt;% 
+  filter(rec_inc_rate &amp;gt; 10)
+
+tb_df_2015 &lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 62 x 11
+##    AreaName     rec_inc_rate prop_pul_cc prop_cc_ds_front prop_ds_treat_c…
+##    &amp;lt;fct&amp;gt;               &amp;lt;dbl&amp;gt;       &amp;lt;dbl&amp;gt;            &amp;lt;dbl&amp;gt;            &amp;lt;dbl&amp;gt;
+##  1 Blackburn w…         29.0        71.4            100.              87.5
+##  2 Derby                14.0        72.7            100.              71.9
+##  3 Leicester            41.8        81.2             97.6             78.4
+##  4 Nottingham           17.1        82.1             97.1             80.4
+##  5 Stoke-on-Tr…         12.1        66.7            100.              80.8
+##  6 Bristol              20.6        53.1             95.1             79.0
+##  7 Swindon              10.7        57.1            100.              75.0
+##  8 Peterborough         23.2        66.7            100.              69.0
+##  9 Luton                30.1        80.0            100.              82.4
+## 10 Reading              34.7        64.3             95.0             97.0
+## # ... with 52 more rows, and 6 more variables:
+## #   prop_ds_lost_to_follow &amp;lt;dbl&amp;gt;, prop_ds_died &amp;lt;dbl&amp;gt;,
+## #   prop_tb_offered_hiv_test &amp;lt;dbl&amp;gt;, prop_p_start_treat_2_m_sym &amp;lt;dbl&amp;gt;,
+## #   prop_p_start_treat_4_m_sym &amp;lt;dbl&amp;gt;, year &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The final step is to deal with the remaining missing data. As all variables, except incidence rate, are missing for some counties we cannot reliably impute the data. We therefore drop it and make a note of the counties for which data was not available.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_clean_2015 &amp;lt;- tb_df_2015 %&amp;gt;% 
+  drop_na() %&amp;gt;% 
+  select(-year)
+
+missing_regions &amp;lt;- setdiff(tb_df_2015$AreaName %&amp;gt;% as.character, tb_clean_2015$AreaName %&amp;gt;% as.character)
+
+missing_regions&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## [1] &amp;quot;Wokingham&amp;quot; &amp;quot;Bedford&amp;quot;   &amp;quot;Bury&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This leave us with a tidy and complete dataset with data on TB monitoring indicators for 59 counties in 2015.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;dimension-reduction&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Dimension reduction&lt;/h2&gt;
+&lt;p&gt;We are now ready to conduct some clustering analysis on this data. The first step is to reduce the dimensionality of the data using principal component analysis (PCA). We use the &lt;code&gt;estim_ncp&lt;/code&gt; function (which uses a method outlined in this &lt;a href=&#34;https://www.sciencedirect.com/science/article/pii/S0167947311004099&#34;&gt;paper&lt;/a&gt;) from the &lt;code&gt;FactoMineR&lt;/code&gt; package to estimate the number of principal components required. We then perform PCA (using &lt;code&gt;prcomp&lt;/code&gt;) and plot the variance explained by each component as a check on &lt;code&gt;estim_ncp&lt;/code&gt;. All of the following analysis is done using nested tibbles and so can be easily generalised to higher dimensional use cases.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_pca &amp;lt;- tb_clean_2015 %&amp;gt;% 
+  nest() %&amp;gt;% 
+  mutate(
+    numeric_data = map(data, ~select_if(., is.numeric) %&amp;gt;% 
+                         as.data.frame()),
+    optimal_pca_no = map(numeric_data, ~estim_ncp(., 
+                                                  scale = TRUE, 
+                                                  ncp.min = 2, 
+                                                  ncp.max = 10)) %&amp;gt;% 
+      map_dbl(~.$ncp),
+    pca = map(numeric_data, ~prcomp(.x, 
+                                    center = TRUE, 
+                                    scale = TRUE)),
+    pca_data = map(pca, ~.$x),
+    pca_aug = map2(pca, data, ~augment(.x, data = .y)))&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We find that the optimal number of principal components is 2. We can also plot the percentage of variance explained in order to evaluate this choice.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Variance explained
+var_exp &amp;lt;- tb_pca %&amp;gt;% 
+  dplyr::select(-optimal_pca_no) %&amp;gt;% 
+  unnest(pca_aug) %&amp;gt;% 
+  summarize_at(.vars = vars(contains(&amp;quot;PC&amp;quot;)), .funs = funs(var)) %&amp;gt;% 
+  gather(key = pc, value = variance) %&amp;gt;% 
+  mutate(var_exp = variance/sum(variance) * 100,
+         cum_var_exp = cumsum(var_exp),
+         pc = str_replace(pc, &amp;quot;.fitted&amp;quot;, &amp;quot;&amp;quot;) %&amp;gt;% 
+           str_replace(&amp;quot;PC&amp;quot;, &amp;quot;&amp;quot;))&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;var_exp %&amp;gt;% 
+  rename(
+    `Variance Explained` = var_exp,
+    `Cumulative Variance Explained` = cum_var_exp
+  ) %&amp;gt;% 
+  gather(key = key, value = value, `Variance Explained`, `Cumulative Variance Explained`) %&amp;gt;%
+  mutate(key = key %&amp;gt;% 
+           factor(levels  = c(&amp;quot;Variance Explained&amp;quot;, 
+                              &amp;quot;Cumulative Variance Explained&amp;quot;))) %&amp;gt;% 
+  mutate(value = value / 100) %&amp;gt;% 
+  mutate(pc = factor(pc, levels = as.character(1:max(var_exp$pc %&amp;gt;% as.numeric)))) %&amp;gt;% 
+  ggplot(aes(pc, value, group = key)) + 
+  geom_point(size = 2, alpha = 0.8) + 
+  geom_line(size = 1.1, alpha = 0.6) + 
+  facet_wrap(~key, scales = &amp;quot;free_y&amp;quot;) +
+  theme_minimal() +
+  scale_y_continuous(breaks = seq(0, 1, 0.05), lim = c(0, NA),
+                     minor_breaks = NULL, labels = percent) +
+  labs(
+    title = &amp;quot;Variance Explained by Principal Component&amp;quot;,
+    subtitle = paste0(&amp;quot;The optimal number of principal components suggested by estim_ncp was &amp;quot;,
+                      tb_pca$optimal_pca_no, &amp;quot; which explains &amp;quot;, round(var_exp$cum_var_exp[[2]], 0), &amp;quot;% of the data.&amp;quot;),
+    x = &amp;quot;Principal Component&amp;quot;,
+    y = &amp;quot;Variance Explained (%)&amp;quot;,
+    caption = &amp;quot;@seabbs Source: Public Health England (fingertipsR)&amp;quot;
+  )&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-28-cluster-england-tb_files/figure-html/plot-var-explained-1.png&#34; width=&#34;2640&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The above plot shows that only 42% of the variance in the data is explained by the first two principle components (PCs) even though the &lt;code&gt;estim_ncp&lt;/code&gt; function suggested that this was the optimal number. This indicates that there is large amount of noise in the data with a large amount of non-systematic between county variation. Another approach, using the ‘elbow’ (change from decreasing to stable amount of variance explained), would estimate that 8 PCs are required to explain the variance in the data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;clustering-of-tb-monitoring-indicators&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Clustering of TB Monitoring Indicators&lt;/h2&gt;
+&lt;p&gt;Next, we can now perform clustering using the partitioning around medoids algorithm on the first two principal components. This approach should be more stable than K means and also has the benefit of producing a metric (the average silhouette width) which can be used to estimate the number of clusters that provides the best fitting model. The outline of the PAM algorithm is as follows:&lt;/p&gt;
+&lt;ol style=&#34;list-style-type: decimal&#34;&gt;
+&lt;li&gt;Randomly select k observations as the initial medoid.&lt;/li&gt;
+&lt;li&gt;Assign each observation to the closest medoid.&lt;/li&gt;
+&lt;li&gt;Swap each medoid and non-medoid observation, computing the dissimilarity cost.&lt;/li&gt;
+&lt;li&gt;Select the configuration that minimizes the total dissimilarity.&lt;/li&gt;
+&lt;li&gt;Repeat steps 2 through 4 until there is no change in the medoids.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Again, we use an approach that makes use of nested tibbles, this should be easier to generalise to other use cases.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Perform pam on pca data 1 to 10 groups
+tb_pca_pam &amp;lt;- tb_pca %&amp;gt;%
+  mutate(centers = list(2:10)) %&amp;gt;% 
+  unnest(centers, .preserve = everything()) %&amp;gt;% 
+  dplyr::select(-centers, centers = centers1) %&amp;gt;% 
+  group_by(centers) %&amp;gt;% 
+  mutate(
+    pam = map(pca_data,
+              ~ pam(x = .x[, 1:optimal_pca_no], k = centers, stand = TRUE)),
+    clusters = map(pam, ~.$clustering),
+    avg_silhouette_width = map(pam, ~.$silinfo$avg.width),
+    data_with_clusters = map2(.x = data, .y = clusters, ~mutate(.x, cluster = factor(.y, ordered = TRUE)))
+  ) %&amp;gt;% 
+  ungroup
+
+tb_pca_pam&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 9 x 11
+##   optimal_pca_no data   numeric_data  pca   pca_data pca_aug centers pam  
+##            &amp;lt;dbl&amp;gt; &amp;lt;list&amp;gt; &amp;lt;list&amp;gt;        &amp;lt;lis&amp;gt; &amp;lt;list&amp;gt;   &amp;lt;list&amp;gt;    &amp;lt;int&amp;gt; &amp;lt;lis&amp;gt;
+## 1             2. &amp;lt;tibb… &amp;lt;data.frame … &amp;lt;S3:… &amp;lt;dbl [5… &amp;lt;data.…       2 &amp;lt;S3:…
+## 2             2. &amp;lt;tibb… &amp;lt;data.frame … &amp;lt;S3:… &amp;lt;dbl [5… &amp;lt;data.…       3 &amp;lt;S3:…
+## 3             2. &amp;lt;tibb… &amp;lt;data.frame … &amp;lt;S3:… &amp;lt;dbl [5… &amp;lt;data.…       4 &amp;lt;S3:…
+## 4             2. &amp;lt;tibb… &amp;lt;data.frame … &amp;lt;S3:… &amp;lt;dbl [5… &amp;lt;data.…       5 &amp;lt;S3:…
+## 5             2. &amp;lt;tibb… &amp;lt;data.frame … &amp;lt;S3:… &amp;lt;dbl [5… &amp;lt;data.…       6 &amp;lt;S3:…
+## 6             2. &amp;lt;tibb… &amp;lt;data.frame … &amp;lt;S3:… &amp;lt;dbl [5… &amp;lt;data.…       7 &amp;lt;S3:…
+## 7             2. &amp;lt;tibb… &amp;lt;data.frame … &amp;lt;S3:… &amp;lt;dbl [5… &amp;lt;data.…       8 &amp;lt;S3:…
+## 8             2. &amp;lt;tibb… &amp;lt;data.frame … &amp;lt;S3:… &amp;lt;dbl [5… &amp;lt;data.…       9 &amp;lt;S3:…
+## 9             2. &amp;lt;tibb… &amp;lt;data.frame … &amp;lt;S3:… &amp;lt;dbl [5… &amp;lt;data.…      10 &amp;lt;S3:…
+## # ... with 3 more variables: clusters &amp;lt;list&amp;gt;, avg_silhouette_width &amp;lt;list&amp;gt;,
+## #   data_with_clusters &amp;lt;list&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To assess the optimal number of clusters we can plot the average silhouette width. This indicates that two clusters are optimal, although this estimate may not be that robust as the average silhouette width is low (0.38) with 6, 7, and 8 clusters also having average silhouette widths that are comparable. In general, we prefer the parsimonious model and therefore we will only investigate two clusters for the remainder of this post. &lt;em&gt;Note that this does not test for no clustering (i.e a single cluster).&lt;/em&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Get max silhouette width
+max_silhouette_width &amp;lt;- tb_pca_pam %&amp;gt;% 
+  dplyr::select(centers, avg_silhouette_width) %&amp;gt;% 
+  unnest(avg_silhouette_width) %&amp;gt;% 
+  arrange(desc(avg_silhouette_width)) %&amp;gt;% 
+  slice(1)
+  
+## Plot average silhouette width
+tb_pca_pam %&amp;gt;% 
+  dplyr::select(centers, avg_silhouette_width) %&amp;gt;% 
+  unnest(avg_silhouette_width) %&amp;gt;% 
+  ggplot(aes(x = centers, y = avg_silhouette_width)) +
+  geom_line(size = 2, alpha = 0.4) +
+  geom_point(size = 3, alpha = 0.8) +
+  theme_minimal() +
+  scale_x_continuous(breaks = seq(1, 10, 1), minor_breaks = NULL) +
+  scale_y_continuous(limits = c(NA, NA), breaks = seq(0, 1, 0.01), minor_breaks = NULL) +
+  labs(title = &amp;quot;Average Silhouette Width by Number of PAM Clusters&amp;quot;,
+       subtitle = paste0(&amp;quot;The optimal number of clusters identifed by avg. silhouette width was &amp;quot;,
+                      max_silhouette_width$centers,
+                      &amp;quot; with an avg. silhouette width of &amp;quot;, 
+                      round(max_silhouette_width$avg_silhouette_width, 2)
+       ),
+       x = &amp;quot;Clusters&amp;quot;,
+       y = &amp;quot;Avg. Silhouette Width&amp;quot;,
+       caption = &amp;quot;@seabbs Source: Public Health England (fingertipsR)&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-28-cluster-england-tb_files/figure-html/avg-silhouette-1.png&#34; width=&#34;2640&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;results&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Results&lt;/h2&gt;
+&lt;p&gt;We can now explore the clusters we have identified. A useful way to do this is to visual the first two principal components overlaid with the original variable loadings, and the clusters we have identified.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Plot clusters
+pca_plot &amp;lt;- tb_pca_pam %&amp;gt;% 
+  filter(centers == max_silhouette_width$centers) %&amp;gt;% 
+  select(data_with_clusters, pca) %&amp;gt;% 
+  mutate(pca_graph = map2(.x = pca, 
+                          .y = data_with_clusters,
+                          ~ autoplot(.x, x = 1, y = 2, 
+                                     loadings = TRUE, loadings.label = TRUE,
+                                     loadings.label.repel = TRUE,
+                                     loadings.label.size = 2, loadings.alpha = 0.8,
+                                     loadings.label.vjust = -1, data = .y, 
+                                     label = TRUE, label.label = &amp;quot;AreaName&amp;quot;,
+                                     label.size = 1.5, label.vjust = -1, 
+                                     alpha = 0.3, frame = TRUE, 
+                                     frame.type = &amp;#39;convex&amp;#39;, frame.alpha= 0.05,
+                                     colour = &amp;quot;cluster&amp;quot;, size = &amp;quot;rec_inc_rate&amp;quot;) +
+                            theme_minimal() +
+                            labs(x = paste0(&amp;quot;Principal Component 1 (Variance Explained: &amp;quot;,
+                                            round(var_exp$var_exp[[1]], 1), &amp;quot;%)&amp;quot;),
+                                 y = paste0(&amp;quot;Principal Component 2 (Variance Explained: &amp;quot;,
+                                            round(var_exp$var_exp[[2]], 1), &amp;quot;%)&amp;quot;)) +
+                            guides(colour=guide_legend(title = &amp;quot;Cluster&amp;quot;, ncol = 2), 
+                                   fill=guide_legend(title= &amp;quot;Cluster&amp;quot;, ncol = 2),
+                                   size = guide_legend(title = &amp;quot;TB Incidence Rate (per 100,000 population)&amp;quot;,
+                                                       ncol = 2)) +
+                            scale_colour_viridis(option = &amp;quot;viridis&amp;quot;, 
+                                                 discrete = TRUE, end = 0.5) +
+                            scale_fill_viridis(option = &amp;quot;viridis&amp;quot;, 
+                                               discrete = TRUE, end = 0.5) +
+                            theme(legend.position = &amp;quot;bottom&amp;quot;, 
+                                  legend.box = &amp;quot;horizontal&amp;quot;) +
+                            labs(
+                              title = &amp;quot;Tuberculosis Data in England; First Two Principal Components&amp;quot;,
+                              subtitle = &amp;quot;The arrows are variable loadings and points are counties coloured by cluster membership&amp;quot;,
+                              caption = &amp;quot;@seabbs Source: Public Health England (fingertipsR)&amp;quot;
+                            )
+  )) %&amp;gt;% 
+  pull(pca_graph) %&amp;gt;% 
+  first
+
+
+pca_plot&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-28-cluster-england-tb_files/figure-html/plot-pca-1.png&#34; width=&#34;2640&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;From this we see that the clusters are generally split by incidence rates with lower incidence rate counties also having a higher proportion that either die or are lost to follow up. The higher incidence counties have a higher proportion of cultured confirmed pulmonary cases and more cases that complete treatment within 12 months. It appears that the proportion of cases that start treatment within 2 and 4 months varies over both clusters. We can also see that the proportion lost to follow up is inversely related to the proportion that are offered HIV tests, with a higher proportion that are lost to follow up corresponding to a reduced proportion of cases being offered HIV tests.&lt;/p&gt;
+&lt;p&gt;Another way of summarising the between cluster differences is to summarise the data by cluster, which is presented in the following plot. This approach to exploring differences between clusters may not be applicable to data with a large number of clusters, for this a faceted ridge plot (&lt;a href=&#34;https://github.com/clauswilke/ggridges&#34;&gt;&lt;code&gt;ggridges&lt;/code&gt;&lt;/a&gt;) would probably offer a better solution.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum_tb_df &amp;lt;- tb_pca_pam %&amp;gt;% 
+  filter(centers == max_silhouette_width$centers) %&amp;gt;% 
+  pull(data_with_clusters) %&amp;gt;% 
+  map(~ gather(., key = &amp;quot;Variable&amp;quot;, value = &amp;quot;value&amp;quot;, -AreaName, -cluster)) %&amp;gt;% 
+  first %&amp;gt;% 
+  rename(Cluster = cluster) 
+
+plot_cluster_diff &amp;lt;- sum_tb_df %&amp;gt;% 
+  ggplot(aes(x = Variable, y = value, col = Cluster, fill = Cluster)) +
+  geom_violin(draw_quantiles = c(0.025, 0.5, 0.975), alpha = 0.2, scale = &amp;quot;width&amp;quot;) +
+  geom_jitter(position = position_jitterdodge(), alpha = 0.3) +
+  coord_flip() +
+  theme_minimal() +
+  theme(legend.position = &amp;quot;bottom&amp;quot;) +
+  scale_y_continuous(breaks = seq(0, 100, 5), minor_breaks = NULL) +
+  scale_colour_viridis(option = &amp;quot;viridis&amp;quot;, discrete = TRUE, end = 0.5) +
+  scale_fill_viridis(option = &amp;quot;viridis&amp;quot;, discrete = TRUE, end = 0.5) +
+  labs( 
+    title = &amp;quot;Tuberculosis in England; Summarised by Cluster&amp;quot;,
+    subtitle = &amp;quot;Violin plots are scaled by width, with the 2.5%, 50% and 97.5% quantiles shown.&amp;quot;,
+    x = &amp;quot;Variable&amp;quot;,
+    y = &amp;quot;Incidence rate (per 100,000) for rec_int_rate, otherwise proportion (0-100%)&amp;quot;,
+    caption = &amp;quot;@seabbs Source: Public Health England (fingertipsR)&amp;quot;)
+
+plot_cluster_diff&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-28-cluster-england-tb_files/figure-html/summary-plot-1.png&#34; width=&#34;3960&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;To explore this further we can calculate the percentage difference between clusters for several of the variables’ summary statistics. The following table does this for the mean, the median, the 2.5% quantile, and the 97.5% quantile.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;sum_tb_df %&amp;gt;% 
+  group_by(Cluster, Variable) %&amp;gt;% 
+  summarise(mean = mean(value), median = median(value),
+            lll = quantile(value, 0.025),
+            hhh = quantile(value, 0.975)) %&amp;gt;% 
+  group_by(Variable) %&amp;gt;% 
+  mutate_if(is.numeric, .funs = funs((lag(.) - .)/ .)) %&amp;gt;% 
+  drop_na %&amp;gt;% 
+  mutate_if(is.numeric, .funs = funs(paste0(round(. * 100, 1), &amp;quot;%&amp;quot;))) %&amp;gt;% 
+  ungroup %&amp;gt;% 
+  mutate(Variable = factor(Variable, levels = rev(.$Variable))) %&amp;gt;% 
+  arrange(Variable) %&amp;gt;% 
+  rename(Mean = mean, Median = median, `2.5% Quantile` = lll, `97.5% Quantile` = hhh) %&amp;gt;% 
+  select(-Cluster) %&amp;gt;% 
+  kable&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;Variable&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Mean&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;Median&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;2.5% Quantile&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;97.5% Quantile&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;rec_inc_rate&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;46.2%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;26.5%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;-7.6%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;123.1%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_tb_offered_hiv_test&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2.4%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;4.5%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;2.6%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_pul_cc&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;16.2%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;15.4%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;32.5%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;17.5%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_p_start_treat_4_m_sym&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;11.8%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;13.3%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;28.5%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;9.2%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_p_start_treat_2_m_sym&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;12.1%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;9.2%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;-28.2%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;21%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_ds_treat_com_12&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;11.1%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;11.1%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;11.8%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;10.3%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_ds_died&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;-56%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;-51.6%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;-100%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;-61.2%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;prop_cc_ds_front&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.1%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0.6%&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;0%&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;From the plot and table above, we see that, cluster 1 contains the counties with higher incidence rates and therefore has a higher median incidence rate. At the same time, it has a large interquartile range but a similar lower quartile to cluster 2. We also see that in cluster 1 a greater number of counties are not offering HIV tests to all cases, although it appears the majority of counties are offering HIV tests to 100% of TB cases in both cases. In cluster 2 there is a large reduction in the proportion of pulmonary cases that were culture confirmed. In addition, in pulmonary cases, fewer start treatment within 2 or 4 months of developing symptoms in comparison to cluster 1. There is also a moderate increase in the proportion of cases that are lost to follow up and a large increase in the proportion of cases that died in cluster 2 compared to cluster 1. There is little difference between clusters for the proportion of cultured confirmed cases which had drug susceptibility reported, with the majority of clusters reporting on 100% of cases.&lt;/p&gt;
+&lt;p&gt;A more visual way to understand the clustering of TB in England based on the data we have extracted using the &lt;code&gt;fingertipsR&lt;/code&gt; package is to plot the cluster membership for each county on a map. We do this using data on the &lt;a href=&#34;https://borders.ukdataservice.ac.uk/easy_download_data.html?data=England_ct_2011&#34;&gt;outlines of the counties in England&lt;/a&gt; from the UK data service (&lt;a href=&#34;https://twitter.com/statsepi&#34;&gt;Darren L Dahly&lt;/a&gt; kindly pointed me in the direction of this data - thank you!)&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Make the plot into a function as ggplot2 object is very large and cause git issues (i.e therefore easier to remake the plot than it is to transfer between code chunks)
+tb_cluster_map &amp;lt;- function(tb_pca_pam) {
+  ## Some issues here with extracting code from the sp file
+## Solved using the folling maptools functions - improvements appreciated!
+gpclibPermit()
+
+england_counties &amp;lt;- shapefile(&amp;quot;../../static/data/shapefiles/england-2011-ct-shape/england_ct_2011.shp&amp;quot;) %&amp;gt;%
+  fortify(region = &amp;quot;code&amp;quot;) %&amp;gt;% 
+  as_tibble
+
+england_urban_areas &amp;lt;- shapefile(&amp;quot;../../static/data/shapefiles/england-urb-2001-shape/england_urb_2001.shp&amp;quot;) %&amp;gt;% 
+  fortify(region = &amp;quot;name&amp;quot;) %&amp;gt;% 
+  as_tibble %&amp;gt;% 
+  filter(id %in% c(&amp;quot;Greater London Urban Area&amp;quot;, 
+                   &amp;quot;Greater Manchester Urban Area&amp;quot;,
+                   &amp;quot;Bristol Urban Area&amp;quot;,
+                   &amp;quot;West Midlands Urban Area&amp;quot;,
+                   &amp;quot;Milton Keynes Urban Area&amp;quot;))
+
+## Make custom positions for urban area labels
+urban_area_labels &amp;lt;- england_urban_areas %&amp;gt;%
+  group_by(id) %&amp;gt;% 
+  slice(100) %&amp;gt;% 
+  ungroup() %&amp;gt;% 
+  mutate(long = long - 200000,
+         lat = lat + 20000)
+  
+  
+tb_cluster_results &amp;lt;- tb_pca_pam %&amp;gt;% 
+  filter(centers == max_silhouette_width$centers) %&amp;gt;% 
+  pull(data_with_clusters) %&amp;gt;% 
+  first
+
+tb_cluster_results &amp;lt;- tb_df[[2]] %&amp;gt;% 
+              dplyr::select(AreaName, AreaCode, AreaType) %&amp;gt;% 
+  filter(AreaType %in% &amp;quot;County &amp;amp; UA&amp;quot;) %&amp;gt;% 
+              unique %&amp;gt;% 
+  left_join(tb_cluster_results,
+            by = &amp;quot;AreaName&amp;quot;) %&amp;gt;% 
+  left_join(england_counties, by = c(&amp;quot;AreaCode&amp;quot; = &amp;quot;id&amp;quot;))
+
+   tb_cluster_results %&amp;gt;% 
+  rename(Cluster = cluster) %&amp;gt;% 
+  drop_na(Cluster) %&amp;gt;% 
+  dplyr::select(long, lat, Cluster, group) %&amp;gt;% 
+  ggplot( 
+                 aes(x = long, 
+                     y = lat,
+                     fill = Cluster)) +
+    geom_polygon(data = england_urban_areas, 
+                 aes(group = group, fill = NULL),
+                 alpha = 0.4) +
+    geom_path(data = tb_cluster_results, 
+              aes(group = group, fill = NULL), 
+              alpha = 0.4) +
+    geom_polygon(data = tb_cluster_results, 
+                 aes(group = group, fill = NULL),
+                 alpha = 0.1) +
+    geom_polygon(aes(group = group), alpha = 0.6) +
+    geom_line(data = urban_area_labels %&amp;gt;% 
+                bind_rows(urban_area_labels %&amp;gt;% 
+                            mutate(long = long + 200000, 
+                                   lat = lat - 20000)),
+              aes(fill = NA, group = id), alpha = 0.8) + 
+    geom_label(data = urban_area_labels,
+              aes(label = id), fill = &amp;quot;grey&amp;quot;) +
+    scale_fill_viridis(option = &amp;quot;viridis&amp;quot;, discrete = TRUE,
+                       end = 0.5) +
+    coord_equal() +
+    theme_map() +
+    theme(legend.position = &amp;quot;bottom&amp;quot;) +
+    labs(title = &amp;quot;Tuberculosis Monitoriing Indicators; Map of County Level Clusters in England&amp;quot;,
+         subtitle = &amp;quot;Using data from 2015 - only counties with incidence rates above 10 per 100,000 population and complete data are shown&amp;quot;,
+         caption = &amp;quot;Selected urban areas are shown (dark grey) and labelled.
+@seabbs Source: Public Health England (fingertipsR)
+Contains National Statistics data © Crown copyright and database right 2018. 
+         Contains OS data © Crown copyright and database right 2018&amp;quot;)
+}
+
+plot_tb_cluster_map &amp;lt;- tb_cluster_map(tb_pca_pam)
+
+ggsave(&amp;quot;../../static/img/fingertips/map-tb-clust.png&amp;quot;,
+       plot_tb_cluster_map, width = 8, height = 8, dpi = 330)
+
+plot_tb_cluster_map&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-28-cluster-england-tb_files/figure-html/map-cluster-membership-1.png&#34; width=&#34;2640&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Remove objects to reduce stored chunk size
+rm(&amp;quot;plot_tb_cluster_map&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;In the map above we see that cluster 1 is mainly made up of counties in London, Birmingham, and in the North West of England. Cluster 2 accounts for the majority of counties that are not within these large urban areas, as well the remaining as several counties in Birmingham and the North West and a single county in London. As expected we see that the majority of counties in England have been excluded from our analysis due to low incidence rates or missing data.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary-and-wrap-up&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Summary and Wrap-up&lt;/h2&gt;
+&lt;p&gt;In this post we have explored the &lt;code&gt;fingertipsR&lt;/code&gt; R package and the data on TB monitoring indicators for counties in England that is provided through the &lt;code&gt;fingertips&lt;/code&gt; API. We found that there was a large amount of non-random missing data, much of which was due to censoring to prevent deductive disclosure. However, several variables were entirely missing and even once counties with low incidence rates were removed there was still several counties with little TB monitoring data available. Substantial improvements could be made here to improve any future analysis or monitoring using this dataset.&lt;/p&gt;
+&lt;p&gt;Once counties and variables with missing data had been removed we found that there was substantial non-systematic variation between counties with only 42% of variation explained by the optimal number of principal components. The large amount of variation between counties we observed reinforces the need for the collaborative TB strategy in England which was launched in 2015. Hopefully once data becomes available for 2016, and 2017 this will show a decrease in variation between counties.&lt;/p&gt;
+&lt;p&gt;We found that, after dimension reduction, the data best supported two clusters. One cluster contained the majority of high incidence counties, which also had a higher proportion of culture confirmed pulmonary TB cases and more cases completing treatment in the first 12 months. This cluster was mainly centred around the greater London area but also included counties in Birmingham and the North West. The second cluster contained mainly counties not in these large urban areas but did contain the remaining counties in the North West and Birmingham area, as well as a single county in London. This cluster had a lower proportion of cases that started treatment within 2 and 4 months of developing symptoms, as well as having a greater proportion of cases that were lost to follow up and that died.&lt;/p&gt;
+&lt;p&gt;This analysis was limited by the TB monitoring indicators available, the large amount of missing data for the variables that were available, and the lack of high quality up to date data. There was a large amount of non-systematic variation present that was exluded from our clustering analysis and the clusters that we did identify cannot be considered to be highly robust. We did not test for a single cluster, which may have produced a model more consistent with the date. A single clustering algorithm was used, and although it is considered a robust approach, further validation of these results is necessary using another (or multiple) clustering methods.&lt;/p&gt;
+&lt;p&gt;Hopefully this post proved useful for informing you about the present state of TB in England, but also as an example of dimension reduction and clustering analysis. This analysis serves as a framework for a similar analysis that I am carrying out as part of my PhD so any comments, suggested improvements etc. would be greatly appreciated.&lt;/p&gt;
+&lt;p&gt;To wrap-up this post we use the &lt;code&gt;patchwork&lt;/code&gt; package to quickly compose a storyboard of the results from the clustering analysis carried out above. See &lt;a href=&#34;https://www.samabbott.co.uk/post/2018-03-28-cluster-england-tb_files/figure-html/storyboard-1.png&#34;&gt;here&lt;/a&gt; for a full size version.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_cluster_map &amp;lt;- tb_cluster_map(tb_pca_pam)
+
+storyboard &amp;lt;- plot_tb_cluster_map | ( pca_plot / plot_cluster_diff)
+
+ggsave(&amp;quot;../../static/img/fingertips/storyboard-fingertips-tb-clust.png&amp;quot;,
+       storyboard, width = 20, height = 16, dpi = 330)
+
+storyboard&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-03-28-cluster-england-tb_files/figure-html/storyboard-1.png&#34; width=&#34;6600&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Remove to reduce chunk size as over 100mb git limit
+rm(&amp;quot;storyboard&amp;quot;, &amp;quot;plot_tb_cluster_map&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Estimating the effect of the 2005 UK BCG vaccination policy change: A retrospective cohort study using the Enhanced Tuberculosis Surveillance system, 2000-2015</title>
       <link>http://www.samabbott.co.uk/talk/phe-applied-epi-2018/</link>
       <pubDate>Tue, 20 Mar 2018 11:00:00 +0000</pubDate>
@@ -146,6 +1236,310 @@ ggsave(&amp;quot;storyboard.png&amp;quot;,
       
       <guid>http://www.samabbott.co.uk/talk/bidd_group_talk_18_03_06/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Exploring Estimates of the Tuberculosis Case Fatality Ratio - with getTBinR</title>
+      <link>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</link>
+      <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</guid>
+      <description>&lt;p&gt;This is a quick post exploring estimates of the case fatality ratio for Tuberculosis (TB) from &lt;a href=&#34;http://www.who.int/tb/country/data/download/en/&#34;&gt;data&lt;/a&gt; published by the World Health Organisation (WHO). It makes use of &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR&#34;&gt;getTBinR&lt;/a&gt; (which is now on &lt;a href=&#34;https://cran.r-project.org/web/packages/getTBinR/index.html&#34;&gt;CRAN&lt;/a&gt;), &lt;a href=&#34;https://github.com/trinker/pacman&#34;&gt;pacman&lt;/a&gt; for package management, &lt;a href=&#34;https://github.com/hrbrmstr/hrbrthemes&#34;&gt;hrbrthemes&lt;/a&gt; for plot themes, and &lt;a href=&#34;https://github.com/thomasp85/patchwork&#34;&gt;pathwork&lt;/a&gt; for combining multiple plots into a storyboard. For an introduction to using getTBinR to explore the WHO TB data see &lt;a href=&#34;https://www.samabbott.co.uk/post/intro-gettbinr/&#34;&gt;this&lt;/a&gt; post.&lt;/p&gt;
+&lt;p&gt;It is estimated that in 2016 there was more than 10 million cases of active TB, with 1.3 million deaths (&lt;a href=&#34;https://en.wikipedia.org/wiki/Tuberculosis&#34;&gt;source&lt;/a&gt;). This makes TB the leading cause of death from an infectious disease. Despite the high numbers of cases globally, and high levels of mortality, TB is often considered a historic disease in developed countries. However, in recent years previously declining trends have flattened out and there is increasing concern surrounding multi-drug resistant TB, which has a greatly reduced the rate of successful treatment (&lt;a href=&#34;http://www.who.int/mediacentre/factsheets/fs104/en/&#34;&gt;source&lt;/a&gt;).&lt;/p&gt;
+&lt;p&gt;A key component of TB control is reducing the case fatality rate from active TB, this post explores WHO estimates for the TB case fatality rate in 2016 and then estimates the case fatality rates in previous years. The first step is to download and install the required packages, &lt;code&gt;pacman&lt;/code&gt; is used to manage this process.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (!require(pacman)) install.packages(&amp;quot;pacman&amp;quot;); library(pacman)
+p_load(&amp;quot;getTBinR&amp;quot;)
+p_load(&amp;quot;tidyverse&amp;quot;)
+p_load(&amp;quot;viridis&amp;quot;)
+p_load(&amp;quot;hrbrthemes&amp;quot;)
+p_load(&amp;quot;scales&amp;quot;)
+p_load_gh(&amp;quot;thomasp85/patchwork&amp;quot;, dependencies = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Now we use &lt;code&gt;getTBinR&lt;/code&gt; to download the TB burden data and its accompanying data dictionary.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_burden &amp;lt;- get_tb_burden(verbose = FALSE)
+dict &amp;lt;- get_data_dict(verbose = FALSE)
+
+tb_burden&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3,651 x 71
+##    country  iso2  iso3  iso_numeric g_whoregion  year e_pop_num e_inc_100k
+##    &amp;lt;chr&amp;gt;    &amp;lt;chr&amp;gt; &amp;lt;chr&amp;gt;       &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;       &amp;lt;int&amp;gt;     &amp;lt;int&amp;gt;      &amp;lt;dbl&amp;gt;
+##  1 Afghani… AF    AFG             4 Eastern Me…  2000  20093756       190.
+##  2 Afghani… AF    AFG             4 Eastern Me…  2001  20966463       189.
+##  3 Afghani… AF    AFG             4 Eastern Me…  2002  21979923       189.
+##  4 Afghani… AF    AFG             4 Eastern Me…  2003  23064851       189.
+##  5 Afghani… AF    AFG             4 Eastern Me…  2004  24118979       189.
+##  6 Afghani… AF    AFG             4 Eastern Me…  2005  25070798       189.
+##  7 Afghani… AF    AFG             4 Eastern Me…  2006  25893450       189.
+##  8 Afghani… AF    AFG             4 Eastern Me…  2007  26616792       189.
+##  9 Afghani… AF    AFG             4 Eastern Me…  2008  27294031       189.
+## 10 Afghani… AF    AFG             4 Eastern Me…  2009  28004331       189.
+## # ... with 3,641 more rows, and 63 more variables: e_inc_100k_lo &amp;lt;dbl&amp;gt;,
+## #   e_inc_100k_hi &amp;lt;dbl&amp;gt;, e_inc_num &amp;lt;int&amp;gt;, e_inc_num_lo &amp;lt;int&amp;gt;,
+## #   e_inc_num_hi &amp;lt;int&amp;gt;, e_inc_num_f014 &amp;lt;int&amp;gt;, e_inc_num_f014_lo &amp;lt;int&amp;gt;,
+## #   e_inc_num_f014_hi &amp;lt;int&amp;gt;, e_inc_num_f15plus &amp;lt;int&amp;gt;,
+## #   e_inc_num_f15plus_lo &amp;lt;int&amp;gt;, e_inc_num_f15plus_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_f &amp;lt;int&amp;gt;, e_inc_num_f_lo &amp;lt;int&amp;gt;, e_inc_num_f_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_m014 &amp;lt;int&amp;gt;, e_inc_num_m014_lo &amp;lt;int&amp;gt;,
+## #   e_inc_num_m014_hi &amp;lt;int&amp;gt;, e_inc_num_m15plus &amp;lt;int&amp;gt;,
+## #   e_inc_num_m15plus_lo &amp;lt;int&amp;gt;, e_inc_num_m15plus_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_m &amp;lt;int&amp;gt;, e_inc_num_m_lo &amp;lt;int&amp;gt;, e_inc_num_m_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_014 &amp;lt;int&amp;gt;, e_inc_num_014_lo &amp;lt;int&amp;gt;, e_inc_num_014_hi &amp;lt;int&amp;gt;,
+## #   e_inc_num_15plus &amp;lt;int&amp;gt;, e_inc_num_15plus_lo &amp;lt;int&amp;gt;,
+## #   e_inc_num_15plus_hi &amp;lt;int&amp;gt;, e_tbhiv_prct &amp;lt;dbl&amp;gt;, e_tbhiv_prct_lo &amp;lt;dbl&amp;gt;,
+## #   e_tbhiv_prct_hi &amp;lt;dbl&amp;gt;, e_inc_tbhiv_100k &amp;lt;dbl&amp;gt;,
+## #   e_inc_tbhiv_100k_lo &amp;lt;dbl&amp;gt;, e_inc_tbhiv_100k_hi &amp;lt;dbl&amp;gt;,
+## #   e_inc_tbhiv_num &amp;lt;int&amp;gt;, e_inc_tbhiv_num_lo &amp;lt;int&amp;gt;,
+## #   e_inc_tbhiv_num_hi &amp;lt;int&amp;gt;, e_mort_exc_tbhiv_100k &amp;lt;dbl&amp;gt;,
+## #   e_mort_exc_tbhiv_100k_lo &amp;lt;dbl&amp;gt;, e_mort_exc_tbhiv_100k_hi &amp;lt;dbl&amp;gt;,
+## #   e_mort_exc_tbhiv_num &amp;lt;int&amp;gt;, e_mort_exc_tbhiv_num_lo &amp;lt;int&amp;gt;,
+## #   e_mort_exc_tbhiv_num_hi &amp;lt;int&amp;gt;, e_mort_tbhiv_100k &amp;lt;dbl&amp;gt;,
+## #   e_mort_tbhiv_100k_lo &amp;lt;dbl&amp;gt;, e_mort_tbhiv_100k_hi &amp;lt;dbl&amp;gt;,
+## #   e_mort_tbhiv_num &amp;lt;int&amp;gt;, e_mort_tbhiv_num_lo &amp;lt;int&amp;gt;,
+## #   e_mort_tbhiv_num_hi &amp;lt;int&amp;gt;, e_mort_100k &amp;lt;dbl&amp;gt;, e_mort_100k_lo &amp;lt;dbl&amp;gt;,
+## #   e_mort_100k_hi &amp;lt;dbl&amp;gt;, e_mort_num &amp;lt;int&amp;gt;, e_mort_num_lo &amp;lt;int&amp;gt;,
+## #   e_mort_num_hi &amp;lt;int&amp;gt;, cfr &amp;lt;dbl&amp;gt;, cfr_lo &amp;lt;dbl&amp;gt;, cfr_hi &amp;lt;dbl&amp;gt;,
+## #   c_newinc_100k &amp;lt;dbl&amp;gt;, c_cdr &amp;lt;dbl&amp;gt;, c_cdr_lo &amp;lt;dbl&amp;gt;, c_cdr_hi &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;dict&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 402 x 4
+##    variable_name            dataset              code_list   definition   
+##    &amp;lt;chr&amp;gt;                    &amp;lt;chr&amp;gt;                &amp;lt;chr&amp;gt;       &amp;lt;chr&amp;gt;        
+##  1 bmu                      Community engagement &amp;quot;&amp;quot;          Number of TB…
+##  2 bmu_community_impl       Community engagement &amp;quot;&amp;quot;          Number of TB…
+##  3 bmu_ref_data             Community engagement &amp;quot;&amp;quot;          Number of Ba…
+##  4 bmu_rxsupport_data       Community engagement &amp;quot;&amp;quot;          Number of Ba…
+##  5 bmu_rxsupport_data_coh   Community engagement &amp;quot;&amp;quot;          Total number…
+##  6 community_data_available Community engagement 0=No; 1=Yes Are data ava…
+##  7 notified_ref             Community engagement &amp;quot;&amp;quot;          Total number…
+##  8 notified_ref_community   Community engagement &amp;quot;&amp;quot;          Total number…
+##  9 rxsupport_community_coh  Community engagement &amp;quot;&amp;quot;          Total number…
+## 10 rxsupport_community_succ Community engagement &amp;quot;&amp;quot;          Total number…
+## # ... with 392 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We want to explore the case fatality rate (&lt;code&gt;cfr&lt;/code&gt;), lets first look at the WHO definition.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;search_data_dict(&amp;quot;cfr&amp;quot;, verbose = FALSE) %&amp;gt;% 
+  knitr::kable()&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;variable_name&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;dataset&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;code_list&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;cfr&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated TB case fatality ratio&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Maps can be a useful first visualisation for summarising spatial data, although they can also be misleading for more complex comparisons. Lets look at global TB incidence rates (per 100,000 population) in 2016, and the WHO estimate of the case fatality ratio in the same year.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Map TB incidence rates - 2016
+mp1 &amp;lt;- map_tb_burden(year = 2016, verbose = FALSE) +
+  scale_fill_viridis(option = &amp;quot;cividis&amp;quot;, direction = -1) +
+  labs(title = &amp;quot;Map of Tuberculosis Incidence Rates - 2016&amp;quot;,
+       subtitle = &amp;quot;Incidence rates are per 100,000 population&amp;quot;)
+
+mp1 +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/make-inc-map-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;# Map TB case fatality ratio -2016
+mp2 &amp;lt;- map_tb_burden(metric = &amp;quot;cfr&amp;quot;, year = 2016, verbose= FALSE) +
+  scale_fill_viridis(option = &amp;quot;cividis&amp;quot;, direction = -1) +
+  labs(title = &amp;quot;Map of Tuberculosis Case Fatality Ratio - 2016&amp;quot;,
+       subtitle = &amp;quot;Case fatality rate estimated by the WHO&amp;quot;)
+
+mp2 +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/make-cfr-map-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Whilst quantitative insights are hard to glean from the above maps we can see that incidence rates appear to be highest in Africa and Asia. It also looks like the case fatality ratios are highest in these regions as well.&lt;/p&gt;
+&lt;p&gt;The WHO have only provided estimates for the case fatality ratio for 2016, estimating the case fatality ratio for other years will allow trends over time to be explored. We do this by first summarising TB incidence rates, and mortality rates by region. This allows insights into the general global picture to be more easily extracted. The first step is to write a function to summarise rates on regional levels, we do this using &lt;code&gt;dplyr::summarise_at&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Make function to summarise rates in a given region
+rate_region &amp;lt;- function(df = NULL, metric = NULL) {
+  
+  metric_vars &amp;lt;- c(metric, paste0(metric, &amp;quot;_lo&amp;quot;), paste0(metric, &amp;quot;_hi&amp;quot;))
+  
+  df &amp;lt;- df %&amp;gt;% 
+    group_by(year, g_whoregion) %&amp;gt;% 
+    summarise_at(.vars = c(metric_vars, &amp;quot;e_pop_num&amp;quot;),
+                 .funs = funs(sum(as.numeric(.), na.rm = T))) %&amp;gt;% 
+    ungroup() %&amp;gt;% 
+    mutate_at(.vars = metric_vars,
+              .funs = funs(. / e_pop_num * 1e5))
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We then write a reusable plotting function to visualise this data (making use of &lt;code&gt;aes_string&lt;/code&gt;).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Plotting function for rates
+plot_rate_region &amp;lt;- function(df = NULL, metric = NULL, title = NULL, subtitle = NULL, 
+                             y_lab = NULL, scales = NULL) {
+  
+  metric_vars &amp;lt;- c(metric, paste0(metric, &amp;quot;_lo&amp;quot;), paste0(metric, &amp;quot;_hi&amp;quot;))
+  
+  df %&amp;gt;% 
+    ggplot(aes_string(x = &amp;quot;year&amp;quot;, y = metric, col = &amp;quot;g_whoregion&amp;quot;, 
+                      fill = &amp;quot;g_whoregion&amp;quot;)) +
+    geom_point(size = 1.3) +
+    geom_ribbon(aes_string(ymin = metric_vars[2], ymax = metric_vars[3]), alpha = 0.3) +
+    geom_line(size = 1.1) +
+    scale_y_continuous(labels = comma) +
+    scale_colour_viridis(discrete = TRUE, option = &amp;quot;E&amp;quot;) +
+    scale_fill_viridis(discrete = TRUE, option = &amp;quot;E&amp;quot;) +
+    labs(title = title, subtitle = subtitle, 
+         x = &amp;quot;Year&amp;quot;, y = y_lab) +
+    theme_ipsum() +
+    theme(legend.position = &amp;quot;none&amp;quot;) +
+    facet_wrap(~g_whoregion, scales = scales)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can now quickly plot TB incidence rates by region, as well as mortality rates by region.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_inc_region &amp;lt;- tb_burden %&amp;gt;% 
+  rate_region(metric = &amp;quot;e_inc_num&amp;quot;) %&amp;gt;% 
+  plot_rate_region(metric = &amp;quot;e_inc_num&amp;quot;,
+                   title = &amp;quot;Tuberculosis Incidence Rates&amp;quot;,
+                   subtitle = &amp;quot;By WHO region: 2000 to 2016&amp;quot;,
+                   scales = &amp;quot;free_y&amp;quot;,
+                   y_lab = &amp;quot;Tuberculosis Incidence Rates (per 100,000 population)&amp;quot;)
+
+plot_inc_region +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-tb-inc-reg-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_mort_region &amp;lt;- tb_burden %&amp;gt;% 
+  rate_region(metric = &amp;quot;e_mort_num&amp;quot;) %&amp;gt;% 
+  plot_rate_region(metric = &amp;quot;e_mort_num&amp;quot;,
+                   title = &amp;quot;Tuberculosis Mortality Rates&amp;quot;,
+                   subtitle = &amp;quot;By WHO region: 2000 to 2016&amp;quot;,
+                   scales = &amp;quot;free_y&amp;quot;,
+                   y_lab = &amp;quot;Tuberculosis Mortality Rates (per 100,000 population)&amp;quot;)
+
+plot_mort_region +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-tb-mort-reg-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This gives an encouraging picture with both incidence rates and mortality rates declining in all regions. As we observed from the maps above incidence rates (and mortality rates) are highest in Africa, and South-East Asia. We also see that the rate of decline in incidence rates varies across regions, with South-East Asia and the Eastern Mediterranean experiencing the slowest decreases. Interestingly it also appears that mortality rates in some areas are decreasing more quickly than incidence rates, this is most notable for Europe. As mortality rates and incidence rates are highly correlated to explore in more depth we need to estimate the case fatality ratio for all years in the data.&lt;/p&gt;
+&lt;p&gt;To validate our estimates we first extract the regional estimates for the case fatality ratio based on the WHO estimates, by taking the mean (and standard deviation) of case fatality ratios by country in each region. This gives an estimate for case fatality rates at the regional level as well as the between country variation.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Summarise Case fatality rate by region - only availble for 2016
+region_case_fat &amp;lt;- tb_burden %&amp;gt;% 
+  filter(year %in% 2016) %&amp;gt;% 
+  group_by(year, g_whoregion) %&amp;gt;% 
+  summarise(mean = mean(cfr, na.rm = TRUE),
+            sd = sd(cfr, na.rm = TRUE)) %&amp;gt;% 
+  mutate(ll = mean - sd,
+         lll = mean - 2*sd,
+         hh = mean + sd,
+         hhh = mean + 2 * sd)
+
+region_case_fat&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 6 x 8
+## # Groups:   year [1]
+##    year g_whoregion             mean     sd       ll      lll    hh   hhh
+##   &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;                  &amp;lt;dbl&amp;gt;  &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt;    &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt;
+## 1  2016 Africa                0.238  0.0899  0.148    0.0581  0.328 0.418
+## 2  2016 Americas              0.132  0.133  -0.00116 -0.134   0.265 0.397
+## 3  2016 Eastern Mediterranean 0.131  0.129   0.00173 -0.127   0.260 0.389
+## 4  2016 Europe                0.0837 0.0458  0.0379  -0.00792 0.130 0.175
+## 5  2016 South-East Asia       0.135  0.0439  0.0916   0.0477  0.179 0.223
+## 6  2016 Western Pacific       0.0885 0.0483  0.0402  -0.00810 0.137 0.185&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We then estimate the regional case fatality ratio by taking the regional mortality rate and dividing it by the regional incidence rate for each year. We also do this for the high and low mortality rate estimates (using the lowest estimate for TB mortality and the highest estimate for incidence rates to get the lower bound, and vice versa for the high bound). This gives,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;region_case_fatality &amp;lt;- tb_burden %&amp;gt;% 
+  rate_region(metric = &amp;quot;e_inc_num&amp;quot;) %&amp;gt;% 
+  left_join(tb_burden %&amp;gt;% 
+              rate_region(metric = &amp;quot;e_mort_num&amp;quot;)) %&amp;gt;% 
+  mutate(case_fat_rate = e_mort_num / e_inc_num,
+         case_fat_rate_lo = e_mort_num_lo / e_inc_num_hi,
+         case_fat_rate_hi = e_mort_num_hi / e_inc_num_lo)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## Joining, by = c(&amp;quot;year&amp;quot;, &amp;quot;g_whoregion&amp;quot;, &amp;quot;e_pop_num&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;region_case_fatality&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 102 x 12
+##     year g_whoregion        e_inc_num e_inc_num_lo e_inc_num_hi  e_pop_num
+##    &amp;lt;int&amp;gt; &amp;lt;chr&amp;gt;                  &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt;        &amp;lt;dbl&amp;gt;      &amp;lt;dbl&amp;gt;
+##  1  2000 Africa                 332.         210.         481.      6.59e8
+##  2  2000 Americas                36.5         28.6         45.6     8.38e8
+##  3  2000 Eastern Mediterra…     127.          87.0        175.      4.81e8
+##  4  2000 Europe                  52.3         38.1         68.8     8.69e8
+##  5  2000 South-East Asia        305.         175.         473.      1.57e9
+##  6  2000 Western Pacific        131.          91.9        178.      1.70e9
+##  7  2001 Africa                 337.         215.         487.      6.76e8
+##  8  2001 Americas                35.0         27.4         43.6     8.48e8
+##  9  2001 Eastern Mediterra…     126.          86.2        174.      4.92e8
+## 10  2001 Europe                  51.9         37.7         68.3     8.70e8
+## # ... with 92 more rows, and 6 more variables: e_mort_num &amp;lt;dbl&amp;gt;,
+## #   e_mort_num_lo &amp;lt;dbl&amp;gt;, e_mort_num_hi &amp;lt;dbl&amp;gt;, case_fat_rate &amp;lt;dbl&amp;gt;,
+## #   case_fat_rate_lo &amp;lt;dbl&amp;gt;, case_fat_rate_hi &amp;lt;dbl&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can then plot this using the &lt;code&gt;plot_rate_region&lt;/code&gt; function outlined above, combined with addition layers to compare our estimate to that produced by the WHO.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_region_case_fatality &amp;lt;- region_case_fatality %&amp;gt;%
+  plot_rate_region(metric = &amp;quot;case_fat_rate&amp;quot;,
+                   title = &amp;quot;Tuberculosis Case Fatality Rate&amp;quot;,
+                   subtitle = &amp;quot;By WHO region: 2000 to 2016&amp;quot;,
+                   scales = &amp;quot;free_y&amp;quot;,
+                   y_lab = &amp;quot;Estimated TB Case Fatality Ratio&amp;quot;) +
+  labs(caption = &amp;quot;Case fatality ratio estimated by taking the ratio of TB mortality rates and TB incidence rates each year in all years. For 2016 
+       the mean regional case fatality ratio estimated by the WHO is also shown (along with one and two standard deviations)&amp;quot;) +
+  geom_point(data = region_case_fat, aes(y = mean, x = year, fill = g_whoregion), shape = 2, size = 1.3, col = &amp;quot;black&amp;quot;) +
+  geom_linerange(data = region_case_fat, aes(ymin = ll, ymax = hh, y = NULL), alpha = 0.4, size = 1.2, col = &amp;quot;black&amp;quot;) +
+  geom_linerange(data = region_case_fat, aes(ymin = lll, ymax = hhh, y = NULL), alpha = 0.2, size = 1.2, col = &amp;quot;black&amp;quot;)
+  
+plot_region_case_fatality +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-regional-cfr-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We see that the estimate using mortality rates / incidence rates compares well to the estimate published for 2016 by the WHO, although there is substantial within country variation. For all regions our estimate has substantial uncertainty. The plot suggests that the TB case fatality ratio is decreasing over time in all regions, although this reduction appears to be very minimal in some regions (such as the Americas, Africa, and the Eastern Mediterranean). It is likely that this trend does not hold across all countries, but this is beyond the scope of this post (watch this space).&lt;/p&gt;
+&lt;p&gt;As a first look at the case fatality ratios in individual countries we can quickly pull out the 10 countries with the highest case fatality ratio in 2016. These are,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;highest_case_fataltity_countries &amp;lt;- tb_burden %&amp;gt;% 
+  filter(year %in% 2016) %&amp;gt;% 
+  arrange(desc(cfr)) %&amp;gt;% 
+  slice(1:10) %&amp;gt;% 
+  pull(country)
+
+highest_case_fataltity_countries&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;##  [1] &amp;quot;Barbados&amp;quot;                    &amp;quot;United Arab Emirates&amp;quot;       
+##  [3] &amp;quot;Anguilla&amp;quot;                    &amp;quot;Lesotho&amp;quot;                    
+##  [5] &amp;quot;Ghana&amp;quot;                       &amp;quot;Guinea-Bissau&amp;quot;              
+##  [7] &amp;quot;Nigeria&amp;quot;                     &amp;quot;United Republic of Tanzania&amp;quot;
+##  [9] &amp;quot;Mozambique&amp;quot;                  &amp;quot;Kenya&amp;quot;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We can then plot the TB case fatality ratio in these countries, as well as the TB incidence rates over time.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Plot overview of cases fatality ratios
+plot_high_cfr &amp;lt;- plot_tb_burden_overview(metric = &amp;quot;cfr&amp;quot;, 
+                                         countries = highest_case_fataltity_countries,
+                                         verbose = FALSE) +
+  scale_color_viridis(option = &amp;quot;cividis&amp;quot;, direction = -1) +
+  theme_ipsum() +
+  theme(legend.position = &amp;quot;none&amp;quot;) +
+  labs(title = &amp;quot;Tuberculosis Case Fatality Ratio - 2016&amp;quot;,
+       subtitle = &amp;quot;For the countries with the 10 highest ratios&amp;quot;)
+
+plot_high_cfr +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-highest-cfr-countries-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_inc_high_cfr &amp;lt;- plot_tb_burden_overview(countries = highest_case_fataltity_countries,
+                                             verbose = FALSE) +
+  theme(legend.position = &amp;quot;none&amp;quot;) +
+  scale_color_viridis(option = &amp;quot;cividis&amp;quot;, direction = -1) +
+  theme_ipsum() +
+  theme(legend.position = &amp;quot;bottom&amp;quot;) +
+  labs(title = &amp;quot;Tuberculosis Incidence Rates - 2000:2016&amp;quot;,
+       subtitle = &amp;quot;In the countries with the 10 highest TB case fatality ratios&amp;quot;)
+
+plot_inc_high_cfr +
+  labs(caption = &amp;quot;@seabbs Source: WHO&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/plot-inc-rates-high-cfr-1.png&#34; width=&#34;2310&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We see that for some countries on this list (i.e Anguilla, the United Arab Emirates, and Barbados) the high case fatality ratio estimates are likely to be based on a very low sample size and therefore may not be trustworthy. Worryingly however for several countries (Lesotho, Tanzania, Kenya, Mozambique, Guinea-Bissau, and Ghana, and Nigeria) with extremely high case fatality ratios incidence rates are also very high, which will correspond to very high mortality rates. These countries are all in Africa, which as a region also had the highest incidence rates and the highest case fatality ratio. It is clear from these plots that Africa, and these countries in particular should be a particular focus of TB control efforts if TB mortality rates are to be reduced more quickly.&lt;/p&gt;
+&lt;p&gt;Finally we summarise this post using &lt;code&gt;patchwork&lt;/code&gt;, a great new package by &lt;a href=&#34;https://twitter.com/thomasp85&#34;&gt;Thomas Pederson&lt;/a&gt;, which lets you easily combine ggplot plots into a single plot. The resulting storyboard (below) neatly summarises the exploratory plots, and the narrative they provide, that we have made in this post. See &lt;a href=&#34;https://www.samabbott.co.uk/post/2018-02-27-estimate-case-fatality-rate_files/figure-html/pathwork-storyboard-1.png&#34;&gt;here&lt;/a&gt; for a full size version.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;storyboard &amp;lt;- (mp1 | mp2 ) /
+    {
+      plot_region_case_fatality + {
+        plot_high_cfr +
+          plot_inc_high_cfr +
+          labs(caption = &amp;quot;@seabbs Source: World Health Organisation&amp;quot;) +
+          plot_layout(ncol = 1)
+      } +
+        plot_layout(ncol = 2, widths = c(3, 1))
+    } +
+  plot_layout(ncol = 1, heights = c(2, 4))
+
+ggsave(&amp;quot;../../static/img/getTBinR/storyboard_tb_case_fatality_rate.png&amp;quot;,
+       storyboard, width = 20, height = 15, dpi = 330)
+
+storyboard&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/pathwork-storyboard-1.png&#34; width=&#34;7920&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The WHO TB data contains many more variables not mentioned in this post and getTBinR contains additional features, see the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34;&gt;site for getTBinR&lt;/a&gt; for details. See &lt;a href=&#34;https://gist.github.com/seabbs&#34;&gt;my gists&lt;/a&gt; for code snippets to get you started in exploring the data further. Package feature requests are welcome, preferably by filing a &lt;a href=&#34;https://github.com/seabbs/getTBinR/issues&#34;&gt;GitHub issue&lt;/a&gt;, as are suggestions for additional data sources to include.&lt;/p&gt;
+</description>
     </item>
     
     <item>
@@ -176,6 +1570,242 @@ ggsave(&amp;quot;storyboard.png&amp;quot;,
     </item>
     
     <item>
+      <title>Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR</title>
+      <link>http://www.samabbott.co.uk/post/intro-gettbinr/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/intro-gettbinr/</guid>
+      <description>&lt;p&gt;In November I attended &lt;a href=&#34;https://www.elsevier.com/events/conferences/international-conference-on-infectious-disease-dynamics&#34;&gt;Epidemics&lt;/a&gt;, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.&lt;/p&gt;
+&lt;p&gt;I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze! Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle. As I didn’t want to be left out my only alternative was to produce an R package during my downtime at the conference - from which &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR&#34;&gt;getTBinR&lt;/a&gt; was born. Over the Christmas period more work has been done and the package is now available from &lt;a href=&#34;https://cran.r-project.org/web/packages/getTBinR/index.html&#34;&gt;CRAN&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;GetTBinR wraps the World Health Organisation &lt;a href=&#34;http://www.who.int/tb/country/data/download/en/&#34;&gt;Tuberculosis data&lt;/a&gt;, which includes data on Tuberculosis incidence rates, mortality rates, case reporting rates and several other metrics by country from 2000 until 2016 with varying levels of completeness. It also provides some general purpose functions for mapping and plotting the data, with the aim of kick starting any exploratory analysis of the WHO Tuberculosis data.&lt;/p&gt;
+&lt;p&gt;For this post I will be quickly diving into global trends in Tuberculosis incidence rates and exploring whether Tuberculosis eradication is on the horizon.&lt;/p&gt;
+&lt;p&gt;Now to get started, the first step is to get the package (for this post we are using the development version from GitHub) and to load the other packages required for this analysis.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;install.packages(&amp;quot;devtools&amp;quot;)
+devtools::install_github(&amp;quot;seabbs/GetTBinR&amp;quot;)
+library(getTBinR)
+install.packages(&amp;quot;tidyverse&amp;quot;)
+library(tidyverse)
+install.packages(&amp;quot;viridis&amp;quot;)
+library(viridis)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The package is loaded, time to get the data. We download both the data itself and it’s accompanying data dictionary.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_burden &amp;lt;- get_tb_burden(download_data = TRUE, save = TRUE)
+dict &amp;lt;- get_data_dict(download_data = TRUE, save = TRUE)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We want to explore incidence rates so we need to find them in the data. We can do this using the &lt;code&gt;getTBinR::search_data_dict&lt;/code&gt; function,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;search_data_dict(dict = dict, def = &amp;quot;incidence&amp;quot;, verbose = FALSE) %&amp;gt;% 
+  knitr::kable()&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;variable_name&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;dataset&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;code_list&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_100k&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence (all forms) per 100 000 population&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_100k_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence (all forms) per 100 000 population, high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_100k_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence (all forms) per 100 000 population, low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_rr_num&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of rifampicin resistant TB (absolute number)&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_rr_num_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of rifampicin resistant TB (absolute number): high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_rr_num_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of rifampicin resistant TB (absolute number): low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_100k&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive per 100 000 population&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_100k_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive per 100 000 population, high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_100k_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive per 100 000 population, low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_num&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_num_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive, high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;e_inc_tbhiv_num_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimated incidence of TB cases who are HIV-positive, low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;The first hit, &lt;code&gt;e_inc_100k&lt;/code&gt;, is the TB incidence rate, with the next two variables being the lower and upper bounds of this estimate. For a quick overview lets map country specific incidence rates in 2016 using the getTBinR function &lt;code&gt;map_tb_burden&lt;/code&gt;,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;map_tb_burden(df = tb_burden, dict = dict,
+              metric = &amp;quot;e_inc_100k&amp;quot;, verbose = FALSE) +
+  labs(title = &amp;quot;Map of Global Tuberculosis Incidence Rates - 2016&amp;quot;,
+       subtitle = &amp;quot;&amp;quot;, caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-01-15-intro-tb-getTBinR_files/figure-html/map-tb-2016-inc-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This shows that incidence rates are highly heterogeneous between regions. To get an better understanding of this lets plot incidence rates by WHO region,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_inc_region &amp;lt;- tb_burden %&amp;gt;% 
+  group_by(year, g_whoregion) %&amp;gt;% 
+  summarise_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi, e_pop_num),
+               .funs = funs(sum(as.numeric(.), na.rm = T))) %&amp;gt;% 
+  mutate_at(.vars = vars(e_inc_num, e_inc_num_lo, e_inc_num_hi),
+            .funs = funs(inc_rate = . / e_pop_num * 1e5)) %&amp;gt;% 
+  mutate(g_whoregion = ifelse(is.na(g_whoregion), &amp;quot;Asia&amp;quot;, g_whoregion))
+
+plot_tb_inc_region &amp;lt;- function(df = NULL, title = NULL, subtitle = NULL, scales = NULL) {
+  df %&amp;gt;% 
+      ggplot(aes(x = year, y = e_inc_num_inc_rate, col = g_whoregion)) +
+  geom_point() +
+  geom_linerange(aes(ymin = e_inc_num_lo_inc_rate, ymax = e_inc_num_hi_inc_rate)) +
+  geom_line() +
+  scale_colour_viridis(discrete = TRUE) +
+  labs(title = title, subtitle = subtitle, 
+       x = &amp;quot;Year&amp;quot;, y = &amp;quot;Tuberculosis Incidence Rates (per 100,000 population)&amp;quot;,
+       caption = &amp;quot;Source: World Health Organisation&amp;quot;) +
+  theme_minimal() +
+  theme(legend.position = &amp;quot;none&amp;quot;) +
+  facet_wrap(~g_whoregion, scales = scales)
+}
+
+tb_inc_region %&amp;gt;% 
+  plot_tb_inc_region(title = &amp;quot;Global Tuberculosis Incidence Rates&amp;quot;,
+                     subtitle = &amp;quot;By WHO region, with a fixed y axis&amp;quot;,
+                     scales = &amp;quot;fixed&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;We see that incidence rates are much higher in Africa, and in Asia, than in other regions, and that incidence rates in the Americas and Europe are the lowest. This chart has a fixed y axis which makes it hard to see trends over time within regions, if we repeat it with a free y axis the trends over time become more apparent,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;tb_inc_region %&amp;gt;% 
+  plot_tb_inc_region(title = &amp;quot;Global Tuberculosis Incidence Rates&amp;quot;,
+                     subtitle = &amp;quot;By WHO region, with a variable y axis&amp;quot;,
+                     scales = &amp;quot;free_y&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-region-tb-inc-free-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This plot shows that Tuberculosis incidence rates are decreasing in all regions, which is a great sign for the elimination of Tuberculosis. However whilst this is true on the regional level it may not be true for all countries in the data set, something that is required to truly eradicate Tuberculosis. To explore this we find the countries that had higher incidence rates in 2016 than in 2000.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;countries_inc_up &amp;lt;- tb_burden %&amp;gt;% 
+  filter(year %in% c(2000, 2016)) %&amp;gt;% 
+  group_by(country) %&amp;gt;% 
+  arrange(desc(e_inc_100k)) %&amp;gt;% 
+  slice(1) %&amp;gt;% 
+  filter(year == 2016) %&amp;gt;% 
+  pull(country)
+
+high_inc_countries &amp;lt;- tb_burden %&amp;gt;% 
+  filter(year == 2016) %&amp;gt;% 
+  group_by(country) %&amp;gt;% 
+  summarise(e_inc_100k = max(e_inc_100k)) %&amp;gt;% 
+  ungroup %&amp;gt;% 
+  arrange(desc(e_inc_100k)) %&amp;gt;% 
+  slice(1:20) %&amp;gt;% 
+  pull(country) %&amp;gt;% 
+  unique
+
+high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;This results in a list of 44 countries all of which had higher incidence rates in 2016 than in 2000. Of these countries 8 were in the top 20 countries by incidence rate in 2016. This can plotted below using &lt;code&gt;getTBinR::plot_tb_burden_overview&lt;/code&gt;,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_burden_overview(df = tb_burden,
+                        dict = dict, 
+                        metric = &amp;quot;e_inc_100k&amp;quot;, 
+                        countries = high_inc_up_countries,
+                        verbose = FALSE) +
+  labs(title = &amp;quot;Tuberculosis Incidence Rates from 2000-2016&amp;quot;,
+       subtitle = &amp;quot;Showing countries with the highest incidence rates in which incidence rates are increasing&amp;quot;,
+       caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-overview-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;GetTBinR also supplies another function (&lt;code&gt;plot_tb_burden&lt;/code&gt;) that can be used to visualise this,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_burden(df = tb_burden,
+               dict = dict,
+               metric = &amp;quot;e_inc_100k&amp;quot;, countries = high_inc_up_countries, 
+               facet = &amp;quot;country&amp;quot;, scales = &amp;quot;free_y&amp;quot;, verbose = FALSE) +
+  labs(title = &amp;quot;Tuberculosis Incidence Rates from 2000-2016&amp;quot;,
+       subtitle = &amp;quot;Showing countries with the highest incidence rates in which incidence rates are increasing&amp;quot;,
+       caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-inc-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;A possible cause of this may be that reporting of Tuberculosis notifications has improved over time, to understand this we first find the required variable in the data,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;search_data_dict(dict = dict, def = &amp;quot;detection&amp;quot;, verbose = FALSE) %&amp;gt;% 
+  knitr::kable()&lt;/code&gt;&lt;/pre&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;left&#34;&gt;variable_name&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;dataset&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;code_list&lt;/th&gt;
+&lt;th align=&#34;left&#34;&gt;definition&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;c_cdr&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Case detection rate (all forms), percent&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;c_cdr_hi&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Case detection rate (all forms), percent, high bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;left&#34;&gt;c_cdr_lo&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Estimates&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;&lt;/td&gt;
+&lt;td align=&#34;left&#34;&gt;Case detection rate (all forms), percent, low bound&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;We then plot the case detection rate over time in the countries of interest,&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_tb_burden(df = tb_burden,
+               dict = dict,
+               metric = &amp;quot;c_cdr&amp;quot;, countries = high_inc_up_countries, 
+               facet = &amp;quot;country&amp;quot;, scales = &amp;quot;free_y&amp;quot;, verbose = FALSE) +
+  labs(title = &amp;quot;Tuberculosis Detection Rates from 2000-2016&amp;quot;,
+       subtitle = &amp;quot;Showing countries with the highest incidence rates in which incidence rates are increasing&amp;quot;,
+       caption = &amp;quot;Source: World Health Organisation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2018-01-15-intro-tb-getTBinR_files/figure-html/plot-tb-inc-high-case-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The plot above shows that for some countries such as Mozambique and South Africa the increases in incidence rates may be linked to increases in the cases detection rate. However, it is clear that this is not the case for all countries, in particular the Congo which has seen increasing incidence rates and falling case detection rates.&lt;/p&gt;
+&lt;p&gt;This post has highlighted the fact that whilst Tuberculosis is declining globally this is not the case in all countries. In order for the global eradication of Tuberculosis to be a success it is vital that resources are targeted at those countries which are struggling to reduce their incidence rates.&lt;/p&gt;
+&lt;p&gt;The WHO Tuberculosis data contains many variables not mentioned in this post and has the potential to answer a number of other questions. See the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34;&gt;package site&lt;/a&gt; for additional package features not mentioned in this post. See &lt;a href=&#34;https://gist.github.com/seabbs&#34;&gt;my gists&lt;/a&gt; for code snippets to get you started. Feature requests are welcome, preferably by filing a &lt;a href=&#34;https://github.com/seabbs/getTBinR/issues&#34;&gt;GitHub issue&lt;/a&gt;, as are suggestions for additional data sources to include.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Show Me Perseus</title>
       <link>http://www.samabbott.co.uk/project/showmeperseus/</link>
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
@@ -191,6 +1821,18 @@ ggsave(&amp;quot;storyboard.png&amp;quot;,
       
       <guid>http://www.samabbott.co.uk/project/gettbinr/</guid>
       <description></description>
+    </item>
+    
+    <item>
+      <title>Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</title>
+      <link>http://www.samabbott.co.uk/post/tb-england-wales/</link>
+      <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/tb-england-wales/</guid>
+      <description>&lt;p&gt;This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 &lt;a href=&#34;https://www.gov.uk/government/publications/tuberculosis-tb-annual-notifications-1913-onwards&#34;&gt;released&lt;/a&gt; by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the &lt;a href=&#34;https://www.samabbott.co.uk/tbinenglanddataclean/&#34;&gt;tbinenglanddataclean&lt;/a&gt; R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time. For a full page view of the dashboard see &lt;a href=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;iframe src=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales?showcase=0&#34; width=&#34;672&#34; height=&#34;2000px&#34;&gt;
+&lt;/iframe&gt;
+</description>
     </item>
     
     <item>
@@ -218,180 +1860,6 @@ ggsave(&amp;quot;storyboard.png&amp;quot;,
       
       <guid>http://www.samabbott.co.uk/talk/union-2017/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Deep Dive; Premiums on Valuation in the Property Partner Portfolio</title>
-      <link>http://www.samabbott.co.uk/post/deep-dive-pp-premiums/</link>
-      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/deep-dive-pp-premiums/</guid>
-      <description>&lt;p&gt;Previously I have looked at visualising the &lt;a href=&#34;https://www.propertypartner.co/aboutus#/ourstory&#34; target=&#34;_blank&#34;&gt;Property Partner&lt;/a&gt; portfolio using &lt;a href=&#34;https://public.tableau.com/views/PropertyPartnerPortfolioVisualisation/PropertyPartnerPortfolio?:embed=y&amp;amp;:display_count=yes&#34; target=&#34;_blank&#34;&gt;tableau&lt;/a&gt;, and &lt;a href=&#34;https://www.samabbott.co.uk/post/deep-dive-pp-open-house/&#34; target=&#34;_blank&#34;&gt;explored their resale date from July 2017&lt;/a&gt;. In this post I will be exploring the &lt;a href=&#34;https://resources.propertypartner.co/open-house-august-2017/&#34; target=&#34;_blank&#34;&gt;August Open House resale&lt;/a&gt; data focussing on property premiums over both initial and latest valuation. The code for this post is available &lt;a href=&#34;https://github.com/seabbs/propertypartner/blob/master/report/17-09-18-premium/latest_initial_premium.Rmd&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;Property Partner advertises returns by combining both projected capital and rental returns. Properties are held for 5 years at which point any capital gain can be realised. However, Property Partner provides a secondary market which allows capital returns to be realised by selling shares to other investors. The sale price of shares is set by the market, and may or may not depend on the underlying value of the property. This post will explore the premium that sales on the secondary market set on both the initial and latest valuations of properties in the Property Partner Portfolio, and how this has changed over time. A first step is to look at premiums over time, for each property, averaged over each month (as are all premiums in this post).&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig1.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;From the above plot we see that in the first year of operation all properties had premiums above 0% over initial valuation, but since then several have traded with premiums that are continuously negative. The majority of these properties have maintained steady premiums over initial valuation but several devalued in the second half of 2017. A single property (5 flats, Dutch Quarter, Colchester) has consistently traded with a negative premium although this appears to be improving over time.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig2.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;Unlike premiums over initial valuation, premiums over latest valuation appear to have decreased continuously over time for the majority of properties. This indicates that premiums are not completely adjusting for increases in property value, making it unlikely that those exiting early will fully realise capital gains. Both plots indicate a relationship between premiums and the date a property was made available for resale, with properties available earlier having higher premiums over both initial and latest valuation. The above plots are hard to interpret due to the number of properties in the portfolio, therefore the next step is to summarise the data by averaging premiums across all properties.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig3.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As we saw in the previous plots premiums over both initial and latest valuation were highest in 2015 and have since decreased. Since 2016 premiums over initial valuation appear to have stabilised between 5% to 10% and premiums over latest valuation appear to have stabilised between 0% to -8%. The relationship between premiums over latest and initial valuation is summarised in the following plot.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig4.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;In the plots above there was some evidence that properties acquired at different dates traded differently. To investigate this the following plot shows the average monthly premium for properties launched in each year Property Partner has been operating, for both initial and latest valuation.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig5.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;We see that properties acquired earlier consistently trade at a higher premium over both initial and latest valuation. Whilst the trend in initial valuation may be driven by increased valuation this cannot be the case for latest valuation. Instead, it is likely that this is a function of scarcity due to the lower supply of earlier properties. It may also be the case that previous performance on the platform is valued. This plot also indicates that premiums over latest valuation have constantly fallen for all years. Properties appear to start trading with a slightly positive  premium, which then decreases over time. This indicates that premiums do not adjust fully as properties are revalued, meaning that realising potential capital gains early is unlikely. To explore this further the following plot compares premiums on initial and latest valuations over time, for individual properties.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;./post/2017-09-26-deep-dive-pp-premiums/gif1.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;From the plot we see that properties enter the market trading at a small premium to both valuations. Over time the relationship between premiums for initial and latest valuation weakens, with several properties trading at negative premiums for both valuations. To get a better idea of the relationship the following plot stratifies by the year a property was made available for resale.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;./post/2017-09-26-deep-dive-pp-premiums/gif2.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Here we clearly see that when properties enter the market there is a strong correlation between premiums on latest and initial valuations. As properties are revalued we see that premiums on latest valuation do not adjust fully, although this effect varies wildly. This is likely to be driven by external factors such as dividend yield - with high dividend yields commanding a premium. The following interactive plot allows the figures above to be explored in detail.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig6.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;For a final visualisation of this relationship the following plot shows premiums for individual properties over time, stratified by year available for resale.&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;./post/2017-09-26-deep-dive-pp-premiums/gif3.gif&#34; alt=&#34;&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;Unfortunately this dataset was limited by having little additional information about each property, something which is key to understanding premiums. For example, as commented on above, it is likely that much of the variation is drive by dividend yield. However, it is clear that properties are not valued at their latest valuation and that therefore this should not be used to summarise the performance of a portfolio over the short term.&lt;/p&gt;
-
-&lt;p&gt;In a future post I will be exploring premiums further by joining the resale data used above with data on the Property Partner portfolio. The two datasets do not contain a common unique ID by which to link them, meaning that joining them will be less trivial that it should be. Hopefully Property Partner will improve the quality of the data they provide to investors so that analysis can be done more easily.&lt;/p&gt;
-
-&lt;p&gt;If you have any comments, ideas for further projects, or any similar analysis to share please comment below.&lt;/p&gt;
-
-&lt;p&gt;&lt;strong&gt;Bonus Plot!!&lt;/strong&gt;&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-26-deep-dive-pp-premiums/fig7.html&#34; width = &#34;100%&#34; height=&#34;1000&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Deep Dive; Property Partner July 2017 Open House Resale Data</title>
-      <link>http://www.samabbott.co.uk/post/deep-dive-pp-open-house/</link>
-      <pubDate>Fri, 15 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/deep-dive-pp-open-house/</guid>
-      <description>&lt;p&gt;As peer to peer lending matures platforms have begun to have increasingly divergent stances on sharing their data, making it increasingly important that their is external pressure on them to improve their data sharing. This blog series will focus on platforms sharing their data, exploring what their data is saying and suggesting possible changes to their releases that would make it easier for investors to gain insights on their own.&lt;/p&gt;
-
-&lt;p&gt;For the first post I will be focussing on data from &lt;a href=&#34;https://www.propertypartner.co/aboutus#/ourstory&#34; target=&#34;_blank&#34;&gt;Property Partner&lt;/a&gt;, which is a property crowd-funding site that started in 2014 and allows investors to buy small stakes in a range of properties. The data I will be using was released as part of Property Partner&amp;rsquo;s &lt;a href=&#34;https://resources.propertypartner.co/open-house-july-2017/&#34; target=&#34;_blank&#34;&gt;July 2017 open house data&lt;/a&gt; blog, and contains information on resale&amp;rsquo;s of their property portfolio. This post will reproduce and update previous work, explore the underlying trends, and suggest possible changes for future releases. All code is available &lt;a href=&#34;https://github.com/seabbs/propertypartner&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; and the data can be downloaded from this &lt;a href=&#34;https://d2ofd11qqzygs0.cloudfront.net/files/purchases-on-resale-july-2017-open-house.zip&#34; target=&#34;_blank&#34;&gt;link&lt;/a&gt;.&lt;/p&gt;
-
-&lt;p&gt;As a starting point I have reproduced a graph of Transactions (£) over time first published &lt;a href=&#34;https://p2pblog.co.uk/property-partner-trading-analysis/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. This shows the increase in transactions (£) over time on the resale market, with a continuous increase in volume until early 2016 from which point seasonal variation has dominated. I have also stratified by transaction type, revealing the impact of the recently introduced bidding system, which has steadily increased it&amp;rsquo;s share of transactions month on month.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig1.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;The plot naturally leads to the following question - is the increase in trading volume driven by an increasing number of trades or by changes in the size of trades being made? The following plot explores this by plotting the number of transactions over time. We see that the early growth in volumes was likely driven by an increasing number of trades but that variation since then is more strongly linked to changes in trade size.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig2.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;Now that we understand how transactions (N) have varied with time we need to explore the underlying trends. The most obvious question is which properties are being traded for the most, and if possible why do these properties have so much turn over? The following plot shows trades by property, stratified by year. For the first year of trading we see that a few properties (as the portfolio was small) dominated the number of trades made. In 2016 trading was spread over more properties but with fewer trades per property. So far for 2017 there has been a greatly reduced number of trades, with trading becoming increasingly homogeneous across the  portfolio. Unfortunately the extract published by Property Partner has little detail about properties so establishing why properties are traded at different rates is difficult. Whilst I could in principle join the various data sets they produce, without a unique ID this would be difficult and prone to errors!&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig3.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As the number of transactions is relatively stable, but the volume of transactions has increased, therefore size of transactions must have changed over time. To explore this I have plotted transactions (£) over time stratified by binned transaction size. As transaction size increases there is greater seasonal variation, which indicates that both large and small traders are key drivers of Property Partner&amp;rsquo;s trading volume with larger trades providing the year on year growth and smaller trades acting to smooth seasonal variability. Since January 2016 there has been little growth in small trades, with larger trades becoming increasingly common. However, the largest trades (£5,000-£49,999) peaked in early 2016 since when they have been decreasing year on year (although this trend is obscured by seasonal variation).&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig4.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;Whilst the binned transaction sizes used above were helpful in quickly visualising the changes transactions (£) by size they are arbitrary and may be obscuring underlying changes. The following plot explores this by plotting the distribution of transactions sizes within each binned transaction size. This plot contains a large amount of condensed information, the salient points are that mid-size trades (£100-£499) have shifted from being primary around £200 to being relatively equally distributed across the range, large trades (£500-£999) have become increasingly bi-model, and very high value transactions (£20,000+) have become more common as a subset of high value transactions (£5,000-£49,999).&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;./post/2017-09-15-deep-dive-pp-open-house/figure-html/trans-size-1.png&#34; alt=&#34;&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
-
-&lt;p&gt;Another approach to visualising changing transaction size over time, is to plot the proportion of trades (by number) for each binned transaction size. As indicated in the previous plots, this shows that larger trades have become increasingly common, with the large trades (£1000-£4,999) increasing to 2% of manual trades, and  5% of matched bids in 2017. The most common trade size is still small (£1-£99), but the proportion of very small trades  (£0-£1) has drastically reduced. Matched bids are more likely to be larger transactions with small trades (£1-£99) making up 54% of transactions compared to 68% of manual orders.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig5.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;The data released by Property Partner also contains information about the unit price each transaction was made at, and what premium this was against both the latest and original valuation. As this data is provided across all properties in the portfolio a single visualisation of the data may not indicate the underling relationship. A first step is to plot the monthly average (weighted by transaction size) premium on latest valuation for each property in the portfolio, by comparing premiums on latest valuation rather than raw share price properties can be compared against each other. This plot indicates a general
-downward trend in premiums but is difficult to interpret due to the number of properties in the portfolio.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig6.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;To explore this apparent trend a first step is to look at the trends in premiums across the Property Partner portfolio, using the mean premium across all properties. This indicates that premiums were originally high but have decreased over time, and since the beginning of 2016 have been negative on average. As with transactions (£) seasonal dynamics now appear to dominate with premiums being relatively stable year on year.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig7.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As we have averaged across all properties in the Property Partner portfolio the relationship we have identified between year and premium may be confounded by a variety of factors. An obvious question is whether the quality of property purchased by Property Partner has changed over time (if we assume that premium over latest valuation is a good proxy of property quality). The plot below looks at the average weighted premium for properties made available for resale in each year (this is confounded by the rate properties are made available in a given year). From this plot we see that across all years of trading (except 2014) properties start with a small positive premium, which then gradually declines with time. Properties from 2014 have bucked this trend, which is likely due to the novelty of owning a property from the early days of Property Partner. Properties from 2015 have a linear relationship between premium and time, trading increasingly below their valuation. Properties from 2016 suffered a rapid reduction in premium, indicating a possible reduction in property quality, although this has now stabilised. So far properties from 2017 have held positive premiums, with little reduction over time.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig8.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;As a final plot for this blog post I have reproduced another plot from &lt;a href=&#34;https://p2pblog.co.uk/property-partner-trading-analysis/&#34; target=&#34;_blank&#34;&gt;this post&lt;/a&gt; (from the &lt;a href=&#34;https://p2pblog.co.uk/&#34; target=&#34;_blank&#34;&gt;p2pblog.co.uk&lt;/a&gt;), which is well worth a read.&lt;/p&gt;
-
-&lt;iframe seamless src=&#34;../../post/2017-09-15-deep-dive-pp-open-house/fig9.html&#34; width = &#34;100%&#34; height=&#34;500&#34; id=&#34;iframe_container&#34;&gt;&lt;/iframe&gt;
-
-&lt;p&gt;To see the current state of the Property Partner Portfolio you can explore for youself &lt;a href=&#34;https://public.tableau.com/views/PropertyPartnerPortfolioVisualisation/PropertyPartnerPortfolio?:embed=y&amp;amp;:display_count=yes&#34; target=&#34;_blank&#34;&gt;using this Tableau dashboard.&lt;/a&gt;&lt;/p&gt;
-
-&lt;p&gt;&lt;div class=&#39;tableauPlaceholder&#39; id=&#39;viz1505484367745&#39; style=&#39;position: relative&#39;&gt;&lt;noscript&gt;&lt;a href=&#39;#&#39;&gt;&lt;img alt=&#39;Property Partner Portfolio &#39; src=&#39;https:&amp;#47;&amp;#47;public.tableau.com&amp;#47;static&amp;#47;images&amp;#47;Pr&amp;#47;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&amp;#47;1_rss.png&#39; style=&#39;border: none&#39; /&gt;&lt;/a&gt;&lt;/noscript&gt;&lt;object class=&#39;tableauViz&#39;  style=&#39;display:none;&#39;&gt;&lt;param name=&#39;host_url&#39; value=&#39;https%3A%2F%2Fpublic.tableau.com%2F&#39; /&gt; &lt;param name=&#39;site_root&#39; value=&#39;&#39; /&gt;&lt;param name=&#39;name&#39; value=&#39;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&#39; /&gt;&lt;param name=&#39;tabs&#39; value=&#39;no&#39; /&gt;&lt;param name=&#39;toolbar&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;static_image&#39; value=&#39;https:&amp;#47;&amp;#47;public.tableau.com&amp;#47;static&amp;#47;images&amp;#47;Pr&amp;#47;PropertyPartnerPortfolioVisualisation&amp;#47;PropertyPartnerPortfolio&amp;#47;1.png&#39; /&gt; &lt;param name=&#39;animate_transition&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_static_image&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_spinner&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_overlay&#39; value=&#39;yes&#39; /&gt;&lt;param name=&#39;display_count&#39; value=&#39;yes&#39; /&gt;&lt;/object&gt;&lt;/div&gt;                &lt;script type=&#39;text/javascript&#39;&gt;                    var divElement = document.getElementById(&amp;lsquo;viz1505484367745&amp;rsquo;);                    var vizElement = divElement.getElementsByTagName(&amp;lsquo;object&amp;rsquo;)[0];                    vizElement.style.width=&amp;lsquo;100%&amp;rsquo;;vizElement.style.height=(divElement.offsetWidth*0.75)+&amp;lsquo;px&amp;rsquo;;                    var scriptElement = document.createElement(&amp;lsquo;script&amp;rsquo;);                    scriptElement.src = &amp;lsquo;&lt;a href=&#34;https://public.tableau.com/javascripts/api/viz_v1.js&#39;&#34; target=&#34;_blank&#34;&gt;https://public.tableau.com/javascripts/api/viz_v1.js&#39;&lt;/a&gt;;                    vizElement.parentNode.insertBefore(scriptElement, vizElement);                &lt;/script&gt;&lt;/p&gt;
-
-&lt;p&gt;As a final note whilst it is great that Property Partner releases data this analysis was limited by the quality of the data published. If their is interest in more of these deep data dives then I would suggest contacting the peer to peer platforms that you invest in and asking that a live data extract be made available, without a login or extensive user agreement. This would ideally contain a unique ID for each loan/property etc, information on both primary and secondary market transactions, and metadata about each loan/property; such as location, type, value, etc. If you want to know more about analysis ready data then see &lt;a href=&#34;http://vita.had.co.nz/papers/tidy-data.html&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>Property Partner Portfolio Visualisation</title>
-      <link>http://www.samabbott.co.uk/project/propertypartner_tableau/</link>
-      <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/propertypartner_tableau/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Introducing the Pebble Game; a simple app for exploring epidemics and vaccination</title>
-      <link>http://www.samabbott.co.uk/post/using-the-pebble-game/</link>
-      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/using-the-pebble-game/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;http://seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;The Pebble Game&lt;/a&gt; is a shiny application that simulates a simple game which has been designed  to reflect real world epidemics and the vaccination programmes used to control them. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease. Each game can then be thought of as a single stochastic (with a random element) epidemic, by combining multiple simulations of the game, the dynamics of the system can be understood. Hopefully by playing the game and exploring the app you will gain an insight into how a single vaccination can contribute to protecting the rest of society.&lt;/p&gt;
-
-&lt;h2 id=&#34;playing-a-single-game&#34;&gt;Playing a single game&lt;/h2&gt;
-
-&lt;p&gt;The first step is to understand what is being simulated, hopefully if you have just played the game with me in person you should have a good idea of this! If you haven&amp;rsquo;t played the game with me, and the simple explanation above wasn&amp;rsquo;t enough then see the instructions for &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;playing the game physcially&lt;/a&gt; (click on the how to play the game tab)- it might even be worth giving it a go at home.&lt;/p&gt;
-
-&lt;p&gt;The next step is to &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;open the app&lt;/a&gt;. Your screen should then look like this,&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;./img/single_game.png&#34; alt=&#34;The game simulation tab from the pebble game app&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;You should now be looking at 10 simulations of the pebble game, each with 100 pebbles, 60% of pebbles being vaccinated, and a &lt;a href=&#34;https://en.wikipedia.org/wiki/Basic_reproduction_number&#34; target=&#34;_blank&#34;&gt;reproduction number&lt;/a&gt; of 3 (don&amp;rsquo;t know what this is - try hovering over it in the app). These parameters can all be varied (hit the plus in the game parameters box), although if you add more stones or more simulations it may take awhile!&lt;/p&gt;
-
-&lt;p&gt;The graph on the right summarises each simulation, recording the number of pebbles in each generation. You should notice that some paths are darker blue than others, this indicates that multiple simulations traced the same pathway. From this you should see that there are two distinct solutions, a rapid die out of the disease or an epidemic that infects everyone (try varying the parameters to see what effects they have on these &lt;a href=&#34;https://en.wikipedia.org/wiki/Steady_state&#34; target=&#34;_blank&#34;&gt;steady states&lt;/a&gt;). To get a clearer picture of this try setting the summary statistic to plot to the number of pebbles, this will show how the disease spreads with each generation (known as the epidemic curve).&lt;/p&gt;
-
-&lt;p&gt;The dark blue line, and shaded ribbon, summarise all your simulations (using the &lt;a href=&#34;https://en.wikipedia.org/wiki/Mean&#34; target=&#34;_blank&#34;&gt;mean&lt;/a&gt; and &lt;a href=&#34;https://en.wikipedia.org/wiki/Confidence_interval&#34; target=&#34;_blank&#34;&gt;95% confidence intervals&lt;/a&gt;), whilst this is helpful it doesn&amp;rsquo;t always tell the full story! This is because if you have diverging solutions, as in this example, a single summary statistic cannot accurately represent either of them and instead represents an overview of the system. This is a well known problem in statistics so watch out for it cropping up elsewhere.&lt;/p&gt;
-
-&lt;p&gt;The table below the graph helps with this problem by providing a variety of summary measures, including the number in each generation, the number of generations, the total number infected, and the percentage of unvaccinated pebbles  that are infected. Each one of these is presented with several measures (mean, median, 25%, and 75% quantiles), this allows you to get an understanding of the distribution (which you can&amp;rsquo;t get from a single point estimate). In this example you should see that mean number of generations is about 7, which parameters effect this measure? Can you vary the parameters so that the mean is still about 7 but the other summary measures change?&lt;/p&gt;
-
-&lt;p&gt;Now it is time to investigate an epidemic using the app. A common goal of vaccination programmes is to vaccinate a sufficient proportion of the population that a disease cannot cause an epidemic. The lower bound for this is known as the &lt;a href=&#34;https://en.wikipedia.org/wiki/Herd_immunity&#34; target=&#34;_blank&#34;&gt;vaccination thresold&lt;/a&gt;, which can often be found mathematically. By varying the parameters of the game you should be able to estimate this threshold! The key question is now what factors influence this vaccination threshold (try varying the game parameters)? Once you&amp;rsquo;ve investigated all the parameters try looking up some real world diseases (for example &lt;a href=&#34;https://blogs.scientificamerican.com/roots-of-unity/understand-the-measles-outbreak-with-this-one-weird-number/&#34; target=&#34;_blank&#34;&gt;measles&lt;/a&gt;) and seeing how the vaccination threshold of your disease compares to theirs. Why do you think it is different?&lt;/p&gt;
-
-&lt;h2 id=&#34;comparing-diseases&#34;&gt;Comparing diseases&lt;/h2&gt;
-
-&lt;p&gt;To help you further explore the effects of varying parameters on the outcome of the pebble game &lt;a href=&#34;http://www.seabbs.co.uk/shiny/thepebblegame&#34; target=&#34;_blank&#34;&gt;the Pebble Game app&lt;/a&gt; has an additional tab (Compare diseases). This lets you simulate two diseases, each with an individual reproduction number, but otherwise using the same parameters. An example, comparing a disease with a reproduction number of 3 and another disease with a reproduction number of 12 can be seen below,&lt;/p&gt;
-
-&lt;p&gt;&lt;img src=&#34;./img/compare_game.png&#34; alt=&#34;The disease comparision tab from the pebble game app&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;The output in this tab is very similar to that in the Play the game tab, but there is now a graph of both diseases, as well as for each disease separately. In this example we see that the second disease has a much lower generation time, than the primary disease. However even for this much slower disease in over 25% of simulations all of the unvaccinated pebbles are still infected!&lt;/p&gt;
-
-&lt;h2 id=&#34;ideas-for-further-exploration&#34;&gt;Ideas for further exploration&lt;/h2&gt;
-
-&lt;p&gt;If you are interested in exploring the pebble game further then here are a few ideas of what to questions to investigate;&lt;/p&gt;
-
-&lt;ul&gt;
-&lt;li&gt;What effect does varying the number of simulations have? Are there parameters for which this has a greater impact? If so what implications does this have for real world diseases?&lt;/li&gt;
-&lt;li&gt;Can you identify stages of an epidemic by looking at plots of the number of pebbles  in each generation? At which stage is the disease most likely to die out? What does this mean for epidemic control?&lt;/li&gt;
-&lt;li&gt;What features of epidemics is the Pebble Game not capturing? How do you think these features might influence the results?&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;p&gt;Hopefully this post was a useful introduction to the Pebble Game and to the simple dynamics of infectious disease dynamics and vaccination. If you have any suggests for another blog post, or future developments to the Pebble Game then please comment below or contact me by &lt;a href=&#34;https://twitter.com/seabbs&#34; target=&#34;_blank&#34;&gt;twitter&lt;/a&gt; or &lt;a href=&#34;https://www.samabbott.co.uk/#contact&#34; target=&#34;_blank&#34;&gt;email&lt;/a&gt;&lt;/p&gt;
-</description>
     </item>
     
   </channel>

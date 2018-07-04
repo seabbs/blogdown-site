@@ -22,6 +22,26 @@
     </item>
     
     <item>
+      <title>Exploring Estimates of the Tuberculosis Case Fatality Ratio - with getTBinR</title>
+      <link>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</link>
+      <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</guid>
+      <description>This is a quick post exploring estimates of the case fatality ratio for Tuberculosis (TB) from data published by the World Health Organisation (WHO). It makes use of getTBinR (which is now on CRAN), pacman for package management, hrbrthemes for plot themes, and pathwork for combining multiple plots into a storyboard. For an introduction to using getTBinR to explore the WHO TB data see this post.
+It is estimated that in 2016 there was more than 10 million cases of active TB, with 1.</description>
+    </item>
+    
+    <item>
+      <title>Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR</title>
+      <link>http://www.samabbott.co.uk/post/intro-gettbinr/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/intro-gettbinr/</guid>
+      <description>In November I attended Epidemics, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.
+I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze! Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle.</description>
+    </item>
+    
+    <item>
       <title>getTBinR</title>
       <link>http://www.samabbott.co.uk/project/gettbinr/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
