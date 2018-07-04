@@ -1,5 +1,4 @@
 #!/bin/sh
 
 
-mkdir public
-mkdir public/tmp
+Rscript -e "blogdown::build_site(local = FALSE, method = 'html')"
