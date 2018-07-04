@@ -13,7 +13,7 @@ addons:
       - libgdal-dev
 
 before_script:
-  - Rscript -e 'blogdown::install_hugo(version = "0.41.1")'
+  - Rscript -e 'blogdown::install_hugo(version = "0.41")'
   - chmod +x ./_build.sh
   - chmod +x ./_deploy.sh
 
