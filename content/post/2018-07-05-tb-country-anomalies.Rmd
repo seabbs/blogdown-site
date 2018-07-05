@@ -1,0 +1,493 @@
+---
+title: "Detecting countries with anomalous Tuberculosis endemics, with H2o and getTBinR"
+author: 'null'
+date: '2018-07-04'
+description: ""
+slug: tb-country-anomalies
+draft: yes 
+tags: ["data analysis", "data visualisation", "rstats", "TB", "infectious disease", "clustering", "getTBinR"]
+categories: ["R"]
+twitterImg:
+---
+
+```{r knitr-opts, echo = FALSE}
+knitr::opts_chunk$set(cache = TRUE, dpi = 320, 
+                      fig.height = 8, fig.width = 8,
+                      warning = FALSE)
+```
+
+## Introduction
+
+- Motivation
+- Detail
+- What is in this post
+  - Anomaly detection
+  - Autoencoders
+  - H2o implementation
+  - PCA
+
+## Packages
+
+First we load the package required for the analysis, using `pacman` to manange the installation process.
+
+```{r get-packages, message = FALSE}
+if (!require(pacman)) install.packages("pacman"); library(pacman)
+p_load("tidyverse")
+p_load("h2o")
+p_load("getTBinR")
+p_load("knitr")
+p_load("FactoMineR")
+p_load("cluster")
+p_load("scales")
+p_load("ggfortify")
+p_load("missMDA")
+p_load("broom")
+p_load_gh("thomasp85/patchwork", dependencies = TRUE)
+```
+
+## Data
+
+- Download the WHO TB data using `getTBinR`. Point to previous blog posts and package website.
+
+```{r get-tb-profiles}
+tb <- get_tb_burden()
+```
+
+## Exploratory analysis
+
+```{r get-tb-indicators}
+tb_2016 <- tb %>% 
+  filter(year == 2016) %>% 
+  select(-contains("_lo"),
+         -contains("_hi"),
+         -contains("source_"),
+         -starts_with("iso"),
+         -year)
+
+plot_tb_density <- function(df, var, label = "") {
+  var <- enquo(var)
+  
+  ggplot(df, aes(x = !!var, fill = "")) +
+  geom_density(alpha = 0.6) +
+  scale_x_log10(label = scales::comma) +
+  geom_rug(alpha = 0.6) +
+  theme_minimal() +
+  scale_fill_viridis_d() +
+  theme(legend.position = "none") +
+  labs(x = label,
+       y = "Density",
+       caption = "@seabbs | Source: WHO") +
+  facet_wrap(~g_whoregion)
+}
+
+plot_tb_density(tb_2016, e_inc_num, "TB incidence")
+```
+
+
+```{r}
+tb_2016_little_tb <- tb_2016 %>% 
+  filter(e_inc_num <= 100) 
+```
+
+This gives the following countries with equal to or fewer than 100 TB cases in 2016; `r knitr::combine_words(tb_2016_little_tb$country)`
+
+```{r}
+tb_2016_some_tb <- tb_2016 %>% 
+  anti_join(tb_2016_little_tb)
+```
+
+```{r}
+plot_tb_density(tb_2016_some_tb, e_inc_100k, "TB incidence rate per 100,000 population") 
+```
+
+Rescale all count variables by the number of cases and drop the number of cases and country populations
+
+```{r}
+tb_2016_some_tb <- tb_2016_some_tb %>% 
+  mutate_at(.vars = vars(contains("_num"), -e_inc_num), funs(. / e_inc_num)) %>% 
+  select(-e_pop_num, e_inc_num)
+
+```
+
+## Anomaly detection
+
+```{r init-h2o}
+h2o.init()
+
+tb_h2o <- tb_2016_some_tb %>% 
+  as.h2o
+```
+
+```{r}
+target_features <- setdiff(colnames(tb_2016_some_tb), c("country", "g_whoregion"))
+
+target_features
+```
+
+```{r anomaly}
+autoencoder <- h2o.deeplearning(x = target_features, 
+                                training_frame = tb_h2o,
+                                autoencoder = TRUE,
+                                seed = 1234,
+                                hidden = c(100, 100, 100), 
+                                activation = "TanhWithDropout",
+                                l1 = 1e-3,
+                                epochs = 50)
+```
+
+
+```{r get-anomalies}
+anomolies <- h2o.anomaly(autoencoder, 
+                         tb_h2o, 
+                         per_feature = FALSE) %>%
+  as_tibble
+
+
+anomolies_by_feature <- h2o.anomaly(autoencoder, 
+                                    tb_h2o, 
+                                    per_feature = TRUE) %>% 
+  as_tibble
+```
+
+
+```{r plot-anomalies, fig.height = 20, fig.width = 10}
+anomolies %>%
+  mutate(country = tb_2016_some_tb$country) %>% 
+  arrange(Reconstruction.MSE) %>%
+  mutate(country = country %>% 
+           factor(levels = unique(country))) %>% 
+  ggplot(aes(x = country, 
+             y = Reconstruction.MSE,
+             col = "",
+             group = NULL)) +
+
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  theme_minimal() +
+  theme(legend.position = "none") +
+  coord_flip()
+```
+
+## Dimension reduction
+
+We are now ready to conduct some clustering analysis on this data. The first step is to reduce the dimensionality of the data using principal component analysis (PCA). We use the `estim_ncp` function (which uses a method outlined in this [paper](https://www.sciencedirect.com/science/article/pii/S0167947311004099)) from the `FactoMineR` package to estimate the number of principal components required. We then perform PCA (using `prcomp`) and plot the variance explained by each component as a check on `estim_ncp`. All of the following analysis is done using nested tibbles and so can be easily generalised to higher dimensional use cases. 
+
+```{r perform-pca}
+## Nest data, limit to numeric variables, impute missing data using pca, perform pca, and get pca output in tidy format.
+## Perform PCA
+tb_pca <- tb_2016_some_tb %>% 
+  nest() %>% 
+  mutate(
+    numeric_data = map(data, ~select_if(., is.numeric) %>% 
+                         as.data.frame()),
+    optimal_pca_no = map(numeric_data, ~estim_ncpPCA(., scale = TRUE, ncp.min = 2, ncp.max = 10)) %>% 
+      map_dbl(~.$ncp),
+    impute_pca = map2(numeric_data, optimal_pca_no,  ~imputePCA(.x, scale = TRUE, ncp = optimal_pca_no, seed = 1234, nb.init = 50, maxiter = 10000)),
+    imputed_data = map(impute_pca, ~.$completeObs),
+    pca = map(imputed_data, ~prcomp(.x, 
+                                    center = TRUE, scale = TRUE)),
+    pca_data = map(pca, ~.$x),
+    pca_aug = map2(pca, data, ~augment(.x, data = .y)))
+```
+
+We find that the optimal number of principal components is `r tb_pca$optimal_pca_no`. We can also plot the percentage of variance explained in order to evaluate this choice.
+
+```{r extract-var-explained}
+## Variance explained
+var_exp <- tb_pca %>% 
+  select(-optimal_pca_no) %>% 
+  unnest(pca_aug) %>% 
+  summarize_at(.vars = vars(contains("fittedPC")), .funs = funs(var)) %>% 
+  gather(key = pc, value = variance) %>% 
+  mutate(var_exp = variance/sum(variance) * 100,
+         cum_var_exp = cumsum(var_exp),
+         pc = str_replace(pc, ".fitted", "") %>% 
+           str_replace("PC", ""))
+```
+
+```{r plot-var-explained, fig.height = 8, fig.width = 8, dpi = 330}
+var_exp %>% 
+  rename(
+    `Variance Explained` = var_exp,
+    `Cumulative Variance Explained` = cum_var_exp
+  ) %>% 
+  gather(key = key, value = value, `Variance Explained`, `Cumulative Variance Explained`) %>%
+  mutate(key = key %>% 
+           factor(levels  = c("Variance Explained", 
+                              "Cumulative Variance Explained"))) %>% 
+  mutate(value = value / 100) %>% 
+  filter(pc <= 20) %>% 
+  mutate(pc = factor(pc, levels = as.character(1:max(var_exp$pc %>% as.numeric)))) %>% 
+  ggplot(aes(pc, value, group = key)) + 
+  geom_point(size = 2, alpha = 0.8) + 
+  geom_line(size = 1.1, alpha = 0.6) + 
+  facet_wrap(~key, scales = "free_y") +
+  theme_minimal() +
+  scale_y_continuous(breaks = seq(0, 1, 0.05), lim = c(0, NA),
+                     minor_breaks = NULL, labels = percent) +
+  labs(
+    title = "Variance Explained by Principal Component",
+    subtitle = paste0("The optimal number of principal components suggested by estim_ncp was ",
+                      tb_pca$optimal_pca_no, " which explains ", round(var_exp$cum_var_exp[[2]], 0), "% of the data."),
+    x = "Principal Component",
+    y = "Variance Explained (%)",
+    caption = "@seabbs Source: WHO"
+  )
+```
+
+The above plot shows that only `r paste0(round(var_exp$cum_var_exp[[2]], 0), "%")` of the variance in the data is explained by the first two principle components (PCs) even though the `estim_ncp` function suggested that this was the optimal number. This indicates that there is large amount of noise in the data with a large amount of non-systematic between county variation. Another approach, using the 'elbow' (change from decreasing to stable amount of variance explained), would estimate that 8 PCs are required to explain the variance in the data.
+
+## Results
+
+We can now explore the clusters we have identified. A useful way to do this is to visual the first two principal components overlaid with the original variable loadings, and the clusters we have identified.
+
+```{r plot-pca, fig.height = 10, fig.width = 10, dpi = 320}
+## Plot clusters
+pca_plot <- autoplot(tb_pca$pca[[1]], x = 1, y = 2,
+                     loadings = TRUE, loadings.label = TRUE,
+                     loadings.label.repel = TRUE,
+                     loadings.label.size = 3, loadings.alpha = 0.8,
+                     loadings.label.vjust = -1,
+                     data = bind_cols(tb_pca$data[[1]], anomolies),
+                     label = TRUE, label.label = "country", label.size = 2, 
+                     label.vjust = -1, alpha = 0.85, shape = "g_whoregion",
+                     colour = "Reconstruction.MSE") +
+  theme_minimal() +
+  labs(
+    x = paste0(
+      "Principal Component 1 (Variance Explained: ",
+      round(var_exp$var_exp[[1]], 1),
+      "%)"
+    ),
+    y = paste0(
+      "Principal Component 2 (Variance Explained: ",
+      round(var_exp$var_exp[[2]], 1),
+      "%)"
+    )
+  )  +
+  theme(legend.position = "bottom", legend.box = "horizontal")
+
+
+pca_plot
+```
+
+
+```{r plot-pca, fig.height = 10, fig.width = 10, dpi = 320}
+## Plot clusters
+pca_plot <- autoplot(tb_pca$pca[[1]], x = 3, y = 4,
+                     loadings = TRUE, loadings.label = TRUE,
+                     loadings.label.repel = TRUE,
+                     loadings.label.size = 3, loadings.alpha = 0.8,
+                     loadings.label.vjust = -1,
+                     data = bind_cols(tb_pca$data[[1]], anomolies),
+                     label = TRUE, label.label = "country", label.size = 2, 
+                     label.vjust = -1, alpha = 0.85, shape = "g_whoregion",
+                     colour = "Reconstruction.MSE") +
+  theme_minimal() +
+  labs(
+    x = paste0(
+      "Principal Component 3 (Variance Explained: ",
+      round(var_exp$var_exp[[3]], 1),
+      "%)"
+    ),
+    y = paste0(
+      "Principal Component 4 (Variance Explained: ",
+      round(var_exp$var_exp[[4]], 1),
+      "%)"
+    )
+  )  +
+  theme(legend.position = "bottom", legend.box = "horizontal")
+
+
+pca_plot
+```
+
+From this we see that the clusters are generally split by incidence rates with lower incidence rate counties also having a higher proportion that either die or are lost to follow up. The higher incidence counties have a higher proportion of cultured confirmed pulmonary cases and more cases that complete treatment within 12 months. It appears that the proportion of cases that start treatment within 2 and 4 months varies over both clusters. We can also see that the proportion lost to follow up is inversely related to the proportion that are offered HIV tests, with a higher proportion that are lost to follow up corresponding to a reduced proportion of cases being offered HIV tests.
+
+Another way of summarising the between cluster differences is to summarise the data by cluster, which is presented in the following plot. This approach to exploring differences between clusters may not be applicable to data with a large number of clusters, for this a faceted ridge plot ([`ggridges`](https://github.com/clauswilke/ggridges)) would probably offer a better solution.
+
+
+```{r summary-plot, fig.height = 8, fig.width = 12, dpi = 330}
+sum_tb_df <- tb_pca_pam %>% 
+  filter(centers == max_silhouette_width$centers) %>% 
+  pull(data_with_clusters) %>% 
+  map(~ gather(., key = "Variable", value = "value", -AreaName, -cluster)) %>% 
+  first %>% 
+  rename(Cluster = cluster) 
+
+plot_cluster_diff <- sum_tb_df %>% 
+  ggplot(aes(x = Variable, y = value, col = Cluster, fill = Cluster)) +
+  geom_violin(draw_quantiles = c(0.025, 0.5, 0.975), alpha = 0.2, scale = "width") +
+  geom_jitter(position = position_jitterdodge(), alpha = 0.3) +
+  coord_flip() +
+  theme_minimal() +
+  theme(legend.position = "bottom") +
+  scale_y_continuous(breaks = seq(0, 100, 5), minor_breaks = NULL) +
+  scale_colour_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
+  scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
+  labs( 
+    title = "Tuberculosis in England; Summarised by Cluster",
+    subtitle = "Violin plots are scaled by width, with the 2.5%, 50% and 97.5% quantiles shown.",
+    x = "Variable",
+    y = "Incidence rate (per 100,000) for rec_int_rate, otherwise proportion (0-100%)",
+    caption = "@seabbs Source: Public Health England (fingertipsR)")
+
+plot_cluster_diff
+```
+
+To explore this further we can calculate the percentage difference between clusters for several of the variables' summary statistics. The following table does this for the mean, the median, the 2.5% quantile, and the 97.5% quantile.
+
+```{r diff-tab}
+sum_tb_df %>% 
+  group_by(Cluster, Variable) %>% 
+  summarise(mean = mean(value), median = median(value),
+            lll = quantile(value, 0.025),
+            hhh = quantile(value, 0.975)) %>% 
+  group_by(Variable) %>% 
+  mutate_if(is.numeric, .funs = funs((lag(.) - .)/ .)) %>% 
+  drop_na %>% 
+  mutate_if(is.numeric, .funs = funs(paste0(round(. * 100, 1), "%"))) %>% 
+  ungroup %>% 
+  mutate(Variable = factor(Variable, levels = rev(.$Variable))) %>% 
+  arrange(Variable) %>% 
+  rename(Mean = mean, Median = median, `2.5% Quantile` = lll, `97.5% Quantile` = hhh) %>% 
+  select(-Cluster) %>% 
+  kable
+```
+
+
+From the plot and table above, we see that, cluster 1 contains the counties with higher incidence rates and therefore has a higher median incidence rate. At the same time, it has a large interquartile range but a similar lower quartile to cluster 2. We also see that in cluster 1 a greater number of counties are not offering HIV tests to all cases, although it appears the majority of counties are offering HIV tests to 100% of TB cases in both cases. In cluster 2 there is a large reduction in the proportion of pulmonary cases that were culture confirmed. In addition, in pulmonary cases, fewer start treatment within 2 or 4 months of developing symptoms in comparison to cluster 1. There is also a moderate increase in the proportion of cases that are lost to follow up and a large increase in the proportion of cases that died in cluster 2 compared to cluster 1. There is little difference between clusters for the proportion of cultured confirmed cases which had drug susceptibility reported, with the majority of clusters reporting on 100% of cases.
+
+A more visual way to understand the clustering of TB in England based on the data we have extracted using the `fingertipsR` package is to plot the cluster membership for each county on a map. We do this using data on the [outlines of the counties in England](https://borders.ukdataservice.ac.uk/easy_download_data.html?data=England_ct_2011) from the UK data service ([Darren L Dahly](https://twitter.com/statsepi) kindly pointed me in the direction of this data - thank you!)
+
+
+```{r map-cluster-membership, fig.height = 8, fig.width = 8, dpi = 330, warning = FALSE}
+## Make the plot into a function as ggplot2 object is very large and cause git issues (i.e therefore easier to remake the plot than it is to transfer between code chunks)
+tb_cluster_map <- function(tb_pca_pam) {
+  ## Some issues here with extracting code from the sp file
+## Solved using the folling maptools functions - improvements appreciated!
+gpclibPermit()
+
+england_counties <- shapefile("../../static/data/shapefiles/england-2011-ct-shape/england_ct_2011.shp") %>%
+  fortify(region = "code") %>% 
+  as_tibble
+
+england_urban_areas <- shapefile("../../static/data/shapefiles/england-urb-2001-shape/england_urb_2001.shp") %>% 
+  fortify(region = "name") %>% 
+  as_tibble %>% 
+  filter(id %in% c("Greater London Urban Area", 
+                   "Greater Manchester Urban Area",
+                   "Bristol Urban Area",
+                   "West Midlands Urban Area",
+                   "Milton Keynes Urban Area"))
+
+## Make custom positions for urban area labels
+urban_area_labels <- england_urban_areas %>%
+  group_by(id) %>% 
+  slice(100) %>% 
+  ungroup() %>% 
+  mutate(long = long - 200000,
+         lat = lat + 20000)
+  
+  
+tb_cluster_results <- tb_pca_pam %>% 
+  filter(centers == max_silhouette_width$centers) %>% 
+  pull(data_with_clusters) %>% 
+  first
+
+tb_cluster_results <- tb_df[[2]] %>% 
+              dplyr::select(AreaName, AreaCode, AreaType) %>% 
+  filter(AreaType %in% "County & UA") %>% 
+              unique %>% 
+  left_join(tb_cluster_results,
+            by = "AreaName") %>% 
+  left_join(england_counties, by = c("AreaCode" = "id"))
+
+   tb_cluster_results %>% 
+  rename(Cluster = cluster) %>% 
+  drop_na(Cluster) %>% 
+  dplyr::select(long, lat, Cluster, group) %>% 
+  ggplot( 
+                 aes(x = long, 
+                     y = lat,
+                     fill = Cluster)) +
+    geom_polygon(data = england_urban_areas, 
+                 aes(group = group, fill = NULL),
+                 alpha = 0.4) +
+    geom_path(data = tb_cluster_results, 
+              aes(group = group, fill = NULL), 
+              alpha = 0.4) +
+    geom_polygon(data = tb_cluster_results, 
+                 aes(group = group, fill = NULL),
+                 alpha = 0.1) +
+    geom_polygon(aes(group = group), alpha = 0.6) +
+    geom_line(data = urban_area_labels %>% 
+                bind_rows(urban_area_labels %>% 
+                            mutate(long = long + 200000, 
+                                   lat = lat - 20000)),
+              aes(fill = NA, group = id), alpha = 0.8) + 
+    geom_label(data = urban_area_labels,
+              aes(label = id), fill = "grey") +
+    scale_fill_viridis(option = "viridis", discrete = TRUE,
+                       end = 0.5) +
+    coord_equal() +
+    theme_map() +
+    theme(legend.position = "bottom") +
+    labs(title = "Tuberculosis Monitoriing Indicators; Map of County Level Clusters in England",
+         subtitle = "Using data from 2015 - only counties with incidence rates above 10 per 100,000 population and complete data are shown",
+         caption = "Selected urban areas are shown (dark grey) and labelled.
+@seabbs Source: Public Health England (fingertipsR)
+Contains National Statistics data © Crown copyright and database right 2018. 
+         Contains OS data © Crown copyright and database right 2018")
+}
+
+plot_tb_cluster_map <- tb_cluster_map(tb_pca_pam)
+
+ggsave("../../static/img/fingertips/map-tb-clust.png",
+       plot_tb_cluster_map, width = 8, height = 8, dpi = 330)
+
+plot_tb_cluster_map
+
+## Remove objects to reduce stored chunk size
+rm("plot_tb_cluster_map")
+```
+
+In the map above we see that cluster 1 is mainly made up of counties in London, Birmingham, and in the North West of England. Cluster 2 accounts for the majority of counties that are not within these large urban areas, as well the remaining as several counties in Birmingham and the North West and a single county in London. As expected we see that the majority of counties in England have been excluded from our analysis due to low incidence rates or missing data.
+
+## Summary and Wrap-up
+
+In this post we have explored the `fingertipsR` R package and the data on TB monitoring indicators for counties in England that is provided through the `fingertips` API. We found that there was a large amount of non-random missing data, much of which was due to censoring to prevent deductive disclosure. However, several variables were entirely missing and even once counties with low incidence rates were removed there was still several counties with little TB monitoring data available. Substantial improvements could be made here to improve any future analysis or monitoring using this dataset.
+
+Once counties and variables with missing data had been removed we found that there was substantial non-systematic variation between counties with only 42% of variation explained by the optimal number of principal components. The large amount of variation between counties we observed reinforces the need for the collaborative TB strategy in England which was launched in 2015. Hopefully once data becomes available for 2016, and 2017 this will show a decrease in variation between counties.
+
+We found that, after dimension reduction, the data best supported two clusters. One cluster contained the majority of high incidence counties, which also had a higher proportion of culture confirmed pulmonary TB cases and more cases completing treatment in the first 12 months. This cluster was mainly centred around the greater London area but also included counties in Birmingham and the North West. The second cluster contained mainly counties not in these large urban areas but did contain the remaining counties in the North West and Birmingham area, as well as a single county in London. This cluster had a lower proportion of cases that started treatment within 2 and 4 months of developing symptoms, as well as having a greater proportion of cases that were lost to follow up and that died.
+
+This analysis was limited by the TB monitoring indicators available, the large amount of missing data for the variables that were available, and the lack of high quality up to date data. There was a large amount of non-systematic variation present that was exluded from our clustering analysis and the clusters that we did identify cannot be considered to be highly robust. We did not test for a single cluster, which may have produced a model more consistent with the date. A single clustering algorithm was used, and although it is considered a robust approach, further validation of these results is necessary using another (or multiple) clustering methods.
+
+Hopefully this post proved useful for informing you about the present state of TB in England, but also as an example of dimension reduction and clustering analysis. This analysis serves as a framework for a similar analysis that I am carrying out as part of my PhD so any comments, suggested improvements etc. would be greatly appreciated.
+
+To wrap-up this post we use the `patchwork` package to quickly compose a storyboard of the results from the clustering analysis carried out above. See [here](https://www.samabbott.co.uk/post/2018-03-28-cluster-england-tb_files/figure-html/storyboard-1.png) for a full size version.
+
+```{r storyboard, fig.height = 16, fig.width = 20, dpi = 330, warning = FALSE}
+plot_tb_cluster_map <- tb_cluster_map(tb_pca_pam)
+
+storyboard <- plot_tb_cluster_map | ( pca_plot / plot_cluster_diff)
+
+ggsave("../../static/img/fingertips/storyboard-fingertips-tb-clust.png",
+       storyboard, width = 20, height = 16, dpi = 330)
+
+storyboard
+
+## Remove to reduce chunk size as over 100mb git limit
+rm("storyboard", "plot_tb_cluster_map")
+```
+
+```{r save-clustered-data, include = FALSE}
+## Save the data for later use
+tb_cluster_results <- tb_pca_pam %>% 
+  filter(centers == max_silhouette_width$centers) %>% 
+  pull(data_with_clusters) %>% 
+  first
+
+saveRDS(tb_cluster_results, "../../static/data/fingertips/tb-pam-clusters.rds")
+```
