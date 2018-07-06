@@ -7,7 +7,7 @@ slug: tb-country-anomalies
 draft: yes 
 tags: ["data analysis", "data visualisation", "rstats", "TB", "infectious disease", "clustering", "getTBinR"]
 categories: ["R"]
-twitterImg:
+twitterImg: ""
 ---
 
 ```{r knitr-opts, echo = FALSE}
@@ -42,6 +42,7 @@ p_load("scales")
 p_load("ggfortify")
 p_load("missMDA")
 p_load("broom")
+p_load("ggrepel")
 p_load_gh("thomasp85/patchwork", dependencies = TRUE)
 ```
 
@@ -105,7 +106,8 @@ Rescale all count variables by the number of cases and drop the number of cases 
 ```{r}
 tb_2016_some_tb <- tb_2016_some_tb %>% 
   mutate_at(.vars = vars(contains("_num"), -e_inc_num), funs(. / e_inc_num)) %>% 
-  select(-e_pop_num, e_inc_num)
+  mutate(e_rr_in_notified_pulm = e_rr_in_notified_pulm / e_inc_num) %>% 
+  select(-e_pop_num, -e_inc_num)
 
 ```
 
@@ -265,14 +267,15 @@ pca_plot <- autoplot(tb_pca$pca[[1]], x = 1, y = 2,
       "%)"
     )
   )  +
-  theme(legend.position = "bottom", legend.box = "horizontal")
+  theme(legend.position = "bottom", legend.box = "horizontal") +
+  scale_colour_viridis_c(direction = -1, end = 0.8)
 
 
 pca_plot
 ```
 
 
-```{r plot-pca, fig.height = 10, fig.width = 10, dpi = 320}
+```{r plot-pca-3-4, fig.height = 10, fig.width = 10, dpi = 320}
 ## Plot clusters
 pca_plot <- autoplot(tb_pca$pca[[1]], x = 3, y = 4,
                      loadings = TRUE, loadings.label = TRUE,
@@ -296,7 +299,8 @@ pca_plot <- autoplot(tb_pca$pca[[1]], x = 3, y = 4,
       "%)"
     )
   )  +
-  theme(legend.position = "bottom", legend.box = "horizontal")
+  theme(legend.position = "bottom", legend.box = "horizontal") +
+  scale_colour_viridis_c(direction = -1, end = 0.8)
 
 
 pca_plot
@@ -307,173 +311,51 @@ From this we see that the clusters are generally split by incidence rates with l
 Another way of summarising the between cluster differences is to summarise the data by cluster, which is presented in the following plot. This approach to exploring differences between clusters may not be applicable to data with a large number of clusters, for this a faceted ridge plot ([`ggridges`](https://github.com/clauswilke/ggridges)) would probably offer a better solution.
 
 
-```{r summary-plot, fig.height = 8, fig.width = 12, dpi = 330}
-sum_tb_df <- tb_pca_pam %>% 
-  filter(centers == max_silhouette_width$centers) %>% 
-  pull(data_with_clusters) %>% 
-  map(~ gather(., key = "Variable", value = "value", -AreaName, -cluster)) %>% 
-  first %>% 
-  rename(Cluster = cluster) 
-
-plot_cluster_diff <- sum_tb_df %>% 
-  ggplot(aes(x = Variable, y = value, col = Cluster, fill = Cluster)) +
-  geom_violin(draw_quantiles = c(0.025, 0.5, 0.975), alpha = 0.2, scale = "width") +
-  geom_jitter(position = position_jitterdodge(), alpha = 0.3) +
+```{r summary-plot, fig.height = 20, fig.width = 20, dpi = 320}
+tb_pca$data[[1]] %>% 
+  bind_cols(anomolies) %>% 
+  {left_join(.,
+             arrange(., desc(Reconstruction.MSE)) %>% 
+      slice(1:5) %>% 
+      select(country) %>% 
+      mutate(high_mse_country = country),
+  by = "country")
+  } %>% 
+  gather(key = "Variable", 
+         value = "value", -country, -g_whoregion, -Reconstruction.MSE, -high_mse_country) %>% 
+  mutate(dummy = "") %>% 
+  ggplot(aes(y = value, x = dummy, col = Reconstruction.MSE)) +
+  geom_violin(scale = "width", na.rm = TRUE, draw_quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975), 
+              aes(col = NULL), alpha = 0.6) +
+  geom_point(alpha = 0.7, position = position_jitter(width = 0.5, height = 0, seed = 1234)) +
+  geom_text_repel(aes(label = high_mse_country, col = NULL, label.size = 0.02),
+                  position = position_jitter(width = 0.5, height = 0, seed = 1234)) +
+  scale_colour_viridis_c(end = 0.9, direction = -1) +
+  scale_y_sqrt(label = comma) +
   coord_flip() +
   theme_minimal() +
   theme(legend.position = "bottom") +
-  scale_y_continuous(breaks = seq(0, 100, 5), minor_breaks = NULL) +
-  scale_colour_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
-  scale_fill_viridis(option = "viridis", discrete = TRUE, end = 0.5) +
-  labs( 
-    title = "Tuberculosis in England; Summarised by Cluster",
-    subtitle = "Violin plots are scaled by width, with the 2.5%, 50% and 97.5% quantiles shown.",
-    x = "Variable",
-    y = "Incidence rate (per 100,000) for rec_int_rate, otherwise proportion (0-100%)",
-    caption = "@seabbs Source: Public Health England (fingertipsR)")
-
-plot_cluster_diff
-```
-
-To explore this further we can calculate the percentage difference between clusters for several of the variables' summary statistics. The following table does this for the mean, the median, the 2.5% quantile, and the 97.5% quantile.
-
-```{r diff-tab}
-sum_tb_df %>% 
-  group_by(Cluster, Variable) %>% 
-  summarise(mean = mean(value), median = median(value),
-            lll = quantile(value, 0.025),
-            hhh = quantile(value, 0.975)) %>% 
-  group_by(Variable) %>% 
-  mutate_if(is.numeric, .funs = funs((lag(.) - .)/ .)) %>% 
-  drop_na %>% 
-  mutate_if(is.numeric, .funs = funs(paste0(round(. * 100, 1), "%"))) %>% 
-  ungroup %>% 
-  mutate(Variable = factor(Variable, levels = rev(.$Variable))) %>% 
-  arrange(Variable) %>% 
-  rename(Mean = mean, Median = median, `2.5% Quantile` = lll, `97.5% Quantile` = hhh) %>% 
-  select(-Cluster) %>% 
-  kable
+  facet_wrap(~Variable, scale = "free")
 ```
 
 
-From the plot and table above, we see that, cluster 1 contains the counties with higher incidence rates and therefore has a higher median incidence rate. At the same time, it has a large interquartile range but a similar lower quartile to cluster 2. We also see that in cluster 1 a greater number of counties are not offering HIV tests to all cases, although it appears the majority of counties are offering HIV tests to 100% of TB cases in both cases. In cluster 2 there is a large reduction in the proportion of pulmonary cases that were culture confirmed. In addition, in pulmonary cases, fewer start treatment within 2 or 4 months of developing symptoms in comparison to cluster 1. There is also a moderate increase in the proportion of cases that are lost to follow up and a large increase in the proportion of cases that died in cluster 2 compared to cluster 1. There is little difference between clusters for the proportion of cultured confirmed cases which had drug susceptibility reported, with the majority of clusters reporting on 100% of cases.
-
-A more visual way to understand the clustering of TB in England based on the data we have extracted using the `fingertipsR` package is to plot the cluster membership for each county on a map. We do this using data on the [outlines of the counties in England](https://borders.ukdataservice.ac.uk/easy_download_data.html?data=England_ct_2011) from the UK data service ([Darren L Dahly](https://twitter.com/statsepi) kindly pointed me in the direction of this data - thank you!)
 
 
-```{r map-cluster-membership, fig.height = 8, fig.width = 8, dpi = 330, warning = FALSE}
-## Make the plot into a function as ggplot2 object is very large and cause git issues (i.e therefore easier to remake the plot than it is to transfer between code chunks)
-tb_cluster_map <- function(tb_pca_pam) {
-  ## Some issues here with extracting code from the sp file
-## Solved using the folling maptools functions - improvements appreciated!
-gpclibPermit()
-
-england_counties <- shapefile("../../static/data/shapefiles/england-2011-ct-shape/england_ct_2011.shp") %>%
-  fortify(region = "code") %>% 
-  as_tibble
-
-england_urban_areas <- shapefile("../../static/data/shapefiles/england-urb-2001-shape/england_urb_2001.shp") %>% 
-  fortify(region = "name") %>% 
-  as_tibble %>% 
-  filter(id %in% c("Greater London Urban Area", 
-                   "Greater Manchester Urban Area",
-                   "Bristol Urban Area",
-                   "West Midlands Urban Area",
-                   "Milton Keynes Urban Area"))
-
-## Make custom positions for urban area labels
-urban_area_labels <- england_urban_areas %>%
-  group_by(id) %>% 
-  slice(100) %>% 
-  ungroup() %>% 
-  mutate(long = long - 200000,
-         lat = lat + 20000)
-  
-  
-tb_cluster_results <- tb_pca_pam %>% 
-  filter(centers == max_silhouette_width$centers) %>% 
-  pull(data_with_clusters) %>% 
-  first
-
-tb_cluster_results <- tb_df[[2]] %>% 
-              dplyr::select(AreaName, AreaCode, AreaType) %>% 
-  filter(AreaType %in% "County & UA") %>% 
-              unique %>% 
-  left_join(tb_cluster_results,
-            by = "AreaName") %>% 
-  left_join(england_counties, by = c("AreaCode" = "id"))
-
-   tb_cluster_results %>% 
-  rename(Cluster = cluster) %>% 
-  drop_na(Cluster) %>% 
-  dplyr::select(long, lat, Cluster, group) %>% 
-  ggplot( 
-                 aes(x = long, 
-                     y = lat,
-                     fill = Cluster)) +
-    geom_polygon(data = england_urban_areas, 
-                 aes(group = group, fill = NULL),
-                 alpha = 0.4) +
-    geom_path(data = tb_cluster_results, 
-              aes(group = group, fill = NULL), 
-              alpha = 0.4) +
-    geom_polygon(data = tb_cluster_results, 
-                 aes(group = group, fill = NULL),
-                 alpha = 0.1) +
-    geom_polygon(aes(group = group), alpha = 0.6) +
-    geom_line(data = urban_area_labels %>% 
-                bind_rows(urban_area_labels %>% 
-                            mutate(long = long + 200000, 
-                                   lat = lat - 20000)),
-              aes(fill = NA, group = id), alpha = 0.8) + 
-    geom_label(data = urban_area_labels,
-              aes(label = id), fill = "grey") +
-    scale_fill_viridis(option = "viridis", discrete = TRUE,
-                       end = 0.5) +
-    coord_equal() +
-    theme_map() +
-    theme(legend.position = "bottom") +
-    labs(title = "Tuberculosis Monitoriing Indicators; Map of County Level Clusters in England",
-         subtitle = "Using data from 2015 - only counties with incidence rates above 10 per 100,000 population and complete data are shown",
-         caption = "Selected urban areas are shown (dark grey) and labelled.
-@seabbs Source: Public Health England (fingertipsR)
-Contains National Statistics data © Crown copyright and database right 2018. 
-         Contains OS data © Crown copyright and database right 2018")
-}
-
-plot_tb_cluster_map <- tb_cluster_map(tb_pca_pam)
-
-ggsave("../../static/img/fingertips/map-tb-clust.png",
-       plot_tb_cluster_map, width = 8, height = 8, dpi = 330)
-
-plot_tb_cluster_map
-
-## Remove objects to reduce stored chunk size
-rm("plot_tb_cluster_map")
-```
-
-In the map above we see that cluster 1 is mainly made up of counties in London, Birmingham, and in the North West of England. Cluster 2 accounts for the majority of counties that are not within these large urban areas, as well the remaining as several counties in Birmingham and the North West and a single county in London. As expected we see that the majority of counties in England have been excluded from our analysis due to low incidence rates or missing data.
 
 ## Summary and Wrap-up
 
-In this post we have explored the `fingertipsR` R package and the data on TB monitoring indicators for counties in England that is provided through the `fingertips` API. We found that there was a large amount of non-random missing data, much of which was due to censoring to prevent deductive disclosure. However, several variables were entirely missing and even once counties with low incidence rates were removed there was still several counties with little TB monitoring data available. Substantial improvements could be made here to improve any future analysis or monitoring using this dataset.
+**Sensitivity analysis**
 
-Once counties and variables with missing data had been removed we found that there was substantial non-systematic variation between counties with only 42% of variation explained by the optimal number of principal components. The large amount of variation between counties we observed reinforces the need for the collaborative TB strategy in England which was launched in 2015. Hopefully once data becomes available for 2016, and 2017 this will show a decrease in variation between counties.
-
-We found that, after dimension reduction, the data best supported two clusters. One cluster contained the majority of high incidence counties, which also had a higher proportion of culture confirmed pulmonary TB cases and more cases completing treatment in the first 12 months. This cluster was mainly centred around the greater London area but also included counties in Birmingham and the North West. The second cluster contained mainly counties not in these large urban areas but did contain the remaining counties in the North West and Birmingham area, as well as a single county in London. This cluster had a lower proportion of cases that started treatment within 2 and 4 months of developing symptoms, as well as having a greater proportion of cases that were lost to follow up and that died.
-
-This analysis was limited by the TB monitoring indicators available, the large amount of missing data for the variables that were available, and the lack of high quality up to date data. There was a large amount of non-systematic variation present that was exluded from our clustering analysis and the clusters that we did identify cannot be considered to be highly robust. We did not test for a single cluster, which may have produced a model more consistent with the date. A single clustering algorithm was used, and although it is considered a robust approach, further validation of these results is necessary using another (or multiple) clustering methods.
-
-Hopefully this post proved useful for informing you about the present state of TB in England, but also as an example of dimension reduction and clustering analysis. This analysis serves as a framework for a similar analysis that I am carrying out as part of my PhD so any comments, suggested improvements etc. would be greatly appreciated.
+- Varying the number, and size, of layers in the autoencoder. What impact does this have on the results.
+- Varying the number of epochs used. What impact does this have on the results
 
 To wrap-up this post we use the `patchwork` package to quickly compose a storyboard of the results from the clustering analysis carried out above. See [here](https://www.samabbott.co.uk/post/2018-03-28-cluster-england-tb_files/figure-html/storyboard-1.png) for a full size version.
 
-```{r storyboard, fig.height = 16, fig.width = 20, dpi = 330, warning = FALSE}
-plot_tb_cluster_map <- tb_cluster_map(tb_pca_pam)
+```{r storyboard, fig.height = 16, fig.width = 20, dpi = 330, warning = FALSE, eval = FALSE}
 
-storyboard <- plot_tb_cluster_map | ( pca_plot / plot_cluster_diff)
+storyboard <- NULL
 
-ggsave("../../static/img/fingertips/storyboard-fingertips-tb-clust.png",
+ggsave("../../static/img/getTBinR/tb-country-anomalies.png",
        storyboard, width = 20, height = 16, dpi = 330)
 
 storyboard
@@ -482,12 +364,3 @@ storyboard
 rm("storyboard", "plot_tb_cluster_map")
 ```
 
-```{r save-clustered-data, include = FALSE}
-## Save the data for later use
-tb_cluster_results <- tb_pca_pam %>% 
-  filter(centers == max_silhouette_width$centers) %>% 
-  pull(data_with_clusters) %>% 
-  first
-
-saveRDS(tb_cluster_results, "../../static/data/fingertips/tb-pam-clusters.rds")
-```
