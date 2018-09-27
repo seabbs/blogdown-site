@@ -11,6 +11,147 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>getTBinR 0.5.5 now on CRAN - 2017 data.</title>
+      <link>http://www.samabbott.co.uk/post/gettbinr-5-5/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/gettbinr-5-5/</guid>
+      <description>
+
+&lt;p&gt;&lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;getTBinR 0.5.5&lt;/code&gt;&lt;/a&gt; is now on CRAN and should be available on a mirror near you shortly! This update is mainly about highlighting the availability of TB data for 2017, although some small behind the scenes changes were required to get the code set up going forward for yearly updates. A few more plotting options have been added, along with the corresponding tests (definitely the most exciting news). The full changelog is below along with a short example highlighting some of the changes in the 2017 data.&lt;/p&gt;
+
+&lt;h2 id=&#34;feature-updates&#34;&gt;Feature updates&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Added a years filter to &lt;code&gt;plot_tb_burden&lt;/code&gt; and &lt;code&gt;plot_tb_burden_overview&lt;/code&gt;. This allows a range of years to be plotted. The default is all years which was the previous de facto default.&lt;br /&gt;&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;package-updates&#34;&gt;Package updates&lt;/h2&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Updated docs to reflect new year of data.&lt;/li&gt;
+&lt;li&gt;Updated examples to use the new year of data as standard.&lt;/li&gt;
+&lt;li&gt;Updated README to always use the current year of data.&lt;/li&gt;
+&lt;li&gt;Updated all vignettes to reflect new data or be fixed to historic data as appropriate.&lt;/li&gt;
+&lt;li&gt;Update site with links out to blog posts using the newest version of &lt;a href=&#34;http://pkgdown.r-lib.org&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;pkgdown&lt;/code&gt;&lt;/a&gt;.&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;h2 id=&#34;example-changes-in-tb-incidence-rates-in-2017&#34;&gt;Example: Changes in TB incidence rates in 2017&lt;/h2&gt;
+
+&lt;p&gt;The code below quickly explores the updated data by first plotting the annual change in TB incidence rates over time both overall and by region. The trend in incidence rates is then explored using country and regional level TB incidence rates. See &lt;a href=&#34;https://www.samabbott.co.uk/img/getTBinR/storyboard-5-5.png&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for a full size version of the storyboard.&lt;/p&gt;
+
+&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;## Get required packages - managed using pacman
+if (!require(pacman)) install.packages(&amp;quot;pacman&amp;quot;); library(pacman)
+p_load(&amp;quot;getTBinR&amp;quot;)
+p_load(&amp;quot;ggplot2&amp;quot;)
+p_load(&amp;quot;ggrepel&amp;quot;)
+p_load(&amp;quot;scales&amp;quot;)
+p_load(&amp;quot;viridis&amp;quot;)
+p_load(&amp;quot;dplyr&amp;quot;)
+p_load(&amp;quot;forcats&amp;quot;)
+p_load(&amp;quot;ggridges&amp;quot;)
+p_load_gh(&amp;quot;thomasp85/patchwork&amp;quot;)
+
+##Pull TB data and remove countries with fewer than 10 cases per 100,000 or 1000 cases overall (to reduce noise)
+tb_burden &amp;lt;- get_tb_burden() 
+
+countries_with_tb_burden &amp;lt;- tb_burden %&amp;gt;% 
+  filter(year == 2017,
+         e_inc_100k &amp;gt; 10,
+         e_inc_num &amp;gt; 1000)
+
+tb_annual_change &amp;lt;- tb_burden %&amp;gt;% 
+  semi_join(countries_with_tb_burden, by = &amp;quot;country&amp;quot;) %&amp;gt;% 
+  group_by(country) %&amp;gt;% 
+  arrange(year) %&amp;gt;% 
+  select(year, g_whoregion, country, e_inc_100k, e_inc_num, e_pop_num) %&amp;gt;% 
+  mutate(annual_change = (e_inc_100k - lag(e_inc_100k)) / lag(e_inc_100k)) %&amp;gt;% 
+  ungroup
+
+## Function to plot annual change
+plot_annual_change &amp;lt;- function(df, strat = NULL, subtitle = NULL, years = 2000:2017) {
+  dist &amp;lt;- df %&amp;gt;% 
+    filter(year %in% years) %&amp;gt;% 
+    rename(Region = g_whoregion) %&amp;gt;% 
+    mutate(year = year %&amp;gt;% 
+             factor(ordered = TRUE) %&amp;gt;% 
+             fct_rev) %&amp;gt;% 
+    ggplot(aes_string(x = &amp;quot;annual_change&amp;quot;, y = &amp;quot;year&amp;quot;, col = strat, fill = strat)) +
+    geom_density_ridges(quantile_lines = TRUE, quantiles = 2, alpha = 0.6) +
+    scale_color_viridis(discrete = TRUE, end = 0.9) +
+    scale_fill_viridis(discrete = TRUE, end = 0.9) +
+    geom_vline(xintercept = 0, linetype = 2, alpha = 0.6) +
+    scale_x_continuous(labels = scales::percent, breaks = seq(-0.4, 0.4, 0.1),
+                       limits = c(-0.4, 0.4), minor_breaks = NULL) +
+    theme_minimal() +
+    theme(legend.position = &amp;quot;none&amp;quot;) +
+    labs(x = paste0(&amp;quot;Annual Change in &amp;quot;, search_data_dict(&amp;quot;e_inc_100k&amp;quot;)$definition),
+         y = &amp;quot;Year&amp;quot;,
+         title = &amp;quot;Annual Percentage Change in Tuberculosis Incidence Rates (per 100,000)&amp;quot;,
+         subtitle = subtitle,
+         caption = &amp;quot;For the annual percentage change countries with incidence above 1000 and an incidence rate above 10 per 100,000 are shown. \n By @seabbs | Made with getTBinR | Source: World Health Organisation&amp;quot;)
+  
+  return(dist)
+}
+
+## Overall annual change
+overall &amp;lt;- plot_annual_change(tb_annual_change, &amp;quot;year&amp;quot;,
+                              years = 2001:2017) 
+## Regional annual change
+region &amp;lt;-  plot_annual_change(tb_annual_change, &amp;quot;Region&amp;quot;,
+                              subtitle = &amp;quot;By Region&amp;quot;, 
+                              years = seq(2001, 2017, 2)) + 
+  facet_wrap(~Region) +
+  labs(caption = &amp;quot;&amp;quot;)
+
+## Regional TB incidence rates over time
+regional_incidence &amp;lt;- tb_burden %&amp;gt;% 
+  group_by(g_whoregion, year) %&amp;gt;% 
+  summarise(inc = sum(e_inc_num, na.rm = TRUE), pop = sum(e_pop_num, na.rm = TRUE)) %&amp;gt;% 
+  ungroup %&amp;gt;% 
+  mutate(inc_rate = inc / pop * 1e5) %&amp;gt;% 
+  mutate(label = ifelse(year == max(year), g_whoregion, &amp;quot;&amp;quot;)) %&amp;gt;% 
+  ggplot(aes(year, inc_rate, col = g_whoregion)) +
+  geom_line(alpha = 0.8, size = 1.2) +
+  scale_color_viridis(discrete = TRUE, end = 0.9) +
+  theme_minimal() +
+  theme(legend.position = &amp;quot;none&amp;quot;) +
+  scale_y_continuous(breaks = seq(0, 400, 25), minor_breaks = NULL, limits = c(0, NA)) +
+  scale_x_continuous(breaks = seq(2000, 2017, 1), minor_breaks = NULL) +
+  geom_text_repel(aes(label = label),
+                  nudge_x = 4,
+                  force = 10,
+                  na.rm = TRUE,
+                  min.segment.length = 10) +
+  labs(x = search_data_dict(&amp;quot;e_inc_100k&amp;quot;)$definition,
+       y = &amp;quot;Year&amp;quot;,
+       title = &amp;quot;Tuberculosis Incidence Rates (per 100,000)&amp;quot;,
+       subtitle = &amp;quot;By Region&amp;quot;)
+
+## Map global TB incidence rates for 2017 using getTBinR
+map &amp;lt;- map_tb_burden(year = c(2005, 2009, 2013, 2017), facet = &amp;quot;year&amp;quot;) +
+  theme(strip.background = element_blank()) +
+  labs(caption = &amp;quot;&amp;quot;,
+       title = &amp;quot;Tuberculosis Incidence Rates (per 100,000)&amp;quot;,
+       subtitle = &amp;quot;By Country&amp;quot;)
+
+## Compose storyboard
+storyboard &amp;lt;- (map + regional_incidence + plot_layout(widths = c(2, 1))) /
+  (region + overall+ plot_layout(widths = c(2, 1))) +
+  plot_layout(widths = c(1, 1))
+
+## Save storyboard
+ggsave(&amp;quot;storyboard.png&amp;quot;,
+       storyboard, width = 20, height = 15, dpi = 330)
+&lt;/code&gt;&lt;/pre&gt;
+
+&lt;p&gt;&lt;img src=&#34;./img/getTBinR/storyboard-5-5.png&#34; alt=&#34;getTBinR 0.5.4 storyboard&#34; /&gt;&lt;/p&gt;
+
+&lt;p&gt;For other examples of using &lt;code&gt;getTBinR&lt;/code&gt; to visualise the WHO TB data see &lt;a href=&#34;https://gist.github.com/seabbs&#34; target=&#34;_blank&#34;&gt;my&lt;/a&gt; gists, previous blog &lt;a href=&#34;https://www.samabbott.co.uk/tags/who/&#34; target=&#34;_blank&#34;&gt;posts&lt;/a&gt;, and the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;getTBinR&lt;/code&gt; website&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
       <title>getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function.</title>
       <link>http://www.samabbott.co.uk/post/gettbinr-5-4/</link>
       <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
@@ -1850,15 +1991,6 @@ high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&
       <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/tb_england_wales/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Beneficial effects of BCG vaccination in outcomes for patients diagnosed with TB: observational study using the Enhanced Tuberculosis surveillance system 2009-2015</title>
-      <link>http://www.samabbott.co.uk/talk/union-2017/</link>
-      <pubDate>Wed, 11 Oct 2017 15:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/talk/union-2017/</guid>
       <description></description>
     </item>
     

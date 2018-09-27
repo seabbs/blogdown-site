@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Data visualisation on Sam Abbott</title>
+    <title>data visualisation on Sam Abbott</title>
     <link>http://www.samabbott.co.uk/tags/data-visualisation/</link>
-    <description>Recent content in Data visualisation on Sam Abbott</description>
+    <description>Recent content in data visualisation on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Wed, 16 May 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 27 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/data-visualisation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>getTBinR 0.5.5 now on CRAN - 2017 data.</title>
+      <link>http://www.samabbott.co.uk/post/gettbinr-5-5/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/gettbinr-5-5/</guid>
+      <description>getTBinR 0.5.5 is now on CRAN and should be available on a mirror near you shortly! This update is mainly about highlighting the availability of TB data for 2017, although some small behind the scenes changes were required to get the code set up going forward for yearly updates. A few more plotting options have been added, along with the corresponding tests (definitely the most exciting news). The full changelog is below along with a short example highlighting some of the changes in the 2017 data.</description>
+    </item>
     
     <item>
       <title>getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function.</title>

@@ -7,73 +7,10 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Wed, 11 Apr 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Aug 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/index.xml" rel="self" type="application/rss+xml" />
     
-    
-    <item>
-      <title>Clustering</title>
-      <link>http://www.samabbott.co.uk/tags/clustering/</link>
-      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/clustering/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Course</title>
-      <link>http://www.samabbott.co.uk/tags/course/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/course/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Data analysis</title>
-      <link>http://www.samabbott.co.uk/tags/data-analysis/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/data-analysis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Data visualisation</title>
-      <link>http://www.samabbott.co.uk/tags/data-visualisation/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/data-visualisation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Deep dive</title>
-      <link>http://www.samabbott.co.uk/tags/deep-dive/</link>
-      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/deep-dive/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>GetTBinR</title>
-      <link>http://www.samabbott.co.uk/tags/gettbinr/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/gettbinr/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Infectious disease</title>
-      <link>http://www.samabbott.co.uk/tags/infectious-disease/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/infectious-disease/</guid>
-      <description></description>
-    </item>
     
     <item>
       <title>Interests</title>
@@ -81,24 +18,6 @@
       <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/interests/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Modelling</title>
-      <link>http://www.samabbott.co.uk/tags/modelling/</link>
-      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/modelling/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Outreach</title>
-      <link>http://www.samabbott.co.uk/tags/outreach/</link>
-      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/outreach/</guid>
       <description></description>
     </item>
     
@@ -121,15 +40,6 @@
     </item>
     
     <item>
-      <title>P2p</title>
-      <link>http://www.samabbott.co.uk/tags/p2p/</link>
-      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/p2p/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>PHE</title>
       <link>http://www.samabbott.co.uk/tags/phe/</link>
       <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
@@ -139,74 +49,11 @@
     </item>
     
     <item>
-      <title>Personal-project</title>
-      <link>http://www.samabbott.co.uk/tags/personal-project/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/personal-project/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Personal-projects</title>
-      <link>http://www.samabbott.co.uk/tags/personal-projects/</link>
-      <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/personal-projects/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>PhD</title>
       <link>http://www.samabbott.co.uk/tags/phd/</link>
       <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/phd/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Phd-thesis</title>
-      <link>http://www.samabbott.co.uk/tags/phd-thesis/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/phd-thesis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>R-package</title>
-      <link>http://www.samabbott.co.uk/tags/r-package/</link>
-      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/r-package/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Reproducible-research</title>
-      <link>http://www.samabbott.co.uk/tags/reproducible-research/</link>
-      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/reproducible-research/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Rstats</title>
-      <link>http://www.samabbott.co.uk/tags/rstats/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/rstats/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Shiny</title>
-      <link>http://www.samabbott.co.uk/tags/shiny/</link>
-      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/shiny/</guid>
       <description></description>
     </item>
     
@@ -222,14 +69,185 @@
     <item>
       <title>TB</title>
       <link>http://www.samabbott.co.uk/tags/tb/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/tb/</guid>
       <description></description>
     </item>
     
     <item>
-      <title>Tableau</title>
+      <title>Tuberculosis</title>
+      <link>http://www.samabbott.co.uk/tags/tuberculosis/</link>
+      <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/tuberculosis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WHO</title>
+      <link>http://www.samabbott.co.uk/tags/who/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/who/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>clustering</title>
+      <link>http://www.samabbott.co.uk/tags/clustering/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/clustering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>course</title>
+      <link>http://www.samabbott.co.uk/tags/course/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/course/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data analysis</title>
+      <link>http://www.samabbott.co.uk/tags/data-analysis/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/data-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data visualisation</title>
+      <link>http://www.samabbott.co.uk/tags/data-visualisation/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/data-visualisation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>deep dive</title>
+      <link>http://www.samabbott.co.uk/tags/deep-dive/</link>
+      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/deep-dive/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>getTBinR</title>
+      <link>http://www.samabbott.co.uk/tags/gettbinr/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/gettbinr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>infectious disease</title>
+      <link>http://www.samabbott.co.uk/tags/infectious-disease/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/infectious-disease/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>modelling</title>
+      <link>http://www.samabbott.co.uk/tags/modelling/</link>
+      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/modelling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>outreach</title>
+      <link>http://www.samabbott.co.uk/tags/outreach/</link>
+      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/outreach/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>p2p</title>
+      <link>http://www.samabbott.co.uk/tags/p2p/</link>
+      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/p2p/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>personal-project</title>
+      <link>http://www.samabbott.co.uk/tags/personal-project/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/personal-project/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>personal-projects</title>
+      <link>http://www.samabbott.co.uk/tags/personal-projects/</link>
+      <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/personal-projects/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>phd-thesis</title>
+      <link>http://www.samabbott.co.uk/tags/phd-thesis/</link>
+      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/phd-thesis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>r-package</title>
+      <link>http://www.samabbott.co.uk/tags/r-package/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/r-package/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>reproducible-research</title>
+      <link>http://www.samabbott.co.uk/tags/reproducible-research/</link>
+      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/reproducible-research/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rstats</title>
+      <link>http://www.samabbott.co.uk/tags/rstats/</link>
+      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/rstats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>shiny</title>
+      <link>http://www.samabbott.co.uk/tags/shiny/</link>
+      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/shiny/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>tableau</title>
       <link>http://www.samabbott.co.uk/tags/tableau/</link>
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
@@ -238,7 +256,7 @@
     </item>
     
     <item>
-      <title>Tuberculosis</title>
+      <title>tuberculosis</title>
       <link>http://www.samabbott.co.uk/tags/tuberculosis/</link>
       <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
       
@@ -247,29 +265,11 @@
     </item>
     
     <item>
-      <title>Tuberculosis</title>
-      <link>http://www.samabbott.co.uk/tags/tuberculosis/</link>
-      <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/tuberculosis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Utilities</title>
+      <title>utilities</title>
       <link>http://www.samabbott.co.uk/tags/utilities/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/utilities/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>WHO</title>
-      <link>http://www.samabbott.co.uk/tags/who/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/who/</guid>
       <description></description>
     </item>
     
