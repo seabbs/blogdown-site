@@ -7,7 +7,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Thu, 27 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 28 Sep 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
@@ -15,7 +15,7 @@
     <item>
       <title>getTBinR 0.5.5 now on CRAN - 2017 data.</title>
       <link>http://www.samabbott.co.uk/post/gettbinr-5-5/</link>
-      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 28 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/gettbinr-5-5/</guid>
       <description>getTBinR 0.5.5 is now on CRAN and should be available on a mirror near you shortly! This update is mainly about highlighting the availability of TB data for 2017, although some small behind the scenes changes were required to get the code set up going forward for yearly updates. A few more plotting options have been added, along with the corresponding tests (definitely the most exciting news). The full changelog is below along with a short example highlighting some of the changes in the 2017 data.</description>

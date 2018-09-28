@@ -13,12 +13,14 @@
     <item>
       <title>getTBinR 0.5.5 now on CRAN - 2017 data.</title>
       <link>http://www.samabbott.co.uk/post/gettbinr-5-5/</link>
-      <pubDate>Thu, 27 Sep 2018 00:00:00 +0000</pubDate>
+      <pubDate>Fri, 28 Sep 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/gettbinr-5-5/</guid>
       <description>
 
 &lt;p&gt;&lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;getTBinR 0.5.5&lt;/code&gt;&lt;/a&gt; is now on CRAN and should be available on a mirror near you shortly! This update is mainly about highlighting the availability of TB data for 2017, although some small behind the scenes changes were required to get the code set up going forward for yearly updates. A few more plotting options have been added, along with the corresponding tests (definitely the most exciting news). The full changelog is below along with a short example highlighting some of the changes in the 2017 data.&lt;/p&gt;
+
+&lt;p&gt;The main message from the 2017 data is that in 2017 there were again over 10 million estimated TB cases globally with only a 1.8% decrease in incidence rates compared to 2016. Over the last 10 years progress has been made with an average of a 1.9% decrease in TB incidence rates year on year. However there is little evidence of an increase in the rate that TB incidence rates are falling, with incidence rates forecast to remain at over 100 per 100,000 for the next 10 years if progress is made at the same rate as in the last decade.&lt;/p&gt;
 
 &lt;h2 id=&#34;feature-updates&#34;&gt;Feature updates&lt;/h2&gt;
 
@@ -38,7 +40,7 @@
 
 &lt;h2 id=&#34;example-changes-in-tb-incidence-rates-in-2017&#34;&gt;Example: Changes in TB incidence rates in 2017&lt;/h2&gt;
 
-&lt;p&gt;The code below quickly explores the updated data by first plotting the annual change in TB incidence rates over time both overall and by region. The trend in incidence rates is then explored using country and regional level TB incidence rates. See &lt;a href=&#34;https://www.samabbott.co.uk/img/getTBinR/storyboard-5-5.png&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for a full size version of the storyboard.&lt;/p&gt;
+&lt;p&gt;The code below quickly explores the updated data by first estimating global incidence rates and the annual change between years. The country level annual changes in TB incidence rates are then plotted, first globally and then by region. Finally, the trend in incidence rates is explored using country, regional and global level TB incidence rates. See &lt;a href=&#34;https://www.samabbott.co.uk/img/getTBinR/storyboard-5-5.png&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for a full size version of the storyboard.&lt;/p&gt;
 
 &lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;## Get required packages - managed using pacman
 if (!require(pacman)) install.packages(&amp;quot;pacman&amp;quot;); library(pacman)
@@ -52,9 +54,46 @@ p_load(&amp;quot;forcats&amp;quot;)
 p_load(&amp;quot;ggridges&amp;quot;)
 p_load_gh(&amp;quot;thomasp85/patchwork&amp;quot;)
 
-##Pull TB data and remove countries with fewer than 10 cases per 100,000 or 1000 cases overall (to reduce noise)
+##Pull TB data 
 tb_burden &amp;lt;- get_tb_burden() 
 
+
+## Summarise global changes
+global_tb &amp;lt;- tb %&amp;gt;% 
+  group_by(year) %&amp;gt;% 
+  summarise_at(.vars = c(&amp;quot;e_inc_num&amp;quot;, &amp;quot;e_pop_num&amp;quot;), ~ sum(., na.rm = TRUE)) %&amp;gt;% 
+  mutate(inc_rate = e_inc_num / e_pop_num * 1e5,
+         per_change_inc = (inc_rate - lag(inc_rate)) / lag(inc_rate)) %&amp;gt;% 
+  mutate(g_whoregion = &amp;quot;Global&amp;quot;,
+         label = ifelse(year == max(year), g_whoregion, &amp;quot;&amp;quot;))
+
+
+
+global_tb
+
+## TB in 2017
+tb_2017 &amp;lt;- global_tb %&amp;gt;% 
+  filter(year == 2017)
+
+tb_2017
+
+## Global annual change
+global_annual_change &amp;lt;- ggplot(global_tb, aes(year, per_change_inc)) +
+  geom_smooth(se = FALSE, col = &amp;quot;black&amp;quot;, size = 1.2, alpha.line = 0.7) +
+  geom_point(size = 1.2, alpha = 0.8, col = &amp;quot;black&amp;quot;) +
+  scale_y_continuous(label = scales::percent, minor_breaks = NULL, breaks = seq(-0.025, 0, 0.0025)) +
+  theme_minimal() +
+  labs(
+    y = &amp;quot;Annual Percentage Change&amp;quot;,
+    x = &amp;quot;Year&amp;quot;,
+    title = &amp;quot;Global Annual Percentage Change in Tuberculosis Incidence Rates&amp;quot;,
+    caption = &amp;quot;&amp;quot;
+    
+  )
+
+global_annual_change
+
+## Remove countries with incidence below 1000 or incidence rates below 10 per 100,000 to reduce noise and cal country level annual change.
 countries_with_tb_burden &amp;lt;- tb_burden %&amp;gt;% 
   filter(year == 2017,
          e_inc_100k &amp;gt; 10,
@@ -87,24 +126,29 @@ plot_annual_change &amp;lt;- function(df, strat = NULL, subtitle = NULL, years =
     theme(legend.position = &amp;quot;none&amp;quot;) +
     labs(x = paste0(&amp;quot;Annual Change in &amp;quot;, search_data_dict(&amp;quot;e_inc_100k&amp;quot;)$definition),
          y = &amp;quot;Year&amp;quot;,
-         title = &amp;quot;Annual Percentage Change in Tuberculosis Incidence Rates (per 100,000)&amp;quot;,
+         title = &amp;quot;Annual Percentage Change in Tuberculosis Incidence Rates&amp;quot;,
          subtitle = subtitle,
-         caption = &amp;quot;For the annual percentage change countries with incidence above 1000 and an incidence rate above 10 per 100,000 are shown. \n By @seabbs | Made with getTBinR | Source: World Health Organisation&amp;quot;)
+         caption = &amp;quot;&amp;quot;)
   
   return(dist)
 }
 
-## Overall annual change
-overall &amp;lt;- plot_annual_change(tb_annual_change, &amp;quot;year&amp;quot;,
-                              years = 2001:2017) 
-## Regional annual change
+## Overall country level annual change
+overall &amp;lt;- plot_annual_change(tb_annual_change, NULL,
+                              years = seq(2001, 2017, 2), subtitle = &amp;quot;By Country&amp;quot;) 
+
+overall
+
+## Regional country level annual change
 region &amp;lt;-  plot_annual_change(tb_annual_change, &amp;quot;Region&amp;quot;,
                               subtitle = &amp;quot;By Region&amp;quot;, 
                               years = seq(2001, 2017, 2)) + 
   facet_wrap(~Region) +
   labs(caption = &amp;quot;&amp;quot;)
 
-## Regional TB incidence rates over time
+region
+
+## Regional and Global TB incidence rates over time
 regional_incidence &amp;lt;- tb_burden %&amp;gt;% 
   group_by(g_whoregion, year) %&amp;gt;% 
   summarise(inc = sum(e_inc_num, na.rm = TRUE), pop = sum(e_pop_num, na.rm = TRUE)) %&amp;gt;% 
@@ -125,19 +169,28 @@ regional_incidence &amp;lt;- tb_burden %&amp;gt;%
                   min.segment.length = 10) +
   labs(x = search_data_dict(&amp;quot;e_inc_100k&amp;quot;)$definition,
        y = &amp;quot;Year&amp;quot;,
-       title = &amp;quot;Tuberculosis Incidence Rates (per 100,000)&amp;quot;,
-       subtitle = &amp;quot;By Region&amp;quot;)
+       title = &amp;quot;Tuberculosis Incidence Rates&amp;quot;,
+       subtitle = &amp;quot;By Region, per 100,000 population&amp;quot;) +
+  geom_line(data = global_tb, aes(col = NULL), alpha = 0.8, size = 1.2) +
+  geom_text_repel(data = global_tb,
+                  aes(label = label, col = NULL),
+                  nudge_x = 2,
+                  nudge_y = 8,
+                  na.rm = TRUE)
 
 ## Map global TB incidence rates for 2017 using getTBinR
 map &amp;lt;- map_tb_burden(year = c(2005, 2009, 2013, 2017), facet = &amp;quot;year&amp;quot;) +
   theme(strip.background = element_blank()) +
   labs(caption = &amp;quot;&amp;quot;,
-       title = &amp;quot;Tuberculosis Incidence Rates (per 100,000)&amp;quot;,
-       subtitle = &amp;quot;By Country&amp;quot;)
+       title = &amp;quot;Tuberculosis Incidence Rates&amp;quot;,
+       subtitle = &amp;quot;By Country, per 100,000 population&amp;quot;)
 
 ## Compose storyboard
 storyboard &amp;lt;- (map + regional_incidence + plot_layout(widths = c(2, 1))) /
-  (region + overall+ plot_layout(widths = c(2, 1))) +
+  (region + (global_annual_change /
+               overall + labs(caption = &amp;quot;For country level annual percentages change countries with incidence above 1000 and an incidence rate above 10 per 100,000 are shown.
+                    The global annual percentage change is shown with a LOESS fit. 
+                    By @seabbs | Made with getTBinR | Source: World Health Organisation&amp;quot;)) + plot_layout(widths = c(2, 1))) +
   plot_layout(widths = c(1, 1))
 
 ## Save storyboard
@@ -145,7 +198,7 @@ ggsave(&amp;quot;storyboard.png&amp;quot;,
        storyboard, width = 20, height = 15, dpi = 330)
 &lt;/code&gt;&lt;/pre&gt;
 
-&lt;p&gt;&lt;img src=&#34;./img/getTBinR/storyboard-5-5.png&#34; alt=&#34;getTBinR 0.5.4 storyboard&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;./img/getTBinR/storyboard-5-5.png&#34; alt=&#34;getTBinR 0.5.5 storyboard&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;For other examples of using &lt;code&gt;getTBinR&lt;/code&gt; to visualise the WHO TB data see &lt;a href=&#34;https://gist.github.com/seabbs&#34; target=&#34;_blank&#34;&gt;my&lt;/a&gt; gists, previous blog &lt;a href=&#34;https://www.samabbott.co.uk/tags/who/&#34; target=&#34;_blank&#34;&gt;posts&lt;/a&gt;, and the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;getTBinR&lt;/code&gt; website&lt;/a&gt;.&lt;/p&gt;
 </description>
