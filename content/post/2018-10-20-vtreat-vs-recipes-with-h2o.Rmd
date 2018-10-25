@@ -1,0 +1,368 @@
+---
+title: "Some thoughts on `vtreat` vs. `recipes` (+ `embed`) using `h2o` and `iml`"
+author: 'null'
+date: '2018-10-20'
+description: ""
+slug: vtreat-vs-recipes-with-h2o
+draft: yes 
+tags: ["data analysis", "data science", "rstats", "data cleaning", "h2o", "auto-ml"]
+categories: ["R"]
+twitterImg: ""
+---
+
+```{r knitr-opts, echo = FALSE}
+knitr::opts_chunk$set(cache = TRUE, dpi = 320, 
+                      fig.height = 8, fig.width = 8,
+                      warning = FALSE)
+```
+
+## Introduction
+
+Aim: Compare vtreat and recipes using h2o auto ml as baseline. Use messy data with some real world features.
+
+
+## Packages
+
+First thing first we need to get the packages required. We do this using `pacman` to manange the installation process (note if struggling with the dependencies [see this dockerfile](https://github.com/seabbs/seabbs.github.io/blob/sources/Dockerfile) for some clues - [alternatively here is one I made earlier](https://github.com/seabbs/seabbs.github.io)).
+
+```{r get-packages, message = FALSE}
+if (!require(pacman)) install.packages("pacman"); library(pacman)
+p_load("tidyverse")
+p_load("broom")
+p_load("purrr")
+p_load("h2o")
+p_load("vtreat")
+p_load("recipes")
+p_load("skimr")
+p_load("embed")
+p_load("knitr")
+p_load_gh("thomasp85/patchwork", dependencies = TRUE)
+```
+
+## Data
+
+Data on loan defaults from [CreditScoring](https://github.com/gastonstat/CreditScoring) via [`recipes`](https://tidymodels.github.io/recipes/reference/credit_data.html). 
+
+```{r}
+credit_data <- recipes::credit_data %>% 
+  as_tibble  %>% 
+  mutate(id = 1:n())
+
+skim(credit_data)
+```
+
+
+Lets make the data more complex. The first step is to add some numeric noise variables on differing scales and categorical variables with many fields (10, 50, 100, 250, 500 and 1000).
+
+```{r}
+## Set up categorical variable generation
+get_cat_noise_var <- function(levels = NULL, samples) {
+  sample(paste('level',1:levels,sep=''), samples, replace=TRUE)
+}
+
+## Generate categorical variable with differing lengths (10, 100, 1000)
+cat_noise_var <- map(c(10, 50, 100, 250, 500, 1000), ~ rep(., 5)) %>% 
+  flatten %>% 
+  map_dfc(~get_cat_noise_var(., nrow(credit_data))) %>% 
+  set_names(paste0("CatNoise_", 1:30)) %>% 
+  map_dfc(factor)
+
+## Set up numeric variable generation. Normal with random mean and standard deviation (or log normal)
+get_num_noise_var <- function(noise = 0.1, samples, log_shift = FALSE) {
+  mean <- runif(1, -1e3, 1e3)
+  x <- rnorm(samples, mean, abs(mean) * noise)
+  
+  if (log_shift) { 
+   x <- log(abs(x + 1))
+  }
+  
+  return(x)
+}
+
+## Generate numeric variables with varying amounts of noise and transforming using log
+gen_numeric_var <- function(log_shift) {
+  map(c(0.1, 0.2, 0.4), ~ rep(., 5)) %>% 
+  flatten %>% 
+  map_dfc( ~ get_num_noise_var(., nrow(credit_data), log_shift))
+}
+
+num_noise_var <- gen_numeric_var(log_shift = FALSE) %>% 
+  bind_cols(gen_numeric_var(log_shift = TRUE)) %>% 
+    set_names(paste0("NumNoise_", 1:30))
+  
+
+## Bind together and summarise
+noise_var <- cat_noise_var %>% 
+  bind_cols(num_noise_var)
+
+
+skim(noise_var)
+```
+
+Add some missingness to the data and replace the home owners `"other"` category with 1000 random levels. Adding random noise levels to the home owners variable should be a good test of our data handling and the performance of the predictive models as ideally we want to use all the information encoded in the informative categories without overfitting to the uninformative noise categories.
+
+```{r}
+add_miss <- function(x = NULL, max_miss = NULL) {
+  miss_scale <- runif(1, 0, max_miss)
+  
+  x <- replace(x, runif(length(x), 0, 1) <= miss_scale, NA)
+}
+
+
+
+complex_credit_data <- credit_data %>% 
+  bind_cols(noise_var) %>% 
+  mutate_at(.vars = vars(everything(), - Status), ~ add_miss(., 0.1)) %>% 
+  mutate(
+    Home = case_when(Home %in% "other" ~ as.character(CatNoise_30),
+                          TRUE ~ as.character(Home)) %>% 
+           factor)
+  
+skim(complex_credit_data)
+```
+
+* Split out test and training data (filtering joins (`semi_join` and `anti_join`) are the best new to me R function that I have come across recently).
+
+```{r}
+train_complex <- complex_credit_data %>% 
+  sample_frac(0.6)
+
+train_simple <- credit_data %>% 
+  semi_join(train_complex, by = "id")
+
+valid_complex<-complex_credit_data %>% 
+  anti_join(train_complex, by = "id") %>% 
+  sample_frac(0.5)
+
+valid_simple <- credit_data %>% 
+  semi_join(valid_complex, by = "id")
+
+test_complex <- complex_credit_data %>% 
+  anti_join(train_complex, by = "id") %>% 
+  anti_join(valid_complex, by = "id")
+
+test_simple <- credit_data %>% 
+  semi_join(test_complex, by = "id")
+```
+
+* Set up target
+
+```{r}
+target <- "Status"
+```
+
+## H2o
+
+### Set up
+
+* Outline what `h2o` is and why we are using it
+* Set up `h2o`
+
+```{r}
+h2o.init(nthreads = 4, min_mem_size = "16G")
+```
+
+
+* Setup `h2o` data.
+
+```{r}
+h2o_train_complex <- as.h2o(train_complex)
+h2o_valid_complex <- as.h2o(valid_complex)
+h2o_train_simple <- as.h2o(train_simple)
+h2o_valid_simple <- as.h2o(valid_simple)
+```
+
+* Setup features
+
+```{r}
+simple_features <- setdiff(names(train_simple), c("id", target))
+simple_features
+```
+
+```{r}
+complex_features <- setdiff(names(train_complex), c("id", target))
+complex_features
+```
+
+
+
+### AutoML
+
+* Outline AutoMl
+
+
+## Establishing a baseline
+
+
+* H2o AutoML on the clean data
+
+```{r}
+CleanBaselineAutoML <- h2o.automl(x = simple_features,
+                                  y = target,
+                                  training_frame = h2o_train_simple,
+                                  leaderboard_frame = h2o_valid_simple,
+                                  nfolds = 3,
+                                  max_runtime_secs = 60 * 2)
+
+CleanBaselineAutoML@leaderboard
+```
+
+* Look at the model
+
+```{r}
+clean_baseline_model <- CleanBaselineAutoML@leader
+
+h2o.performance(clean_baseline_model, valid = TRUE)
+```
+
+
+* H2o AutoMl on the dirty data
+
+```{r}
+BaselineAutoML <- h2o.automl(x = complex_features,
+                             y = target,
+                             training_frame = h2o_train_complex,
+                             leaderboard_frame = h2o_valid_complex,
+                             nfolds = 3,
+                             max_runtime_secs = 60 * 1)
+
+BaselineAutoML@leaderboard
+
+baseline_model <- BaselineAutoML@leader
+
+h2o.performance(baseline_model, valid = TRUE)
+```
+
+
+## `vtreat` 
+
+
+### What is it
+
+* Outline of the package
+* Overview of what the package can do
+* Problems that the package can help with
+* List of new variables created and roll they play
+* Pointers to more info.
+
+### Preparing the treatment
+
+```{r}
+prep <- mkCrossFrameCExperiment(dframe = train_complex,
+                                varlist = complex_features,
+                                outcomename = target,
+                                outcometarget = "bad",
+                                rareCount = 5,
+                                ncross = 5,
+           scale = TRUE
+)
+
+prep
+```
+
+* Explore evidence levels for predictors and consider pruning.
+
+```{r}
+treatments <- prep$treatments
+
+treatments$scoreFrame[,c('varName','sig')] %>% 
+  arrange(sig)
+```
+
+* Prune to get new features (think about this carefully)
+
+```{r}
+all_vars <- treatments$scoreFrame$varName
+
+pruneSig <- 1/(ncol(train_complex) - 1)
+
+pruned_vars <- treatments$scoreFrame$varName[treatments$scoreFrame$sig <= pruneSig]
+
+pruned_vars
+```
+
+* Prepare validation data
+
+```{r}
+vtreat_valid <- prepare(treatments,
+                        valid_complex,
+                        varRestriction = all_vars) %>% 
+  as.h2o
+vtreat_valid_pruned <- prepare(treatments,
+                               valid_complex,
+                               varRestriction = pruned_vars) %>% 
+  as.h2o
+```
+
+### AutoML comparision
+
+* AutoMl on all `vtreat` variables
+
+```{r}
+VreatAutoML <- h2o.automl(x = all_vars,
+                          y = target,
+                          training_frame = prep$crossFrame %>% as.h2o,
+                          leaderboard_frame = vtreat_valid,
+                          nfolds = 3,
+                          max_runtime_secs = 60 * 1)
+
+VreatAutoML@leaderboard
+
+vtreat_model <- VreatAutoML@leader
+
+h2o.performance(vtreat_model , valid = TRUE)
+```
+
+
+* AutoML on pruned model 
+
+```{r}
+PrunedVreatAutoML <- h2o.automl(x = pruned_vars,
+                             y = target,
+                             training_frame = prep$crossFrame %>% as.h2o,
+                             leaderboard_frame = vtreat_valid_pruned,
+                             nfolds = 3,
+                             max_runtime_secs = 60 * 1)
+
+PrunedVreatAutoML@leaderboard
+
+pruned_vtreat_model <- PrunedVreatAutoML@leader
+
+h2o.performance(pruned_vtreat_model , valid = TRUE)
+```
+
+## `recipes`
+
+### What is it
+
+
+### Preparing the data
+
+
+### AutoML Comparision
+
+## Model Comparsion
+
+### On test data
+
+* compare predictive performance
+
+## Using `iml`
+
+* `iml` package
+* compare model feature performance
+* compare interactions
+
+## Summary and Wrap-up
+
+
+```{r storyboard, fig.height = 16, fig.width = 20, dpi = 330, warning = FALSE, eval = FALSE}
+
+storyboard <- NULL
+
+ggsave("../../static/img/getTBinR/tb-country-anomalies.png",
+       storyboard, width = 20, height = 16, dpi = 330)
+
+storyboard
+```
+

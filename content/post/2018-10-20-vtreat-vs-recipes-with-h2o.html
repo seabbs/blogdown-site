@@ -1,0 +1,63 @@
+---
+title: "Some thoughts on `vtreat` vs. `recipes` (+ `embed`) using `h2o` and `iml`"
+author: 'null'
+date: '2018-10-20'
+description: ""
+slug: vtreat-vs-recipes-with-h2o
+draft: yes 
+tags: ["data analysis", "data science", "rstats", "data cleaning", "h2o", "auto-ml"]
+categories: ["R"]
+twitterImg: ""
+---
+
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Aim: Compare vtreat and recipes using h2o auto ml as baseline. Use messy data with some real world features.</p>
+<p>Steps:</p>
+<ul>
+<li>[ ] Introduction to blog post, why, what, how</li>
+<li>[ ] Packages</li>
+<li>[ ] Data. Introduction, structure, adding noise variables, checking missingness</li>
+<li>[ ] H2o and auto ML introduction. Use case and set up.</li>
+<li>[ ] Baseline using h2o auto ml, variable interpretation etc etc</li>
+<li>[ ] Introduction to <code>vtreat</code></li>
+<li>[ ] Data cleaning process with <code>vtreat</code></li>
+<li>[ ] Modelling with <code>vtreat</code></li>
+<li>[ ] Model interpretation with <code>vtreat</code> (compare to baseline).</li>
+<li>[ ] Introduction to <code>recipes</code> and <code>embed</code>.</li>
+<li>[ ] Data cleaning process with <code>recipes</code> + <code>embed</code></li>
+<li>[ ] Modelling with <code>recipes</code></li>
+<li>[ ] Model Interpreation, comparing to <code>vtreat</code> and baseline</li>
+<li>[ ] Thoughts</li>
+<li>[ ] Summary + storyboard (some IML plots).</li>
+</ul>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>First thing first we need to get the packages required. We do this using <code>pacman</code> to manange the installation process (note if struggling with the dependencies <a href="https://github.com/seabbs/seabbs.github.io/blob/sources/Dockerfile">see this dockerfile</a>.</p>
+<pre class="r"><code>if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
+p_load(&quot;tidyverse&quot;)
+p_load(&quot;h2o&quot;)
+p_load(&quot;vtreat&quot;)
+p_load(&quot;recipes&quot;)
+p_load(&quot;embed&quot;)
+p_load(&quot;knitr&quot;)
+p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)</code></pre>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<ul>
+<li>Download the WHO TB data using <code>getTBinR</code>. Point to previous blog posts and package website.</li>
+</ul>
+</div>
+<div id="summary-and-wrap-up" class="section level2">
+<h2>Summary and Wrap-up</h2>
+<pre class="r"><code>storyboard &lt;- NULL
+
+ggsave(&quot;../../static/img/getTBinR/tb-country-anomalies.png&quot;,
+       storyboard, width = 20, height = 16, dpi = 330)
+
+storyboard</code></pre>
+</div>

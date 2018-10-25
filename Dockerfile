@@ -21,8 +21,12 @@ RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("Biobase
 RUN Rscript -e 'devtools::install_github("yihui/xfun")'
 RUN Rscript -e 'devtools::install_github("rstudio/blogdown")'
 
-
+## Get Blogdown
 RUN Rscript -e  'blogdown::install_hugo()'
+
+## Add in tidymodel packages
+RUN Rscript -e 'devtools::install_github("tidymodels/tidymodels")'
+RUN Rscript -e 'devtools::install_github("tidymodels/embed")`
 
 ## Get h2o deps
 RUN Rscript -e 'install.packages(c("RCurl","jsonlite"))'
@@ -30,6 +34,10 @@ RUN Rscript -e 'install.packages(c("RCurl","jsonlite"))'
 ## Get latest release of h2o
 RUN Rscript -e 'install.packages("h2o", type="source", repos="http://h2o-release.s3.amazonaws.com/h2o/rel-wright/2/R")'
  
+ ## Get Patchwork
+RUN Rscript -e 'devtools::install_github("thomasp85/patchwork")
+
+## Config for GitHub
 RUN git config --global user.email "signin@samabbott.co.uk"
 RUN git config --global user.name "seabbs"
 

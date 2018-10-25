@@ -1,0 +1,10 @@
+version: '3'
+services:
+# Use docker-compose up to launch
+  nginx:
+    container_name: seabbs.github.io
+    image: seabbs/seabbs.github.io
+    expose:
+      - 8787
+      - 54321 ## For h2o if using
+    restart: unless-stopped
