@@ -160,6 +160,8 @@ target <- "Status"
 
 ```{r}
 h2o.init(nthreads = 4, min_mem_size = "16G")
+
+tune_time <- 60 * 0.5
 ```
 
 
@@ -202,7 +204,7 @@ CleanBaselineAutoML <- h2o.automl(x = simple_features,
                                   training_frame = h2o_train_simple,
                                   leaderboard_frame = h2o_valid_simple,
                                   nfolds = 3,
-                                  max_runtime_secs = 60 * 2)
+                                  max_runtime_secs = tune_time)
 
 CleanBaselineAutoML@leaderboard
 ```
@@ -224,7 +226,7 @@ BaselineAutoML <- h2o.automl(x = complex_features,
                              training_frame = h2o_train_complex,
                              leaderboard_frame = h2o_valid_complex,
                              nfolds = 3,
-                             max_runtime_secs = 60 * 1)
+                             max_runtime_secs = tune_time)
 
 BaselineAutoML@leaderboard
 
@@ -304,7 +306,7 @@ VreatAutoML <- h2o.automl(x = all_vars,
                           training_frame = prep$crossFrame %>% as.h2o,
                           leaderboard_frame = vtreat_valid,
                           nfolds = 3,
-                          max_runtime_secs = 60 * 1)
+                          max_runtime_secs = tune_time)
 
 VreatAutoML@leaderboard
 
@@ -322,7 +324,7 @@ PrunedVreatAutoML <- h2o.automl(x = pruned_vars,
                              training_frame = prep$crossFrame %>% as.h2o,
                              leaderboard_frame = vtreat_valid_pruned,
                              nfolds = 3,
-                             max_runtime_secs = 60 * 1)
+                             max_runtime_secs = tune_time)
 
 PrunedVreatAutoML@leaderboard
 
@@ -338,6 +340,9 @@ h2o.performance(pruned_vtreat_model , valid = TRUE)
 
 ### Preparing the data
 
+```{r}
+train_complex
+```
 
 ### AutoML Comparision
 
