@@ -1,0 +1,133 @@
+---
+title: "Building an Rstats Workstation"
+author: 'null'
+date: '2018-12-21'
+description: ""
+slug: building-an-rstats-workstation
+draft: yes 
+tags: ["overclocking", "compute", "gpu", "data science"]
+categories: ["R"]
+twitterImg: ""
+---
+
+```{r knitr-opts, echo = FALSE}
+knitr::opts_chunk$set(cache = TRUE, dpi = 320, 
+                      fig.height = 8, fig.width = 8,
+                      warning = FALSE)
+```
+
+```{r get-packages, message = FALSE, include = FALSE, echo = FALSE}
+if (!require(pacman)) install.packages("pacman"); library(pacman)
+```
+
+## Motivation
+
+I regularly use cloud resources (AWS and GCP) both in my day job and for personal projects but recently I have been finding that having to spin up a cloud instance for quick analysis can be tedious, even when making use of tools for reproducibility like docker. This is particularly the case for self-learning when spending money on cloud resources feels wasteful, especially when I have half an eye on something else. Often I find that this leads me to not look at the things that I am interested in, although this could also just be my own lack of motivation.
+
+It seemed sensible to finally bite the bullet and build a local workstation that could handle all the compute tasks I can throw at it (up to a point obviously). At the moment I am looking to further explore [P-MCMC methods](http://www.stats.ox.ac.uk/%7Edoucet/andrieu_doucet_holenstein_PMCMC.pdf), Deep learning and get involved in a few [kaggle](https://www.kaggle.com) competitions. These needs inform my parts choices below.
+
+## Requirements
+
+* Need a high core number for compute intensive CPU tasks that can easily be parallised such as sequential monte carlo and distributed machine learning (`xgboost`, `h2o` etc).
+* A GPU with good support and sufficient power to do meaningful deep learning. As of my current reading this essentially means a Nvidia GPU.
+* Enough RAM to support the CPU cores but this is an area that I could economise as more RAM can be added at a later date.
+* A fast hard drive but again massive amounts of storage is not needed.
+
+## Parts list
+
+* Based the build on a [pcpartpicker](https://pcpartpicker.com/guide/NKV323/gaming-streaming-and-editing-build) suggested editing and streaming build.
+* Can't recommend  pcpartpicker enough - compatibilty filters on their own are a life saver.
+* Read around each part looking at multiple sites such as [thewirecutter](https://thewirecutter.com), [anandtech](https://www.anandtech.com) and [tomshardware](https://www.tomshardware.com). 
+* [Final parts list](https://uk.pcpartpicker.com/list/9FpFMZ)
+
+## Build
+
+![Parts ready for build](/img/2018-12-21-building-an-rstats-workstation/parts.png)
+
+* Read all the parts manual to get an idea of the individual install guidelines. Motherboard and the case manuals were the most use.
+* [Youtube](youtube.com)  vidoes of PC building to get an idea of the general steps.
+* Boils down to a simple process:
+    * Installing the CPU into the motherboard
+    * Installing the RAM into the motherboard
+    * Install the SSD into the motherboard (if using and M.2 SSD).
+    * Install the motherboard into the case
+    * Add the CPU cooler to the case.
+    * Plug the fans into the correct motherboard sockets
+    * Plug the case ports into the motherboard
+    * Install the GPU into the motherboard
+    * Install the power supply and link up the power connections.
+* This all sounds very simple and it really is. After going through this process over a few hours (most of the time was spent looking for screws and getting confused over which instruction manual to use) all the parts were installed and everything powered on correctly.
+    
+## OS
+
+* [Ubuntu boot USB](https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-ubuntu)
+* [Ubuntu budgie](https://ubuntubudgie.org/downloads)
+
+## Software
+
+* `htop` and `tree` to monitor the CPU usage and explore the file system
+
+```{bash, eval = FALSE}
+sudo apt-get update
+sudo apt-get install htop tree
+```
+
+* [`s-tui`](https://github.com/amanusk/s-tui) - To monitor CPU temps and provided stressing facilities.
+* [Docker CE](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1)
+* [Rstudio Server via rocker](https://hub.docker.com/r/rocker/tidyverse)
+
+```{bash, eval = FALSE}
+docker run -d -p 8787:8787 -e USER=seabbs -e PASSWORD=seabbs rstudio rocker/tidyverse
+```
+
+Go to `localhost:8787` and sign in using `seabbs` as the username and password. It's Rstats time.
+
+## Overclocking and stress tests
+
+![Stress testing the CPU and GPU](/img/2018-12-21-building-an-rstats-workstation/benchmarks.png)
+
+* Used `s-tui` and `ethminer` (https://github.com/ethereum-mining/ethminer) to stress both the CPU and GPU at the same time.
+* Observed the temperature of the CPU and GPU over time.
+* Increased the clock ratio in the BIOS (accessed using `delete` on boot) in steps of 200 Mhz checking the temperature impact and stability. 
+* Got to 3.8 Mhz and stopped as going higher than this needs a voltage increased for stability and this in turn leads to temperatures over 70C.
+
+# Static IP and Remote Access
+
+* Configure your ssh connection to be [secure](https://help.ubuntu.com/community/SSH/OpenSSH/Configuring) (potentially also changing the ssh port from 22 to something else to limit automatic detection).
+* Copy in your public ssh key from the computer that you will be connecting to the work station from - tips [here](https://help.ubuntu.com/community/SSH/OpenSSH/Keys).
+* Set up a static IP on the workstation using [Ubuntu Desktop](https://linuxconfig.org/how-to-configure-static-ip-address-on-ubuntu-18-04-bionic-beaver-linux)
+* Open your a port in your router and link to your workstation (see instructions for your router).
+* Deal with having a dynamic IP using [noip](https://www.noip.com)
+* `.profile` add alias for ssh access. 
+
+```{bash, eval = FALSE}
+alias archie_internal='ssh -p 2345 user@your-local-ip'
+alias archie='ssh -p 2345 user@computer.hopto.org'
+alias archie_with_ports='ssh -p 2345 -l localhost:8787:localhost:8787 user@computer.hopto.org'
+```
+
+* Test your connection from the connecting computer. You should be able to control the workstation in the terminal and see Rstudio at `localhost:8787`.
+
+```{bash, eval=FALSE}
+archie_with_ports
+```
+
+# Next steps
+
+* Work out how to use GPUs in arbitary docker containers without first installing cuda etc.
+
+<blockquote class="twitter-tweet" data-lang="en"><p lang="en" dir="ltr">Suggestions for how best to use <a href="https://twitter.com/nvidia?ref_src=twsrc%5Etfw">@nvidia</a> GPUs in rocker <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/docker?src=hash&amp;ref_src=twsrc%5Etfw">#docker</a> containers. Ideally looking for a solution using nvidia docker compose rather than manually installing cuda into each container? Does this exist or are there good alternatives?</p>&mdash; Sam Abbott (@seabbs) <a href="https://twitter.com/seabbs/status/1075709270979686401?ref_src=twsrc%5Etfw">December 20, 2018</a></blockquote> <script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script> 
+
+* Benchmark GPU vs CPU for common tasks such as training [Xgboost models](https://xgboost.ai) and using [libBi](https://xgboost.ai) (for P-MCMC and SMC-SMC).
+
+* Explore whether simultaneous multi-threading (hyper-threading) leads to performance improvements in common Rstats work loads. For Intel CPUs my experiance is that only using real cores leads to better performance for intensive compute tasks. If this is the case here then this will allow for greater overclocking headroom.
+
+# Things to improve next time
+
+* Think hard about parts trade-off. Here for example I went with the last generation Threadripper as a cost saving initiative. In retrospect the latest generation might have been worth the money because the new automatic overclocking features mean that significant improves are likely for most workloads
+* Look carefully into cooling options in more detail - larger radiator here would give more head room from CPU overclocking.
+
+
+
+
+

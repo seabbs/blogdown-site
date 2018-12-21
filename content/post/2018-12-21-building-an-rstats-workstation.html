@@ -1,0 +1,138 @@
+---
+title: "Building an Rstats Workstation"
+author: 'null'
+date: '2018-12-21'
+description: ""
+slug: building-an-rstats-workstation
+draft: yes 
+tags: ["overclocking", "compute", "gpu", "data science"]
+categories: ["R"]
+twitterImg: ""
+---
+
+
+
+<div id="motivation" class="section level2">
+<h2>Motivation</h2>
+<p>I regularly use cloud resources (AWS and GCP) both in my day job and for personal projects but recently I have been finding that having to spin up a cloud instance for quick analysis can be tedious, even when making use of tools for reproducibility like docker. This is particularly the case for self-learning when spending money on cloud resources feels wasteful, especially when I have half an eye on something else. Often I find that this leads me to not look at the things that I am interested in, although this could also just be my own lack of motivation.</p>
+<p>It seemed sensible to finally bite the bullet and build a local workstation that could handle all the compute tasks I can throw at it (up to a point obviously). At the moment I am looking to further explore <a href="http://www.stats.ox.ac.uk/%7Edoucet/andrieu_doucet_holenstein_PMCMC.pdf">P-MCMC methods</a>, Deep learning and get involved in a few <a href="https://www.kaggle.com">kaggle</a> competitions. These needs inform my parts choices below.</p>
+</div>
+<div id="requirements" class="section level2">
+<h2>Requirements</h2>
+<ul>
+<li>Need a high core number for compute intensive CPU tasks that can easily be parallised such as sequential monte carlo and distributed machine learning (<code>xgboost</code>, <code>h2o</code> etc).</li>
+<li>A GPU with good support and sufficient power to do meaningful deep learning. As of my current reading this essentially means a Nvidia GPU.</li>
+<li>Enough RAM to support the CPU cores but this is an area that I could economise as more RAM can be added at a later date.</li>
+<li>A fast hard drive but again massive amounts of storage is not needed.</li>
+</ul>
+</div>
+<div id="parts-list" class="section level2">
+<h2>Parts list</h2>
+<ul>
+<li>Based the build on a <a href="https://pcpartpicker.com/guide/NKV323/gaming-streaming-and-editing-build">pcpartpicker</a> suggested editing and streaming build.</li>
+<li>Can’t recommend pcpartpicker enough - compatibilty filters on their own are a life saver.</li>
+<li>Read around each part looking at multiple sites such as <a href="https://thewirecutter.com">thewirecutter</a>, <a href="https://www.anandtech.com">anandtech</a> and <a href="https://www.tomshardware.com">tomshardware</a>.</li>
+<li><a href="https://uk.pcpartpicker.com/list/9FpFMZ">Final parts list</a></li>
+</ul>
+</div>
+<div id="build" class="section level2">
+<h2>Build</h2>
+<div class="figure">
+<img src="/img/2018-12-21-building-an-rstats-workstation/parts.png" alt="Parts ready for build" />
+<p class="caption">Parts ready for build</p>
+</div>
+<ul>
+<li>Read all the parts manual to get an idea of the individual install guidelines. Motherboard and the case manuals were the most use.</li>
+<li><a href="youtube.com">Youtube</a> vidoes of PC building to get an idea of the general steps.</li>
+<li>Boils down to a simple process:
+<ul>
+<li>Installing the CPU into the motherboard</li>
+<li>Installing the RAM into the motherboard</li>
+<li>Install the SSD into the motherboard (if using and M.2 SSD).</li>
+<li>Install the motherboard into the case</li>
+<li>Add the CPU cooler to the case.</li>
+<li>Plug the fans into the correct motherboard sockets</li>
+<li>Plug the case ports into the motherboard</li>
+<li>Install the GPU into the motherboard</li>
+<li>Install the power supply and link up the power connections.</li>
+</ul></li>
+<li>This all sounds very simple and it really is. After going through this process over a few hours (most of the time was spent looking for screws and getting confused over which instruction manual to use) all the parts were installed and everything powered on correctly.</li>
+</ul>
+</div>
+<div id="os" class="section level2">
+<h2>OS</h2>
+<ul>
+<li><a href="https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-ubuntu">Ubuntu boot USB</a></li>
+<li><a href="https://ubuntubudgie.org/downloads">Ubuntu budgie</a></li>
+</ul>
+</div>
+<div id="software" class="section level2">
+<h2>Software</h2>
+<ul>
+<li><code>htop</code> and <code>tree</code> to monitor the CPU usage and explore the file system</li>
+</ul>
+<pre class="bash"><code>sudo apt-get update
+sudo apt-get install htop tree</code></pre>
+<ul>
+<li><a href="https://github.com/amanusk/s-tui"><code>s-tui</code></a> - To monitor CPU temps and provided stressing facilities.</li>
+<li><a href="https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1">Docker CE</a></li>
+<li><a href="https://hub.docker.com/r/rocker/tidyverse">Rstudio Server via rocker</a></li>
+</ul>
+<pre class="bash"><code>docker run -d -p 8787:8787 -e USER=seabbs -e PASSWORD=seabbs rstudio rocker/tidyverse</code></pre>
+<p>Go to <code>localhost:8787</code> and sign in using <code>seabbs</code> as the username and password. It’s Rstats time.</p>
+</div>
+<div id="overclocking-and-stress-tests" class="section level2">
+<h2>Overclocking and stress tests</h2>
+<div class="figure">
+<img src="/img/2018-12-21-building-an-rstats-workstation/benchmarks.png" alt="Stress testing the CPU and GPU" />
+<p class="caption">Stress testing the CPU and GPU</p>
+</div>
+<ul>
+<li>Used <code>s-tui</code> and <code>ethminer</code> (<a href="https://github.com/ethereum-mining/ethminer" class="uri">https://github.com/ethereum-mining/ethminer</a>) to stress both the CPU and GPU at the same time.</li>
+<li>Observed the temperature of the CPU and GPU over time.</li>
+<li>Increased the clock ratio in the BIOS (accessed using <code>delete</code> on boot) in steps of 200 Mhz checking the temperature impact and stability.</li>
+<li>Got to 3.8 Mhz and stopped as going higher than this needs a voltage increased for stability and this in turn leads to temperatures over 70C.</li>
+</ul>
+</div>
+<div id="static-ip-and-remote-access" class="section level1">
+<h1>Static IP and Remote Access</h1>
+<ul>
+<li>Configure your ssh connection to be <a href="https://help.ubuntu.com/community/SSH/OpenSSH/Configuring">secure</a> (potentially also changing the ssh port from 22 to something else to limit automatic detection).</li>
+<li>Copy in your public ssh key from the computer that you will be connecting to the work station from - tips <a href="https://help.ubuntu.com/community/SSH/OpenSSH/Keys">here</a>.</li>
+<li>Set up a static IP on the workstation using <a href="https://linuxconfig.org/how-to-configure-static-ip-address-on-ubuntu-18-04-bionic-beaver-linux">Ubuntu Desktop</a></li>
+<li>Open your a port in your router and link to your workstation (see instructions for your router).</li>
+<li>Deal with having a dynamic IP using <a href="https://www.noip.com">noip</a></li>
+<li><code>.profile</code> add alias for ssh access.</li>
+</ul>
+<pre class="bash"><code>alias archie_internal=&#39;ssh -p 2345 user@your-local-ip&#39;
+alias archie=&#39;ssh -p 2345 user@computer.hopto.org&#39;
+alias archie_with_ports=&#39;ssh -p 2345 -l localhost:8787:localhost:8787 user@computer.hopto.org&#39;</code></pre>
+<ul>
+<li>Test your connection from the connecting computer. You should be able to control the workstation in the terminal and see Rstudio at <code>localhost:8787</code>.</li>
+</ul>
+<pre class="bash"><code>archie_with_ports</code></pre>
+</div>
+<div id="next-steps" class="section level1">
+<h1>Next steps</h1>
+<ul>
+<li>Work out how to use GPUs in arbitary docker containers without first installing cuda etc.</li>
+</ul>
+<blockquote class="twitter-tweet" data-lang="en">
+<p lang="en" dir="ltr">
+Suggestions for how best to use <a href="https://twitter.com/nvidia?ref_src=twsrc%5Etfw"><span class="citation">@nvidia</span></a> GPUs in rocker <a href="https://twitter.com/hashtag/rstats?src=hash&amp;ref_src=twsrc%5Etfw">#rstats</a> <a href="https://twitter.com/hashtag/docker?src=hash&amp;ref_src=twsrc%5Etfw">#docker</a> containers. Ideally looking for a solution using nvidia docker compose rather than manually installing cuda into each container? Does this exist or are there good alternatives?
+</p>
+— Sam Abbott (<span class="citation">@seabbs</span>) <a href="https://twitter.com/seabbs/status/1075709270979686401?ref_src=twsrc%5Etfw">December 20, 2018</a>
+</blockquote>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<ul>
+<li><p>Benchmark GPU vs CPU for common tasks such as training <a href="https://xgboost.ai">Xgboost models</a> and using <a href="https://xgboost.ai">libBi</a> (for P-MCMC and SMC-SMC).</p></li>
+<li><p>Explore whether simultaneous multi-threading (hyper-threading) leads to performance improvements in common Rstats work loads. For Intel CPUs my experiance is that only using real cores leads to better performance for intensive compute tasks. If this is the case here then this will allow for greater overclocking headroom.</p></li>
+</ul>
+</div>
+<div id="things-to-improve-next-time" class="section level1">
+<h1>Things to improve next time</h1>
+<ul>
+<li>Think hard about parts trade-off. Here for example I went with the last generation Threadripper as a cost saving initiative. In retrospect the latest generation might have been worth the money because the new automatic overclocking features mean that significant improves are likely for most workloads</li>
+<li>Look carefully into cooling options in more detail - larger radiator here would give more head room from CPU overclocking.</li>
+</ul>
+</div>
