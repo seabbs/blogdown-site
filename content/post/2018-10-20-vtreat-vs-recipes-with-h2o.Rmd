@@ -13,7 +13,8 @@ twitterImg: ""
 ```{r knitr-opts, echo = FALSE}
 knitr::opts_chunk$set(cache = TRUE, dpi = 320, 
                       fig.height = 8, fig.width = 8,
-                      warning = FALSE)
+                      warning = FALSE,
+                      eval = FALSE)
 ```
 
 ## Introduction
@@ -25,7 +26,7 @@ Aim: Compare vtreat and recipes using h2o auto ml as baseline. Use messy data wi
 
 First thing first we need to get the packages required. We do this using `pacman` to manange the installation process (note if struggling with the dependencies [see this dockerfile](https://github.com/seabbs/seabbs.github.io/blob/sources/Dockerfile) for some clues - [alternatively here is one I made earlier](https://github.com/seabbs/seabbs.github.io)).
 
-```{r get-packages, message = FALSE}
+```{r get-packages, message = FALSE, eval = FALSE}
 if (!require(pacman)) install.packages("pacman"); library(pacman)
 p_load("tidyverse")
 p_load("broom")

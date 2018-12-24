@@ -2,9 +2,8 @@
 title: "Building an Rstats Workstation"
 author: 'null'
 date: '2018-12-23'
-description: "Walkthrough and signposting from my experiance building out a workstation for Rstats data science compute tasks."
+description: "Walkthrough and signposting from my experience building out a workstation for Rstats data science compute tasks."
 slug: building-an-rstats-workstation
-draft: yes 
 tags: ["overclocking", "compute", "gpu", "data science"]
 categories: ["R"]
 twitterImg: "/img/2018-12-21-building-an-rstats-workstation/parts.png"
@@ -36,7 +35,7 @@ It seemed sensible to finally bite the bullet and build a local workstation that
 
 ## Parts list
 
-Knowing nothing about building PCs, or PC components, I started using a suggested build on [pcpartpicker](https://pcpartpicker.com/guide/NKV323/gaming-streaming-and-editing-build) for streaming and editing. This was a good match as editing/streaming require a larger core number than other uses cases whilst still need a strong GPU. From here I went through each part in turn and reviewed the alternatives. The main resources that I used for PC part reviews and thoughts were; the [thewirecutter](https://thewirecutter.com), [anandtech](https://www.anandtech.com) and [tomshardware](https://www.tomshardware.com). From this reading, I settled on a Threadripper CPU from the previous generation as this provided 16 cores, relatively good single core performance and some scope for further overclocking. Another viable option was the current generation Threadripper, which has improved speed and better automatic overclocking but ultimately I decided that the cost/benefit didn't make sense. The choice of CPU dictated the motherboard choice, which I selected based on the parametric filters pcpartpicker provides (a real lifesaver). As the Threadrippers are very heat intensive I went with a water cooler for the CPU (*Note: I probably should have chosen a bigger radiator here for more cooling*), again selected based on the parametric filters + reviews. I went with 32GB of 3200 Mhz RAM as the minimum required for this many CPU cores, with a good balance of speed and price. I chose the Nvidia RTX 2070 Windforce for GPU after looking at some benchmarks and because the 2080 was dramatically more expensive. The Windforce also comes with a slightly higher clock speed than other entry level 2070s along with 3 fans for additional cooling. Finally, I chose the best reviewed M2 SSD that I could find as the read/write speeds are dramatically faster than traditional SSDs, going with a smaller disk size (500 Gb) to minimise the cost. The final parts list is [here](https://uk.pcpartpicker.com/list/9FpFMZ).
+Knowing nothing about building PCs, or PC components, I started using a suggested build on [pcpartpicker](https://pcpartpicker.com/guide/NKV323/gaming-streaming-and-editing-build) for streaming and editing. This was a good match as editing/streaming require a larger core number than other use cases, whilst still needing a strong GPU. From here, I went through each part in turn and reviewed the alternatives. The main resources that I used for PC part reviews and thoughts were: the [thewirecutter](https://thewirecutter.com), [anandtech](https://www.anandtech.com) and [tomshardware](https://www.tomshardware.com). From this reading, I settled on a Threadripper CPU from the previous generation as this provided 16 cores, relatively good single core performance and some scope for further overclocking. Another viable option was the current generation Threadripper, which has improved speed and better automatic overclocking but ultimately I decided that the cost/benefit didn't make sense. The choice of CPU dictated the motherboard choice, which I selected based on the parametric filters pcpartpicker provides (a real lifesaver). As the Threadrippers are very heat intensive I went with a water cooler for the CPU (*Note: I probably should have chosen a bigger radiator here for more cooling*), again selected based on the parametric filters + reviews. I went with 32GB of 3200 Mhz RAM as the minimum required for this many CPU cores, with a good balance of speed and price. I chose the Nvidia RTX 2070 Windforce for GPU after looking at some benchmarks and because the 2080 was dramatically more expensive. The Windforce also comes with a slightly higher clock speed than other entry level 2070s along with 3 fans for additional cooling. Finally, I chose the best reviewed M2 SSD that I could find as the read/write speeds are dramatically faster than traditional SSDs, going with a smaller disk size (500 Gb) to minimise the cost. The final parts list is [here](https://uk.pcpartpicker.com/list/9FpFMZ).
 
 ## Build
 
@@ -48,36 +47,36 @@ I was slightly nervous about the build process but after reading the manuals for
 * Installing the RAM into the motherboard
 * Installing the SSD into the motherboard (as using an M.2 SSD).
 * Installing the motherboard into the case
-* Adding the CPU cooler to the case.
+* Adding the CPU cooler to the case
 * Plugging the fans into the correct motherboard sockets
 * Plugging the case ports into the motherboard
 * Installing the GPU into the motherboard
-* Installing the power supply and link up the power connections.
+* Installing the power supply and linking up the power connections
 
-This all sounds very simple and amazingly really was. After going through this process over a few hours (most of the time was spent looking for screws and getting confused over which instruction manual to use) all the parts were installed and everything powered on correct (having RGB was very reassuring here).
+This all sounds very simple and, amazingly, it really was. After going through this process over a few hours (most of the time was spent looking for screws and getting confused over which instruction manual to use), all the parts were installed and everything powered up correctly (having RGB was very reassuring here).
     
 ## OS
 
-Historically, I have been a Mac user but recently I have been using cloud resources and docker more and more. Both of these use Linux so this seemed like a sensible choice. Not knowing much about the various distros available I wanted to go with one based on Debian as these use the same package libraries etc. that I have been using on AWS and elsewhere. I settled on [Ubuntu Budgie](https://ubuntubudgie.org/downloads), which is a theme for standard Ubuntu (one of the most commonly used Distros). Budgie provides a modern, lightweight interface, that overlays the core Ubuntu ex. I followed [a guide](https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-ubuntu) for creating an OS USB boot and then followed the installation instructions after rebooting the workstation (*Note: During installation I chose to encrypt the boot disk. This means that the computer requires a password before booting - meaning that it can't be remotely rebooted. I would definitely not choose to do this in the future.*)
+Historically, I have been a Mac user but recently I have been using cloud resources and docker more and more. Both of these use Linux so this seemed like a sensible choice. Not knowing much about the various distros available I wanted to go with one based on Debian, as these use the same package libraries etc. that I have been using on AWS and elsewhere. I settled on [Ubuntu Budgie](https://ubuntubudgie.org/downloads), which is a theme for standard Ubuntu (one of the most commonly used distros). Budgie provides a modern, lightweight interface, that overlays the core Ubuntu distro. I followed [a guide](https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-ubuntu) for creating an OS USB boot and then followed the installation instructions after rebooting the workstation (*Note: During installation I chose to encrypt the boot disk. This means that the computer requires a password before booting - meaning that it can't be remotely rebooted. I would definitely not choose to do this in the future.*)
 
 ## Software
 
-After completing the Ubuntu set up and installing the usual suspects (i.e Dropbox etc.) my first requirement was something that reproduce the functionality of [alfred](https://www.alfredapp.com) -> [albert](https://albertlauncher.github.io/docs/installing/) an amazing Mac only spotlight replacement that I completely rely on for navigating my computer. The next step was to get my most commonly used Linux command line tools, namely `htop` (to monitor CPU usage) and `tree` (to explore the file system). These were installed in the terminal with the following,
+After completing the Ubuntu set up and installing the usual suspects (i.e Dropbox etc.), my first requirement was something to reproduce the functionality of [alfred](https://www.alfredapp.com)  (an amazing Mac only spotlight replacement that I completely rely on for navigating my computer). After a brief search, I came across [albert](https://albertlauncher.github.io/docs/installing/) a great open source Linux alternative. The next step was to get my most commonly used Linux command line tools, namely `htop` (to monitor CPU usage) and `tree` (to explore the file system). These were installed in the terminal with the following:
 
 ```{bash, eval = FALSE}
 sudo apt-get update
 sudo apt-get install htop tree
 ```
 
-To check that everything was working correctly in the build I needed to be able to monitor CPU temperatures, both ideal and under load. I chose to do this using [`s-tui`](https://github.com/amanusk/s-tui) a great tool that monitors CPU usage, temperatures, power consumption and speed. It allows provides an interface to the `stress` package, meaning that load scenarios can be simulated. I also needed to be able to check that the GPU was working as expected, to do this I used the following command in the terminal `watch -n 5 nvidia-smi` - this calls `nvidia-smi` every 5 seconds. `nvidia-smi` comes prepackaged with the Nvidia drivers (you may need to update/switch your drivers - I used [this post](http://www.linuxandubuntu.com/home/how-to-install-latest-nvidia-drivers-in-linux)) and allows monitoring of Nvidia GPUs (much like `top` for CPUs).
+To check that everything was working correctly in the build, I needed to be able to monitor CPU temperatures, both ideal and under load. I chose to do this using [`s-tui`](https://github.com/amanusk/s-tui) - a great tool that monitors CPU usage, temperatures, power consumption and speed. It provides an interface to the `stress` package, allowing load scenarios to be simulated. I also needed to be able to check that the GPU was working as expected. To do this, I used the following command in the terminal: `watch -n 5 nvidia-smi` - this calls `nvidia-smi` every 5 seconds. `nvidia-smi` comes prepackaged with the Nvidia drivers (you may need to update/switch your drivers - I used [this post](http://www.linuxandubuntu.com/home/how-to-install-latest-nvidia-drivers-in-linux)) and allows monitoring of Nvidia GPUs (much like `top` for CPUs).
 
-As this workstation is mostly going to be running analyses via [rocker](https://hub.docker.com/r/rocker/tidyverse) based docker containers the next key step is to download and install [Docker CE](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1). See the Docker documentation for more details on using docker (well worth the time as Docker is the one of the best tools for ensuring that analysis is reproducible). If everything is installed and working correctly the following should lead to instance of Rstudio server at `localhost:8787` with the username and password of `seabbs`. F
+As this workstation is mostly going to be running analyses via [rocker](https://hub.docker.com/r/rocker/tidyverse)-based docker containers, the next key step is to download and install [Docker CE](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1). See the Docker documentation for more details on using docker (well worth the time as Docker is the one of the best tools for ensuring that analysis is reproducible). If everything is installed and working correctly, the following should lead to an instance of an Rstudio server at `localhost:8787` with the username and password of `seabbs`.
 
 ```{bash, eval = FALSE}
 docker run -d -p 8787:8787 -e USER=seabbs -e PASSWORD=seabbs rstudio rocker/tidyverse
 ```
 
-From here you should have everything you need to do Rstats using your new workstation. The final software that is required is [`nvidia-docker`](https://github.com/NVIDIA/nvidia-docker), this provides a docker wrapper that allows docker containers to access the Nvidia GPU. After installing check its working using the following,
+From here, you should have everything you need to do Rstats using your new workstation! The final software that is required is [`nvidia-docker`](https://github.com/NVIDIA/nvidia-docker), this provides a docker wrapper that allows docker containers to access the Nvidia GPU. After installing, check its working using the following:
 
 ```{bash, eval = FALSE}
 docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi
@@ -88,14 +87,13 @@ docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi
 
 ![Stress testing the CPU and GPU using `s-tui` and `ethminer`](/img/2018-12-21-building-an-rstats-workstation/benchmarks.png)
 
-As the 1950X Threadripper has a relatively low clock speed of 3.4 Mhz there is general agreement online that with proper cooling there is some good overhead for overclocking. Depending on the use case this may or may not be worth doing as for mostly low core work flows the turbo-boosting (not available when overclocked) will give improved performance over most overclocks. For my use case I am most interested in optimizing for multicore use cases and am willing to sacrifice a small decrease in single core performance (of around 5%) to achieve this.
+As the 1950X Threadripper has a relatively low clock speed of 3.4 Mhz, there is general agreement online that with proper cooling there is some good overhead for overclocking. Depending on the use case, this may or may not be worth doing as for mostly low core work flows the turbo-boosting (not available when overclocked) will give improved performance over most overclocks. In my case, I am most interested in optimizing multicore use and am willing to sacrifice a small boost in single core performance (of around 5%) to achieve this.
 
-In order to check that an overclock is both stable and does not increase the temperature of the system to dangerous levels it is important to stress test both the CPU and GPU over an extended time period (I initially started with an 1 and then extended this to 6 for the final test). To do this I used `s-tui` to both monitor and stress the CPU, [`ethminer`](https://github.com/ethereum-mining/ethminer) to stress the GPU by mining Ethereum and `nvidia-smi` to monitor the GPU temperature. To overclock the system I made [adjustments in the BIOS](https://overclocking.guide/gigabyte-threadripper-overclocking-guide/), starting with the RAM (to get it running at its maximum specifications, which is not the default), and then moving to increasing the CPU speed by 100 Mhz intervals each time. Following this process I got to an speed of 3.8 Mhz (see the picture above for the stress test at this level). Going higher than this required an increase in voltage for stability and this lead to dramatic temperature increases (beyond 70C). A possible option is turning off simultaneous multithreading (i.e going from 32 virtual cores to 16 real cores), this would reduce power consumption and allow for a higher overclock at the cost of reduced potential parallelisation.
+In order to check that an overclock is both stable and does not increase the temperature of the system to dangerous levels, it is important to stress test both the CPU and GPU over an extended time period (I initially started with an house and then extended this to 6 hours for the final test). To do this I used `s-tui` to both monitor and stress the CPU, [`ethminer`](https://github.com/ethereum-mining/ethminer) to stress the GPU by mining Ethereum and `nvidia-smi` to monitor the GPU temperature. To overclock the system, I made [adjustments in the BIOS](https://overclocking.guide/gigabyte-threadripper-overclocking-guide/), starting with the RAM (to get it running at its maximum specifications, which is not the default), and then moving to increasing the CPU speed by 100 Mhz intervals each time. Following this process, I got to a speed of 3.8 Mhz (see the picture above for the stress test at this level). Going higher than this required an increase in voltage for stability and this lead to dramatic temperature increases (beyond 70C). A possible option is turning off simultaneous multithreading (i.e going from 32 virtual cores to 16 real cores), this would reduce power consumption and allow for a higher overclock at the cost of reduced potential parallelisation.
 
 # Static IP and Remote Access
 
-This workstation will primarily be used heedlessly from my Macbook Pro so the next important step is to set up remote access. I generally like to connect over SSH but sometimes it is very useful to have an GUI interface to work with. To allow this I installed a VNC server ([RealVNC VNC Server](https://www.realvnc.com/en/)), the nice thing about this is it works out of the box both on the local network and externally. For the SSH setup I hardened my configuration using [this](https://help.ubuntu.com/community/SSH/OpenSSH/Configuring) post (I also changed my SSH port from 22 to something else to limit automatic detection). After following these steps the workstation now needs the public keys of any computers that you want to connect to it using SSH - some tips for this can be found [here](https://help.ubuntu.com/community/SSH/OpenSSH/Keys). To make connections to the workstation consistent it needs a static IP. I did this using the [Ubuntu interface](https://linuxconfig.org/how-to-configure-static-ip-address-on-ubuntu-18-04-bionic-beaver-linux) rather than using my router as I usually would and it was so easy that I will definitely prefer this option in the future. The next step is allow SSH connection from a your computer when your not at home. To do this you need to open a port in your router and link it to the SSH port of the workstation (see the instructions for your router). If like me, you don't have a static IP address then you need to find a workaround. I used [noip](https://www.noip.com) to provide an address to SSH to rather than an IP.
-* `.profile` add alias for ssh access. Finally, I like to add aliases to avoid having to write out the IP each time I want to SSH. Below I have an example setup (this needs to be copied into the `.profile` file).
+This workstation will primarily be used heedlessly from my Macbook Pro so the next important step is to set up remote access. I generally like to connect over SSH but sometimes it is very useful to have an GUI interface to work with. To allow this I installed a VNC server ([RealVNC VNC Server](https://www.realvnc.com/en/)). The nice thing about this is that it works out of the box both on the local network and externally. For the SSH setup, I hardened my configuration using [this](https://help.ubuntu.com/community/SSH/OpenSSH/Configuring) post (I also changed my SSH port from 22 to something else to limit automatic detection). After following these steps, the workstation now needs the public keys of any computers that you want to connect to it using SSH - some tips for this can be found [here](https://help.ubuntu.com/community/SSH/OpenSSH/Keys). To make connections to the workstation consistent it needs a static IP. I did this using the [Ubuntu interface](https://linuxconfig.org/how-to-configure-static-ip-address-on-ubuntu-18-04-bionic-beaver-linux) rather than using my router as I usually would and it was so easy that I will definitely favour this option in the future. The next step is to allow SSH connection from your computer when your not at home. To do this you need to open a port in your router and link it to the SSH port of the workstation (see the instructions for your router). If, like me, you don't have a static IP address then you need to find a workaround. I used [noip](https://www.noip.com) to provide an address to SSH to rather than an IP. Finally, I like to add aliases to avoid having to write out the IP each time I want to SSH. Below I have an example setup (this needs to be copied into the `.profile` file).
 
 ```{bash, eval = FALSE}
 alias archie_internal='ssh -p 2345 user@your-local-ip'
@@ -103,13 +101,13 @@ alias archie='ssh -p 2345 user@computer.hopto.org'
 alias archie_with_ports='ssh -p 2345 -l localhost:8787:localhost:8787 user@computer.hopto.org'
 ```
 
-Test your connection from the connecting computer using the following.
+Test your connection from the connecting computer using the following:
 
 ```{bash, eval=FALSE}
 archie_with_ports
 ```
 
-You should be able to control the workstation in the terminal and see Rstudio at `localhost:8787`.
+You should be able to control the workstation in the terminal and see Rstudio at `localhost:8787` (This post was written remotely using this approach and the `seabbs/seabbs.github.io` docker container).
 
 # Next steps
 
@@ -121,17 +119,17 @@ Whilst I now have a working workstation there are still some things that need so
 
 * Benchmark GPU vs CPU for common tasks such as training [Xgboost models](https://xgboost.ai) and using [libBi](https://xgboost.ai) (for P-MCMC and SMC-SMC).
 
-* Explore whether simultaneous multi-threading (hyper-threading) leads to performance improvements in common Rstats work loads. For Intel CPUs my experience is that only using real cores leads to better performance for intensive compute tasks. If this is the case here then this will allow for greater overclocking headroom.
+* Explore whether simultaneous multi-threading (hyper-threading) leads to performance improvements in common Rstats work loads. For Intel CPUs, my experience is that only using real cores leads to better performance for intensive compute tasks. If this is the case here then this will allow for greater overclocking headroom.
 
 # Things to improve next time
 
 This was a huge learning experience (which I really enjoyed). My main takeaways so far have been:
 
-* **Think hard about parts trade-off** - Here for example I went with the last generation Threadripper as a cost saving initiative. In retrospect the latest generation might have been worth the money because the new automatic overclocking features mean that significant improves are likely for most workloads
+* **Think hard about parts trade-off** - for example, I went with the last generation Threadripper as a cost saving initiative. In retrospect, the latest generation might have been worth the money because the new automatic overclocking features mean that significant improves are likely for most workloads.
 
-* **Look carefully into cooling options in more detail** - A larger radiator here would give more head room from CPU overclocking.
+* **Look carefully into cooling options in more detail** - for example, a larger radiator would give more head room from CPU overclocking.
 
 # Wrap Up
 
-If you got through this post then thanks for reading! Hopefully it gave some insights into how to approach building out a workstation for Rstats. I am definitely not an expert so any thoughts would be very welcome. As mentioned above I am particularly interested in performance comparisons between GPUS and CPUS (both real and virtual cores) - so any insights here would be particularly welcome.
+If you got through this post then thanks for reading! Hopefully it gave some insights into how to approach building out a workstation for Rstats. I am definitely not an expert so any thoughts would be very welcome. As mentioned above, I am particularly interested in performance comparisons between GPUs and CPUs (both real and virtual cores) and so would welcome any insights into this aspect of things.
 
