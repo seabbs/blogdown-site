@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>overclocking on Sam Abbott</title>
+    <link>http://www.samabbott.co.uk/tags/overclocking/</link>
+    <description>Recent content in overclocking on Sam Abbott</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
+    <lastBuildDate>Sun, 23 Dec 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/overclocking/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Building an Rstats Workstation</title>
+      <link>http://www.samabbott.co.uk/post/building-an-rstats-workstation/</link>
+      <pubDate>Sun, 23 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/building-an-rstats-workstation/</guid>
+      <description>Why? I regularly use cloud resources (AWS and GCP) both in my day job and for personal projects but recently I have been finding that having to spin up a cloud instance for quick analysis can be tedious, even when making use of tools for reproducibility like docker. This is particularly the case for self-learning when spending money on cloud resources feels wasteful, especially when I have half an eye on something else (i.</description>
+    </item>
+    
+  </channel>
+</rss>

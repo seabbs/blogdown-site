@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/post/building-an-rstats-workstation/</loc>
+      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/post/gettbinr-5-5/</loc>
       <lastmod>2018-09-28T00:00:00+00:00</lastmod>
     </url>
@@ -380,7 +389,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/post/</loc>
-      <lastmod>2018-09-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -409,7 +418,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/categories/r/</loc>
-      <lastmod>2018-09-28T00:00:00+00:00</lastmod>
+      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -488,6 +497,16 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/compute/</loc>
+      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/tags/course/</loc>
       <lastmod>2018-01-15T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -500,6 +519,16 @@
     
       <loc>http://www.samabbott.co.uk/tags/data-analysis/</loc>
       <lastmod>2018-09-28T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/data-science/</loc>
+      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -538,6 +567,16 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/gpu/</loc>
+      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/tags/infectious-disease/</loc>
       <lastmod>2018-09-28T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -560,6 +599,16 @@
     
       <loc>http://www.samabbott.co.uk/tags/outreach/</loc>
       <lastmod>2017-06-10T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/overclocking/</loc>
+      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

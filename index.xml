@@ -11,6 +11,121 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Building an Rstats Workstation</title>
+      <link>http://www.samabbott.co.uk/post/building-an-rstats-workstation/</link>
+      <pubDate>Sun, 23 Dec 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/building-an-rstats-workstation/</guid>
+      <description>
+
+
+&lt;div id=&#34;why&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Why?&lt;/h2&gt;
+&lt;p&gt;I regularly use cloud resources (AWS and GCP) both in my day job and for personal projects but recently I have been finding that having to spin up a cloud instance for quick analysis can be tedious, even when making use of tools for reproducibility like docker. This is particularly the case for self-learning when spending money on cloud resources feels wasteful, especially when I have half an eye on something else (i.e the TV). Often I find that this leads me to not look at the things that I am interested in, although this could also just be my own lack of motivation!&lt;/p&gt;
+&lt;p&gt;It seemed sensible to finally bite the bullet and build a local workstation that could handle all the compute tasks I can throw at it (up to a point obviously). At the moment I am looking to further explore &lt;a href=&#34;http://www.stats.ox.ac.uk/%7Edoucet/andrieu_doucet_holenstein_PMCMC.pdf&#34;&gt;P-MCMC methods&lt;/a&gt;, Deep learning and get involved in a few &lt;a href=&#34;https://www.kaggle.com&#34;&gt;kaggle&lt;/a&gt; competitions. These needs inform my parts choices below.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;requirements&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Requirements&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;A high core number for compute intensive CPU tasks that can easily be parallel enabled such as Sequential Monte Carlo and distributed machine learning (&lt;code&gt;xgboost&lt;/code&gt;, &lt;code&gt;h2o&lt;/code&gt; etc).&lt;/li&gt;
+&lt;li&gt;Good single core CPU performance as many tasks are natively single core (i.e R).&lt;/li&gt;
+&lt;li&gt;Enough RAM to support the CPU cores but this is an area that I could economise as more RAM can be added at a later date. Typically 2Gbs per core is the minimum.&lt;/li&gt;
+&lt;li&gt;A GPU with good support and sufficient power to do meaningful deep learning. As of my current reading this essentially means a Nvidia GPU.&lt;/li&gt;
+&lt;li&gt;A fast hard drive but a large one is not needed as only the data currently used in analysis needs to be stored (on top of the OS and applications).&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;parts-list&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Parts list&lt;/h2&gt;
+&lt;p&gt;Knowing nothing about building PCs, or PC components, I started using a suggested build on &lt;a href=&#34;https://pcpartpicker.com/guide/NKV323/gaming-streaming-and-editing-build&#34;&gt;pcpartpicker&lt;/a&gt; for streaming and editing. This was a good match as editing/streaming require a larger core number than other use cases, whilst still needing a strong GPU. From here, I went through each part in turn and reviewed the alternatives. The main resources that I used for PC part reviews and thoughts were: the &lt;a href=&#34;https://thewirecutter.com&#34;&gt;thewirecutter&lt;/a&gt;, &lt;a href=&#34;https://www.anandtech.com&#34;&gt;anandtech&lt;/a&gt; and &lt;a href=&#34;https://www.tomshardware.com&#34;&gt;tomshardware&lt;/a&gt;. From this reading, I settled on a Threadripper CPU from the previous generation as this provided 16 cores, relatively good single core performance and some scope for further overclocking. Another viable option was the current generation Threadripper, which has improved speed and better automatic overclocking but ultimately I decided that the cost/benefit didn’t make sense. The choice of CPU dictated the motherboard choice, which I selected based on the parametric filters pcpartpicker provides (a real lifesaver). As the Threadrippers are very heat intensive I went with a water cooler for the CPU (&lt;em&gt;Note: I probably should have chosen a bigger radiator here for more cooling&lt;/em&gt;), again selected based on the parametric filters + reviews. I went with 32GB of 3200 Mhz RAM as the minimum required for this many CPU cores, with a good balance of speed and price. I chose the Nvidia RTX 2070 Windforce for GPU after looking at some benchmarks and because the 2080 was dramatically more expensive. The Windforce also comes with a slightly higher clock speed than other entry level 2070s along with 3 fans for additional cooling. Finally, I chose the best reviewed M2 SSD that I could find as the read/write speeds are dramatically faster than traditional SSDs, going with a smaller disk size (500 Gb) to minimise the cost. The final parts list is &lt;a href=&#34;https://uk.pcpartpicker.com/list/9FpFMZ&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;build&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Build&lt;/h2&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;./img/2018-12-21-building-an-rstats-workstation/parts.png&#34; alt=&#34;All the parts (excluding the case) ready to go.&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;All the parts (excluding the case) ready to go.&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;I was slightly nervous about the build process but after reading the manuals for all of the parts (quite dull - the motherboard and case manuals turned out to be the most helpful) and watching multiple youtube videos going through the PC building process (there are lots of great channels providing great resources) it went without a hitch. In brief the build process boiled down to the following.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Installing the CPU into the motherboard&lt;/li&gt;
+&lt;li&gt;Installing the RAM into the motherboard&lt;/li&gt;
+&lt;li&gt;Installing the SSD into the motherboard (as using an M.2 SSD).&lt;/li&gt;
+&lt;li&gt;Installing the motherboard into the case&lt;/li&gt;
+&lt;li&gt;Adding the CPU cooler to the case&lt;/li&gt;
+&lt;li&gt;Plugging the fans into the correct motherboard sockets&lt;/li&gt;
+&lt;li&gt;Plugging the case ports into the motherboard&lt;/li&gt;
+&lt;li&gt;Installing the GPU into the motherboard&lt;/li&gt;
+&lt;li&gt;Installing the power supply and linking up the power connections&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;This all sounds very simple and, amazingly, it really was. After going through this process over a few hours (most of the time was spent looking for screws and getting confused over which instruction manual to use), all the parts were installed and everything powered up correctly (having RGB was very reassuring here).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;os&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;OS&lt;/h2&gt;
+&lt;p&gt;Historically, I have been a Mac user but recently I have been using cloud resources and docker more and more. Both of these use Linux so this seemed like a sensible choice. Not knowing much about the various distros available I wanted to go with one based on Debian, as these use the same package libraries etc. that I have been using on AWS and elsewhere. I settled on &lt;a href=&#34;https://ubuntubudgie.org/downloads&#34;&gt;Ubuntu Budgie&lt;/a&gt;, which is a theme for standard Ubuntu (one of the most commonly used distros). Budgie provides a modern, lightweight interface, that overlays the core Ubuntu distro. I followed &lt;a href=&#34;https://tutorials.ubuntu.com/tutorial/tutorial-create-a-usb-stick-on-ubuntu&#34;&gt;a guide&lt;/a&gt; for creating an OS USB boot and then followed the installation instructions after rebooting the workstation (&lt;em&gt;Note: During installation I chose to encrypt the boot disk. This means that the computer requires a password before booting - meaning that it can’t be remotely rebooted. I would definitely not choose to do this in the future.&lt;/em&gt;)&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;software&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Software&lt;/h2&gt;
+&lt;p&gt;After completing the Ubuntu set up and installing the usual suspects (i.e Dropbox etc.), my first requirement was something to reproduce the functionality of &lt;a href=&#34;https://www.alfredapp.com&#34;&gt;alfred&lt;/a&gt; (an amazing Mac only spotlight replacement that I completely rely on for navigating my computer). After a brief search, I came across &lt;a href=&#34;https://albertlauncher.github.io/docs/installing/&#34;&gt;albert&lt;/a&gt; a great open source Linux alternative. The next step was to get my most commonly used Linux command line tools, namely &lt;code&gt;htop&lt;/code&gt; (to monitor CPU usage) and &lt;code&gt;tree&lt;/code&gt; (to explore the file system). These were installed in the terminal with the following:&lt;/p&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;sudo apt-get update
+sudo apt-get install htop tree&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;To check that everything was working correctly in the build, I needed to be able to monitor CPU temperatures, both ideal and under load. I chose to do this using &lt;a href=&#34;https://github.com/amanusk/s-tui&#34;&gt;&lt;code&gt;s-tui&lt;/code&gt;&lt;/a&gt; - a great tool that monitors CPU usage, temperatures, power consumption and speed. It provides an interface to the &lt;code&gt;stress&lt;/code&gt; package, allowing load scenarios to be simulated. I also needed to be able to check that the GPU was working as expected. To do this, I used the following command in the terminal: &lt;code&gt;watch -n 5 nvidia-smi&lt;/code&gt; - this calls &lt;code&gt;nvidia-smi&lt;/code&gt; every 5 seconds. &lt;code&gt;nvidia-smi&lt;/code&gt; comes prepackaged with the Nvidia drivers (you may need to update/switch your drivers - I used &lt;a href=&#34;http://www.linuxandubuntu.com/home/how-to-install-latest-nvidia-drivers-in-linux&#34;&gt;this post&lt;/a&gt;) and allows monitoring of Nvidia GPUs (much like &lt;code&gt;top&lt;/code&gt; for CPUs).&lt;/p&gt;
+&lt;p&gt;As this workstation is mostly going to be running analyses via &lt;a href=&#34;https://hub.docker.com/r/rocker/tidyverse&#34;&gt;rocker&lt;/a&gt;-based docker containers, the next key step is to download and install &lt;a href=&#34;https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1&#34;&gt;Docker CE&lt;/a&gt;. See the Docker documentation for more details on using docker (well worth the time as Docker is the one of the best tools for ensuring that analysis is reproducible). If everything is installed and working correctly, the following should lead to an instance of an Rstudio server at &lt;code&gt;localhost:8787&lt;/code&gt; with the username and password of &lt;code&gt;seabbs&lt;/code&gt;.&lt;/p&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;docker run -d -p 8787:8787 -e USER=seabbs -e PASSWORD=seabbs rstudio rocker/tidyverse&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;From here, you should have everything you need to do Rstats using your new workstation! The final software that is required is &lt;a href=&#34;https://github.com/NVIDIA/nvidia-docker&#34;&gt;&lt;code&gt;nvidia-docker&lt;/code&gt;&lt;/a&gt;, this provides a docker wrapper that allows docker containers to access the Nvidia GPU. After installing, check its working using the following:&lt;/p&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;docker run --runtime=nvidia --rm nvidia/cuda:9.0-base nvidia-smi&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;overclocking-and-stress-tests&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Overclocking and stress tests&lt;/h2&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;./img/2018-12-21-building-an-rstats-workstation/benchmarks.png&#34; alt=&#34;Stress testing the CPU and GPU using s-tui and ethminer&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Stress testing the CPU and GPU using &lt;code&gt;s-tui&lt;/code&gt; and &lt;code&gt;ethminer&lt;/code&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;p&gt;As the 1950X Threadripper has a relatively low clock speed of 3.4 Mhz, there is general agreement online that with proper cooling there is some good overhead for overclocking. Depending on the use case, this may or may not be worth doing as for mostly low core work flows the turbo-boosting (not available when overclocked) will give improved performance over most overclocks. In my case, I am most interested in optimizing multicore use and am willing to sacrifice a small boost in single core performance (of around 5%) to achieve this.&lt;/p&gt;
+&lt;p&gt;In order to check that an overclock is both stable and does not increase the temperature of the system to dangerous levels, it is important to stress test both the CPU and GPU over an extended time period (I initially started with an house and then extended this to 6 hours for the final test). To do this I used &lt;code&gt;s-tui&lt;/code&gt; to both monitor and stress the CPU, &lt;a href=&#34;https://github.com/ethereum-mining/ethminer&#34;&gt;&lt;code&gt;ethminer&lt;/code&gt;&lt;/a&gt; to stress the GPU by mining Ethereum and &lt;code&gt;nvidia-smi&lt;/code&gt; to monitor the GPU temperature. To overclock the system, I made &lt;a href=&#34;https://overclocking.guide/gigabyte-threadripper-overclocking-guide/&#34;&gt;adjustments in the BIOS&lt;/a&gt;, starting with the RAM (to get it running at its maximum specifications, which is not the default), and then moving to increasing the CPU speed by 100 Mhz intervals each time. Following this process, I got to a speed of 3.8 Mhz (see the picture above for the stress test at this level). Going higher than this required an increase in voltage for stability and this lead to dramatic temperature increases (beyond 70C). A possible option is turning off simultaneous multithreading (i.e going from 32 virtual cores to 16 real cores), this would reduce power consumption and allow for a higher overclock at the cost of reduced potential parallelisation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;static-ip-and-remote-access&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Static IP and Remote Access&lt;/h1&gt;
+&lt;p&gt;This workstation will primarily be used heedlessly from my Macbook Pro so the next important step is to set up remote access. I generally like to connect over SSH but sometimes it is very useful to have an GUI interface to work with. To allow this I installed a VNC server (&lt;a href=&#34;https://www.realvnc.com/en/&#34;&gt;RealVNC VNC Server&lt;/a&gt;). The nice thing about this is that it works out of the box both on the local network and externally. For the SSH setup, I hardened my configuration using &lt;a href=&#34;https://help.ubuntu.com/community/SSH/OpenSSH/Configuring&#34;&gt;this&lt;/a&gt; post (I also changed my SSH port from 22 to something else to limit automatic detection). After following these steps, the workstation now needs the public keys of any computers that you want to connect to it using SSH - some tips for this can be found &lt;a href=&#34;https://help.ubuntu.com/community/SSH/OpenSSH/Keys&#34;&gt;here&lt;/a&gt;. To make connections to the workstation consistent it needs a static IP. I did this using the &lt;a href=&#34;https://linuxconfig.org/how-to-configure-static-ip-address-on-ubuntu-18-04-bionic-beaver-linux&#34;&gt;Ubuntu interface&lt;/a&gt; rather than using my router as I usually would and it was so easy that I will definitely favour this option in the future. The next step is to allow SSH connection from your computer when your not at home. To do this you need to open a port in your router and link it to the SSH port of the workstation (see the instructions for your router). If, like me, you don’t have a static IP address then you need to find a workaround. I used &lt;a href=&#34;https://www.noip.com&#34;&gt;noip&lt;/a&gt; to provide an address to SSH to rather than an IP. Finally, I like to add aliases to avoid having to write out the IP each time I want to SSH. Below I have an example setup (this needs to be copied into the &lt;code&gt;.profile&lt;/code&gt; file).&lt;/p&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;alias archie_internal=&amp;#39;ssh -p 2345 user@your-local-ip&amp;#39;
+alias archie=&amp;#39;ssh -p 2345 user@computer.hopto.org&amp;#39;
+alias archie_with_ports=&amp;#39;ssh -p 2345 -l localhost:8787:localhost:8787 user@computer.hopto.org&amp;#39;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Test your connection from the connecting computer using the following:&lt;/p&gt;
+&lt;pre class=&#34;bash&#34;&gt;&lt;code&gt;archie_with_ports&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;You should be able to control the workstation in the terminal and see Rstudio at &lt;code&gt;localhost:8787&lt;/code&gt; (This post was written remotely using this approach and the &lt;code&gt;seabbs/seabbs.github.io&lt;/code&gt; docker container).&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;next-steps&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Next steps&lt;/h1&gt;
+&lt;p&gt;Whilst I now have a working workstation there are still some things that need sorting out. The most important of these are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Work out how to use GPUs in arbitrary docker containers without first installing cuda etc.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;blockquote class=&#34;twitter-tweet&#34; data-lang=&#34;en&#34;&gt;
+&lt;p lang=&#34;en&#34; dir=&#34;ltr&#34;&gt;
+Suggestions for how best to use &lt;a href=&#34;https://twitter.com/nvidia?ref_src=twsrc%5Etfw&#34;&gt;&lt;span class=&#34;citation&#34;&gt;@nvidia&lt;/span&gt;&lt;/a&gt; GPUs in rocker &lt;a href=&#34;https://twitter.com/hashtag/rstats?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#rstats&lt;/a&gt; &lt;a href=&#34;https://twitter.com/hashtag/docker?src=hash&amp;amp;ref_src=twsrc%5Etfw&#34;&gt;#docker&lt;/a&gt; containers. Ideally looking for a solution using nvidia docker compose rather than manually installing cuda into each container? Does this exist or are there good alternatives?
+&lt;/p&gt;
+— Sam Abbott (&lt;span class=&#34;citation&#34;&gt;@seabbs&lt;/span&gt;) &lt;a href=&#34;https://twitter.com/seabbs/status/1075709270979686401?ref_src=twsrc%5Etfw&#34;&gt;December 20, 2018&lt;/a&gt;
+&lt;/blockquote&gt;
+&lt;script async src=&#34;https://platform.twitter.com/widgets.js&#34; charset=&#34;utf-8&#34;&gt;&lt;/script&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;Benchmark GPU vs CPU for common tasks such as training &lt;a href=&#34;https://xgboost.ai&#34;&gt;Xgboost models&lt;/a&gt; and using &lt;a href=&#34;https://xgboost.ai&#34;&gt;libBi&lt;/a&gt; (for P-MCMC and SMC-SMC).&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;Explore whether simultaneous multi-threading (hyper-threading) leads to performance improvements in common Rstats work loads. For Intel CPUs, my experience is that only using real cores leads to better performance for intensive compute tasks. If this is the case here then this will allow for greater overclocking headroom.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;things-to-improve-next-time&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Things to improve next time&lt;/h1&gt;
+&lt;p&gt;This was a huge learning experience (which I really enjoyed). My main takeaways so far have been:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Think hard about parts trade-off&lt;/strong&gt; - for example, I went with the last generation Threadripper as a cost saving initiative. In retrospect, the latest generation might have been worth the money because the new automatic overclocking features mean that significant improves are likely for most workloads.&lt;/p&gt;&lt;/li&gt;
+&lt;li&gt;&lt;p&gt;&lt;strong&gt;Look carefully into cooling options in more detail&lt;/strong&gt; - for example, a larger radiator would give more head room from CPU overclocking.&lt;/p&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/div&gt;
+&lt;div id=&#34;wrap-up&#34; class=&#34;section level1&#34;&gt;
+&lt;h1&gt;Wrap Up&lt;/h1&gt;
+&lt;p&gt;If you got through this post then thanks for reading! Hopefully it gave some insights into how to approach building out a workstation for Rstats. I am definitely not an expert so any thoughts would be very welcome. As mentioned above, I am particularly interested in performance comparisons between GPUs and CPUs (both real and virtual cores) and so would welcome any insights into this aspect of things.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>getTBinR 0.5.5 now on CRAN - 2017 data.</title>
       <link>http://www.samabbott.co.uk/post/gettbinr-5-5/</link>
       <pubDate>Fri, 28 Sep 2018 00:00:00 +0000</pubDate>
@@ -330,7 +445,10 @@ ggsave(&amp;quot;storyboard.png&amp;quot;,
       <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/cluster-england-tb/</guid>
-      <description>&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
+      <description>
+
+
+&lt;div id=&#34;introduction&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Introduction&lt;/h2&gt;
 &lt;p&gt;I recently attended the &lt;a href=&#34;Public%20Health%20Research%20and%20Science%20Conference&#34;&gt;Public Health Research and Science Conference&lt;/a&gt;, run by &lt;a href=&#34;https://www.gov.uk/government/organisations/public-health-england&#34;&gt;Public Health England&lt;/a&gt; (PHE), at the University of Warwick. I was mainly there to present some work that I have been doing (along with my co-authors) estimating the direct effects of the 2005 change in BCG vaccination policy on Tuberculosis (TB) incidence rates (&lt;a href=&#34;https://www.samabbott.co.uk/talk/phe-applied-epi-2018/&#34;&gt;slides&lt;/a&gt;) but it was also a great opportunity to see what research is being done within, and partnered with, PHE. The standout out work for me was the nascent data science work that is being undertaken within PHE, which is currently focused around the &lt;a href=&#34;https://github.com/ropensci/fingertipsR&#34;&gt;&lt;code&gt;fingertipsR&lt;/code&gt;&lt;/a&gt; R package by Sebastian Fox. &lt;a href=&#34;https://github.com/ropensci/fingertipsR&#34;&gt;&lt;code&gt;fingertipsR&lt;/code&gt;&lt;/a&gt; provides an easy interface to access the &lt;a href=&#34;https://fingertips.phe.org.uk&#34;&gt;fingertips&lt;/a&gt; API, which contains data on a large variety of public health issues, and can be explored interactively online (see previous link).&lt;/p&gt;
 &lt;p&gt;In this post we will focus on data on &lt;a href=&#34;https://en.wikipedia.org/wiki/Tuberculosis&#34;&gt;Tuberculosis&lt;/a&gt; (TB), which is predominately a respiratory disease and if left untreated kills approximately half of those infected. The majority of cases are symptom-less (known as latent TB), with 10% of latent cases progressing to active disease. It is thought that immediately after infection individuals are at a higher risk of proceeding to active disease, with the risk diminishing after several years. However, individuals who have carried the disease for many years can, and do, progress to active TB disease. This makes the control and management of TB on a population scale challenging as cases may either be due to recent transmission or be from the activation of latent cases who have carried the disease for many years. &lt;a href=&#34;https://en.wikipedia.org/wiki/HIV&#34;&gt;HIV&lt;/a&gt; infection is known to drastically increase the likelihood of progression to active TB disease and TB is the leading cause of death among people living with HIV (&lt;a href=&#34;http://www.who.int/hiv/topics/tb/tbhiv_facts_2015/en/&#34;&gt;source&lt;/a&gt;). Globally 10.4 million people fell ill with TB in 2016 alone, with 1.7 million deaths (&lt;a href=&#34;http://www.who.int/mediacentre/factsheets/fs104/en/&#34;&gt;source&lt;/a&gt;).&lt;/p&gt;
@@ -1438,7 +1556,10 @@ rm(&amp;quot;storyboard&amp;quot;, &amp;quot;plot_tb_cluster_map&amp;quot;)&lt;/
       <pubDate>Tue, 27 Feb 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/est-cfr-gettbinr/</guid>
-      <description>&lt;p&gt;This is a quick post exploring estimates of the case fatality ratio for Tuberculosis (TB) from &lt;a href=&#34;http://www.who.int/tb/country/data/download/en/&#34;&gt;data&lt;/a&gt; published by the World Health Organisation (WHO). It makes use of &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR&#34;&gt;getTBinR&lt;/a&gt; (which is now on &lt;a href=&#34;https://cran.r-project.org/web/packages/getTBinR/index.html&#34;&gt;CRAN&lt;/a&gt;), &lt;a href=&#34;https://github.com/trinker/pacman&#34;&gt;pacman&lt;/a&gt; for package management, &lt;a href=&#34;https://github.com/hrbrmstr/hrbrthemes&#34;&gt;hrbrthemes&lt;/a&gt; for plot themes, and &lt;a href=&#34;https://github.com/thomasp85/patchwork&#34;&gt;pathwork&lt;/a&gt; for combining multiple plots into a storyboard. For an introduction to using getTBinR to explore the WHO TB data see &lt;a href=&#34;https://www.samabbott.co.uk/post/intro-gettbinr/&#34;&gt;this&lt;/a&gt; post.&lt;/p&gt;
+      <description>
+
+
+&lt;p&gt;This is a quick post exploring estimates of the case fatality ratio for Tuberculosis (TB) from &lt;a href=&#34;http://www.who.int/tb/country/data/download/en/&#34;&gt;data&lt;/a&gt; published by the World Health Organisation (WHO). It makes use of &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR&#34;&gt;getTBinR&lt;/a&gt; (which is now on &lt;a href=&#34;https://cran.r-project.org/web/packages/getTBinR/index.html&#34;&gt;CRAN&lt;/a&gt;), &lt;a href=&#34;https://github.com/trinker/pacman&#34;&gt;pacman&lt;/a&gt; for package management, &lt;a href=&#34;https://github.com/hrbrmstr/hrbrthemes&#34;&gt;hrbrthemes&lt;/a&gt; for plot themes, and &lt;a href=&#34;https://github.com/thomasp85/patchwork&#34;&gt;pathwork&lt;/a&gt; for combining multiple plots into a storyboard. For an introduction to using getTBinR to explore the WHO TB data see &lt;a href=&#34;https://www.samabbott.co.uk/post/intro-gettbinr/&#34;&gt;this&lt;/a&gt; post.&lt;/p&gt;
 &lt;p&gt;It is estimated that in 2016 there was more than 10 million cases of active TB, with 1.3 million deaths (&lt;a href=&#34;https://en.wikipedia.org/wiki/Tuberculosis&#34;&gt;source&lt;/a&gt;). This makes TB the leading cause of death from an infectious disease. Despite the high numbers of cases globally, and high levels of mortality, TB is often considered a historic disease in developed countries. However, in recent years previously declining trends have flattened out and there is increasing concern surrounding multi-drug resistant TB, which has a greatly reduced the rate of successful treatment (&lt;a href=&#34;http://www.who.int/mediacentre/factsheets/fs104/en/&#34;&gt;source&lt;/a&gt;).&lt;/p&gt;
 &lt;p&gt;A key component of TB control is reducing the case fatality rate from active TB, this post explores WHO estimates for the TB case fatality rate in 2016 and then estimates the case fatality rates in previous years. The first step is to download and install the required packages, &lt;code&gt;pacman&lt;/code&gt; is used to manage this process.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;if (!require(pacman)) install.packages(&amp;quot;pacman&amp;quot;); library(pacman)
@@ -1769,7 +1890,10 @@ storyboard&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/intro-gettbinr/</guid>
-      <description>&lt;p&gt;In November I attended &lt;a href=&#34;https://www.elsevier.com/events/conferences/international-conference-on-infectious-disease-dynamics&#34;&gt;Epidemics&lt;/a&gt;, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.&lt;/p&gt;
+      <description>
+
+
+&lt;p&gt;In November I attended &lt;a href=&#34;https://www.elsevier.com/events/conferences/international-conference-on-infectious-disease-dynamics&#34;&gt;Epidemics&lt;/a&gt;, which is a conference focused on modelling infectious diseases. There was a lot of great work and perhaps most excitingly a lot of work being offered as R packages.&lt;/p&gt;
 &lt;p&gt;I’ve recently begun wrapping all my analytical work in R packages, as it makes producing reproducible research a breeze! Unfortunately all of this work is still making it’s way towards publication and for a variety of reasons can’t be shared until it has passed this hurdle. As I didn’t want to be left out my only alternative was to produce an R package during my downtime at the conference - from which &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR&#34;&gt;getTBinR&lt;/a&gt; was born. Over the Christmas period more work has been done and the package is now available from &lt;a href=&#34;https://cran.r-project.org/web/packages/getTBinR/index.html&#34;&gt;CRAN&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;GetTBinR wraps the World Health Organisation &lt;a href=&#34;http://www.who.int/tb/country/data/download/en/&#34;&gt;Tuberculosis data&lt;/a&gt;, which includes data on Tuberculosis incidence rates, mortality rates, case reporting rates and several other metrics by country from 2000 until 2016 with varying levels of completeness. It also provides some general purpose functions for mapping and plotting the data, with the aim of kick starting any exploratory analysis of the WHO Tuberculosis data.&lt;/p&gt;
 &lt;p&gt;For this post I will be quickly diving into global trends in Tuberculosis incidence rates and exploring whether Tuberculosis eradication is on the horizon.&lt;/p&gt;
@@ -2023,7 +2147,10 @@ high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&
       <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/tb-england-wales/</guid>
-      <description>&lt;p&gt;This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 &lt;a href=&#34;https://www.gov.uk/government/publications/tuberculosis-tb-annual-notifications-1913-onwards&#34;&gt;released&lt;/a&gt; by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the &lt;a href=&#34;https://www.samabbott.co.uk/tbinenglanddataclean/&#34;&gt;tbinenglanddataclean&lt;/a&gt; R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time. For a full page view of the dashboard see &lt;a href=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
+      <description>
+
+
+&lt;p&gt;This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 &lt;a href=&#34;https://www.gov.uk/government/publications/tuberculosis-tb-annual-notifications-1913-onwards&#34;&gt;released&lt;/a&gt; by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the &lt;a href=&#34;https://www.samabbott.co.uk/tbinenglanddataclean/&#34;&gt;tbinenglanddataclean&lt;/a&gt; R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time. For a full page view of the dashboard see &lt;a href=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
 &lt;iframe src=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales?showcase=0&#34; width=&#34;672&#34; height=&#34;2000px&#34;&gt;
 &lt;/iframe&gt;
 </description>
@@ -2035,15 +2162,6 @@ high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&
       <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/intro_tb_models/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tuberculosis in England and Wales</title>
-      <link>http://www.samabbott.co.uk/project/tb_england_wales/</link>
-      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/tb_england_wales/</guid>
       <description></description>
     </item>
     

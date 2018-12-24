@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.49" />
+  <meta name="generator" content="Hugo 0.52" />
   <meta name="author" content="Sam Abbott">
 
   
@@ -408,7 +408,10 @@ It is estimated that in 2016 there was more than 10 million cases of active TB, 
 
 
     <div class="article-style" itemprop="articleBody">
-      <p>This is a quick post exploring estimates of the case fatality ratio for Tuberculosis (TB) from <a href="http://www.who.int/tb/country/data/download/en/">data</a> published by the World Health Organisation (WHO). It makes use of <a href="https://www.samabbott.co.uk/getTBinR">getTBinR</a> (which is now on <a href="https://cran.r-project.org/web/packages/getTBinR/index.html">CRAN</a>), <a href="https://github.com/trinker/pacman">pacman</a> for package management, <a href="https://github.com/hrbrmstr/hrbrthemes">hrbrthemes</a> for plot themes, and <a href="https://github.com/thomasp85/patchwork">pathwork</a> for combining multiple plots into a storyboard. For an introduction to using getTBinR to explore the WHO TB data see <a href="https://www.samabbott.co.uk/post/intro-gettbinr/">this</a> post.</p>
+      
+
+
+<p>This is a quick post exploring estimates of the case fatality ratio for Tuberculosis (TB) from <a href="http://www.who.int/tb/country/data/download/en/">data</a> published by the World Health Organisation (WHO). It makes use of <a href="https://www.samabbott.co.uk/getTBinR">getTBinR</a> (which is now on <a href="https://cran.r-project.org/web/packages/getTBinR/index.html">CRAN</a>), <a href="https://github.com/trinker/pacman">pacman</a> for package management, <a href="https://github.com/hrbrmstr/hrbrthemes">hrbrthemes</a> for plot themes, and <a href="https://github.com/thomasp85/patchwork">pathwork</a> for combining multiple plots into a storyboard. For an introduction to using getTBinR to explore the WHO TB data see <a href="https://www.samabbott.co.uk/post/intro-gettbinr/">this</a> post.</p>
 <p>It is estimated that in 2016 there was more than 10 million cases of active TB, with 1.3 million deaths (<a href="https://en.wikipedia.org/wiki/Tuberculosis">source</a>). This makes TB the leading cause of death from an infectious disease. Despite the high numbers of cases globally, and high levels of mortality, TB is often considered a historic disease in developed countries. However, in recent years previously declining trends have flattened out and there is increasing concern surrounding multi-drug resistant TB, which has a greatly reduced the rate of successful treatment (<a href="http://www.who.int/mediacentre/factsheets/fs104/en/">source</a>).</p>
 <p>A key component of TB control is reducing the case fatality rate from active TB, this post explores WHO estimates for the TB case fatality rate in 2016 and then estimates the case fatality rates in previous years. The first step is to download and install the required packages, <code>pacman</code> is used to manage this process.</p>
 <pre class="r"><code>if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)

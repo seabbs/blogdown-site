@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="theme" content="hugo-academic">
-  <meta name="generator" content="Hugo 0.49" />
+  <meta name="generator" content="Hugo 0.52" />
   <meta name="author" content="Sam Abbott">
 
   
@@ -406,7 +406,10 @@
 
 
     <div class="article-style" itemprop="articleBody">
-      <div id="introduction" class="section level2">
+      
+
+
+<div id="introduction" class="section level2">
 <h2>Introduction</h2>
 <p>I recently attended the <a href="Public%20Health%20Research%20and%20Science%20Conference">Public Health Research and Science Conference</a>, run by <a href="https://www.gov.uk/government/organisations/public-health-england">Public Health England</a> (PHE), at the University of Warwick. I was mainly there to present some work that I have been doing (along with my co-authors) estimating the direct effects of the 2005 change in BCG vaccination policy on Tuberculosis (TB) incidence rates (<a href="https://www.samabbott.co.uk/talk/phe-applied-epi-2018/">slides</a>) but it was also a great opportunity to see what research is being done within, and partnered with, PHE. The standout out work for me was the nascent data science work that is being undertaken within PHE, which is currently focused around the <a href="https://github.com/ropensci/fingertipsR"><code>fingertipsR</code></a> R package by Sebastian Fox. <a href="https://github.com/ropensci/fingertipsR"><code>fingertipsR</code></a> provides an easy interface to access the <a href="https://fingertips.phe.org.uk">fingertips</a> API, which contains data on a large variety of public health issues, and can be explored interactively online (see previous link).</p>
 <p>In this post we will focus on data on <a href="https://en.wikipedia.org/wiki/Tuberculosis">Tuberculosis</a> (TB), which is predominately a respiratory disease and if left untreated kills approximately half of those infected. The majority of cases are symptom-less (known as latent TB), with 10% of latent cases progressing to active disease. It is thought that immediately after infection individuals are at a higher risk of proceeding to active disease, with the risk diminishing after several years. However, individuals who have carried the disease for many years can, and do, progress to active TB disease. This makes the control and management of TB on a population scale challenging as cases may either be due to recent transmission or be from the activation of latent cases who have carried the disease for many years. <a href="https://en.wikipedia.org/wiki/HIV">HIV</a> infection is known to drastically increase the likelihood of progression to active TB disease and TB is the leading cause of death among people living with HIV (<a href="http://www.who.int/hiv/topics/tb/tbhiv_facts_2015/en/">source</a>). Globally 10.4 million people fell ill with TB in 2016 alone, with 1.7 million deaths (<a href="http://www.who.int/mediacentre/factsheets/fs104/en/">source</a>).</p>
