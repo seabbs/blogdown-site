@@ -6,7 +6,7 @@ description: "Walkthrough and signposting from my experience building out a work
 slug: building-an-rstats-workstation
 tags: ["overclocking", "compute", "gpu", "data science"]
 categories: ["R"]
-twitterImg: "/img/2018-12-21-building-an-rstats-workstation/parts.png"
+twitterImg: "img/2018-12-21-building-an-rstats-workstation/parts.png"
 ---
 
 ```{r knitr-opts, echo = FALSE}
@@ -70,10 +70,10 @@ sudo apt-get install htop tree
 
 To check that everything was working correctly in the build, I needed to be able to monitor CPU temperatures, both ideal and under load. I chose to do this using [`s-tui`](https://github.com/amanusk/s-tui) - a great tool that monitors CPU usage, temperatures, power consumption and speed. It provides an interface to the `stress` package, allowing load scenarios to be simulated. I also needed to be able to check that the GPU was working as expected. To do this, I used the following command in the terminal: `watch -n 5 nvidia-smi` - this calls `nvidia-smi` every 5 seconds. `nvidia-smi` comes prepackaged with the Nvidia drivers (you may need to update/switch your drivers - I used [this post](http://www.linuxandubuntu.com/home/how-to-install-latest-nvidia-drivers-in-linux)) and allows monitoring of Nvidia GPUs (much like `top` for CPUs).
 
-As this workstation is mostly going to be running analyses via [rocker](https://hub.docker.com/r/rocker/tidyverse)-based docker containers, the next key step is to download and install [Docker CE](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1). See the Docker documentation for more details on using docker (well worth the time as Docker is the one of the best tools for ensuring that analysis is reproducible). If everything is installed and working correctly, the following should lead to an instance of an Rstudio server at `localhost:8787` with the username and password of `seabbs`.
+As this workstation is mostly going to be running analyses via [rocker](https://hub.docker.com/r/rocker/tidyverse)-based docker containers, the next key step is to download and install [Docker CE](https://docs.docker.com/install/linux/docker-ce/ubuntu/#install-docker-ce-1). See the Docker documentation for more details on using docker (well worth the time as Docker is the one of the best tools for ensuring that analysis is reproducible). If everything is installed and working correctly, the following should lead to an instance of an Rstudio server at `localhost:8787` with the username and password of `seabbs` (you may need to use `sudo` here).
 
 ```{bash, eval = FALSE}
-docker run -d -p 8787:8787 -e USER=seabbs -e PASSWORD=seabbs rstudio rocker/tidyverse
+docker run -d -p 8787:8787 -e USER=seabbs -e PASSWORD=seabbs --name rstudio rocker/tidyverse
 ```
 
 From here, you should have everything you need to do Rstats using your new workstation! The final software that is required is [`nvidia-docker`](https://github.com/NVIDIA/nvidia-docker), this provides a docker wrapper that allows docker containers to access the Nvidia GPU. After installing, check its working using the following:
