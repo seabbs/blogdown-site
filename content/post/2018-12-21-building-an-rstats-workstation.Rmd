@@ -1,5 +1,5 @@
 ---
-title: "Building an Rstats Workstation"
+title: "Benchmarking an Rstats Workstation - Real CPU vs. Virtual CPU vs. GPU"
 author: 'null'
 date: '2018-12-23'
 description: "Walkthrough and signposting from my experience building out a workstation for Rstats data science compute tasks."
