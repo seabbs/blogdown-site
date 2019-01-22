@@ -1,9 +1,10 @@
 ---
-title: "Benchmarking an Rstats Workstation - using `xgboost` via `h2o`"
+title: "Benchmarking an Rstats Workstation on Realistic Workloads - using xgboost via h2o"
 author: 'null'
 date: '2019-01-20'
 description: ""
 slug: benchmarking-workstation
+draft: yes 
 tags: ["benchmark", "cpu", "gpu", "data science", "xgboost", "h2o"]
 categories: ["R"]
 twitterImg: ""
@@ -23,6 +24,7 @@ p_load("h2o") ## Get the latest with: install.packages("h2o", type = "source", r
 p_load("skimr")
 p_load("recipes")
 p_load("tictoc")
+## Also requires CUDA 8.0 for Nvidia GPU support
 ```
 
 ## Why?
@@ -59,7 +61,7 @@ hyper_params <- list(
 
 spec_grid <- partial(h2o.grid,
                      algorithm = "xgboost",
-                     nfolds = 3,
+                     nfolds = 5,
                      seed = 2344232,
                      stopping_rounds = 0,
                      search_criteria = search_crit,
@@ -78,23 +80,28 @@ benchmark_grid <- function(df,
                            grid = NULL,
                            cores = NULL, 
                            gpu = FALSE,
-                           subsample = 1e3,
+                           rowsample = 1e3,
                            trees = NULL,
                            colsample = 1,
-                           ram = "32g") {
+                           ram = 28) {
   
 ## Initialise the h2o cluster with the desired core number
-  h2o.init(max_mem_size = ram, nthreads = cores)
+  h2o.init(min_mem_size = paste0(ram, "g"),
+           nthreads = cores)
   h2o.no_progress()
+
+## Sample columns (up/down sampling)
+  df <- df[target] %>% 
+    bind_cols(df %>%
+                select(-contains(target)) %>% 
+                {.[, sample(1:ncol(.), colsample, replace = TRUE)]})
   
 ## Specify the training data and set 
-  h2o_train <- sample_n(df, subsample) %>% 
+  h2o_train <- sample_n(df, rowsample, replace = TRUE) %>% 
     as.h2o
 
 ## Specify the features
   features <- setdiff(colnames(df), target)
-  cols <- sample(1:length(features), colsample)
-  features <- features[cols]
   
 ## Start the timer
 tic(paste0("Trained a ",
@@ -102,21 +109,32 @@ tic(paste0("Trained a ",
            "models with ", cores, " cores", 
             ifelse(gpu, " using the GPU backend", ""),
             " on a subsample of ",
-            subsample, 
-            " row and ",
+            rowsample, 
+            " rows and ",
             colsample, 
            " features with ",
            trees, 
            " trees."))
 
-## Train the models
+  if(object.size(df) > ((ram * 1000^3)/ cores)) {
+    message("Data size is to big to fit into RAM in this configuration")
+    
+    model_fit <- FALSE
+  }else{
+    ## Train the models
   trained_grid <- grid(y = target,
                        x = features,
                        training_frame = h2o_train,
                        backend = ifelse(gpu, "gpu", "cpu")) 
+  
+  model_fit <- TRUE
+  }
+
 
   
 time <- toc()
+
+time$fit <- model_fit
 
 h2o.shutdown(prompt = FALSE)
 
@@ -127,12 +145,11 @@ return(time)
 
 ## Sourcing Test Data
 
-We use credit data from the `recipes` package as an example of a real world dataset. A binary outcome has been chosen as this reflects much of the modelling I do day to day (usually loan defaults). To allow for comparision of model run times on larger datasets the data has been upsampled 1000 times to give 4 million samples.
-
+We use credit data from the `recipes` package as an example of a real world dataset. A binary outcome has been chosen as this reflects much of the modelling I do day to day (usually loan defaults). 
+ 
 ```{r, results = "asis"}
 credit_data <- recipes::credit_data %>% 
-  as_tibble %>% 
-  sample_frac(1000, replace = TRUE)
+  as_tibble
 
 skim(credit_data) %>% 
   skimr::kable()
@@ -234,7 +251,7 @@ grid_test <- benchmark_grid(complex_credit_data,
                             grid = spec_grid,
                             cores = 31, 
                             gpu = FALSE,
-                            subsample = 1e4,
+                            rowsample = 1e4,
                             trees = 50,
                             colsample = 20)
 
@@ -243,7 +260,7 @@ grid_test
 
 We see that the settings above give a runtime of around a minute but using the `htop` tool we see that resource use is not stable over time. This may indicate that `h2o` is not using all the supplied cores effectively/efficiently for this data size, with these settings etc.
 
-![Load according to `htop` whilst running the test](img/2018-01-20/benchmarking-workstation-xgboost.gif)
+![Load according to `htop` whilst running the test grid.](/img/2019-01-20-benchmarking-workstation-xgboost/load-example.gif)
 
 ## Enabling GPU support
 
@@ -263,12 +280,15 @@ nvidia-smi
 ```{r}
 benchmark_input <- expand.grid(
   cores = c(4, 16, 32),
-  subsample = c(1e3, 1e4),
-  colsample = c(10, 100),
-  trees = c(10, 100, 1000),
+  rowsample = c(1e3, 1e4, 2.5e4, 5e4, 7.5e4, 1e5),
+  colsample = c(10, 100, 1000),
+  trees = c(10, 100, 1000, 10000),
   gpu = c(FALSE),
-  rep = 5
-)
+  rep = 1
+) %>% 
+  as_tibble() %>% 
+  mutate(size = rowsample * colsample * trees) %>% 
+  arrange(desc(size), cores)
 
 benchmark_input
 ```
@@ -276,20 +296,72 @@ benchmark_input
 * Run benchmark
 
 ```{r}
-benchmark_output <- benchmark_input %>% 
+## Cached manually to avoid rerunning on knit.
+if (!file.exists("../../static/data/workstation-benchmark/xgboost.rds")) {
+  benchmark_output <- benchmark_input %>% 
   rowwise() %>% 
   mutate(bench = list(as_tibble(benchmark_grid(complex_credit_data,
                                        "Status",
                                         grid = spec_grid,
                                         cores = cores, 
                                         gpu = gpu,
-                                        subsample = subsample,
+                                        rowsample = rowsample,
                                         trees = trees,
                                         colsample = colsample)))) %>% 
   unnest(bench) %>%
   select(-msg) %>% 
-  mutate(duration = toc - tic)
-
+  mutate(duration = toc - tic) %>% 
+  filter(fit)
+  
+  saveRDS(benchmark_output, "../../static/data/workstation-benchmark/xgboost.rds")
+}else{
+  benchmark_output <- readRDS( "../../static/data/workstation-benchmark/xgboost.rds")
+}
 
 benchmark_output
+```
+
+* Plot output
+
+```{r, fig.height = 10, fig.width = 10}
+benchmark_output %>% 
+  group_by(rowsample, colsample, trees) %>% 
+  mutate(duration = duration / 60) %>% 
+  mutate(Compute = paste0(cores, " Threadripper 1950X CPU cores") %>% 
+           factor(labels = c(paste0(c(4, 16, 32), " Threadripper 1950X CPU cores")))) %>% 
+  ggplot(aes(rowsample, duration, col = Compute, group = Compute)) +
+  geom_point() +
+  geom_line() + 
+  facet_grid(colsample ~ trees) +
+  theme_minimal() +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 90,hjust = 1)) +
+  scale_x_continuous(labels = scales::comma) + 
+  scale_color_viridis_d(begin = 0.2, end = 0.8) +
+  labs(x = "Rows",
+       y = "Duration (minutes)",
+       caption = "Number of Trees ~ Number of Features")
+```
+
+
+* Plot output scaled to minimum core number (i.e uplift)
+
+
+```{r, fig.height = 10, fig.width = 10}
+benchmark_output %>% 
+  group_by(rowsample, colsample, trees) %>% 
+  mutate(duration = (max(duration) - duration) / max(duration)) %>% 
+  mutate(Compute = paste0(cores, " Threadripper 1950X CPU cores") %>% 
+           factor(labels = c(paste0(c(4, 16, 32), " Threadripper 1950X CPU cores")))) %>% 
+  ggplot(aes(rowsample, duration, col = Compute, group = Compute)) +
+  geom_point() +
+  geom_line() + 
+  facet_grid(colsample ~ trees) +
+  theme_minimal() +
+  theme(legend.position = "top", axis.text.x = element_text(angle=90,hjust=1)) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(labels = scales::comma) + 
+  scale_color_viridis_d(begin = 0.2, end = 0.8) +
+  labs(x = "Rows",
+       y = "Performance improvement over baseline (%)",
+       caption = "Number of Trees ~ Number of Features")
 ```
