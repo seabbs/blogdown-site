@@ -15,7 +15,6 @@ RUN apt-get update -qq \
     default-jre \
   && R CMD javareconf
 
-
 ## Add in website files
 ADD . /home/rstudio/seabbs.github.io
 
@@ -25,10 +24,6 @@ RUN Rscript -e 'devtools::install_github("rstudio/blogdown")'
 
 ## Get Blogdown
 RUN Rscript -e  'blogdown::install_hugo()'
-
-## Add in tidymodel packages
-RUN Rscript -e 'devtools::install_github("tidymodels/tidymodels")'
-RUN Rscript -e 'devtools::install_github("tidymodels/embed")`
 
 ## Get h2o deps
 RUN Rscript -e 'install.packages(c("RCurl","jsonlite"))'

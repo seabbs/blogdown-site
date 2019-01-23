@@ -10,8 +10,8 @@ tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "getTBinR",
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(echo = TRUE,
-                      warnings = FALSE,
+knitr::opts_chunk$set(cache = TRUE, dpi = 320, 
+                      fig.height = 8, fig.width = 8,
                       eval = TRUE)
 ```
 
