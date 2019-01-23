@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Fri, 28 Sep 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 22 Jan 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/infectious-disease/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>getTBinR 0.5.7 now on CRAN - Tuberculosis reports and summary plots</title>
+      <link>http://www.samabbott.co.uk/post/gettbinr-5-7/</link>
+      <pubDate>Tue, 22 Jan 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/gettbinr-5-7/</guid>
+      <description>getTBinR 0.5.7 is now on CRAN and should be available on a mirror near you shortly! This update mainly focussed on building out new country level Tuberculosis (TB) report functionality but along the way this led to a new summary plotting function that quickly and easily shows TB trends across regions and globally. I also had some fun developing a hexsticker (Tweet at me with something you made using the package to get a physical version - whilst my postage money lasts…), reducing the dependencies with itdepends and pkgnet and dealing with some breaking changes from an uncoming dplyr update (my own fault for missing a function import).</description>
+    </item>
     
     <item>
       <title>getTBinR 0.5.5 now on CRAN - 2017 data.</title>

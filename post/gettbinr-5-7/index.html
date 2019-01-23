@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang="en-uk">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.53" />
+  <meta name="author" content="Sam Abbott">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="getTBinR 0.5.7 is now on CRAN and should be available on a mirror near you shortly! This update mainly focussed on building out new country level Tuberculosis (TB) report functionality but along the way this led to a new summary plotting function that quickly and easily shows TB trends across regions and globally. I also had some fun developing a hexsticker (Tweet at me with something you made using the package to get a physical version - whilst my postage money lasts…), reducing the dependencies with itdepends and pkgnet and dealing with some breaking changes from an uncoming dplyr update (my own fault for missing a function import).">
+
+  
+  <link rel="alternate" hreflang="en-uk" href="http://www.samabbott.co.uk/post/gettbinr-5-7/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="../../styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-85604924-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+  <link rel="feed" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+  
+
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="icon" type="image/png" href="../../img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../img/icon-192.png">
+
+  <link rel="canonical" href="http://www.samabbott.co.uk/post/gettbinr-5-7/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@seabbs">
+  <meta property="twitter:creator" content="@seabbs">
+  
+  <meta property="og:site_name" content="Sam Abbott">
+  <meta property="og:url" content="http://www.samabbott.co.uk/post/gettbinr-5-7/">
+  <meta property="og:title" content="getTBinR 0.5.7 now on CRAN - Tuberculosis reports and summary plots | Sam Abbott">
+  <meta property="og:description" content="getTBinR 0.5.7 is now on CRAN and should be available on a mirror near you shortly! This update mainly focussed on building out new country level Tuberculosis (TB) report functionality but along the way this led to a new summary plotting function that quickly and easily shows TB trends across regions and globally. I also had some fun developing a hexsticker (Tweet at me with something you made using the package to get a physical version - whilst my postage money lasts…), reducing the dependencies with itdepends and pkgnet and dealing with some breaking changes from an uncoming dplyr update (my own fault for missing a function import).">
+  <meta property="og:locale" content="en-uk">
+  
+  <meta property="article:published_time" content="2019-01-22T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2019-01-22T00:00:00&#43;00:00">
+  
+
+  <!DOCTYPE html>
+
+
+<title>getTBinR 0.5.7 now on CRAN - Tuberculosis reports and summary plots - Sam Abbott</title>
+<meta property="og:title" content="getTBinR 0.5.7 now on CRAN - Tuberculosis reports and summary plots - Sam Abbott">
+<meta property="og:type" content="article">
+
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/seabbs/seabbs.github.io/sources/static/img/getTBinR/release-5-7.png" >
+  
+  
+
+<meta property="description" content="getTBinR version 0.5.7 now with a new plotting function to quickly show regional and global metrics &#43; a new country level Tuberculosis report generating function. Tweet an instance of you using the package at me and potentially recieve a hexsticker!">
+<meta property="og:description" content="getTBinR version 0.5.7 now with a new plotting function to quickly show regional and global metrics &#43; a new country level Tuberculosis report generating function. Tweet an instance of you using the package at me and potentially recieve a hexsticker!">
+
+
+<meta name="twitter:creator" content="">
+<meta name="twitter:site" content="">
+
+  <title>getTBinR 0.5.7 now on CRAN - Tuberculosis reports and summary plots | Sam Abbott</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="../../"><img src="../../img/logo.png" alt="Sam Abbott"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#talks">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#contact">
+            
+            <span>Contact</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../pdf/cv_sea.pdf">
+            
+            <span>CV</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">getTBinR 0.5.7 now on CRAN - Tuberculosis reports and summary plots</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-01-22 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Tue, Jan 22, 2019
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sam Abbott">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    5 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="http://www.samabbott.co.uk/post/gettbinr-5-7/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="../../categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=getTBinR%200.5.7%20now%20on%20CRAN%20-%20Tuberculosis%20reports%20and%20summary%20plots&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-7%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-7%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-7%2f&amp;title=getTBinR%200.5.7%20now%20on%20CRAN%20-%20Tuberculosis%20reports%20and%20summary%20plots"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-7%2f&amp;title=getTBinR%200.5.7%20now%20on%20CRAN%20-%20Tuberculosis%20reports%20and%20summary%20plots"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=getTBinR%200.5.7%20now%20on%20CRAN%20-%20Tuberculosis%20reports%20and%20summary%20plots&amp;body=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-5-7%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<p><a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR 0.5.7</code></a> is now on CRAN and should be available on a mirror near you shortly! This update mainly focussed on building out new country level Tuberculosis (TB) report functionality but along the way this led to a new summary plotting function that quickly and easily shows TB trends across regions and globally. I also had some fun developing a hexsticker (Tweet at me with something you made using the package to get a physical version - whilst my postage money lasts…), reducing the dependencies with <a href="https://github.com/jimhester/itdepends"><code>itdepends</code></a> and <a href="https://uptakeopensource.github.io/pkgnet/index.html"><code>pkgnet</code></a> and dealing with some breaking changes from an uncoming <code>dplyr</code> update (my own fault for missing a function import).</p>
+<p>The full changelog is below along with an example of the country level TB report generated for the UK (generate a report on the country of your choice using <code>getTBinR::render_country_report(country = &quot;United Kingdom&quot;, save_dir = &quot;.&quot;)</code>).</p>
+<div id="feature-updates" class="section level2">
+<h2>Feature updates</h2>
+<ul>
+<li>Added support for annual_change to summarise_tb_burden and added validating tests.</li>
+<li>Added support for rates and proportions to summarise_tb_burden and added validating tests.</li>
+<li>Added a new function - plot_tb_burden_summary. Function wraps summarise_tb_burden and allows all in one summary plotting. Inspired by this case study.</li>
+<li>Added a rmarkdown parameterised country level report on TB.</li>
+<li>Added a report generating button to the dashboard generated by run_tb_dashboard.</li>
+<li>Added render_country_report to generate a TB report for a given country.</li>
+<li>Tweaked map_tb_burden to not use geom_path for country outlines.</li>
+<li>Added a smooth argument to plot_tb_burden to allow smooth trend lines to be plotted (derived using ggplot2::geom_smooth).</li>
+<li>Tweaked line thickness in plot_tb_burden to improve plot appearance.</li>
+<li>Added legend argument to all plotting functions to allow control of the legend appearance.</li>
+</ul>
+</div>
+<div id="package-updates" class="section level2">
+<h2>Package updates</h2>
+<ul>
+<li>Added script to generate hexsticker</li>
+<li>Added hexsticker to README</li>
+<li>Added DOI link to Zenodo.</li>
+<li>Updated tests to account for dplyr 8.0 release and vdiffr updates.</li>
+<li>Added itdepends to package report functionality.</li>
+</ul>
+</div>
+<div id="example-united-kingdom-tuberculosis-report" class="section level2">
+<h2>Example: United Kingdom Tuberculosis Report</h2>
+<pre class="r"><code>## Load the package
+library(getTBinR)
+## Load additional packages
+library(dplyr) # For data munging 
+library(tidyr)
+library(rlang)
+library(ggplot2)
+
+## Get the data
+tb &lt;- get_tb_burden(verbose = FALSE)
+## Get the data dictionary
+dict &lt;- get_data_dict(verbose = FALSE)
+##Assign parameters - these are set in the YAML within the package
+country &lt;- &quot;United Kingdom&quot;
+interactive &lt;- FALSE</code></pre>
+</div>
+<div id="tb-incidence-rates" class="section level2">
+<h2>TB incidence rates</h2>
+<pre class="r"><code>metric_summary &lt;- function(df = NULL, target_country = NULL, metric = NULL) {
+  
+  target_country &lt;- df$country[grepl(target_country, df$country)] %&gt;% 
+    unique %&gt;% 
+    first
+    
+  ##  Set up metric with confidence intervals
+  metric &lt;- enquo(metric)
+  metric_lo &lt;- sym(paste0(quo_name(metric), &quot;_lo&quot;))
+  metric_hi &lt;- sym(paste0(quo_name(metric), &quot;_hi&quot;))
+  
+  ## Filter for the country of interest
+  country_df &lt;- df %&gt;% 
+  filter(country %in% target_country)
+  
+## Most up to date year of incidence data
+recent_inc &lt;- country_df %&gt;% 
+  drop_na(!!metric) %&gt;% 
+  filter(year == max(year)) %&gt;% 
+  select(!!metric, !!metric_lo, !!metric_hi, year, g_whoregion) %&gt;% 
+  mutate(inc_rate = paste0(!!metric, &quot; (&quot;, !!metric_lo, &quot; - &quot;, !!metric_hi, &quot;)&quot;))
+## Country rank
+ranked_countries_inc &lt;- df %&gt;% 
+  filter(year == recent_inc$year) %&gt;% 
+  arrange(desc(!!metric)) %&gt;% 
+  mutate(rank = 1:n())
+## World rank
+target_rank_world &lt;- ranked_countries_inc %&gt;% 
+  filter(country == target_country) %&gt;% 
+  pull(rank)
+## Region rank
+target_rank_region &lt;- ranked_countries_inc %&gt;% 
+  filter(g_whoregion %in% recent_inc$g_whoregion) %&gt;% 
+  mutate(rank = 1:n()) %&gt;% 
+  filter(country == target_country) %&gt;%
+  pull(rank)
+## Summarise annual change
+country_change &lt;- summarise_tb_burden(metric = quo_name(metric),
+                                      stat = &quot;mean&quot;,
+                                      countries = target_country,
+                                      compare_to_region = FALSE,
+                                      compare_to_world = FALSE,
+                                      compare_all_regions = FALSE,
+                                      annual_change = TRUE,
+                                      verbose = FALSE) %&gt;% 
+  filter(year &gt; (max(year) - 10)) %&gt;% 
+  summarise(change = mean(!!metric, na.rm = FALSE)) %&gt;%
+  mutate(change = round(change * 100, 1) %&gt;% 
+           paste0(., &quot;%&quot;)) %&gt;% 
+  pull(change)
+out &lt;- list(recent_inc$year[1], recent_inc$inc_rate[1],
+            target_rank_world, target_rank_region,
+            country_change)
+names(out) &lt;- c(&quot;year&quot;, &quot;metric&quot;, &quot;world_rank&quot;, &quot;region_rank&quot;, &quot;avg_change&quot;)
+out &lt;- ifelse(is.na(out), &quot;(Missing)&quot;, out)
+return(out)
+}
+  
+  
+inc_sum &lt;- metric_summary(tb, country, e_inc_100k)</code></pre>
+<p>In 2017 United Kingdom had an estimated Tuberculosis incidence rate of 8.9 (8.1 - 9.8) per 100,000 people making it number 165 in the world and number 32 regionally. In the last 10 years this has changed by -4.9% on average each year.</p>
+<div id="regional-and-global-trends-comparision" class="section level3">
+<h3>Regional and Global Trends Comparision</h3>
+<pre class="r"><code>plot_tb_burden_summary(countries = country,
+                       metric_label = &quot;e_inc_100k&quot;,
+                       compare_to_world = TRUE, 
+                       compare_to_region = TRUE,
+                       compare_all_regions = FALSE,
+                       annual_change = FALSE,
+                       facet = &quot;Area&quot;,
+                       scales = &quot;free_y&quot;,
+                       legend = &quot;none&quot;,
+                       interactive = interactive,
+                       verbose = FALSE)</code></pre>
+<p><img src="../../post/2019-01-22-gettbinr-5-7_files/figure-html/unnamed-chunk-1-1.png" width="2560" /></p>
+</div>
+</div>
+<div id="rates-regional-breakdown" class="section level2">
+<h2>Rates Regional Breakdown</h2>
+<pre class="r"><code>plot_tb_burden_overview(countries = country,
+                        compare_to_region = TRUE,
+                        interactive = interactive,
+                        verbose = FALSE)</code></pre>
+<p><img src="../../post/2019-01-22-gettbinr-5-7_files/figure-html/unnamed-chunk-2-1.png" width="2560" /></p>
+</div>
+<div id="case-detection-rates-cdr" class="section level2">
+<h2>Case Detection Rates (CDR)</h2>
+<p>United Kingdom had an estimated case detection rate of 89 (81 - 98)% in 2017 making it number 4 in the world (with number 1 having the highest CDR) and number 3 regionally. In the last 10 years this has changed by 0% on average each year.</p>
+<div id="regional-breakdown" class="section level3">
+<h3>Regional Breakdown</h3>
+<pre class="r"><code>plot_tb_burden_overview(metric = &quot;c_cdr&quot;,
+                        countries = country,
+                        compare_to_region = TRUE,
+                        interactrive = interactive,
+                        verbose = FALSE)</code></pre>
+<p><img src="../../post/2019-01-22-gettbinr-5-7_files/figure-html/unnamed-chunk-4-1.png" width="2560" /></p>
+</div>
+</div>
+<div id="tb-mortality-rates---excluding-hiv" class="section level2">
+<h2>TB mortality rates - excluding HIV</h2>
+<p>In 2017 United Kingdom had an estimated Tuberculosis mortality rate (excluding HIV) of 0.53 (0.52 - 0.53) per 100,000 people making it number 166 in the world and number 32 regionally. In the last 10 years this has changed by -1.6% on average each year.</p>
+<div id="proportion-of-tb-cases-that-died-excluding-hiv---regional-and-global-comparision" class="section level3">
+<h3>Proportion of TB Cases that Died (excluding HIV) - Regional and Global Comparision</h3>
+<pre class="r"><code>plot_tb_burden_summary(metric = &quot;e_mort_exc_tbhiv_num&quot;,
+                       denom = &quot;e_inc_num&quot;,
+                       rate_scale = 100,
+                       countries = country,
+                       compare_to_region = TRUE,
+                       compare_all_regions = FALSE,
+                       interactive = interactive,
+                       verbose = FALSE,
+                       facet = &quot;Area&quot;,
+                       scales = &quot;free_y&quot;,
+                       legend = &quot;none&quot;) +
+  labs(y = &quot;Proportion (%) of TB cases that died (excluding HIV)&quot;)</code></pre>
+<p><img src="../../post/2019-01-22-gettbinr-5-7_files/figure-html/unnamed-chunk-6-1.png" width="3840" /></p>
+</div>
+<div id="rates-regional-breakdown-1" class="section level3">
+<h3>Rates Regional Breakdown</h3>
+<pre class="r"><code>plot_tb_burden_overview(metric = &quot;e_mort_exc_tbhiv_100k&quot;,
+                        countries = country,
+                        compare_to_region = TRUE,
+                        interactrive = interactive,
+                        verbose = FALSE)</code></pre>
+<p><img src="../../post/2019-01-22-gettbinr-5-7_files/figure-html/unnamed-chunk-7-1.png" width="2560" /></p>
+</div>
+</div>
+<div id="tb-hiv-related-mortality-rates" class="section level2">
+<h2>TB HIV related mortality rates</h2>
+<p>In 2017 United Kingdom had an estimated Tuberculosis mortality rate (related to HIV) of 0.1 (0.05 - 0.16) per 100,000 people making it number 127 in the world and number 23 regionally. In the last 10 years this has changed by 7.6% on average each year.</p>
+<div id="proportion-of-tb-cases-that-died-related-to-hiv---regional-and-global-comparision" class="section level3">
+<h3>Proportion of TB Cases that Died (related to HIV) - Regional and Global Comparision</h3>
+<pre class="r"><code>plot_tb_burden_summary(metric = &quot;e_mort_tbhiv_num&quot;,
+                       denom = &quot;e_inc_num&quot;,
+                       rate_scale = 100,
+                       countries = country,
+                       compare_to_region = TRUE,
+                       compare_all_regions = FALSE,
+                       interactive = interactive,
+                       verbose = FALSE,
+                       facet = &quot;Area&quot;,
+                       scales = &quot;free_y&quot;,
+                       legend = &quot;none&quot;) +
+  labs(y = &quot;Proportion (%) of TB cases that died (related to HIV)&quot;)</code></pre>
+<p><img src="../../post/2019-01-22-gettbinr-5-7_files/figure-html/unnamed-chunk-9-1.png" width="3840" /></p>
+</div>
+<div id="rates-regional-breakdown-2" class="section level3">
+<h3>Rates Regional Breakdown</h3>
+<pre class="r"><code>plot_tb_burden_overview(metric = &quot;e_mort_tbhiv_100k&quot;,
+                        countries = country,
+                        compare_to_region = TRUE,
+                        interactrive = interactive,
+                        verbose = FALSE)</code></pre>
+<p><img src="../../post/2019-01-22-gettbinr-5-7_files/figure-html/unnamed-chunk-10-1.png" width="2560" /></p>
+<p>For other examples of using <code>getTBinR</code> to visualise the WHO TB data see <a href="https://gist.github.com/seabbs">my</a> gists, previous blog <a href="https://www.samabbott.co.uk/tags/who/">posts</a>, and the <a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR</code> website</a>.</p>
+</div>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/data-analysis">data analysis</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/data-visualisation">data visualisation</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/rstats">rstats</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/tb">TB</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/who">WHO</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/gettbinr">getTBinR</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/infectious-disease">infectious disease</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="../../post/gettbinr-5-5/">getTBinR 0.5.5 now on CRAN - 2017 data.</a></li>
+        
+        <li><a href="../../post/gettbinr-5-4/">getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function.</a></li>
+        
+        <li><a href="../../post/est-cfr-gettbinr/">Exploring Estimates of the Tuberculosis Case Fatality Ratio - with getTBinR</a></li>
+        
+        <li><a href="../../post/intro-gettbinr/">Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR</a></li>
+        
+        <li><a href="../../post/cluster-england-tb/">Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction and Clustering</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "samabbott-co-uk" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 Sam Abbott &middot; 
+  
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a> &middot;
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+        
+    
+    
+    
+    
+      
+    
+    
+     <a href="https://github.com/seabbs/seabbs.github.io/tree/sources/content/post/2019-01-22-gettbinr-5-7.Rmd">Edit this page.</a>
+    
+   
+    </p>
+  </div>
+</footer>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//samabbott-co-uk.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+    
+    
+    <script src="../../js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/python.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+
