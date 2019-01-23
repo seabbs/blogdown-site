@@ -13,7 +13,8 @@ twitterImg: ""
 ```{r knitr-opts, echo = FALSE}
 knitr::opts_chunk$set(cache = TRUE, dpi = 320, 
                       fig.height = 8, fig.width = 8,
-                      warning = FALSE)
+                      warning = FALSE, 
+                      eval = FALSE)
 ```
 
 ```{r get-packages, message = FALSE, include = FALSE, echo = FALSE}
