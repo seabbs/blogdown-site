@@ -32,7 +32,7 @@ RUN Rscript -e 'install.packages(c("RCurl","jsonlite"))'
 RUN Rscript -e 'install.packages("h2o", type="source", repos="http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R")'
  
  ## Get Patchwork
-RUN Rscript -e 'devtools::install_github("thomasp85/patchwork")
+RUN Rscript -e 'devtools::install_github("thomasp85/patchwork")'
 
 ## Config for GitHub
 RUN git config --global user.email "signin@samabbott.co.uk"
