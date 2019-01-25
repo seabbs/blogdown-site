@@ -1,0 +1,369 @@
+---
+title: "Benchmarking an Rstats Workstation on Realistic Workloads - using xgboost via h2o"
+author: 'null'
+date: '2019-01-26'
+description: ""
+slug: benchmarking-workstation
+draft: yes 
+tags: ["benchmark", "cpu", "gpu", "data science", "xgboost", "h2o", "workstation"]
+categories: ["R"]
+twitterImg: ""
+---
+
+```{r knitr-opts, echo = FALSE}
+knitr::opts_chunk$set(cache = TRUE, dpi = 320, 
+                      fig.height = 8, fig.width = 8,
+                      warning = FALSE, 
+                      eval = TRUE)
+```
+
+```{r get-packages, message = FALSE, include = FALSE, echo = FALSE}
+if (!require(pacman)) install.packages("pacman"); library(pacman)
+p_load("tidyverse")
+p_load("purrr")
+p_load("h2o") ## Get the latest with: install.packages("h2o", type = "source", repos = "http://h2o-release.s3.amazonaws.com/h2o/latest_stable_R")
+p_load("skimr")
+p_load("recipes")
+p_load("tictoc")
+## Also requires CUDA 8.0 for Nvidia GPU support
+```
+
+## Why?
+
+I recently [built out a new workstation](https://www.samabbott.co.uk/post/building-an-rstats-workstation/) to give me some local compute for rstats data science work loads. Now that I have local access to both a CPU with a large number of cores (Threadripper 1950X with 16 cores) and a moderately powerful GPU (Nvidia RTX 2070) I'm interested in knowing when it is best to use CPU vs. GPU for some of the tasks that I commonly do. The first of these is fitting `xgboost` models for predictive tasks, this makes sense as a first problem to explore as in my experiance (and in the experiance of the wider community) `xgboost` generally provides the best performance on tabular I.D.D data (although more recently Light GBM has been performing well - this is not yet integrated into my common tool set so I have not made a great deal of use of it). I am also interested in exploring whether or not simultaneous multithreading (i.e Hyper-threading for Intel CPUs) gives any performance boost over using only phyiscal cores for these workloads (I couldn't find much on this online for AMD CPUs). If this proves not to be the case disabling this gives me a greater scope for overclocking my new workstation's CPU.
+
+## Aims
+
+* Understand when the CPU of my new workstation is optimal versus when the GPU is optimal when using `xgboost` via `h2o`.
+
+* Explore whether it makes sense to use virtual cores versus physical cores. If virtual cores add little to no additional performance then it may be attractive to disable this feature as this will enable further overclocking.
+
+* Explore how these features scale across different data sizes and tree ensemble sizes.
+
+
+## Developing a testing function
+
+As a first step we outline a hyper-parameter grid to search over and specify the parameters of the grid search. We turn off early stopping (which is not something that we would do in a real use case) to allow control over the exact number of trees being trained.
+
+```{r}
+## Search criteria
+search_crit <- list(strategy = "RandomDiscrete", 
+                    max_models = 10, stopping_rounds = 10)
+
+hyper_params <- list(
+  learn_rate = c(0.1, 0.3, 0.5),
+  sample_rate = c(0.6, 0.8, 1),
+  col_sample_rate = c(0.6, 0.8, 1),
+  max_depth = c(1, 5, 10),
+  min_rows = c(1, 2, 5),
+  reg_lambda = c(0, 0.001),
+  reg_alpha = c(0, 0.001)
+)
+
+spec_grid <- partial(h2o.grid,
+                     algorithm = "xgboost",
+                     nfolds = 5,
+                     seed = 2344232,
+                     stopping_rounds = 0,
+                     search_criteria = search_crit,
+                     hyper_params = hyper_params)
+
+
+
+```
+
+
+Next we develop a function to fit and time a single grid as specified on a subsample of the rows and columns supplied on a given number of CPU cores and potentially with a GPU backend.
+
+```{r}
+benchmark_grid <- function(df,
+                           target,
+                           grid = NULL,
+                           cores = NULL, 
+                           gpu = FALSE,
+                           rowsample = 1e3,
+                           trees = NULL,
+                           colsample = 1,
+                           ram = 28) {
+  
+## Initialise the h2o cluster with the desired core number
+  h2o.init(min_mem_size = paste0(ram, "g"),
+           nthreads = cores)
+  h2o.no_progress()
+
+## Sample columns (up/down sampling)
+  df <- df[target] %>% 
+    bind_cols(df %>%
+                select(-contains(target)) %>% 
+                {.[, sample(1:ncol(.), colsample, replace = TRUE)]})
+  
+## Specify the training data and set 
+  h2o_train <- sample_n(df, rowsample, replace = TRUE) %>% 
+    as.h2o
+
+## Specify the features
+  features <- setdiff(colnames(df), target)
+  
+## Start the timer
+tic(paste0("Trained a ",
+           "grid of 10 Xgboost ", 
+           "models with ", cores, " cores", 
+            ifelse(gpu, " using the GPU backend", ""),
+            " on a subsample of ",
+            rowsample, 
+            " rows and ",
+            colsample, 
+           " features with ",
+           trees, 
+           " trees."))
+
+  if(object.size(df) > ((ram * 1000^3)/ cores)) {
+    message("Data size is to big to fit into RAM in this configuration")
+    
+    model_fit <- FALSE
+  }else{
+    ## Train the models
+  trained_grid <- grid(y = target,
+                       x = features,
+                       training_frame = h2o_train,
+                       backend = ifelse(gpu, "gpu", "cpu")) 
+  
+  model_fit <- TRUE
+  }
+
+
+  
+time <- toc()
+
+time$fit <- model_fit
+
+h2o.shutdown(prompt = FALSE)
+
+Sys.sleep(3)
+return(time)
+}
+```
+
+## Sourcing Test Data
+
+We use credit data from the `recipes` package as an example of a real world dataset. A binary outcome has been chosen as this reflects much of the modelling I do day to day (usually loan defaults). 
+ 
+```{r, results = "asis"}
+credit_data <- recipes::credit_data %>% 
+  as_tibble
+
+skim(credit_data) %>% 
+  skimr::kable()
+```
+
+This dataset has been cleaned and contains a limited number, of presumably fairly predictive, variables. To make this a more realistic test we introduce additional numeric and categorical noise variables as well as adding missing data and duplicating our original features.
+
+
+* Add numeric and categorical noise features. Categorical features are randomly sampled and assigned 10, 50, 100, 250, 500 and 1000 levels, whilst numeric features are normally distributed with or without a log transform.
+
+```{r, results = "asis"}
+## Set up categorical variable generation
+get_cat_noise_var <- function(levels = NULL, samples) {
+  sample(paste('level',1:levels,sep=''), samples, replace=TRUE)
+}
+
+## Generate categorical variable with differing lengths (10, 100, 1000)
+cat_noise_var <- map(c(10, 50, 100, 250, 500, 1000), ~ rep(., 5)) %>% 
+  flatten %>% 
+  map_dfc(~get_cat_noise_var(., nrow(credit_data))) %>% 
+  set_names(paste0("CatNoise_", 1:30)) %>% 
+  map_dfc(factor)
+
+## Set up numeric variable generation. Normal with random mean and standard deviation (or log normal)
+get_num_noise_var <- function(noise = 0.1, samples, log_shift = FALSE) {
+  mean <- runif(1, -1e3, 1e3)
+  x <- rnorm(samples, mean, abs(mean) * noise)
+  
+  if (log_shift) { 
+   x <- log(abs(x + 1))
+  }
+  
+  return(x)
+}
+
+## Generate numeric variables with varying amounts of noise and transforming using log
+gen_numeric_var <- function(df, log_shift) {
+  map(c(0.1, 0.2, 0.4), ~ rep(., 5)) %>% 
+  flatten %>% 
+  map_dfc( ~ get_num_noise_var(., nrow(df), log_shift))
+}
+
+num_noise_var <- gen_numeric_var(credit_data, log_shift = FALSE) %>% 
+  bind_cols(gen_numeric_var(credit_data, log_shift = TRUE)) %>% 
+    set_names(paste0("NumNoise_", 1:30))
+  
+
+## Bind together and summarise
+noise_var <- cat_noise_var %>% 
+  bind_cols(num_noise_var)
+```
+
+* Add duplicate informative features.
+
+```{r}
+credit_data <- credit_data %>% 
+  select(Status) %>% 
+  bind_cols(credit_data %>% 
+              select(-Status) %>% 
+              {bind_cols(., .)} %>% 
+              {bind_cols(., .)})
+```
+
+Add some missingness to the data and replace the home owners `"other"` category with 1000 random levels. Adding random noise levels to the home owners variable means that some information is now encoded in a very noisy feature - providing more of a challenge for the `xgboost` model.
+
+```{r}
+add_miss <- function(x = NULL, max_miss = NULL) {
+  miss_scale <- runif(1, 0, max_miss)
+  
+  x <- replace(x, runif(length(x), 0, 1) <= miss_scale, NA)
+}
+
+
+
+complex_credit_data <- credit_data %>% 
+  bind_cols(noise_var) %>% 
+  mutate_at(.vars = vars(everything(), - Status), ~ add_miss(., 0.2)) %>% 
+  mutate(
+    Home = case_when(Home %in% "other" ~ as.character(CatNoise_30),
+                          TRUE ~ as.character(Home)) %>% 
+           factor)
+
+
+complex_credit_data
+```
+
+
+## Testing on for a Single Iteration
+
+To check that everything is working as expected we test on a single iteration with 31 cores, no GPU, 100,000 samples, 20 features and 1000 trees. 
+
+```{r}
+grid_test <- benchmark_grid(complex_credit_data,
+                            "Status",
+                            grid = spec_grid,
+                            cores = 31, 
+                            gpu = FALSE,
+                            rowsample = 1e4,
+                            trees = 50,
+                            colsample = 20)
+
+grid_test
+```
+
+We see that the settings above give a runtime of around a minute but using the `htop` tool we see that resource use is not stable over time. This may indicate that `h2o` is not using all the supplied cores effectively/efficiently for this data size, with these settings etc.
+
+![Load according to `htop` whilst running the test grid.](/img/2019-01-20-benchmarking-workstation-xgboost/load-example.gif)
+
+## Enabling GPU support
+
+Unlike using CPUs for `xgboost`, enabling GPU support requires some extra steps (and lots of faff). As I have a Nvidia GPU I need to install CUDA on my local machine (see [here](https://www.samabbott.co.uk/post/building-an-rstats-workstation/) for details), CUDA 8.0 (or higher) into the Docker container that this analysis is running in (see here for the shell script) and run the Docker container using the [Nvidia Docker runtime](https://github.com/NVIDIA/nvidia-docker). To check everything is working we can use the `nvidia-smi` tool.
+
+
+```{bash, eval = FALSE}
+nvidia-smi
+```
+
+## Iterating Across a Grid
+
+
+We can now iterate across a benchmarking grid. Here we combine all combinations of data sizes from 10,000 to 100,000 rows and from 10 to 1000 columns, tress numbers from 10 to 10,000 and compute availability (here 4, 16, and 32 cores + GPU). Something that I have now implemented here but that would reduce the noise in the final results is running each benchmark multiple times. As you will see below this is not feasible for a weekend blog post!
+
+* Grid set-up
+
+```{r}
+benchmark_input <- expand.grid(
+  cores = c(4, 16, 32),
+  rowsample = c(1e3, 1e4, 2.5e4, 5e4, 7.5e4, 1e5),
+  colsample = c(10, 100, 1000),
+  trees = c(10, 100, 1000, 10000),
+  gpu = c(FALSE),
+  rep = 1
+) %>% 
+  as_tibble() %>% 
+  mutate(size = rowsample * colsample * trees) %>% 
+  arrange(desc(size), cores)
+
+benchmark_input
+```
+
+* Run benchmark
+
+```{r}
+## Cached manually to avoid rerunning on knit.
+if (!file.exists("../../static/data/workstation-benchmark/xgboost.rds")) {
+  benchmark_output <- benchmark_input %>% 
+  rowwise() %>% 
+  mutate(bench = list(as_tibble(benchmark_grid(complex_credit_data,
+                                       "Status",
+                                        grid = spec_grid,
+                                        cores = cores, 
+                                        gpu = gpu,
+                                        rowsample = rowsample,
+                                        trees = trees,
+                                        colsample = colsample)))) %>% 
+  unnest(bench) %>%
+  select(-msg) %>% 
+  mutate(duration = toc - tic) %>% 
+  filter(fit)
+  
+  saveRDS(benchmark_output, "../../static/data/workstation-benchmark/xgboost.rds")
+}else{
+  benchmark_output <- readRDS( "../../static/data/workstation-benchmark/xgboost.rds")
+}
+
+benchmark_output
+```
+
+
+## Benchmarking Results
+
+First we plot the actual duration for each grid, split out by compute amount, row numbers, column numbers and tree numbers. This gives us a good impression of the real world impact of additional compute availability. 
+
+```{r, fig.height = 10, fig.width = 10}
+benchmark_output %>% 
+  group_by(rowsample, colsample, trees) %>% 
+  mutate(duration = duration / 60) %>% 
+  mutate(Compute = paste0(cores, " Threadripper 1950X CPU cores")) %>% 
+  ggplot(aes(rowsample, duration, col = Compute, group = Compute)) +
+  geom_point() +
+  geom_line() + 
+  facet_grid(colsample ~ trees, scales = "free_y") +
+  theme_minimal() +
+  theme(legend.position = "top", axis.text.x = element_text(angle = 90,hjust = 1)) +
+  scale_x_continuous(labels = scales::comma) + 
+  scale_color_viridis_d(begin = 0.2, end = 0.8) +
+  labs(x = "Rows",
+       y = "Duration (minutes)",
+       caption = "Number of Trees ~ Number of Features")
+```
+
+
+Another way of looking at the benchmarking returns is to plot the percentage improvement from a given compute amount over the longest duration for that number of rows.
+
+
+```{r, fig.height = 10, fig.width = 10}
+benchmark_output %>% 
+  group_by(rowsample, colsample, trees) %>% 
+  mutate(duration = (max(duration) - duration) / max(duration)) %>% 
+  arrange(cores) %>% 
+  mutate(Compute = cores %>% 
+           paste0(" Threadripper 1950X CPU cores") %>% 
+           factor) %>% 
+  ggplot(aes(rowsample, duration, col = Compute, group = Compute)) +
+  geom_point() +
+  geom_line() + 
+  facet_grid(colsample ~ trees, scales = "free_y") +
+  theme_minimal() +
+  theme(legend.position = "top", axis.text.x = element_text(angle=90,hjust=1)) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(labels = scales::comma) + 
+  scale_color_viridis_d(begin = 0.2, end = 0.8) +
+  labs(x = "Rows",
+       y = "Performance improvement over baseline (%)",
+       caption = "Number of Trees ~ Number of Features")
+```
