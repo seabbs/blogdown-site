@@ -1,13 +1,12 @@
 ---
 title: "Benchmarking an Rstats Workstation on Realistic Workloads - using xgboost via h2o"
 author: 'null'
-date: '2019-01-26'
-description: ""
-slug: benchmarking-workstation
-draft: yes 
+date: '2019-02-03'
+description: "Benchmarking xgboost (via h2o) with CPU vs. GPU on a realistic data set using a cross validated hyper-parameter search."
+slug: benchmarking-workstation-xgboost
 tags: ["benchmark", "cpu", "gpu", "data science", "xgboost", "h2o", "workstation"]
 categories: ["R"]
-twitterImg: ""
+twitterImg: img/2019-01-20-benchmarking-workstation-xgboost/cover_img.png
 ---
 
 ```{r knitr-opts, echo = FALSE}
@@ -30,20 +29,15 @@ p_load("tictoc")
 
 ## Why?
 
-I recently [built out a new workstation](https://www.samabbott.co.uk/post/building-an-rstats-workstation/) to give me some local compute for rstats data science work loads. Now that I have local access to both a CPU with a large number of cores (Threadripper 1950X with 16 cores) and a moderately powerful GPU (Nvidia RTX 2070) I'm interested in knowing when it is best to use CPU vs. GPU for some of the tasks that I commonly do. The first of these is fitting `xgboost` models for predictive tasks, this makes sense as a first problem to explore as in my experiance (and in the experiance of the wider community) `xgboost` generally provides the best performance on tabular I.D.D data (although more recently Light GBM has been performing well - this is not yet integrated into my common tool set so I have not made a great deal of use of it). I am also interested in exploring whether or not simultaneous multithreading (i.e Hyper-threading for Intel CPUs) gives any performance boost over using only phyiscal cores for these workloads (I couldn't find much on this online for AMD CPUs). If this proves not to be the case disabling this gives me a greater scope for overclocking my new workstation's CPU.
+I recently [built out a new workstation](https://www.samabbott.co.uk/post/building-an-rstats-workstation/) to give me some local compute for data science workloads. Now that I have local access to both a CPU with a large number of cores (Threadripper 1950X with 16 cores) and a moderately powerful GPU (Nvidia RTX 2070) I'm interested in knowing when it is best to use CPU vs. GPU for some of the tasks that I commonly do. 
 
-## Aims
+The first of these is fitting `xgboost` models for prediction, this makes sense as a first problem to explore as in my experience (and in the experience of the wider community) `xgboost` generally provides the best performance on tabular data (Light GBM looks like it may be even better but the installation appears to be nightmarish) and predictive modelling is a fairly common use case. As I have recently been using the  [`h2o` package](https://www.h2o.ai) as my go-to tool it makes sense for me to test `xgboost` via `h2o`.
 
-* Understand when the CPU of my new workstation is optimal versus when the GPU is optimal when using `xgboost` via `h2o`.
-
-* Explore whether it makes sense to use virtual cores versus physical cores. If virtual cores add little to no additional performance then it may be attractive to disable this feature as this will enable further overclocking.
-
-* Explore how these features scale across different data sizes and tree ensemble sizes.
-
+I am also interested in exploring whether or not simultaneous multithreading (i.e Hyper-threading for Intel CPUs) gives any performance boost over using only physical cores for these workloads (I couldn't find much on this online for AMD CPUs). My prior experience with Intel CPUs is that sticking to physical cores is the best option for nearly all serious compute.  If this proves to be the case disabling virtual core gives me a greater scope for overclocking! 
 
 ## Developing a testing function
 
-As a first step we outline a hyper-parameter grid to search over and specify the parameters of the grid search. We turn off early stopping (which is not something that we would do in a real use case) to allow control over the exact number of trees being trained.
+To make this a relatively real-world test I am going to be comparing run times on a grid of cross-validated models (10 models, with 5 folds each). A nice benefit of this is that we can also see the average performance of a configuration across a variety of hyper-parameters. In the code below I have specified the grid and used the `purrr:partial` function to wrap everything up into a function. I've also turned off early stopping (which is not something that I would do in a real use case) to allow control over the exact number of trees being trained.
 
 ```{r}
 ## Search criteria
@@ -67,13 +61,10 @@ spec_grid <- partial(h2o.grid,
                      stopping_rounds = 0,
                      search_criteria = search_crit,
                      hyper_params = hyper_params)
-
-
-
 ```
 
 
-Next we develop a function to fit and time a single grid as specified on a subsample of the rows and columns supplied on a given number of CPU cores and potentially with a GPU backend.
+The next step is to develop a function to fit and time a single grid. This needs to be specified by a subsample of the rows and columns, on a given number of CPU cores, and potentially with a GPU backend.
 
 ```{r}
 benchmark_grid <- function(df,
@@ -144,9 +135,9 @@ return(time)
 }
 ```
 
-## Sourcing Test Data
+## Sourcing test data
 
-We use credit data from the `recipes` package as an example of a real world dataset. A binary outcome has been chosen as this reflects much of the modelling I do day to day (usually loan defaults). 
+As the base for my testing data I am using credit data, from the `recipes` package as an example of a real-world dataset. I went with a binary outcome as this reflects much of the modelling I have been doing day to day (usually loan defaults). 
  
 ```{r, results = "asis"}
 credit_data <- recipes::credit_data %>% 
@@ -156,7 +147,7 @@ skim(credit_data) %>%
   skimr::kable()
 ```
 
-This dataset has been cleaned and contains a limited number, of presumably fairly predictive, variables. To make this a more realistic test we introduce additional numeric and categorical noise variables as well as adding missing data and duplicating our original features.
+This dataset has been cleaned and contains a limited number, of presumably fairly predictive, variables. To make this a more realistic test I've introduced additional numeric and categorical noise variables as well as adding missing data and duplicating the original features - code below.
 
 
 * Add numeric and categorical noise features. Categorical features are randomly sampled and assigned 10, 50, 100, 250, 500 and 1000 levels, whilst numeric features are normally distributed with or without a log transform.
@@ -214,7 +205,7 @@ credit_data <- credit_data %>%
               {bind_cols(., .)})
 ```
 
-Add some missingness to the data and replace the home owners `"other"` category with 1000 random levels. Adding random noise levels to the home owners variable means that some information is now encoded in a very noisy feature - providing more of a challenge for the `xgboost` model.
+* Add some missingness to the data and replace the homeowners `"other"` category with 1000 random levels. Adding random noise levels to the homeowners variable means that some information is now encoded in a very noisy feature - providing more of a challenge for the `xgboost` model.
 
 ```{r}
 add_miss <- function(x = NULL, max_miss = NULL) {
@@ -238,11 +229,11 @@ complex_credit_data
 ```
 
 
-## Testing on for a Single Iteration
+## Testing on for a single iteration
 
-To check that everything is working as expected we test on a single iteration with 31 cores, no GPU, 100,000 samples, 20 features and 1000 trees. 
+To check that everything is working as expected we test on a single iteration with 31 cores, no GPU, 1000 samples, 20 features and 50 trees. 
 
-```{r}
+```{r, eval = TRUE}
 grid_test <- benchmark_grid(complex_credit_data,
                             "Status",
                             grid = spec_grid,
@@ -261,17 +252,30 @@ We see that the settings above give a runtime of around a minute but using the `
 
 ## Enabling GPU support
 
-Unlike using CPUs for `xgboost`, enabling GPU support requires some extra steps (and lots of faff). As I have a Nvidia GPU I need to install CUDA on my local machine (see [here](https://www.samabbott.co.uk/post/building-an-rstats-workstation/) for details), CUDA 8.0 (or higher) into the Docker container that this analysis is running in (see here for the shell script) and run the Docker container using the [Nvidia Docker runtime](https://github.com/NVIDIA/nvidia-docker). To check everything is working we can use the `nvidia-smi` tool.
+Unlike using CPUs for `xgboost`, enabling GPU support requires some extra steps (and lots of faff). As I have a Nvidia GPU I need to install CUDA on my local machine (see [here](https://www.samabbott.co.uk/post/building-an-rstats-workstation/) for details), CUDA 8.0 (or higher) into the Docker container that this analysis is running in (see here for [the Dockerfile](https://github.com/seabbs/tidyverse-gpu) - thanks to [Noam Ross](https://discuss.ropensci.org/t/tips-for-installing-cuda-into-a-rocker-docker-container/1556) for the original implementation) and run the Docker container using the [Nvidia Docker runtime](https://github.com/NVIDIA/nvidia-docker). To check everything is working we run the same benchmark as above but now using the GPU.
 
 
-```{bash, eval = FALSE}
-nvidia-smi
+```{r, eval = TRUE}
+grid_test <- benchmark_grid(complex_credit_data,
+                            "Status",
+                            grid = spec_grid,
+                            cores = 31, 
+                            gpu = TRUE,
+                            rowsample = 1e4,
+                            trees = 50,
+                            colsample = 20)
+
+grid_test
 ```
+
+Success! However with a much longer run time of over 2 minutes - not good. We again see (this time using the [`nvtop`](https://github.com/Syllo/nvtop) tool) that resource use varies over time on the GPU.
+
+![Load according to `htop` whilst running the test grid.](/img/2019-01-20-benchmarking-workstation-xgboost/load-example-gpu.gif)
+
 
 ## Iterating Across a Grid
 
-
-We can now iterate across a benchmarking grid. Here we combine all combinations of data sizes from 10,000 to 100,000 rows and from 10 to 1000 columns, tress numbers from 10 to 10,000 and compute availability (here 4, 16, and 32 cores + GPU). Something that I have now implemented here but that would reduce the noise in the final results is running each benchmark multiple times. As you will see below this is not feasible for a weekend blog post!
+Now that the timing function and the data are in place and everything is tested I can now run a full benchmarking grid. Using `expand.grid` I've combined all combinations of data sizes; from 1,000 to 100,000 rows, from 10 to 1000 columns, from 10 to 10,000 trees, and compute availability (here 4, 16, and 32 cores + GPU). Something that I not implemented here but that would reduce the noise in the final results is running each benchmark multiple times. As you will see below this is not feasible for a weekend blog post (or even the week or two blog post that this finally became)! *Note: I ended up dropping the 1000 feature combinations for the GPU as for deep trees (`max_depth` = 10) I was getting out of memory errors.*
 
 * Grid set-up
 
@@ -285,18 +289,21 @@ benchmark_input <- expand.grid(
   rep = 1
 ) %>% 
   as_tibble() %>% 
+  {bind_rows(., 
+             filter(., cores == 4, colsample < 1000) %>% 
+             mutate(gpu = TRUE))} %>% 
   mutate(size = rowsample * colsample * trees) %>% 
   arrange(desc(size), cores)
 
 benchmark_input
 ```
 
-* Run benchmark
+* Run benchmark - making use of `tibble` nesting and the always slightly hacky feeling `dplyr::rowwise`. Everything here is crudely cached to avoid accidentlly overwriting results.
 
 ```{r}
 ## Cached manually to avoid rerunning on knit.
 if (!file.exists("../../static/data/workstation-benchmark/xgboost.rds")) {
-  benchmark_output <- benchmark_input %>% 
+  benchmark_output_gpu <- benchmark_input %>% 
   rowwise() %>% 
   mutate(bench = list(as_tibble(benchmark_grid(complex_credit_data,
                                        "Status",
@@ -316,47 +323,54 @@ if (!file.exists("../../static/data/workstation-benchmark/xgboost.rds")) {
   benchmark_output <- readRDS( "../../static/data/workstation-benchmark/xgboost.rds")
 }
 
-benchmark_output
+benchmark_output <- benchmark_output %>% 
+  mutate(duration = duration / 60) %>% 
+  arrange(gpu, cores) %>% 
+  mutate(Compute = paste0(cores, " Threadripper 1950X CPU cores") %>% 
+           ifelse(gpu, "Nvidia 2070 GPU", .))
 ```
 
 
 ## Benchmarking Results
 
-First we plot the actual duration for each grid, split out by compute amount, row numbers, column numbers and tree numbers. This gives us a good impression of the real world impact of additional compute availability. 
+After leaving everything running for a few days the results are in. The obvious plot, to begin with, is to split out everything by the number of trees and features and then plot duration against sample numbers for each compute amount (i.e cores and GPU). 
 
 ```{r, fig.height = 10, fig.width = 10}
 benchmark_output %>% 
-  group_by(rowsample, colsample, trees) %>% 
-  mutate(duration = duration / 60) %>% 
-  mutate(Compute = paste0(cores, " Threadripper 1950X CPU cores")) %>% 
-  ggplot(aes(rowsample, duration, col = Compute, group = Compute)) +
-  geom_point() +
-  geom_line() + 
+  mutate(Cores = factor(cores),
+         GPU = gpu) %>% 
+  ggplot(aes(rowsample, duration, col = Cores, shape = GPU, group = interaction(Cores, GPU))) +
+  geom_point(size = 1.2) +
+  geom_line(alpha = 0.8) + 
   facet_grid(colsample ~ trees, scales = "free_y") +
   theme_minimal() +
   theme(legend.position = "top", axis.text.x = element_text(angle = 90,hjust = 1)) +
   scale_x_continuous(labels = scales::comma) + 
-  scale_color_viridis_d(begin = 0.2, end = 0.8) +
+  scale_color_viridis_d(end = 0.9, begin = 0.1) +
   labs(x = "Rows",
        y = "Duration (minutes)",
-       caption = "Number of Trees ~ Number of Features")
+       caption = "Number of Trees ~ Number of Features", 
+       title = "Xgboost via h2o: Duration",
+       subtitle = "10 model hyper-parameter grid search with 5 fold cross-validation")
 ```
 
+```{r, include = FALSE}
+ggsave("../../static/img/2019-01-20-benchmarking-workstation-xgboost/cover_img.png")
+```
 
-Another way of looking at the benchmarking returns is to plot the percentage improvement from a given compute amount over the longest duration for that number of rows.
+So the first major takeaway is that using the GPU appears to be slower (and mostly much slower) than using 4 CPU cores. This to me is very surprising as everything I have seen elsewhere would indicate that the GPU should offer some substantial speed up. There are some indications however that for larger data sets, and for larger tree numbers, the GPU may be comparable to multiple CPU cores. Potentially this is because any computational benefit from using the GPU is being swamped by the overhead of constantly passing data. Therefore, as the complexity of the problem increases so does the potential benefits of using the GPU. We see something similar for increasing the CPU count, with grids with 10 features running in nearly the same time for 4, 16 and 32 cores, whilst grids with 1000 features are drastically slower on 4 CPUs vs 16. Across all tests it looks like there is little benefit from using 32 (with 16 virtual) over 16 cores. 
 
+To get a closer look at the CPU results and to try and understand the magnitude of the results I've plotted the percentage improvement from a given compute amount over the longest duration for that number of rows. Filtering out the GPU results as these would otherwise mask any other findings.
 
 ```{r, fig.height = 10, fig.width = 10}
 benchmark_output %>% 
+  filter(!gpu) %>% 
   group_by(rowsample, colsample, trees) %>% 
   mutate(duration = (max(duration) - duration) / max(duration)) %>% 
-  arrange(cores) %>% 
-  mutate(Compute = cores %>% 
-           paste0(" Threadripper 1950X CPU cores") %>% 
-           factor) %>% 
-  ggplot(aes(rowsample, duration, col = Compute, group = Compute)) +
-  geom_point() +
-  geom_line() + 
+  mutate(Cores = factor(cores)) %>%
+  ggplot(aes(rowsample, duration, duration, col = Cores)) +
+  geom_point(size = 1.2) +
+  geom_line(alpha = 0.8) + 
   facet_grid(colsample ~ trees, scales = "free_y") +
   theme_minimal() +
   theme(legend.position = "top", axis.text.x = element_text(angle=90,hjust=1)) +
@@ -365,5 +379,17 @@ benchmark_output %>%
   scale_color_viridis_d(begin = 0.2, end = 0.8) +
   labs(x = "Rows",
        y = "Performance improvement over baseline (%)",
-       caption = "Number of Trees ~ Number of Features")
+       caption = "Number of Trees ~ Number of Features",
+              title = "Xgboost via h2o: Performance over baseline",
+       subtitle = "10 model hyper-parameter grid search with 5 fold cross-validation")
 ```
+
+For 10 features the results are very noisy with 4 cores being comparable until 10,000 trees are used. For both 100 and 1000 features 16 (+32) cores are superior across the board, with a near linear speed up as the number of samples increases. Whilst we might imagine that increasing core count from 4 to 16 should result in a near 4 times speed up, interestingly we are only seeing a maximum speedup of around 70%. This is probably because `h2o` is parallelised on the model level (this is conjecture based on observing `htop`) - this means that for each fold of each model all the data has to be transferred between cores - leading to a large overhead. In these particular test cases, the overhead of passing data and setting up jobs is taking up much of the potential benefit from additional cores. It's likely that in larger data sets, with longer compute times, this would be less of an issue.
+
+## Wrap up
+
+In this post, I have looked at the performance of `xgboost` via `h2o` on a sample data set, using a real-world test case of a cross-validated grid search. I found that using the GPU resulted in slower run times across the board, although there was some indication that performance improved for larger data and more complex models. Increasing the physical CPU count to 16 increased performance up to a maximum of 70% over 4 cores (for 100,000 features, 1000 features and 10,000 trees) but adding virtual cores led to no benefit. 
+
+A major takeaway for me is that I probably shouldn't be relying on `h2o` for my grid searching in future. Something to experiment with would be parallelising across the grid, with each model using a single core. Having very much swallowed the Kool-Aid when it comes GPU compute I was also surprised by how poor the performance was here. This is something to test further as using `xgboost` within `h2o` makes it difficult to pick apart where the problem lies. 
+
+Any thoughts on these results would be appreciated, especially regarding the poor performance of the GPU. I am also in the market for a new ML toolbox, I've been looking at [`mlr`](https://github.com/mlr-org/mlr), so any recommendations would be appreciated. I'll be following this post up with another benchmarking post using `benchmarkme` in the next few days - if I can resist turning off virtual cores and getting going with some more overclocking.

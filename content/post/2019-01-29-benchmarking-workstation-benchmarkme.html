@@ -1,0 +1,81 @@
+---
+title: "Benchmarking an Rstats Workstation - using benchmarkme"
+author: 'null'
+date: '2019-01-30'
+description: ""
+slug: benchmarking-workstation
+draft: yes 
+tags: ["benchmark", "cpu", "data science", "workstation", "benchmarkme"]
+categories: ["R"]
+twitterImg: ""
+---
+
+
+
+<div id="why" class="section level2">
+<h2>Why?</h2>
+<p>I recently <a href="https://www.samabbott.co.uk/post/building-an-rstats-workstation/">built out a new workstation</a> to give me some local compute for rstats data science work loads. Now that I have local access to both a CPU with a large number of cores (Threadripper 1950X with 16 cores).</p>
+<p>I am also interested in exploring whether or not simultaneous multithreading (i.e Hyper-threading for Intel CPUs) gives any performance boost over using only phyiscal cores for these workloads (I couldn’t find much on this online for AMD CPUs). If this proves not to be the case disabling this gives me a greater scope for overclocking my new workstation’s CPU.</p>
+</div>
+<div id="aims" class="section level2">
+<h2>Aims</h2>
+<ul>
+<li><p>Understand when the CPU of my new workstation is optimal versus when the GPU is optimal when using <code>xgboost</code> via <code>h2o</code>.</p></li>
+<li><p>Explore whether it makes sense to use virtual cores versus physical cores. If virtual cores add little to no additional performance then it may be attractive to disable this feature as this will enable further overclocking.</p></li>
+<li><p>Explore how these features scale across different data sizes and tree ensemble sizes.</p></li>
+<li><p>Post: <a href="https://www.jumpingrivers.com/blog/benchmarkme-new-version/" class="uri">https://www.jumpingrivers.com/blog/benchmarkme-new-version/</a></p></li>
+<li><p>Get system details</p></li>
+</ul>
+<pre class="r"><code>## Get Ram
+get_ram()
+## Get CPU
+get_cpu()</code></pre>
+<ul>
+<li>Benchmark numerical operations - single core. Verbose argument appears to be broken. Using benchmarks from the CRAN package also appears to give different results.</li>
+</ul>
+<pre class="r"><code>single_core &lt;- benchmark_std(runs = 5, cores  = 1 , verbose = FALSE)
+
+upload_results(single_core)
+
+plot(single_core)</code></pre>
+<ul>
+<li>Benchmark numerical operations - all real cores.</li>
+</ul>
+<pre class="r"><code>real_cores &lt;- benchmark_std(runs = 5, cores = 16, verbose = FALSE)
+
+upload_results(real_cores)
+
+plot(real_cores)</code></pre>
+<ul>
+<li>Benchmark numerical operations - all cores (real and virtual).</li>
+</ul>
+<pre class="r"><code>all_cores &lt;- benchmark_std(runs = 5, cores = 32, verbose = FALSE)
+
+upload_results(all_cores)
+
+plot(all_cores)</code></pre>
+<ul>
+<li>Benchmark data reading/writing - single cores.</li>
+</ul>
+<pre class="r"><code>single_read_write_bench &lt;- benchmark_io(runs = 5, verbose = FALSE)
+
+upload_results(single_read_write_bench)
+
+plot(single_read_write_bench)</code></pre>
+<ul>
+<li>Benchmark data reading/writing - all real cores.</li>
+</ul>
+<pre class="r"><code>real_read_write_bench &lt;- benchmark_io(runs = 5, cores = 16, verbose = FALSE)
+
+upload_results(real_read_write_bench)
+
+plot(real_read_write_bench)</code></pre>
+<ul>
+<li>Benchmark data reading/writing - all cores (real/virtual).</li>
+</ul>
+<pre class="r"><code>all_read_write_bench &lt;- benchmark_io(runs = 5, cores = 32, verbose = FALSE)
+
+upload_results(all_read_write_bench)
+
+plot(all_read_write_bench)</code></pre>
+</div>

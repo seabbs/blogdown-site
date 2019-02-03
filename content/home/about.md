@@ -22,7 +22,7 @@ weight = 1
 [[education.courses]]
   course = "PhD in Social Medicine"
   institution = "University of Bristol"
-  year = 2018
+  year = 2019
 
 [[education.courses]]
   course = "Msc in Advanced Mathematical Biology"
@@ -38,4 +38,4 @@ weight = 1
 
 # Biography
 
-I am a mathematical modeller and data scientist interested in using data-driven approaches to develop models to help understand the world. I studied Mathematics at the University of Durham, completing an MMath degree in 2014. I then completed a Masters in Advanced Mathematical Biology at the University of York. As part of my thesis project, I spent a summer at the University of Glasgow, studying the patterns of drug resistance in E-coli. across various species in Tanzania. I am currently completing a PhD in social medicine at the University of Bristol, studying the deployment of the BCG vaccine in the UK. I also work as a data scientist at [Funding Circle](https://www.fundingcircle.com/uk/) developing predictive models and conducting ad hoc analysis.
+I am a mathematical modeller and data scientist interested in using data-driven approaches to develop models to help understand the world. I studied Mathematics at the University of Durham, completing an MMath degree in 2014. I then completed a Masters in Advanced Mathematical Biology at the University of York. As part of my thesis project, I spent a summer at the University of Glasgow, studying the patterns of drug resistance in E-coli. across various species in Tanzania. I am currently completing a PhD in social medicine at the University of Bristol, studying the deployment of the BCG vaccine in the UK. Previously, I worked as a data scientist at [Funding Circle](https://www.fundingcircle.com/uk/) developing predictive models and conducting ad hoc analysis.

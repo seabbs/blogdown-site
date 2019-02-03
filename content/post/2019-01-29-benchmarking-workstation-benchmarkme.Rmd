@@ -1,0 +1,109 @@
+---
+title: "Benchmarking an Rstats Workstation - using benchmarkme"
+author: 'null'
+date: '2019-01-30'
+description: ""
+slug: benchmarking-workstation
+draft: yes 
+tags: ["benchmark", "cpu", "data science", "workstation", "benchmarkme"]
+categories: ["R"]
+twitterImg: ""
+---
+
+```{r knitr-opts, echo = FALSE}
+knitr::opts_chunk$set(cache = TRUE, dpi = 320, 
+                      fig.height = 8, fig.width = 8,
+                      warning = FALSE, 
+                      eval = FALSE,
+                      message = FALSE)
+```
+
+```{r get-packages, message = FALSE, include = FALSE, echo = FALSE}
+if (!require(pacman)) install.packages("pacman"); library(pacman)
+p_load("benchmarkme")
+```
+
+## Why?
+
+I recently [built out a new workstation](https://www.samabbott.co.uk/post/building-an-rstats-workstation/) to give me some local compute for rstats data science work loads. Now that I have local access to both a CPU with a large number of cores (Threadripper 1950X with 16 cores). 
+
+I am also interested in exploring whether or not simultaneous multithreading (i.e Hyper-threading for Intel CPUs) gives any performance boost over using only phyiscal cores for these workloads (I couldn't find much on this online for AMD CPUs). If this proves not to be the case disabling this gives me a greater scope for overclocking my new workstation's CPU.
+
+## Aims
+
+* Understand when the CPU of my new workstation is optimal versus when the GPU is optimal when using `xgboost` via `h2o`.
+
+* Explore whether it makes sense to use virtual cores versus physical cores. If virtual cores add little to no additional performance then it may be attractive to disable this feature as this will enable further overclocking.
+
+* Explore how these features scale across different data sizes and tree ensemble sizes.
+
+* Post: https://www.jumpingrivers.com/blog/benchmarkme-new-version/
+
+* Get system details
+
+```{r}
+## Get Ram
+get_ram()
+## Get CPU
+get_cpu()
+```
+
+* Benchmark numerical operations - single core. Verbose argument appears to be broken. Using benchmarks from the CRAN package also appears to give different results. 
+
+```{r}
+single_core <- benchmark_std(runs = 5, cores  = 1 , verbose = FALSE)
+
+upload_results(single_core)
+
+plot(single_core)
+```
+
+* Benchmark numerical operations - all real cores.
+
+```{r}
+real_cores <- benchmark_std(runs = 5, cores = 16, verbose = FALSE)
+
+upload_results(real_cores)
+
+plot(real_cores)
+```
+
+* Benchmark numerical operations - all cores (real and virtual).
+
+```{r}
+all_cores <- benchmark_std(runs = 5, cores = 32, verbose = FALSE)
+
+upload_results(all_cores)
+
+plot(all_cores)
+```
+
+* Benchmark data reading/writing - single cores.
+
+```{r}
+single_read_write_bench <- benchmark_io(runs = 5, verbose = FALSE)
+
+upload_results(single_read_write_bench)
+
+plot(single_read_write_bench)
+```
+
+* Benchmark data reading/writing - all real cores.
+
+```{r}
+real_read_write_bench <- benchmark_io(runs = 5, cores = 16, verbose = FALSE)
+
+upload_results(real_read_write_bench)
+
+plot(real_read_write_bench)
+```
+
+* Benchmark data reading/writing - all cores (real/virtual). 
+
+```{r=}
+all_read_write_bench <- benchmark_io(runs = 5, cores = 32, verbose = FALSE)
+
+upload_results(all_read_write_bench)
+
+plot(all_read_write_bench)
+```
