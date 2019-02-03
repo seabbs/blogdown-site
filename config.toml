@@ -39,8 +39,7 @@ defaultContentLanguageInSubdir = false
   
   name = "Sam Abbott"
   role = "PhD student and Data Scientist"
-  organizations =  [ { name = "BIDD, University of Bristol", url = "http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/"},
-  { name = "Funding Circle", url = "http://fundingcircle.com"}]
+  organizations =  [ { name = "BIDD, University of Bristol", url = "http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/" }]
   
   gravatar = false  # Get your avatar from Gravatar.com? (true/false)
   avatar = "portrait.jpg"
