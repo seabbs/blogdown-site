@@ -15,9 +15,8 @@ addons:
 
 before_script:
   - Rscript -e 'blogdown::install_hugo()'
-  - chmod +x ./_build.sh
+  - Rscript -e "blogdown::build_site(local = FALSE, method = 'html')"
   - chmod +x ./_deploy.sh
 
 script:
-  - ./_build.sh
   - ./_deploy.sh
