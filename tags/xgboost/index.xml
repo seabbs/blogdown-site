@@ -18,7 +18,7 @@
       <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/</guid>
-      <description>Why? I recently built out a new workstation to give me some local compute for data science workloads. Now that I have local access to both a CPU with a large number of cores (Threadripper 1950X with 16 cores) and a moderately powerful GPU (Nvidia RTX 2070) I’m interested in knowing when it is best to use CPU vs. GPU for some of the tasks that I commonly do.</description>
+      <description>Why? I recently built out a new workstation to give me some local compute for data science workloads. Now that I have local access to both a CPU with a large number of cores (Threadripper 1950X with 16 cores) and a moderately powerful GPU (Nvidia RTX 2070), I’m interested in knowing when it is best to use CPU vs. GPU for some of the tasks that I commonly do.</description>
     </item>
     
   </channel>
