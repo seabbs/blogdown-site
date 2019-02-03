@@ -11,6 +11,691 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Benchmarking an Rstats workstation on realistic workloads - using xgboost via h2o</title>
+      <link>http://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/</link>
+      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/</guid>
+      <description>
+
+
+&lt;div id=&#34;why&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Why?&lt;/h2&gt;
+&lt;p&gt;I recently &lt;a href=&#34;https://www.samabbott.co.uk/post/building-an-rstats-workstation/&#34;&gt;built out a new workstation&lt;/a&gt; to give me some local compute for data science workloads. Now that I have local access to both a CPU with a large number of cores (Threadripper 1950X with 16 cores) and a moderately powerful GPU (Nvidia RTX 2070) I’m interested in knowing when it is best to use CPU vs. GPU for some of the tasks that I commonly do.&lt;/p&gt;
+&lt;p&gt;The first of these is fitting &lt;code&gt;xgboost&lt;/code&gt; models for prediction, this makes sense as a first problem to explore as in my experience (and in the experience of the wider community) &lt;code&gt;xgboost&lt;/code&gt; generally provides the best performance on tabular data (Light GBM looks like it may be even better but the installation appears to be nightmarish) and predictive modelling is a fairly common use case. As I have recently been using the &lt;a href=&#34;https://www.h2o.ai&#34;&gt;&lt;code&gt;h2o&lt;/code&gt; package&lt;/a&gt; as my go-to tool it makes sense for me to test &lt;code&gt;xgboost&lt;/code&gt; via &lt;code&gt;h2o&lt;/code&gt;.&lt;/p&gt;
+&lt;p&gt;I am also interested in exploring whether or not simultaneous multithreading (i.e Hyper-threading for Intel CPUs) gives any performance boost over using only physical cores for these workloads (I couldn’t find much on this online for AMD CPUs). My prior experience with Intel CPUs is that sticking to physical cores is the best option for nearly all serious compute. If this proves to be the case disabling virtual core gives me a greater scope for overclocking!&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;developing-a-testing-function&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Developing a testing function&lt;/h2&gt;
+&lt;p&gt;To make this a relatively real-world test I am going to be comparing run times on a grid of cross-validated models (10 models, with 5 folds each). A nice benefit of this is that we can also see the average performance of a configuration across a variety of hyper-parameters. In the code below I have specified the grid and used the &lt;code&gt;purrr:partial&lt;/code&gt; function to wrap everything up into a function. I’ve also turned off early stopping (which is not something that I would do in a real use case) to allow control over the exact number of trees being trained.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Search criteria
+search_crit &amp;lt;- list(strategy = &amp;quot;RandomDiscrete&amp;quot;, 
+                    max_models = 10, stopping_rounds = 10)
+
+hyper_params &amp;lt;- list(
+  learn_rate = c(0.1, 0.3, 0.5),
+  sample_rate = c(0.6, 0.8, 1),
+  col_sample_rate = c(0.6, 0.8, 1),
+  max_depth = c(1, 5, 10),
+  min_rows = c(1, 2, 5),
+  reg_lambda = c(0, 0.001),
+  reg_alpha = c(0, 0.001)
+)
+
+spec_grid &amp;lt;- partial(h2o.grid,
+                     algorithm = &amp;quot;xgboost&amp;quot;,
+                     nfolds = 5,
+                     seed = 2344232,
+                     stopping_rounds = 0,
+                     search_criteria = search_crit,
+                     hyper_params = hyper_params)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;The next step is to develop a function to fit and time a single grid. This needs to be specified by a subsample of the rows and columns, on a given number of CPU cores, and potentially with a GPU backend.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;benchmark_grid &amp;lt;- function(df,
+                           target,
+                           grid = NULL,
+                           cores = NULL, 
+                           gpu = FALSE,
+                           rowsample = 1e3,
+                           trees = NULL,
+                           colsample = 1,
+                           ram = 28) {
+  
+## Initialise the h2o cluster with the desired core number
+  h2o.init(min_mem_size = paste0(ram, &amp;quot;g&amp;quot;),
+           nthreads = cores)
+  h2o.no_progress()
+
+## Sample columns (up/down sampling)
+  df &amp;lt;- df[target] %&amp;gt;% 
+    bind_cols(df %&amp;gt;%
+                select(-contains(target)) %&amp;gt;% 
+                {.[, sample(1:ncol(.), colsample, replace = TRUE)]})
+  
+## Specify the training data and set 
+  h2o_train &amp;lt;- sample_n(df, rowsample, replace = TRUE) %&amp;gt;% 
+    as.h2o
+
+## Specify the features
+  features &amp;lt;- setdiff(colnames(df), target)
+  
+## Start the timer
+tic(paste0(&amp;quot;Trained a &amp;quot;,
+           &amp;quot;grid of 10 Xgboost &amp;quot;, 
+           &amp;quot;models with &amp;quot;, cores, &amp;quot; cores&amp;quot;, 
+            ifelse(gpu, &amp;quot; using the GPU backend&amp;quot;, &amp;quot;&amp;quot;),
+            &amp;quot; on a subsample of &amp;quot;,
+            rowsample, 
+            &amp;quot; rows and &amp;quot;,
+            colsample, 
+           &amp;quot; features with &amp;quot;,
+           trees, 
+           &amp;quot; trees.&amp;quot;))
+
+  if(object.size(df) &amp;gt; ((ram * 1000^3)/ cores)) {
+    message(&amp;quot;Data size is to big to fit into RAM in this configuration&amp;quot;)
+    
+    model_fit &amp;lt;- FALSE
+  }else{
+    ## Train the models
+  trained_grid &amp;lt;- grid(y = target,
+                       x = features,
+                       training_frame = h2o_train,
+                       backend = ifelse(gpu, &amp;quot;gpu&amp;quot;, &amp;quot;cpu&amp;quot;)) 
+  
+  model_fit &amp;lt;- TRUE
+  }
+
+
+  
+time &amp;lt;- toc()
+
+time$fit &amp;lt;- model_fit
+
+h2o.shutdown(prompt = FALSE)
+
+Sys.sleep(3)
+return(time)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;sourcing-test-data&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Sourcing test data&lt;/h2&gt;
+&lt;p&gt;As the base for my testing data I am using credit data, from the &lt;code&gt;recipes&lt;/code&gt; package as an example of a real-world dataset. I went with a binary outcome as this reflects much of the modelling I have been doing day to day (usually loan defaults).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;credit_data &amp;lt;- recipes::credit_data %&amp;gt;% 
+  as_tibble
+
+skim(credit_data) %&amp;gt;% 
+  skimr::kable()&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Skim summary statistics&lt;br /&gt;
+n obs: 4454&lt;br /&gt;
+n variables: 14&lt;/p&gt;
+&lt;p&gt;Variable type: factor&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;center&#34;&gt;variable&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;missing&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;complete&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;n&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;n_unique&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;top_counts&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;ordered&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Home&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4448&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;own: 2107, ren: 973, par: 783, oth: 319&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;FALSE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Job&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4452&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;fix: 2805, fre: 1024, par: 452, oth: 171&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;FALSE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Marital&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4453&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;mar: 3241, sin: 977, sep: 130, wid: 67&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;FALSE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Records&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;no: 3681, yes: 773, NA: 0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;FALSE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Status&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;goo: 3200, bad: 1254, NA: 0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;FALSE&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;Variable type: integer&lt;/p&gt;
+&lt;table&gt;
+&lt;thead&gt;
+&lt;tr class=&#34;header&#34;&gt;
+&lt;th align=&#34;center&#34;&gt;variable&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;missing&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;complete&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;n&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;mean&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;sd&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;p0&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;p25&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;p50&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;p75&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;p100&lt;/th&gt;
+&lt;th align=&#34;center&#34;&gt;hist&lt;/th&gt;
+&lt;/tr&gt;
+&lt;/thead&gt;
+&lt;tbody&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Age&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;37.08&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;10.98&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;18&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;28&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;36&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;45&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;68&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;▅▇▇▇▅▃▂▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Amount&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1038.92&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;474.55&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;100&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;700&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1300&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;5000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;▅▇▃▁▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Assets&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;47&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4407&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;5403.98&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;11574.42&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;3000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;6000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;3e+05&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;▇▁▁▁▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Debt&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;18&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4436&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;343.03&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1245.99&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;30000&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;▇▁▁▁▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Expenses&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;55.57&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;19.52&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;35&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;35&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;51&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;72&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;180&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;▇▃▃▁▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Income&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;381&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4073&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;141.69&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;80.75&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;90&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;125&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;170&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;959&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;▇▆▁▁▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Price&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1462.78&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;628.13&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;105&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1117.25&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1400&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;1691.5&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;11140&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;▇▆▁▁▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;even&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Seniority&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;7.99&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;8.17&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;2&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;5&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;12&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;48&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;▇▃▂▁▁▁▁▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;tr class=&#34;odd&#34;&gt;
+&lt;td align=&#34;center&#34;&gt;Time&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;0&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;4454&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;46.44&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;14.66&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;6&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;36&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;48&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;60&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;72&lt;/td&gt;
+&lt;td align=&#34;center&#34;&gt;▁▁▂▃▁▃▇▁&lt;/td&gt;
+&lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+&lt;p&gt;This dataset has been cleaned and contains a limited number, of presumably fairly predictive, variables. To make this a more realistic test I’ve introduced additional numeric and categorical noise variables as well as adding missing data and duplicating the original features - code below.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Add numeric and categorical noise features. Categorical features are randomly sampled and assigned 10, 50, 100, 250, 500 and 1000 levels, whilst numeric features are normally distributed with or without a log transform.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Set up categorical variable generation
+get_cat_noise_var &amp;lt;- function(levels = NULL, samples) {
+  sample(paste(&amp;#39;level&amp;#39;,1:levels,sep=&amp;#39;&amp;#39;), samples, replace=TRUE)
+}
+
+## Generate categorical variable with differing lengths (10, 100, 1000)
+cat_noise_var &amp;lt;- map(c(10, 50, 100, 250, 500, 1000), ~ rep(., 5)) %&amp;gt;% 
+  flatten %&amp;gt;% 
+  map_dfc(~get_cat_noise_var(., nrow(credit_data))) %&amp;gt;% 
+  set_names(paste0(&amp;quot;CatNoise_&amp;quot;, 1:30)) %&amp;gt;% 
+  map_dfc(factor)
+
+## Set up numeric variable generation. Normal with random mean and standard deviation (or log normal)
+get_num_noise_var &amp;lt;- function(noise = 0.1, samples, log_shift = FALSE) {
+  mean &amp;lt;- runif(1, -1e3, 1e3)
+  x &amp;lt;- rnorm(samples, mean, abs(mean) * noise)
+  
+  if (log_shift) { 
+   x &amp;lt;- log(abs(x + 1))
+  }
+  
+  return(x)
+}
+
+## Generate numeric variables with varying amounts of noise and transforming using log
+gen_numeric_var &amp;lt;- function(df, log_shift) {
+  map(c(0.1, 0.2, 0.4), ~ rep(., 5)) %&amp;gt;% 
+  flatten %&amp;gt;% 
+  map_dfc( ~ get_num_noise_var(., nrow(df), log_shift))
+}
+
+num_noise_var &amp;lt;- gen_numeric_var(credit_data, log_shift = FALSE) %&amp;gt;% 
+  bind_cols(gen_numeric_var(credit_data, log_shift = TRUE)) %&amp;gt;% 
+    set_names(paste0(&amp;quot;NumNoise_&amp;quot;, 1:30))
+  
+
+## Bind together and summarise
+noise_var &amp;lt;- cat_noise_var %&amp;gt;% 
+  bind_cols(num_noise_var)&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Add duplicate informative features.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;credit_data &amp;lt;- credit_data %&amp;gt;% 
+  select(Status) %&amp;gt;% 
+  bind_cols(credit_data %&amp;gt;% 
+              select(-Status) %&amp;gt;% 
+              {bind_cols(., .)} %&amp;gt;% 
+              {bind_cols(., .)})&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Add some missingness to the data and replace the homeowners &lt;code&gt;&amp;quot;other&amp;quot;&lt;/code&gt; category with 1000 random levels. Adding random noise levels to the homeowners variable means that some information is now encoded in a very noisy feature - providing more of a challenge for the &lt;code&gt;xgboost&lt;/code&gt; model.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;add_miss &amp;lt;- function(x = NULL, max_miss = NULL) {
+  miss_scale &amp;lt;- runif(1, 0, max_miss)
+  
+  x &amp;lt;- replace(x, runif(length(x), 0, 1) &amp;lt;= miss_scale, NA)
+}
+
+
+
+complex_credit_data &amp;lt;- credit_data %&amp;gt;% 
+  bind_cols(noise_var) %&amp;gt;% 
+  mutate_at(.vars = vars(everything(), - Status), ~ add_miss(., 0.2)) %&amp;gt;% 
+  mutate(
+    Home = case_when(Home %in% &amp;quot;other&amp;quot; ~ as.character(CatNoise_30),
+                          TRUE ~ as.character(Home)) %&amp;gt;% 
+           factor)
+
+
+complex_credit_data&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 4,454 x 113
+##    Status Seniority Home   Time   Age Marital Records Job   Expenses Income
+##    &amp;lt;fct&amp;gt;      &amp;lt;int&amp;gt; &amp;lt;fct&amp;gt; &amp;lt;int&amp;gt; &amp;lt;int&amp;gt; &amp;lt;fct&amp;gt;   &amp;lt;fct&amp;gt;   &amp;lt;fct&amp;gt;    &amp;lt;int&amp;gt;  &amp;lt;int&amp;gt;
+##  1 good           9 rent     60    30 &amp;lt;NA&amp;gt;    no      free…       73    129
+##  2 good          17 rent     60    58 widow   no      &amp;lt;NA&amp;gt;        48    131
+##  3 bad           10 owner    36    46 married &amp;lt;NA&amp;gt;    free…       90    200
+##  4 good           0 rent     60    24 single  no      fixed       63    182
+##  5 good           0 rent     36    26 single  no      &amp;lt;NA&amp;gt;        46    107
+##  6 good           1 owner    60    36 married no      &amp;lt;NA&amp;gt;        NA    214
+##  7 good          29 owner    60    44 married no      fixed       75    125
+##  8 good           9 pare…    12    27 &amp;lt;NA&amp;gt;    no      fixed       35     80
+##  9 good           0 &amp;lt;NA&amp;gt;     60    32 married no      free…       90     NA
+## 10 bad            0 pare…    48    41 married no      part…       90     80
+## # … with 4,444 more rows, and 103 more variables: Assets &amp;lt;int&amp;gt;,
+## #   Debt &amp;lt;int&amp;gt;, Amount &amp;lt;int&amp;gt;, Price &amp;lt;int&amp;gt;, Seniority1 &amp;lt;int&amp;gt;, Home1 &amp;lt;fct&amp;gt;,
+## #   Time1 &amp;lt;int&amp;gt;, Age1 &amp;lt;int&amp;gt;, Marital1 &amp;lt;fct&amp;gt;, Records1 &amp;lt;fct&amp;gt;, Job1 &amp;lt;fct&amp;gt;,
+## #   Expenses1 &amp;lt;int&amp;gt;, Income1 &amp;lt;int&amp;gt;, Assets1 &amp;lt;int&amp;gt;, Debt1 &amp;lt;int&amp;gt;,
+## #   Amount1 &amp;lt;int&amp;gt;, Price1 &amp;lt;int&amp;gt;, Seniority2 &amp;lt;int&amp;gt;, Home2 &amp;lt;fct&amp;gt;,
+## #   Time2 &amp;lt;int&amp;gt;, Age2 &amp;lt;int&amp;gt;, Marital2 &amp;lt;fct&amp;gt;, Records2 &amp;lt;fct&amp;gt;, Job2 &amp;lt;fct&amp;gt;,
+## #   Expenses2 &amp;lt;int&amp;gt;, Income2 &amp;lt;int&amp;gt;, Assets2 &amp;lt;int&amp;gt;, Debt2 &amp;lt;int&amp;gt;,
+## #   Amount2 &amp;lt;int&amp;gt;, Price2 &amp;lt;int&amp;gt;, Seniority11 &amp;lt;int&amp;gt;, Home11 &amp;lt;fct&amp;gt;,
+## #   Time11 &amp;lt;int&amp;gt;, Age11 &amp;lt;int&amp;gt;, Marital11 &amp;lt;fct&amp;gt;, Records11 &amp;lt;fct&amp;gt;,
+## #   Job11 &amp;lt;fct&amp;gt;, Expenses11 &amp;lt;int&amp;gt;, Income11 &amp;lt;int&amp;gt;, Assets11 &amp;lt;int&amp;gt;,
+## #   Debt11 &amp;lt;int&amp;gt;, Amount11 &amp;lt;int&amp;gt;, Price11 &amp;lt;int&amp;gt;, CatNoise_1 &amp;lt;fct&amp;gt;,
+## #   CatNoise_2 &amp;lt;fct&amp;gt;, CatNoise_3 &amp;lt;fct&amp;gt;, CatNoise_4 &amp;lt;fct&amp;gt;,
+## #   CatNoise_5 &amp;lt;fct&amp;gt;, CatNoise_6 &amp;lt;fct&amp;gt;, CatNoise_7 &amp;lt;fct&amp;gt;,
+## #   CatNoise_8 &amp;lt;fct&amp;gt;, CatNoise_9 &amp;lt;fct&amp;gt;, CatNoise_10 &amp;lt;fct&amp;gt;,
+## #   CatNoise_11 &amp;lt;fct&amp;gt;, CatNoise_12 &amp;lt;fct&amp;gt;, CatNoise_13 &amp;lt;fct&amp;gt;,
+## #   CatNoise_14 &amp;lt;fct&amp;gt;, CatNoise_15 &amp;lt;fct&amp;gt;, CatNoise_16 &amp;lt;fct&amp;gt;,
+## #   CatNoise_17 &amp;lt;fct&amp;gt;, CatNoise_18 &amp;lt;fct&amp;gt;, CatNoise_19 &amp;lt;fct&amp;gt;,
+## #   CatNoise_20 &amp;lt;fct&amp;gt;, CatNoise_21 &amp;lt;fct&amp;gt;, CatNoise_22 &amp;lt;fct&amp;gt;,
+## #   CatNoise_23 &amp;lt;fct&amp;gt;, CatNoise_24 &amp;lt;fct&amp;gt;, CatNoise_25 &amp;lt;fct&amp;gt;,
+## #   CatNoise_26 &amp;lt;fct&amp;gt;, CatNoise_27 &amp;lt;fct&amp;gt;, CatNoise_28 &amp;lt;fct&amp;gt;,
+## #   CatNoise_29 &amp;lt;fct&amp;gt;, CatNoise_30 &amp;lt;fct&amp;gt;, NumNoise_1 &amp;lt;dbl&amp;gt;,
+## #   NumNoise_2 &amp;lt;dbl&amp;gt;, NumNoise_3 &amp;lt;dbl&amp;gt;, NumNoise_4 &amp;lt;dbl&amp;gt;,
+## #   NumNoise_5 &amp;lt;dbl&amp;gt;, NumNoise_6 &amp;lt;dbl&amp;gt;, NumNoise_7 &amp;lt;dbl&amp;gt;,
+## #   NumNoise_8 &amp;lt;dbl&amp;gt;, NumNoise_9 &amp;lt;dbl&amp;gt;, NumNoise_10 &amp;lt;dbl&amp;gt;,
+## #   NumNoise_11 &amp;lt;dbl&amp;gt;, NumNoise_12 &amp;lt;dbl&amp;gt;, NumNoise_13 &amp;lt;dbl&amp;gt;,
+## #   NumNoise_14 &amp;lt;dbl&amp;gt;, NumNoise_15 &amp;lt;dbl&amp;gt;, NumNoise_16 &amp;lt;dbl&amp;gt;,
+## #   NumNoise_17 &amp;lt;dbl&amp;gt;, NumNoise_18 &amp;lt;dbl&amp;gt;, NumNoise_19 &amp;lt;dbl&amp;gt;,
+## #   NumNoise_20 &amp;lt;dbl&amp;gt;, NumNoise_21 &amp;lt;dbl&amp;gt;, NumNoise_22 &amp;lt;dbl&amp;gt;,
+## #   NumNoise_23 &amp;lt;dbl&amp;gt;, NumNoise_24 &amp;lt;dbl&amp;gt;, NumNoise_25 &amp;lt;dbl&amp;gt;,
+## #   NumNoise_26 &amp;lt;dbl&amp;gt;, NumNoise_27 &amp;lt;dbl&amp;gt;, …&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;testing-on-for-a-single-iteration&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Testing on for a single iteration&lt;/h2&gt;
+&lt;p&gt;To check that everything is working as expected we test on a single iteration with 31 cores, no GPU, 1000 samples, 20 features and 50 trees.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grid_test &amp;lt;- benchmark_grid(complex_credit_data,
+                            &amp;quot;Status&amp;quot;,
+                            grid = spec_grid,
+                            cores = 31, 
+                            gpu = FALSE,
+                            rowsample = 1e4,
+                            trees = 50,
+                            colsample = 20)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## H2O is not running yet, starting it now...
+## 
+## Note:  In case of errors look at the following log files:
+##     /tmp/RtmppdeaNe/h2o_seabbs_started_from_r.out
+##     /tmp/RtmppdeaNe/h2o_seabbs_started_from_r.err
+## 
+## 
+## Starting H2O JVM and connecting: . Connection successful!
+## 
+## R is connected to the H2O cluster: 
+##     H2O cluster uptime:         1 seconds 213 milliseconds 
+##     H2O cluster timezone:       Etc/UTC 
+##     H2O data parsing timezone:  UTC 
+##     H2O cluster version:        3.23.0.4558 
+##     H2O cluster version age:    5 days  
+##     H2O cluster name:           H2O_started_from_R_seabbs_kha403 
+##     H2O cluster total nodes:    1 
+##     H2O cluster total memory:   26.83 GB 
+##     H2O cluster total cores:    32 
+##     H2O cluster allowed cores:  31 
+##     H2O cluster healthy:        TRUE 
+##     H2O Connection ip:          localhost 
+##     H2O Connection port:        54321 
+##     H2O Connection proxy:       NA 
+##     H2O Internal Security:      FALSE 
+##     H2O API Extensions:         XGBoost, Algos, AutoML, Core V3, Core V4 
+##     R Version:                  R version 3.5.2 (2018-12-20) 
+## 
+## Trained a grid of 10 Xgboost models with 31 cores on a subsample of 10000 rows and 20 features with 50 trees.: 61.636 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grid_test&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $tic
+## elapsed 
+##   6.104 
+## 
+## $toc
+## elapsed 
+##   67.74 
+## 
+## $msg
+## [1] &amp;quot;Trained a grid of 10 Xgboost models with 31 cores on a subsample of 10000 rows and 20 features with 50 trees.&amp;quot;
+## 
+## $fit
+## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;We see that the settings above give a runtime of around a minute but using the &lt;code&gt;htop&lt;/code&gt; tool we see that resource use is not stable over time. This may indicate that &lt;code&gt;h2o&lt;/code&gt; is not using all the supplied cores effectively/efficiently for this data size, with these settings etc.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;./img/2019-01-20-benchmarking-workstation-xgboost/load-example.gif&#34; alt=&#34;Load according to htop whilst running the test grid.&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Load according to &lt;code&gt;htop&lt;/code&gt; whilst running the test grid.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;enabling-gpu-support&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Enabling GPU support&lt;/h2&gt;
+&lt;p&gt;Unlike using CPUs for &lt;code&gt;xgboost&lt;/code&gt;, enabling GPU support requires some extra steps (and lots of faff). As I have a Nvidia GPU I need to install CUDA on my local machine (see &lt;a href=&#34;https://www.samabbott.co.uk/post/building-an-rstats-workstation/&#34;&gt;here&lt;/a&gt; for details), CUDA 8.0 (or higher) into the Docker container that this analysis is running in (see here for &lt;a href=&#34;https://github.com/seabbs/tidyverse-gpu&#34;&gt;the Dockerfile&lt;/a&gt; - thanks to &lt;a href=&#34;https://discuss.ropensci.org/t/tips-for-installing-cuda-into-a-rocker-docker-container/1556&#34;&gt;Noam Ross&lt;/a&gt; for the original implementation) and run the Docker container using the &lt;a href=&#34;https://github.com/NVIDIA/nvidia-docker&#34;&gt;Nvidia Docker runtime&lt;/a&gt;. To check everything is working we run the same benchmark as above but now using the GPU.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grid_test &amp;lt;- benchmark_grid(complex_credit_data,
+                            &amp;quot;Status&amp;quot;,
+                            grid = spec_grid,
+                            cores = 31, 
+                            gpu = TRUE,
+                            rowsample = 1e4,
+                            trees = 50,
+                            colsample = 20)&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 
+## H2O is not running yet, starting it now...
+## 
+## Note:  In case of errors look at the following log files:
+##     /tmp/RtmppdeaNe/h2o_seabbs_started_from_r.out
+##     /tmp/RtmppdeaNe/h2o_seabbs_started_from_r.err
+## 
+## 
+## Starting H2O JVM and connecting: . Connection successful!
+## 
+## R is connected to the H2O cluster: 
+##     H2O cluster uptime:         1 seconds 86 milliseconds 
+##     H2O cluster timezone:       Etc/UTC 
+##     H2O data parsing timezone:  UTC 
+##     H2O cluster version:        3.23.0.4558 
+##     H2O cluster version age:    5 days  
+##     H2O cluster name:           H2O_started_from_R_seabbs_pon293 
+##     H2O cluster total nodes:    1 
+##     H2O cluster total memory:   26.83 GB 
+##     H2O cluster total cores:    32 
+##     H2O cluster allowed cores:  31 
+##     H2O cluster healthy:        TRUE 
+##     H2O Connection ip:          localhost 
+##     H2O Connection port:        54321 
+##     H2O Connection proxy:       NA 
+##     H2O Internal Security:      FALSE 
+##     H2O API Extensions:         XGBoost, Algos, AutoML, Core V3, Core V4 
+##     R Version:                  R version 3.5.2 (2018-12-20) 
+## 
+## Trained a grid of 10 Xgboost models with 31 cores using the GPU backend on a subsample of 10000 rows and 20 features with 50 trees.: 236.803 sec elapsed&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grid_test&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $tic
+## elapsed 
+##  73.641 
+## 
+## $toc
+## elapsed 
+## 310.444 
+## 
+## $msg
+## [1] &amp;quot;Trained a grid of 10 Xgboost models with 31 cores using the GPU backend on a subsample of 10000 rows and 20 features with 50 trees.&amp;quot;
+## 
+## $fit
+## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;Success! However with a much longer run time of over 2 minutes - not good. We again see (this time using the &lt;a href=&#34;https://github.com/Syllo/nvtop&#34;&gt;&lt;code&gt;nvtop&lt;/code&gt;&lt;/a&gt; tool) that resource use varies over time on the GPU.&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;./img/2019-01-20-benchmarking-workstation-xgboost/load-example-gpu.gif&#34; alt=&#34;Load according to htop whilst running the test grid.&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Load according to &lt;code&gt;htop&lt;/code&gt; whilst running the test grid.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;iterating-across-a-grid&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Iterating Across a Grid&lt;/h2&gt;
+&lt;p&gt;Now that the timing function and the data are in place and everything is tested I can now run a full benchmarking grid. Using &lt;code&gt;expand.grid&lt;/code&gt; I’ve combined all combinations of data sizes; from 1,000 to 100,000 rows, from 10 to 1000 columns, from 10 to 10,000 trees, and compute availability (here 4, 16, and 32 cores + GPU). Something that I not implemented here but that would reduce the noise in the final results is running each benchmark multiple times. As you will see below this is not feasible for a weekend blog post (or even the week or two blog post that this finally became)! &lt;em&gt;Note: I ended up dropping the 1000 feature combinations for the GPU as for deep trees (&lt;code&gt;max_depth&lt;/code&gt; = 10) I was getting out of memory errors.&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Grid set-up&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;benchmark_input &amp;lt;- expand.grid(
+  cores = c(4, 16, 32),
+  rowsample = c(1e3, 1e4, 2.5e4, 5e4, 7.5e4, 1e5),
+  colsample = c(10, 100, 1000),
+  trees = c(10, 100, 1000, 10000),
+  gpu = c(FALSE),
+  rep = 1
+) %&amp;gt;% 
+  as_tibble() %&amp;gt;% 
+  {bind_rows(., 
+             filter(., cores == 4, colsample &amp;lt; 1000) %&amp;gt;% 
+             mutate(gpu = TRUE))} %&amp;gt;% 
+  mutate(size = rowsample * colsample * trees) %&amp;gt;% 
+  arrange(desc(size), cores)
+
+benchmark_input&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 264 x 7
+##    cores rowsample colsample trees gpu     rep          size
+##    &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt;     &amp;lt;dbl&amp;gt; &amp;lt;dbl&amp;gt; &amp;lt;lgl&amp;gt; &amp;lt;dbl&amp;gt;         &amp;lt;dbl&amp;gt;
+##  1     4    100000      1000 10000 FALSE     1 1000000000000
+##  2    16    100000      1000 10000 FALSE     1 1000000000000
+##  3    32    100000      1000 10000 FALSE     1 1000000000000
+##  4     4     75000      1000 10000 FALSE     1  750000000000
+##  5    16     75000      1000 10000 FALSE     1  750000000000
+##  6    32     75000      1000 10000 FALSE     1  750000000000
+##  7     4     50000      1000 10000 FALSE     1  500000000000
+##  8    16     50000      1000 10000 FALSE     1  500000000000
+##  9    32     50000      1000 10000 FALSE     1  500000000000
+## 10     4     25000      1000 10000 FALSE     1  250000000000
+## # … with 254 more rows&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Run benchmark - making use of &lt;code&gt;tibble&lt;/code&gt; nesting and the always slightly hacky feeling &lt;code&gt;dplyr::rowwise&lt;/code&gt;. Everything here is crudely cached to avoid accidentlly overwriting results.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Cached manually to avoid rerunning on knit.
+if (!file.exists(&amp;quot;../../static/data/workstation-benchmark/xgboost.rds&amp;quot;)) {
+  benchmark_output_gpu &amp;lt;- benchmark_input %&amp;gt;% 
+  rowwise() %&amp;gt;% 
+  mutate(bench = list(as_tibble(benchmark_grid(complex_credit_data,
+                                       &amp;quot;Status&amp;quot;,
+                                        grid = spec_grid,
+                                        cores = cores, 
+                                        gpu = gpu,
+                                        rowsample = rowsample,
+                                        trees = trees,
+                                        colsample = colsample)))) %&amp;gt;% 
+  unnest(bench) %&amp;gt;%
+  select(-msg) %&amp;gt;% 
+  mutate(duration = toc - tic) %&amp;gt;% 
+  filter(fit)
+  
+  saveRDS(benchmark_output, &amp;quot;../../static/data/workstation-benchmark/xgboost.rds&amp;quot;)
+}else{
+  benchmark_output &amp;lt;- readRDS( &amp;quot;../../static/data/workstation-benchmark/xgboost.rds&amp;quot;)
+}
+
+benchmark_output &amp;lt;- benchmark_output %&amp;gt;% 
+  mutate(duration = duration / 60) %&amp;gt;% 
+  arrange(gpu, cores) %&amp;gt;% 
+  mutate(Compute = paste0(cores, &amp;quot; Threadripper 1950X CPU cores&amp;quot;) %&amp;gt;% 
+           ifelse(gpu, &amp;quot;Nvidia 2070 GPU&amp;quot;, .))&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;benchmarking-results&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Benchmarking Results&lt;/h2&gt;
+&lt;p&gt;After leaving everything running for a few days the results are in. The obvious plot, to begin with, is to split out everything by the number of trees and features and then plot duration against sample numbers for each compute amount (i.e cores and GPU).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;benchmark_output %&amp;gt;% 
+  mutate(Cores = factor(cores),
+         GPU = gpu) %&amp;gt;% 
+  ggplot(aes(rowsample, duration, col = Cores, shape = GPU, group = interaction(Cores, GPU))) +
+  geom_point(size = 1.2) +
+  geom_line(alpha = 0.8) + 
+  facet_grid(colsample ~ trees, scales = &amp;quot;free_y&amp;quot;) +
+  theme_minimal() +
+  theme(legend.position = &amp;quot;top&amp;quot;, axis.text.x = element_text(angle = 90,hjust = 1)) +
+  scale_x_continuous(labels = scales::comma) + 
+  scale_color_viridis_d(end = 0.9, begin = 0.1) +
+  labs(x = &amp;quot;Rows&amp;quot;,
+       y = &amp;quot;Duration (minutes)&amp;quot;,
+       caption = &amp;quot;Number of Trees ~ Number of Features&amp;quot;, 
+       title = &amp;quot;Xgboost via h2o: Duration&amp;quot;,
+       subtitle = &amp;quot;10 model hyper-parameter grid search with 5 fold cross-validation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2019-01-26-benchmarking-workstation-xgboost_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;3200&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;So the first major takeaway is that using the GPU appears to be slower (and mostly much slower) than using 4 CPU cores. This to me is very surprising as everything I have seen elsewhere would indicate that the GPU should offer some substantial speed up. There are some indications however that for larger data sets, and for larger tree numbers, the GPU may be comparable to multiple CPU cores. Potentially this is because any computational benefit from using the GPU is being swamped by the overhead of constantly passing data. Therefore, as the complexity of the problem increases so does the potential benefits of using the GPU. We see something similar for increasing the CPU count, with grids with 10 features running in nearly the same time for 4, 16 and 32 cores, whilst grids with 1000 features are drastically slower on 4 CPUs vs 16. Across all tests it looks like there is little benefit from using 32 (with 16 virtual) over 16 cores.&lt;/p&gt;
+&lt;p&gt;To get a closer look at the CPU results and to try and understand the magnitude of the results I’ve plotted the percentage improvement from a given compute amount over the longest duration for that number of rows. Filtering out the GPU results as these would otherwise mask any other findings.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;benchmark_output %&amp;gt;% 
+  filter(!gpu) %&amp;gt;% 
+  group_by(rowsample, colsample, trees) %&amp;gt;% 
+  mutate(duration = (max(duration) - duration) / max(duration)) %&amp;gt;% 
+  mutate(Cores = factor(cores)) %&amp;gt;%
+  ggplot(aes(rowsample, duration, duration, col = Cores)) +
+  geom_point(size = 1.2) +
+  geom_line(alpha = 0.8) + 
+  facet_grid(colsample ~ trees, scales = &amp;quot;free_y&amp;quot;) +
+  theme_minimal() +
+  theme(legend.position = &amp;quot;top&amp;quot;, axis.text.x = element_text(angle=90,hjust=1)) +
+  scale_y_continuous(labels = scales::percent) +
+  scale_x_continuous(labels = scales::comma) + 
+  scale_color_viridis_d(begin = 0.2, end = 0.8) +
+  labs(x = &amp;quot;Rows&amp;quot;,
+       y = &amp;quot;Performance improvement over baseline (%)&amp;quot;,
+       caption = &amp;quot;Number of Trees ~ Number of Features&amp;quot;,
+              title = &amp;quot;Xgboost via h2o: Performance over baseline&amp;quot;,
+       subtitle = &amp;quot;10 model hyper-parameter grid search with 5 fold cross-validation&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2019-01-26-benchmarking-workstation-xgboost_files/figure-html/unnamed-chunk-13-1.png&#34; width=&#34;3200&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;For 10 features the results are very noisy with 4 cores being comparable until 10,000 trees are used. For both 100 and 1000 features 16 (+32) cores are superior across the board, with a near linear speed up as the number of samples increases. Whilst we might imagine that increasing core count from 4 to 16 should result in a near 4 times speed up, interestingly we are only seeing a maximum speedup of around 70%. This is probably because &lt;code&gt;h2o&lt;/code&gt; is parallelised on the model level (this is conjecture based on observing &lt;code&gt;htop&lt;/code&gt;) - this means that for each fold of each model all the data has to be transferred between cores - leading to a large overhead. In these particular test cases, the overhead of passing data and setting up jobs is taking up much of the potential benefit from additional cores. It’s likely that in larger data sets, with longer compute times, this would be less of an issue.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;wrap-up&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Wrap up&lt;/h2&gt;
+&lt;p&gt;In this post, I have looked at the performance of &lt;code&gt;xgboost&lt;/code&gt; via &lt;code&gt;h2o&lt;/code&gt; on a sample data set, using a real-world test case of a cross-validated grid search. I found that using the GPU resulted in slower run times across the board, although there was some indication that performance improved for larger data and more complex models. Increasing the physical CPU count to 16 increased performance up to a maximum of 70% over 4 cores (for 100,000 features, 1000 features and 10,000 trees) but adding virtual cores led to no benefit.&lt;/p&gt;
+&lt;p&gt;A major takeaway for me is that I probably shouldn’t be relying on &lt;code&gt;h2o&lt;/code&gt; for my grid searching in future. Something to experiment with would be parallelising across the grid, with each model using a single core. Having very much swallowed the Kool-Aid when it comes GPU compute I was also surprised by how poor the performance was here. This is something to test further as using &lt;code&gt;xgboost&lt;/code&gt; within &lt;code&gt;h2o&lt;/code&gt; makes it difficult to pick apart where the problem lies.&lt;/p&gt;
+&lt;p&gt;Any thoughts on these results would be appreciated, especially regarding the poor performance of the GPU. I am also in the market for a new ML toolbox, I’ve been looking at &lt;a href=&#34;https://github.com/mlr-org/mlr&#34;&gt;&lt;code&gt;mlr&lt;/code&gt;&lt;/a&gt;, so any recommendations would be appreciated. I’ll be following this post up with another benchmarking post using &lt;code&gt;benchmarkme&lt;/code&gt; in the next few days - if I can resist turning off virtual cores and getting going with some more overclocking.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>getTBinR 0.5.7 now on CRAN - Tuberculosis reports and summary plots</title>
       <link>http://www.samabbott.co.uk/post/gettbinr-5-7/</link>
       <pubDate>Tue, 22 Jan 2019 00:00:00 +0000</pubDate>
@@ -2354,21 +3039,6 @@ high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&
       
       <guid>http://www.samabbott.co.uk/project/gettbinr/</guid>
       <description></description>
-    </item>
-    
-    <item>
-      <title>Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</title>
-      <link>http://www.samabbott.co.uk/post/tb-england-wales/</link>
-      <pubDate>Sun, 29 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/tb-england-wales/</guid>
-      <description>
-
-
-&lt;p&gt;This interactive dashboard uses data on Tuberculosis incidence from 1913-1916 &lt;a href=&#34;https://www.gov.uk/government/publications/tuberculosis-tb-annual-notifications-1913-onwards&#34;&gt;released&lt;/a&gt; by Public Health England and combines it with data on the interventions against Tuberculosis that have been discovered/implemented over the last century. The data was cleaned and imported into R using the &lt;a href=&#34;https://www.samabbott.co.uk/tbinenglanddataclean/&#34;&gt;tbinenglanddataclean&lt;/a&gt; R package, which also contains information on how to apply for additional data, scripts to clean data extracts and graphing functions to visualise them. The dashboard is a work in progress and additional interventions, new figures and increased interactivity will be added over time. For a full page view of the dashboard see &lt;a href=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales&#34;&gt;here&lt;/a&gt;.&lt;/p&gt;
-&lt;iframe src=&#34;http://www.seabbs.co.uk/shiny/TB_England_Wales?showcase=0&#34; width=&#34;672&#34; height=&#34;2000px&#34;&gt;
-&lt;/iframe&gt;
-</description>
     </item>
     
   </channel>

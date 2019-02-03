@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/</loc>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/post/gettbinr-5-7/</loc>
       <lastmod>2019-01-22T00:00:00+00:00</lastmod>
     </url>
@@ -398,7 +407,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/post/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -427,7 +436,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/categories/r/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -496,6 +505,16 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/benchmark/</loc>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/tags/clustering/</loc>
       <lastmod>2018-04-11T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -526,6 +545,16 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/cpu/</loc>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/tags/data-analysis/</loc>
       <lastmod>2019-01-22T00:00:00+00:00</lastmod>
       <priority>0</priority>
@@ -537,7 +566,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/data-science/</loc>
-      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -577,7 +606,17 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/gpu/</loc>
-      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/h2o/</loc>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -728,6 +767,26 @@
     
       <loc>http://www.samabbott.co.uk/tags/utilities/</loc>
       <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/workstation/</loc>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/xgboost/</loc>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>benchmark on Sam Abbott</title>
+    <link>http://www.samabbott.co.uk/tags/benchmark/</link>
+    <description>Recent content in benchmark on Sam Abbott</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
+    <lastBuildDate>Sun, 03 Feb 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/benchmark/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Benchmarking an Rstats workstation on realistic workloads - using xgboost via h2o</title>
+      <link>http://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/</link>
+      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/</guid>
+      <description>Why? I recently built out a new workstation to give me some local compute for data science workloads. Now that I have local access to both a CPU with a large number of cores (Threadripper 1950X with 16 cores) and a moderately powerful GPU (Nvidia RTX 2070) I’m interested in knowing when it is best to use CPU vs. GPU for some of the tasks that I commonly do.</description>
+    </item>
+    
+  </channel>
+</rss>

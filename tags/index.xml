@@ -94,6 +94,15 @@
     </item>
     
     <item>
+      <title>benchmark</title>
+      <link>http://www.samabbott.co.uk/tags/benchmark/</link>
+      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/benchmark/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>clustering</title>
       <link>http://www.samabbott.co.uk/tags/clustering/</link>
       <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
@@ -121,6 +130,15 @@
     </item>
     
     <item>
+      <title>cpu</title>
+      <link>http://www.samabbott.co.uk/tags/cpu/</link>
+      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/cpu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>data analysis</title>
       <link>http://www.samabbott.co.uk/tags/data-analysis/</link>
       <pubDate>Tue, 22 Jan 2019 00:00:00 +0000</pubDate>
@@ -132,7 +150,7 @@
     <item>
       <title>data science</title>
       <link>http://www.samabbott.co.uk/tags/data-science/</link>
-      <pubDate>Sun, 23 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/data-science/</guid>
       <description></description>
@@ -168,9 +186,18 @@
     <item>
       <title>gpu</title>
       <link>http://www.samabbott.co.uk/tags/gpu/</link>
-      <pubDate>Sun, 23 Dec 2018 00:00:00 +0000</pubDate>
+      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/gpu/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>h2o</title>
+      <link>http://www.samabbott.co.uk/tags/h2o/</link>
+      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/h2o/</guid>
       <description></description>
     </item>
     
@@ -306,6 +333,24 @@
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/utilities/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>workstation</title>
+      <link>http://www.samabbott.co.uk/tags/workstation/</link>
+      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/workstation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>xgboost</title>
+      <link>http://www.samabbott.co.uk/tags/xgboost/</link>
+      <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/xgboost/</guid>
       <description></description>
     </item>
     
