@@ -14,7 +14,7 @@ addons:
       - libstdc++6
 
 before_script:
-  - Rscript -e 'blogdown::install_hugo(version = "latest")'
+  - Rscript -e 'blogdown::install_hugo()'
   - chmod +x ./_build.sh
   - chmod +x ./_deploy.sh
 
