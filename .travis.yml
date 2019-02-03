@@ -14,6 +14,7 @@ addons:
       - libstdc++6
 
 before_script:
+  - Rscript -e 'devtools::install_github("rstudio/blogdown")'
   - Rscript -e 'blogdown::install_hugo()'
   - Rscript -e "blogdown::build_site(local = FALSE, method = 'html')"
   - chmod +x ./_deploy.sh
