@@ -569,7 +569,7 @@ complex_credit_data&lt;/code&gt;&lt;/pre&gt;
 ## 
 ## $fit
 ## [1] TRUE&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;Success! However, it has a much longer run time of nearly 4 minutes - not good. We again see (this time using the &lt;a href=&#34;https://github.com/Syllo/nvtop&#34;&gt;&lt;code&gt;nvtop&lt;/code&gt;&lt;/a&gt; tool) that resource use varies over time on the GPU.&lt;/p&gt;
+&lt;p&gt;Success! However, it has a much longer run time of over 2 minutes - not good. We again see (this time using the &lt;a href=&#34;https://github.com/Syllo/nvtop&#34;&gt;&lt;code&gt;nvtop&lt;/code&gt;&lt;/a&gt; tool) that resource use varies over time on the GPU.&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;./img/2019-01-20-benchmarking-workstation-xgboost/load-example-gpu.gif&#34; alt=&#34;Load according to nvtop whilst running the test grid.&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Load according to &lt;code&gt;nvtop&lt;/code&gt; whilst running the test grid.&lt;/p&gt;
@@ -577,7 +577,7 @@ complex_credit_data&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;iterating-across-a-grid&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Iterating Across a Grid&lt;/h2&gt;
-&lt;p&gt;Now that the timing function and the data are in place and everything is tested, I can run a full benchmarking grid. Using &lt;code&gt;expand.grid&lt;/code&gt;, I’ve combined all combinations of data sizes from 1,000 to 100,000 rows, from 10 to 1000 columns, from 10 to 10,000 trees and compute availability (here 4, 16, and 32 cores + GPU). Something that I have not implemented here, but that would reduce the noise in the final results, is running each benchmark multiple times. As you will see below, this is not feasible for a weekend blog post (or even the week or two blog post that this finally became!). &lt;em&gt;Note: I ended up dropping the 1000 feature combinations for the GPU as for deep trees (&lt;code&gt;max_depth&lt;/code&gt; = 10) I was getting out of memory errors.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;Now that the timing function and the data are in place and everything is tested, I can now run a full benchmarking grid. Using &lt;code&gt;expand.grid&lt;/code&gt;, I’ve combined all combinations of data sizes from 1,000 to 100,000 rows, from 10 to 1000 columns, from 10 to 10,000 trees and compute availability (here 4, 16, and 32 cores + GPU). Something that I have not implemented here, but that would reduce the noise in the final results, is running each benchmark multiple times. As you will see below, this is not feasible for a weekend blog post (or even the week or two blog post that this finally became!). &lt;em&gt;Note: I ended up dropping the 1000 feature combinations for the GPU as for deep trees (&lt;code&gt;max_depth&lt;/code&gt; = 10) I was getting out of memory errors.&lt;/em&gt;&lt;/p&gt;
 &lt;ul&gt;
 &lt;li&gt;Grid set-up&lt;/li&gt;
 &lt;/ul&gt;
