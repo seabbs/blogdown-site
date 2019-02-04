@@ -1,78 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>shiny on Sam Abbott</title>
+    <title>Shiny on Sam Abbott</title>
     <link>http://www.samabbott.co.uk/tags/shiny/</link>
-    <description>Recent content in shiny on Sam Abbott</description>
+    <description>Recent content in Shiny on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Fri, 26 Jan 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 15 Aug 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/shiny/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Explore Global Tuberculosis</title>
-      <link>http://www.samabbott.co.uk/project/exploreglobaltb/</link>
-      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
+      <title>Introducing the Pebble Game; a simple app for exploring epidemics and vaccination</title>
+      <link>http://www.samabbott.co.uk/post/using-the-pebble-game/</link>
+      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.samabbott.co.uk/project/exploreglobaltb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Explore Infectious Disease Models</title>
-      <link>http://www.samabbott.co.uk/project/exploreidmodels/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/exploreidmodels/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Show Me Perseus</title>
-      <link>http://www.samabbott.co.uk/project/showmeperseus/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/showmeperseus/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Introduction to TB Modelling</title>
-      <link>http://www.samabbott.co.uk/project/intro_tb_models/</link>
-      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/intro_tb_models/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Tuberculosis in England and Wales</title>
-      <link>http://www.samabbott.co.uk/project/tb_england_wales/</link>
-      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/tb_england_wales/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>FC Dashboard</title>
-      <link>http://www.samabbott.co.uk/project/fcdashboard/</link>
-      <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>The Pebble Game</title>
-      <link>http://www.samabbott.co.uk/project/thepebblegame/</link>
-      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
-      <description></description>
+      <guid>http://www.samabbott.co.uk/post/using-the-pebble-game/</guid>
+      <description>The Pebble Game is a shiny application that simulates a simple game which has been designed to reflect real world epidemics and the vaccination programmes used to control them. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease.</description>
     </item>
     
   </channel>
