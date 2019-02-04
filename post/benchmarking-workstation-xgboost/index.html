@@ -843,8 +843,8 @@ complex_credit_data</code></pre>
 ## #   NumNoise_23 &lt;dbl&gt;, NumNoise_24 &lt;dbl&gt;, NumNoise_25 &lt;dbl&gt;,
 ## #   NumNoise_26 &lt;dbl&gt;, NumNoise_27 &lt;dbl&gt;, …</code></pre>
 </div>
-<div id="testing-on-for-a-single-iteration" class="section level2">
-<h2>Testing on for a single iteration</h2>
+<div id="testing-on-a-single-iteration" class="section level2">
+<h2>Testing on a single iteration</h2>
 <p>To check that everything is working as expected we test on a single iteration with 31 cores, no GPU, 1000 samples, 20 features and 50 trees.</p>
 <pre class="r"><code>grid_test &lt;- benchmark_grid(complex_credit_data,
                             &quot;Status&quot;,

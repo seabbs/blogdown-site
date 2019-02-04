@@ -453,8 +453,8 @@ complex_credit_data&lt;/code&gt;&lt;/pre&gt;
 ## #   NumNoise_23 &amp;lt;dbl&amp;gt;, NumNoise_24 &amp;lt;dbl&amp;gt;, NumNoise_25 &amp;lt;dbl&amp;gt;,
 ## #   NumNoise_26 &amp;lt;dbl&amp;gt;, NumNoise_27 &amp;lt;dbl&amp;gt;, …&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
-&lt;div id=&#34;testing-on-for-a-single-iteration&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;Testing on for a single iteration&lt;/h2&gt;
+&lt;div id=&#34;testing-on-a-single-iteration&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Testing on a single iteration&lt;/h2&gt;
 &lt;p&gt;To check that everything is working as expected we test on a single iteration with 31 cores, no GPU, 1000 samples, 20 features and 50 trees.&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;grid_test &amp;lt;- benchmark_grid(complex_credit_data,
                             &amp;quot;Status&amp;quot;,
