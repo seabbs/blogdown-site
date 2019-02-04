@@ -268,7 +268,7 @@ grid_test <- benchmark_grid(complex_credit_data,
 grid_test
 ```
 
-Success! However, it has a much longer run time of over 2 minutes - not good. We again see (this time using the [`nvtop`](https://github.com/Syllo/nvtop) tool) that resource use varies over time on the GPU.
+Success! However, it has a much longer run time of nearly 4 minutes - not good. We again see (this time using the [`nvtop`](https://github.com/Syllo/nvtop) tool) that resource use varies over time on the GPU.
 
 ![Load according to `nvtop` whilst running the test grid.](/img/2019-01-20-benchmarking-workstation-xgboost/load-example-gpu.gif)
 
