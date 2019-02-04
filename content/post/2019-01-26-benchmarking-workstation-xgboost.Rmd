@@ -229,7 +229,7 @@ complex_credit_data
 ```
 
 
-## Testing on for a single iteration
+## Testing on a single iteration
 
 To check that everything is working as expected we test on a single iteration with 31 cores, no GPU, 1000 samples, 20 features and 50 trees. 
 
