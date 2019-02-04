@@ -270,7 +270,7 @@ grid_test
 
 Success! However, it has a much longer run time of over 2 minutes - not good. We again see (this time using the [`nvtop`](https://github.com/Syllo/nvtop) tool) that resource use varies over time on the GPU.
 
-![Load according to `htop` whilst running the test grid.](/img/2019-01-20-benchmarking-workstation-xgboost/load-example-gpu.gif)
+![Load according to `nvtop` whilst running the test grid.](/img/2019-01-20-benchmarking-workstation-xgboost/load-example-gpu.gif)
 
 
 ## Iterating Across a Grid
