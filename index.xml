@@ -11,6 +11,128 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Benchmarking an Rstats workstation - using benchmarkme</title>
+      <link>http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/</link>
+      <pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/</guid>
+      <description>
+
+
+&lt;div id=&#34;why&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Why?&lt;/h2&gt;
+&lt;p&gt;I recently &lt;a href=&#34;https://www.samabbott.co.uk/post/building-an-rstats-workstation/&#34;&gt;built out a new workstation&lt;/a&gt; and have done some &lt;a href=&#34;https://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/&#34;&gt;benchmarking using &lt;code&gt;xgboost&lt;/code&gt; via &lt;code&gt;h2o&lt;/code&gt;&lt;/a&gt;. In this post I am using the &lt;a href=&#34;https://www.jumpingrivers.com/blog/benchmarkme-new-version/&#34;&gt;&lt;code&gt;benchmarkme&lt;/code&gt;&lt;/a&gt; package to get another perspective on performance. &lt;em&gt;Note: The &lt;code&gt;benchmarkme&lt;/code&gt; package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;The main thing that I am interested in checking is the performance trade-off of enabling simultaneous multithreading (i.e Hyper-threading for Intel CPUs). In the&lt;code&gt;xgboost&lt;/code&gt; benchmarks multithreading did nothing to improve performance - which reflected my everyday experience. This post represents a final check before turning it off and using the increased thermal overhead for additional real core overclocking.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;package-set-up&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Package set-up&lt;/h2&gt;
+&lt;p&gt;The code in this post is loosely based on that used in &lt;a href=&#34;https://www.jumpingrivers.com/blog/benchmarkme-new-version/&#34;&gt;this recent post&lt;/a&gt;. &lt;code&gt;pacman&lt;/code&gt; is used for package management and the &lt;code&gt;tidyverse&lt;/code&gt; is dragooned, as usual, for data munging and visualisation.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;run-benchmarks&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Run benchmarks&lt;/h2&gt;
+&lt;p&gt;The code below checks the system is discoverable and then runs the benchmarks of interest in a tidy manner.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Get system details&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Get Ram
+get_ram()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 33.7 GB&lt;/code&gt;&lt;/pre&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Get CPU
+get_cpu()&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## $vendor_id
+## [1] &amp;quot;AuthenticAMD&amp;quot;
+## 
+## $model_name
+## [1] &amp;quot;AMD Ryzen Threadripper 1950X 16-Core Processor&amp;quot;
+## 
+## $no_of_cores
+## [1] 32&lt;/code&gt;&lt;/pre&gt;
+&lt;ul&gt;
+&lt;li&gt;Run benchmarks&lt;/li&gt;
+&lt;/ul&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Cached manually to avoid rerunning on knit/cache issue - does anyone have a nice package recommendation for this?
+if (!file.exists(&amp;quot;../../static/data/workstation-benchmark/benchmarkme.rds&amp;quot;)) {
+  benchmarks &amp;lt;- tibble(cores = c(1, 16, 32)) %&amp;gt;% 
+  mutate(std = map(cores, ~ benchmark_std(cores = .), runs = 3, verbose = FALSE),
+         io = map(cores, ~ benchmark_io(cores = .), runs = 3, verbose = FALSE))
+  
+  saveRDS(benchmarks, &amp;quot;../../static/data/workstation-benchmark/benchmarkme.rds&amp;quot;)
+}else{
+  benchmarks &amp;lt;- readRDS( &amp;quot;../../static/data/workstation-benchmark/benchmarkme.rds&amp;quot;)
+}
+
+benchmarks&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## # A tibble: 3 x 3
+##   cores std                    io                    
+##   &amp;lt;dbl&amp;gt; &amp;lt;list&amp;gt;                 &amp;lt;list&amp;gt;                
+## 1     1 &amp;lt;ben_results [45 × 6]&amp;gt; &amp;lt;ben_results [12 × 6]&amp;gt;
+## 2    16 &amp;lt;ben_results [45 × 6]&amp;gt; &amp;lt;ben_results [12 × 6]&amp;gt;
+## 3    32 &amp;lt;ben_results [45 × 6]&amp;gt; &amp;lt;ben_results [12 × 6]&amp;gt;&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;em&gt;Note: It looks like resource use isn’t handled very cleanly in &lt;code&gt;benchmarkme&lt;/code&gt;. Looking at the screenshot below (fom the 16 core benchmark) we see that all cores are actually maxed out - including virtual cores - and there are multiple old jobs still active.&lt;/em&gt;&lt;/p&gt;
+&lt;div class=&#34;figure&#34;&gt;
+&lt;img src=&#34;./img/2019-02-05-benchmarking-workstation-benchmarkme/benchmarkme-htop.png&#34; alt=&#34;Load according to htop whilst running the 16 core test.&#34; /&gt;
+&lt;p class=&#34;caption&#34;&gt;Load according to &lt;code&gt;htop&lt;/code&gt; whilst running the 16 core test.&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;visualise&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Visualise&lt;/h2&gt;
+&lt;div id=&#34;set-up&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Set-up&lt;/h3&gt;
+&lt;p&gt;As I am really interested in comparing the performance of my system, rather than comparing it to other systems, I needed to develop a customised plot. The code below does this by taking the mean of each test, dividing by the single core run-time, and then plotting split by test type, the number of cores, and test.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;plot_benchmark &amp;lt;- function(df){
+  df %&amp;gt;% 
+  select(-cores1) %&amp;gt;%  
+  mutate(elapsed_core_avg = elapsed / cores) %&amp;gt;% 
+  group_by(test, cores, test_group) %&amp;gt;% 
+  summarise(elapsed_core_avg  = mean(elapsed_core_avg , na.rm = TRUE)) %&amp;gt;% 
+  group_by(test) %&amp;gt;% 
+  arrange(cores) %&amp;gt;% 
+  mutate(cores = factor(cores)) %&amp;gt;% 
+  mutate(elapsed_over_max = elapsed_core_avg  / first(elapsed_core_avg)) %&amp;gt;% 
+  mutate(Test = test) %&amp;gt;% 
+  ggplot(aes(x = cores, y = elapsed_over_max, col  = Test, group = Test)) +
+  geom_point(size = 1.2) +
+  geom_line(size = 1.1, alpha = 0.6) + 
+  theme_minimal() +
+  facet_wrap(~ test_group, scales = &amp;quot;free_y&amp;quot;) + 
+  scale_y_log10(labels = scales::percent) +
+  theme(legend.position = &amp;quot;top&amp;quot;) +
+  scale_color_viridis_d() +
+  labs(x = &amp;quot;Cores&amp;quot;,
+       y = &amp;quot;Time elapsed compared to single core performance (%)&amp;quot;,
+       subtitle = &amp;quot;Stratified by test type&amp;quot;,
+       caption = &amp;quot;Multicore performance is estimated by running the same test on each core and averaging the result. 
+      This gives a biased estimate of performance as core set-up overhead is not included.&amp;quot;)
+}&lt;/code&gt;&lt;/pre&gt;
+&lt;/div&gt;
+&lt;div id=&#34;programming-benchmark&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Programming benchmark&lt;/h3&gt;
+&lt;p&gt;The impact of multiple cores appeared to vary depending on the test type. All matrix calculations and programming tests showed a clear speed up when using 16 cores over a single core but this speed-up varied between 70% and 85%. For matrix functions the picture was less clear with 3 tests performing worse when using 16 cores vs. a single core. In general, there appears to be, at most, a marginal improvement from using 32 cores (with 16 virtual) over 16 cores. However, it is likely that this does not represent the full picture as it does not seem that &lt;code&gt;benchmarkme&lt;/code&gt; includes multicore overheads (i.e from core set-up, merging results etc).&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;benchmarks %&amp;gt;% 
+  unnest(std) %&amp;gt;% 
+  plot_benchmark()+
+  labs(title = &amp;quot;Performance benchmarks by core - programming&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;3200&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;readwrite-benchmark&#34; class=&#34;section level3&#34;&gt;
+&lt;h3&gt;Read/write benchmark&lt;/h3&gt;
+&lt;p&gt;The impact of multiple cores is more consistently beneficial here, with each increase in the number of cores resulting in improved performance. This may be because the cores were not saturated by the processing workload so a linear speed up was possible. This performance improvement would likely increase as long as there was sufficient read/write bandwidth on the SSD.&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;benchmarks %&amp;gt;% 
+  unnest(io) %&amp;gt;% 
+  plot_benchmark()+
+  labs(title = &amp;quot;Performance benchmarks by core - data read/write&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;3200&#34; /&gt;&lt;/p&gt;
+&lt;/div&gt;
+&lt;/div&gt;
+&lt;div id=&#34;summary&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;Summary&lt;/h2&gt;
+&lt;p&gt;In this post, I have explored multicore performance using the &lt;code&gt;benchmarkme&lt;/code&gt; package. I found that increasing the number of real cores improved performance in the majority of cases for both programming, and read/write tests. For programming tests, there was little evidence that using virtual cores led to a performance improvement but there was a clear benefit for read/write tests. This may be because the read/write tests did not use a complete CPU core of processing and so multiple jobs could be run at once. Unfortunately, these findings may not be that reliable as it appears that &lt;code&gt;benchmarkme&lt;/code&gt; tests multicore performance by running each test on each core. This ignores the overhead from setting up multiple cores, transferring data, and merging results. In some circumstances, this overhead can outweigh any benefit of using multiple cores.&lt;/p&gt;
+&lt;p&gt;Based on the findings here, and from &lt;a href=&#34;https://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/&#34;&gt;my previous benchmarking post&lt;/a&gt;, I think it is fairly clear that most of the time virtual cores are really adding very little. When you consider that for nearly comparable performance double the RAM is required they appear even less attractive. Obviously I could keep benchmarking but I think it may be time to turn off multithreading, ramp up the CPU clock speed - BIOS fun here we come- and finally start getting some work done!&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Benchmarking an Rstats workstation on realistic workloads - using xgboost via h2o</title>
       <link>http://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/</link>
       <pubDate>Sun, 03 Feb 2019 00:00:00 +0000</pubDate>
@@ -3029,15 +3151,6 @@ high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/showmeperseus/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>getTBinR</title>
-      <link>http://www.samabbott.co.uk/project/gettbinr/</link>
-      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/gettbinr/</guid>
       <description></description>
     </item>
     

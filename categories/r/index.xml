@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Sun, 03 Feb 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 05 Feb 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/categories/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Benchmarking an Rstats workstation - using benchmarkme</title>
+      <link>http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/</link>
+      <pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/</guid>
+      <description>Why? I recently built out a new workstation and have done some benchmarking using xgboost via h2o. In this post I am using the benchmarkme package to get another perspective on performance. Note: The benchmarkme package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post.
+The main thing that I am interested in checking is the performance trade-off of enabling simultaneous multithreading (i.</description>
+    </item>
     
     <item>
       <title>Benchmarking an Rstats workstation on realistic workloads - using xgboost via h2o</title>

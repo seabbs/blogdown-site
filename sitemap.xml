@@ -5,6 +5,15 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/</loc>
       <lastmod>2019-02-03T00:00:00+00:00</lastmod>
     </url>
@@ -407,7 +416,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/post/</loc>
-      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -436,7 +445,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/categories/r/</loc>
-      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -506,7 +515,17 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/benchmark/</loc>
-      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/benchmarkme/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -546,7 +565,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/cpu/</loc>
-      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -566,7 +585,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/data-science/</loc>
-      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -776,7 +795,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/workstation/</loc>
-      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
