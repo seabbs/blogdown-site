@@ -112,11 +112,8 @@ benchmarks %>%
   unnest(std) %>% 
   plot_benchmark()+
   labs(title = "Performance benchmarks by core - programming")
-```
-
-
-```{r, include = FALSE}
-ggsave("../../static/img/2019-02-05-benchmarking-workstation-benchmarkme/cover_img.png")
+  
+  ggsave("../../static/img/2019-02-05-benchmarking-workstation-benchmarkme/cover_img.png")
 ```
 
 ###Read/write benchmark 
