@@ -64,7 +64,7 @@ benchmarks
 ```
 
 
-*Note: It looks like resource use isn't handled very cleanly in `benchmarkme`. Looking at the screenshot below (fom the 16 core benchmark) we see that all cores are actually maxed out - including virtual cores - and there are multiple old jobs still active.*
+*Note: It looks like resource use isn't handled very cleanly in `benchmarkme`. Looking at the screenshot below (fom the 16 core benchmark) we see that all cores are actually maxed out - including virtual cores - and there are multiple old jobs still active. Edit: This looks like it may have been user error - see the comment at the bottom of the post for details.*
 
 ![Load according to `htop` whilst running the 16 core test.](/img/2019-02-05-benchmarking-workstation-benchmarkme/benchmarkme-htop.png)
 
