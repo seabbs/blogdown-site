@@ -68,7 +68,7 @@ benchmarks&lt;/code&gt;&lt;/pre&gt;
 ## 1     1 &amp;lt;ben_results [45 × 6]&amp;gt; &amp;lt;ben_results [12 × 6]&amp;gt;
 ## 2    16 &amp;lt;ben_results [45 × 6]&amp;gt; &amp;lt;ben_results [12 × 6]&amp;gt;
 ## 3    32 &amp;lt;ben_results [45 × 6]&amp;gt; &amp;lt;ben_results [12 × 6]&amp;gt;&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;em&gt;Note: It looks like resource use isn’t handled very cleanly in &lt;code&gt;benchmarkme&lt;/code&gt;. Looking at the screenshot below (fom the 16 core benchmark) we see that all cores are actually maxed out - including virtual cores - and there are multiple old jobs still active.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note: It looks like resource use isn’t handled very cleanly in &lt;code&gt;benchmarkme&lt;/code&gt;. Looking at the screenshot below (fom the 16 core benchmark) we see that all cores are actually maxed out - including virtual cores - and there are multiple old jobs still active. Edit: This looks like it may have been user error - see the comment at the bottom of the post for details.&lt;/em&gt;&lt;/p&gt;
 &lt;div class=&#34;figure&#34;&gt;
 &lt;img src=&#34;./img/2019-02-05-benchmarking-workstation-benchmarkme/benchmarkme-htop.png&#34; alt=&#34;Load according to htop whilst running the 16 core test.&#34; /&gt;
 &lt;p class=&#34;caption&#34;&gt;Load according to &lt;code&gt;htop&lt;/code&gt; whilst running the 16 core test.&lt;/p&gt;

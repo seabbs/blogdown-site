@@ -1,33 +1,24 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Outreach on Sam Abbott</title>
+    <title>outreach on Sam Abbott</title>
     <link>http://www.samabbott.co.uk/tags/outreach/</link>
-    <description>Recent content in Outreach on Sam Abbott</description>
+    <description>Recent content in outreach on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Tue, 15 Aug 2017 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 10 Jun 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/outreach/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
-      <title>Introducing the Pebble Game; a simple app for exploring epidemics and vaccination</title>
-      <link>http://www.samabbott.co.uk/post/using-the-pebble-game/</link>
-      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
+      <title>The Pebble Game</title>
+      <link>http://www.samabbott.co.uk/project/thepebblegame/</link>
+      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
       
-      <guid>http://www.samabbott.co.uk/post/using-the-pebble-game/</guid>
-      <description>The Pebble Game is a shiny application that simulates a simple game which has been designed to reflect real world epidemics and the vaccination programmes used to control them. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease.</description>
-    </item>
-    
-    <item>
-      <title>An ancient disease, a scar, and classroom mathematics</title>
-      <link>http://www.samabbott.co.uk/post/an-ancient-disease-a-scar-and-classroom-mathematics/</link>
-      <pubDate>Wed, 14 Jun 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/an-ancient-disease-a-scar-and-classroom-mathematics/</guid>
-      <description>How are a 10,000-year-old disease, the scar on your arm (if you are over 25 and born in the UK), and the mathematics you learnt at school related? If you are under 25, where is your scar? My research uses mathematics to understand the role of Bacillus Calmette–Guérin (BCG) vaccine in preventing Tuberculosis (TB) in England and forecast the impact of current policies. TB is one of the oldest human diseases, with recorded cases in ancient Egypt, renaissance Europe, and in the modern day across the globe.</description>
+      <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
+      <description></description>
     </item>
     
   </channel>
