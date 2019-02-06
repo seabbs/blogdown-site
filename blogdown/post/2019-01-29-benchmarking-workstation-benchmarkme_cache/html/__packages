@@ -1,8 +1,6 @@
 base
 pacman
 benchmarkme
-benchmarkmeData
-bindrcpp
 tidyverse
 ggplot2
 tibble
@@ -12,3 +10,4 @@ purrr
 dplyr
 stringr
 forcats
+bindrcpp
