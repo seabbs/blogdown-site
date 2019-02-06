@@ -428,17 +428,17 @@ The main thing that I am interested in checking is the performance trade-off of 
 </ul>
 <pre class="r"><code>## Get Ram
 get_ram()</code></pre>
-<pre><code>## 33.7 GB</code></pre>
+<pre><code>## 16.8 GB</code></pre>
 <pre class="r"><code>## Get CPU
 get_cpu()</code></pre>
 <pre><code>## $vendor_id
-## [1] &quot;AuthenticAMD&quot;
+## [1] &quot;GenuineIntel&quot;
 ## 
 ## $model_name
-## [1] &quot;AMD Ryzen Threadripper 1950X 16-Core Processor&quot;
+## [1] &quot;Intel(R) Core(TM) i7-5775R CPU @ 3.30GHz&quot;
 ## 
 ## $no_of_cores
-## [1] 32</code></pre>
+## [1] 8</code></pre>
 <ul>
 <li>Run benchmarks</li>
 </ul>
@@ -505,6 +505,7 @@ benchmarks</code></pre>
   plot_benchmark()+
   labs(title = &quot;Performance benchmarks by core - programming&quot;)</code></pre>
 <p><img src="../../post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-4-1.png" width="3200" /></p>
+<pre class="r"><code>  ggsave(&quot;../../static/img/2019-02-05-benchmarking-workstation-benchmarkme/cover_img.png&quot;)</code></pre>
 </div>
 <div id="readwrite-benchmark" class="section level3">
 <h3>Read/write benchmark</h3>
@@ -513,7 +514,7 @@ benchmarks</code></pre>
   unnest(io) %&gt;% 
   plot_benchmark()+
   labs(title = &quot;Performance benchmarks by core - data read/write&quot;)</code></pre>
-<p><img src="../../post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-6-1.png" width="3200" /></p>
+<p><img src="../../post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-5-1.png" width="3200" /></p>
 </div>
 </div>
 <div id="summary" class="section level2">

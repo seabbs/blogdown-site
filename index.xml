@@ -36,17 +36,17 @@
 &lt;/ul&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Get Ram
 get_ram()&lt;/code&gt;&lt;/pre&gt;
-&lt;pre&gt;&lt;code&gt;## 33.7 GB&lt;/code&gt;&lt;/pre&gt;
+&lt;pre&gt;&lt;code&gt;## 16.8 GB&lt;/code&gt;&lt;/pre&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Get CPU
 get_cpu()&lt;/code&gt;&lt;/pre&gt;
 &lt;pre&gt;&lt;code&gt;## $vendor_id
-## [1] &amp;quot;AuthenticAMD&amp;quot;
+## [1] &amp;quot;GenuineIntel&amp;quot;
 ## 
 ## $model_name
-## [1] &amp;quot;AMD Ryzen Threadripper 1950X 16-Core Processor&amp;quot;
+## [1] &amp;quot;Intel(R) Core(TM) i7-5775R CPU @ 3.30GHz&amp;quot;
 ## 
 ## $no_of_cores
-## [1] 32&lt;/code&gt;&lt;/pre&gt;
+## [1] 8&lt;/code&gt;&lt;/pre&gt;
 &lt;ul&gt;
 &lt;li&gt;Run benchmarks&lt;/li&gt;
 &lt;/ul&gt;
@@ -113,6 +113,7 @@ benchmarks&lt;/code&gt;&lt;/pre&gt;
   plot_benchmark()+
   labs(title = &amp;quot;Performance benchmarks by core - programming&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;./post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-4-1.png&#34; width=&#34;3200&#34; /&gt;&lt;/p&gt;
+&lt;pre class=&#34;r&#34;&gt;&lt;code&gt;  ggsave(&amp;quot;../../static/img/2019-02-05-benchmarking-workstation-benchmarkme/cover_img.png&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;readwrite-benchmark&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Read/write benchmark&lt;/h3&gt;
@@ -121,7 +122,7 @@ benchmarks&lt;/code&gt;&lt;/pre&gt;
   unnest(io) %&amp;gt;% 
   plot_benchmark()+
   labs(title = &amp;quot;Performance benchmarks by core - data read/write&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
-&lt;p&gt;&lt;img src=&#34;./post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-6-1.png&#34; width=&#34;3200&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;./post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;3200&#34; /&gt;&lt;/p&gt;
 &lt;/div&gt;
 &lt;/div&gt;
 &lt;div id=&#34;summary&#34; class=&#34;section level2&#34;&gt;
