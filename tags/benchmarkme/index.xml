@@ -18,7 +18,7 @@
       <pubDate>Tue, 05 Feb 2019 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/</guid>
-      <description>Why? I recently built out a new workstation and have done some benchmarking using xgboost via h2o. In this post I am using the benchmarkme package to get another perspective on performance. Note: The benchmarkme package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post. **Update (2019-02-11): Just checked this issue using rocker/tidyverse:latest and found all benchmarkme functionality is working well.</description>
+      <description>Why? I recently built out a new workstation and have done some benchmarking using xgboost via h2o. In this post I am using the benchmarkme package to get another perspective on performance. Note: The benchmarkme package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post. Update (2019-02-11): Just checked this issue using rocker/tidyverse:latest and found all benchmarkme functionality is working well.</description>
     </item>
     
   </channel>

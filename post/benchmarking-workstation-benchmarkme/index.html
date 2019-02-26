@@ -17,7 +17,7 @@
       
     
   
-  <meta name="description" content="Why? I recently built out a new workstation and have done some benchmarking using xgboost via h2o. In this post I am using the benchmarkme package to get another perspective on performance. Note: The benchmarkme package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post. **Update (2019-02-11): Just checked this issue using rocker/tidyverse:latest and found all benchmarkme functionality is working well.">
+  <meta name="description" content="Why? I recently built out a new workstation and have done some benchmarking using xgboost via h2o. In this post I am using the benchmarkme package to get another perspective on performance. Note: The benchmarkme package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post. Update (2019-02-11): Just checked this issue using rocker/tidyverse:latest and found all benchmarkme functionality is working well.">
 
   
   <link rel="alternate" hreflang="en-uk" href="http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/">
@@ -90,7 +90,7 @@
   <meta property="og:site_name" content="Sam Abbott">
   <meta property="og:url" content="http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/">
   <meta property="og:title" content="Benchmarking an Rstats workstation - using benchmarkme | Sam Abbott">
-  <meta property="og:description" content="Why? I recently built out a new workstation and have done some benchmarking using xgboost via h2o. In this post I am using the benchmarkme package to get another perspective on performance. Note: The benchmarkme package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post. **Update (2019-02-11): Just checked this issue using rocker/tidyverse:latest and found all benchmarkme functionality is working well.">
+  <meta property="og:description" content="Why? I recently built out a new workstation and have done some benchmarking using xgboost via h2o. In this post I am using the benchmarkme package to get another perspective on performance. Note: The benchmarkme package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post. Update (2019-02-11): Just checked this issue using rocker/tidyverse:latest and found all benchmarkme functionality is working well.">
   <meta property="og:locale" content="en-uk">
   
   <meta property="article:published_time" content="2019-02-05T00:00:00&#43;00:00">
@@ -411,7 +411,7 @@
 
 <div id="why" class="section level2">
 <h2>Why?</h2>
-<p>I recently <a href="https://www.samabbott.co.uk/post/building-an-rstats-workstation/">built out a new workstation</a> and have done some <a href="https://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/">benchmarking using <code>xgboost</code> via <code>h2o</code></a>. In this post I am using the <a href="https://www.jumpingrivers.com/blog/benchmarkme-new-version/"><code>benchmarkme</code></a> package to get another perspective on performance. <em>Note: The <code>benchmarkme</code> package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post.</em> **Update (2019-02-11): Just checked this issue using <code>rocker/tidyverse:latest</code> and found all <code>benchmarkme</code> functionality is working well. Probably a user error on my part :) - testing code <a href="https://gist.github.com/seabbs/13afd2ac53f96aeb937a7753af55fc56">here</a>.</p>
+<p>I recently <a href="https://www.samabbott.co.uk/post/building-an-rstats-workstation/">built out a new workstation</a> and have done some <a href="https://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/">benchmarking using <code>xgboost</code> via <code>h2o</code></a>. In this post I am using the <a href="https://www.jumpingrivers.com/blog/benchmarkme-new-version/"><code>benchmarkme</code></a> package to get another perspective on performance. <em>Note: The <code>benchmarkme</code> package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post.</em> <strong>Update (2019-02-11): Just checked this issue using <code>rocker/tidyverse:latest</code> and found all <code>benchmarkme</code> functionality is working well. Probably a user error on my part :) - testing code <a href="https://gist.github.com/seabbs/13afd2ac53f96aeb937a7753af55fc56">here</a>.</strong></p>
 <p>The main thing that I am interested in checking is the performance trade-off of enabling simultaneous multithreading (i.e Hyper-threading for Intel CPUs). In the<code>xgboost</code> benchmarks multithreading did nothing to improve performance - which reflected my everyday experience. This post represents a final check before turning it off and using the increased thermal overhead for additional real core overclocking.</p>
 </div>
 <div id="package-set-up" class="section level2">
