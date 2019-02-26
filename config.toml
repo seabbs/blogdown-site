@@ -209,6 +209,21 @@ defaultContentLanguageInSubdir = false
     link = "//twitter.com/seabbs"
 
   [[params.social]]
+    icon = "github"
+    icon_pack = "fa"
+    link = "//github.com/seabbs"
+    
+  [[params.social]]
+    icon = "google-scholar"
+    icon_pack = "ai"
+    link = "https://scholar.google.co.uk/citations?hl=en&user=GqZm90IAAAAJ"
+    
+  [[params.social]]
+    icon = "stack-overflow"
+    icon_pack = "fa"
+    link = "https://stackoverflow.com/users/9295446/sam-abbott"
+    
+  [[params.social]]
     icon = "linkedin"
     icon_pack = "fa"
     link = "https://www.linkedin.com/in/seabbs/"
@@ -218,15 +233,6 @@ defaultContentLanguageInSubdir = false
     icon_pack = "ai"
     link = "https://www.researchgate.net/profile/Sam_Abbott2"
 
-  [[params.social]]
-    icon = "github"
-    icon_pack = "fa"
-    link = "//github.com/seabbs"
-    
-  [[params.social]]
-    icon = "stack-overflow"
-    icon_pack = "fa"
-    link = "https://stackoverflow.com/users/9295446/sam-abbott"
 
 
 # Navigation Links
