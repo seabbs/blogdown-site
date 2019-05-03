@@ -30,5 +30,14 @@
       <description>How are a 10,000-year-old disease, the scar on your arm (if you are over 25 and born in the UK), and the mathematics you learnt at school related? If you are under 25, where is your scar? My research uses mathematics to understand the role of Bacillus Calmette–Guérin (BCG) vaccine in preventing Tuberculosis (TB) in England and forecast the impact of current policies. TB is one of the oldest human diseases, with recorded cases in ancient Egypt, renaissance Europe, and in the modern day across the globe.</description>
     </item>
     
+    <item>
+      <title>The Pebble Game</title>
+      <link>http://www.samabbott.co.uk/project/thepebblegame/</link>
+      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
+      <description>The Pebble Game is a shiny application that simulates the pebble game. This is a simple game that has been developed by &lt;a href=&#34;http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. The source code can be found &lt;a href=&#34;https://github.com/seabbs/thepebblegame&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
+    </item>
+    
   </channel>
 </rss>

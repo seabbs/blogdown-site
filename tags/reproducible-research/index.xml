@@ -18,7 +18,7 @@
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/prettypublisher/</guid>
-      <description></description>
+      <description>R package to help in formatting R markdown documents into a publishable format. The source code is available on &lt;a href=&#34;https://github.com/seabbs/prettypublisher&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
-      <description></description>
+      <description>R package containing the scripts required to clean data from the Enhanced Tuberculosis Surveillance system, and the Labour Force Survey, and to then calculate Tuberculosis incidence. The source code is available &lt;a href=&#34;https://github.com/seabbs/tbinenglanddataclean&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
     </item>
     
   </channel>

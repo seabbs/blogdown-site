@@ -18,7 +18,7 @@
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/propertypartner_tableau/</guid>
-      <description></description>
+      <description>A series of Tableau dashboards visualising the &lt;a href=&#34;https://www.propertypartner.co/s#/grid-view&#34; target=&#34;_blank&#34;&gt;Property Partner portfolio&lt;/a&gt;</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
-      <description></description>
+      <description>FC dashboard is a simple tool for exploratory data analysis on the &lt;a href=&#34;https://www.fundingcircle.com/uk/&#34; target=&#34;_blank&#34;&gt;funding circle loanbook&lt;/a&gt;. The source code can be found &lt;a href=&#34;https://github.com/seabbs/fcdashboard&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. This is an independant project and is in no way associated with funding circle. Since the original development of this dashboard Funding Circle has stopped publishing it&amp;rsquo;s full loanbook, this means that some functionality will no longer work as originally intended and that data will no longer be updated.</description>
     </item>
     
     <item>
@@ -36,7 +36,7 @@
       <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
-      <description></description>
+      <description>The Pebble Game is a shiny application that simulates the pebble game. This is a simple game that has been developed by &lt;a href=&#34;http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. The source code can be found &lt;a href=&#34;https://github.com/seabbs/thepebblegame&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
   </channel>

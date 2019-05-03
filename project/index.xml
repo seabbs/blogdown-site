@@ -18,7 +18,7 @@
       <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/exploreglobaltb/</guid>
-      <description></description>
+      <description>A shiny app showcasing the functionality of &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34; target=&#34;_blank&#34;&gt;getTBinR&lt;/a&gt;. It allows the exploration of the global burden of Tuberculosis. Any metric in the WHO data can be explored, with country selection using the built in map, and animation possible by year. Source code available &lt;a href=&#34;https://github.com/seabbs/getTBinR/tree/master/inst/shiny/ExploreGlobalTB&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/biddmodellingcourse/</guid>
-      <description></description>
+      <description>The course practicals for the &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;modelling infectious disease&lt;/a&gt; short course `run by &lt;a href=&#34;http://www.bristol.ac.uk/population-health-sciences/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol. Source code available &lt;a href=&#34;https://github.com/bristolmathmodellers/biddmodellingcourse/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -36,7 +36,7 @@
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/exploreidmodels/</guid>
-      <description></description>
+      <description>&lt;a href=&#34;http://seabbs.co.uk/shiny/exploreidmodels&#34; target=&#34;_blank&#34;&gt;This shiny app&lt;/a&gt; has been developed to allow the exploration of the parameter space of &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;compartmental infectious disease models&lt;/a&gt;. It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model. Source code available &lt;a href=&#34;https://www.github.com/seabbs/exploreidmodels&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -45,7 +45,7 @@
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/showmeperseus/</guid>
-      <description></description>
+      <description>A shiny app to remove potential friction for new R users when using the &lt;a href=&#34;https://ropensci.org/blog/2017/12/05/rperseus/&#34; target=&#34;_blank&#34;&gt;R perseus package&lt;/a&gt;. Source code available &lt;a href=&#34;https://www.github.com/seabbs/ShowMePerseus&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -54,7 +54,7 @@
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/gettbinr/</guid>
-      <description></description>
+      <description>Quickly and easily import analysis ready TB burden data, from the World Health Orgnaisation (WHO), into R. The aim of the package is to speed up access to high quality TB burden data, using a simple R interface. Generic plotting functions are provided to allow for rapid graphical exploration of the WHO TB data. This package is inspired by a blog &lt;a href=&#34;https://incidental-ideas.org/2017/03/03/who-tuberculosis-data-ggplot2/&#34; target=&#34;_blank&#34;&gt;post&lt;/a&gt;, which looked at WHO TB incidence rates. See &lt;a href=&#34;http://www.who.int/about/copyright/en/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for the WHO data permissions.</description>
     </item>
     
     <item>
@@ -63,7 +63,7 @@
       <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/intro_tb_models/</guid>
-      <description></description>
+      <description>A shiny app reproducing the models used in the Introduction to Tuberculosis modelling course practicals, run by &lt;a href=&#34;http://tb-mac.org/&#34; target=&#34;_blank&#34;&gt;TB MAC&lt;/a&gt; at the &lt;a href=&#34;http://guadalajara.worldlunghealth.org/about-us&#34; target=&#34;_blank&#34;&gt;2017 Union conference&lt;/a&gt;. See the &lt;a href=&#34;http://tb-mac.org/&#34; target=&#34;_blank&#34;&gt;TB MAC&lt;/a&gt; website for course materials and further resources. The models used in this course, and reproduced in this shiny app, were based on one published by &lt;a href=&#34;http://www.who.int/bulletin/volumes/90/10/11-101436.pdf&#34; target=&#34;_blank&#34;&gt;Lin et al.&lt;/a&gt;. The source code is available on &lt;a href=&#34;https://github.com/seabbs/intro_to_tb_models&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
     </item>
     
     <item>
@@ -72,7 +72,7 @@
       <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/tb_england_wales/</guid>
-      <description></description>
+      <description>A shiny dashboard providing interactive plots of Tuberuclosis Incidence in England and Wales using publicly available data. The source code is available on &lt;a href=&#34;https://github.com/seabbs/TB_England_Wales&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
     </item>
     
     <item>
@@ -81,7 +81,7 @@
       <pubDate>Thu, 14 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/propertypartner_tableau/</guid>
-      <description></description>
+      <description>A series of Tableau dashboards visualising the &lt;a href=&#34;https://www.propertypartner.co/s#/grid-view&#34; target=&#34;_blank&#34;&gt;Property Partner portfolio&lt;/a&gt;</description>
     </item>
     
     <item>
@@ -90,7 +90,7 @@
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
-      <description></description>
+      <description>FC dashboard is a simple tool for exploratory data analysis on the &lt;a href=&#34;https://www.fundingcircle.com/uk/&#34; target=&#34;_blank&#34;&gt;funding circle loanbook&lt;/a&gt;. The source code can be found &lt;a href=&#34;https://github.com/seabbs/fcdashboard&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. This is an independant project and is in no way associated with funding circle. Since the original development of this dashboard Funding Circle has stopped publishing it&amp;rsquo;s full loanbook, this means that some functionality will no longer work as originally intended and that data will no longer be updated.</description>
     </item>
     
     <item>
@@ -99,7 +99,7 @@
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/idmodelr/</guid>
-      <description></description>
+      <description>R package that contains utility functions for infectious disease modelling. It&amp;rsquo;s main functionality is to facilitate the use of other available modelling packages such as &lt;a href=&#34;http://kingaa.github.io/pomp/&#34; target=&#34;_blank&#34;&gt;pomp&lt;/a&gt;. Although, it does offer some basic modelling functionality itself. The source code is available on &lt;a href=&#34;https://github.com/seabbs/idmodelr&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
     </item>
     
     <item>
@@ -108,7 +108,7 @@
       <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
-      <description></description>
+      <description>The Pebble Game is a shiny application that simulates the pebble game. This is a simple game that has been developed by &lt;a href=&#34;http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. The source code can be found &lt;a href=&#34;https://github.com/seabbs/thepebblegame&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -117,7 +117,7 @@
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/funding-circle/</guid>
-      <description></description>
+      <description>Visualisation and analysis of the &lt;a href=&#34;https://www.fundingcircle.com/uk&#34; target=&#34;_blank&#34;&gt;Funding Circle&lt;/a&gt; loanbook.</description>
     </item>
     
     <item>
@@ -126,8 +126,7 @@
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/phd-thesis-aims-objectives/</guid>
-      <description>Aim To understand the impact of BCG vaccination on the epidemiology of tuberculosis in England, and to use this understanding to forecast the future effects of current and proposed BCG vaccination policy.
-Objectives  To describe the current epidemiology of Tuberculosis in England, To assess whether there is evidence in routinely-collected surveillance data that BCG vaccination impacts outcomes for TB cases in England, To assess the direct effects of the 2005 change in vaccination policy on those eligible for vaccination, To develop and apply a parsimonous transmission dynamic model of tuberculosis in order to understand the trade off between vaccinating those at highest risk of poor outcomes, and those most likely to be vectors of transmission; by using the 2005 change in vaccination policy as a case study, To develop and apply a transmission dynamic model of tuberculosis, that is robustly fitted to available data, and captures the known epidemiology of TB; in order to forecast all long term effects of the 2005 change in vaccination policy, and to provide robust estimates of epidemiological parameters for TB in England, To forecast future incidence of tuberculosis in England under various transmission, importation, and vaccination scenarios; by further generalising previously developed transmission dynamic models.</description>
+      <description>Summary of the research aims for my PhD thesis</description>
     </item>
     
     <item>
@@ -136,7 +135,7 @@ Objectives  To describe the current epidemiology of Tuberculosis in England, To 
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/prettypublisher/</guid>
-      <description></description>
+      <description>R package to help in formatting R markdown documents into a publishable format. The source code is available on &lt;a href=&#34;https://github.com/seabbs/prettypublisher&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
     </item>
     
     <item>
@@ -145,7 +144,7 @@ Objectives  To describe the current epidemiology of Tuberculosis in England, To 
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
-      <description></description>
+      <description>R package containing the scripts required to clean data from the Enhanced Tuberculosis Surveillance system, and the Labour Force Survey, and to then calculate Tuberculosis incidence. The source code is available &lt;a href=&#34;https://github.com/seabbs/tbinenglanddataclean&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
     </item>
     
   </channel>

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>shiny on Sam Abbott</title>
+    <title>Shiny on Sam Abbott</title>
     <link>http://www.samabbott.co.uk/tags/shiny/</link>
-    <description>Recent content in shiny on Sam Abbott</description>
+    <description>Recent content in Shiny on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
@@ -18,7 +18,7 @@
       <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/exploreglobaltb/</guid>
-      <description></description>
+      <description>A shiny app showcasing the functionality of &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34; target=&#34;_blank&#34;&gt;getTBinR&lt;/a&gt;. It allows the exploration of the global burden of Tuberculosis. Any metric in the WHO data can be explored, with country selection using the built in map, and animation possible by year. Source code available &lt;a href=&#34;https://github.com/seabbs/getTBinR/tree/master/inst/shiny/ExploreGlobalTB&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -27,7 +27,7 @@
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/exploreidmodels/</guid>
-      <description></description>
+      <description>&lt;a href=&#34;http://seabbs.co.uk/shiny/exploreidmodels&#34; target=&#34;_blank&#34;&gt;This shiny app&lt;/a&gt; has been developed to allow the exploration of the parameter space of &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;compartmental infectious disease models&lt;/a&gt;. It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model. Source code available &lt;a href=&#34;https://www.github.com/seabbs/exploreidmodels&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -36,7 +36,7 @@
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/showmeperseus/</guid>
-      <description></description>
+      <description>A shiny app to remove potential friction for new R users when using the &lt;a href=&#34;https://ropensci.org/blog/2017/12/05/rperseus/&#34; target=&#34;_blank&#34;&gt;R perseus package&lt;/a&gt;. Source code available &lt;a href=&#34;https://www.github.com/seabbs/ShowMePerseus&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -45,7 +45,7 @@
       <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/intro_tb_models/</guid>
-      <description></description>
+      <description>A shiny app reproducing the models used in the Introduction to Tuberculosis modelling course practicals, run by &lt;a href=&#34;http://tb-mac.org/&#34; target=&#34;_blank&#34;&gt;TB MAC&lt;/a&gt; at the &lt;a href=&#34;http://guadalajara.worldlunghealth.org/about-us&#34; target=&#34;_blank&#34;&gt;2017 Union conference&lt;/a&gt;. See the &lt;a href=&#34;http://tb-mac.org/&#34; target=&#34;_blank&#34;&gt;TB MAC&lt;/a&gt; website for course materials and further resources. The models used in this course, and reproduced in this shiny app, were based on one published by &lt;a href=&#34;http://www.who.int/bulletin/volumes/90/10/11-101436.pdf&#34; target=&#34;_blank&#34;&gt;Lin et al.&lt;/a&gt;. The source code is available on &lt;a href=&#34;https://github.com/seabbs/intro_to_tb_models&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
     </item>
     
     <item>
@@ -54,7 +54,16 @@
       <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/tb_england_wales/</guid>
-      <description></description>
+      <description>A shiny dashboard providing interactive plots of Tuberuclosis Incidence in England and Wales using publicly available data. The source code is available on &lt;a href=&#34;https://github.com/seabbs/TB_England_Wales&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
+    </item>
+    
+    <item>
+      <title>Introducing the Pebble Game; a simple app for exploring epidemics and vaccination</title>
+      <link>http://www.samabbott.co.uk/post/using-the-pebble-game/</link>
+      <pubDate>Tue, 15 Aug 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/using-the-pebble-game/</guid>
+      <description>The Pebble Game is a shiny application that simulates a simple game which has been designed to reflect real world epidemics and the vaccination programmes used to control them. It involves repeatedly drawing pebbles from a bag, which contains two distinct pebble types (to represent vaccinated and unvaccinated individuals). The number of pebbles that are drawn each round is dependent on the number of infect-able (i.e unvaccinated) cases drawn in the previous round, and the infectiousness of the simulated disease.</description>
     </item>
     
     <item>
@@ -63,7 +72,7 @@
       <pubDate>Mon, 26 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/fcdashboard/</guid>
-      <description></description>
+      <description>FC dashboard is a simple tool for exploratory data analysis on the &lt;a href=&#34;https://www.fundingcircle.com/uk/&#34; target=&#34;_blank&#34;&gt;funding circle loanbook&lt;/a&gt;. The source code can be found &lt;a href=&#34;https://github.com/seabbs/fcdashboard&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;. This is an independant project and is in no way associated with funding circle. Since the original development of this dashboard Funding Circle has stopped publishing it&amp;rsquo;s full loanbook, this means that some functionality will no longer work as originally intended and that data will no longer be updated.</description>
     </item>
     
     <item>
@@ -72,7 +81,7 @@
       <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
-      <description></description>
+      <description>The Pebble Game is a shiny application that simulates the pebble game. This is a simple game that has been developed by &lt;a href=&#34;http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. The source code can be found &lt;a href=&#34;https://github.com/seabbs/thepebblegame&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
   </channel>

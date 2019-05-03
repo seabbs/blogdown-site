@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
   
     
@@ -7,6 +6,106 @@
     
       <loc>http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/</loc>
       <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/categories/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/post/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/categories/r/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/benchmark/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/benchmarkme/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/cpu/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/data-science/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/workstation/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -23,6 +122,86 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/gpu/</loc>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/h2o/</loc>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/xgboost/</loc>
+      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/tb/</loc>
+      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/who/</loc>
+      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/data-analysis/</loc>
+      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/data-visualisation/</loc>
+      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/gettbinr/</loc>
+      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/post/gettbinr-5-7/</loc>
       <lastmod>2019-01-22T00:00:00+00:00</lastmod>
     </url>
@@ -32,8 +211,48 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/infectious-disease/</loc>
+      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/rstats/</loc>
+      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/post/building-an-rstats-workstation/</loc>
       <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/compute/</loc>
+      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/overclocking/</loc>
+      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -68,8 +287,37 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/phe/</loc>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/clustering/</loc>
+      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/talk/phe-applied-epi-2018/</loc>
       <lastmod>2018-03-20T11:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/talk/myessentialr-bristolr_19_04_20/</loc>
+      <lastmod>2018-03-06T14:00:00+00:00</lastmod>
     </url>
     
   
@@ -97,6 +345,26 @@
     
       <loc>http://www.samabbott.co.uk/project/exploreglobaltb/</loc>
       <lastmod>2018-01-26T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/project/</loc>
+      <lastmod>2018-01-26T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/shiny/</loc>
+      <lastmod>2018-01-26T00:00:00+00:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -140,8 +408,58 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/course/</loc>
+      <lastmod>2018-01-15T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/personal-project/</loc>
+      <lastmod>2018-01-15T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/tuberculosis/</loc>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/project/gettbinr/</loc>
       <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/r-package/</loc>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/utilities/</loc>
+      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -176,6 +494,16 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/modelling/</loc>
+      <lastmod>2017-10-12T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/talk/union-2017/</loc>
       <lastmod>2017-10-11T15:00:00+00:00</lastmod>
     </url>
@@ -187,6 +515,26 @@
     
       <loc>http://www.samabbott.co.uk/post/deep-dive-pp-premiums/</loc>
       <lastmod>2017-09-26T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/p2p/</loc>
+      <lastmod>2017-09-26T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/deep-dive/</loc>
+      <lastmod>2017-09-26T00:00:00+00:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -212,8 +560,58 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/personal-projects/</loc>
+      <lastmod>2017-09-14T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/tableau/</loc>
+      <lastmod>2017-09-14T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/interests/</loc>
+      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/post/using-the-pebble-game/</loc>
       <lastmod>2017-08-15T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/outreach/</loc>
+      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/phd/</loc>
+      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -284,8 +682,28 @@
     
     <url>
     
+      <loc>http://www.samabbott.co.uk/tags/phd-thesis/</loc>
+      <lastmod>2017-06-06T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
       <loc>http://www.samabbott.co.uk/project/prettypublisher/</loc>
       <lastmod>2017-06-06T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/reproducible-research/</loc>
+      <lastmod>2017-06-06T00:00:00+00:00</lastmod>
+      <priority>0</priority>
     </url>
     
   
@@ -356,456 +774,7 @@
     
     <url>
     
-      <loc>http://www.samabbott.co.uk/categories/</loc>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/interests/</loc>
-      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/outreach/</loc>
-      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/p2p/</loc>
-      <lastmod>2017-09-26T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/phe/</loc>
-      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/phd/</loc>
-      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/post/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/project/</loc>
-      <lastmod>2018-01-26T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>http://www.samabbott.co.uk/publication_types/</loc>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/categories/r/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/</loc>
-      <lastmod>2016-04-20T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/shiny/</loc>
-      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/tb/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/</loc>
-      <lastmod>2017-08-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/tuberculosis/</loc>
-      <lastmod>2017-06-14T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/who/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/benchmark/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/benchmarkme/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/clustering/</loc>
-      <lastmod>2018-04-11T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/compute/</loc>
-      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/course/</loc>
-      <lastmod>2018-01-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/cpu/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/data-analysis/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/data-science/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/data-visualisation/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/deep-dive/</loc>
-      <lastmod>2017-09-26T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/gettbinr/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/gpu/</loc>
-      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/h2o/</loc>
-      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/infectious-disease/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/modelling/</loc>
-      <lastmod>2017-10-12T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/outreach/</loc>
-      <lastmod>2017-06-10T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/overclocking/</loc>
-      <lastmod>2018-12-23T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/p2p/</loc>
-      <lastmod>2017-09-26T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/personal-project/</loc>
-      <lastmod>2018-01-15T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/personal-projects/</loc>
-      <lastmod>2017-09-14T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/phd-thesis/</loc>
-      <lastmod>2017-06-06T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/r-package/</loc>
-      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/reproducible-research/</loc>
-      <lastmod>2017-06-06T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/rstats/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/shiny/</loc>
-      <lastmod>2018-01-26T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/tableau/</loc>
-      <lastmod>2017-09-14T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/tuberculosis/</loc>
-      <lastmod>2017-06-14T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/utilities/</loc>
-      <lastmod>2017-11-30T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/workstation/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/xgboost/</loc>
-      <lastmod>2019-02-03T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

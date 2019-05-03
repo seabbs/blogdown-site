@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
     <title>Sam Abbott on Sam Abbott</title>
@@ -7,7 +6,7 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Wed, 20 Apr 2016 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 05 Feb 2019 00:00:00 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
@@ -2565,6 +2564,15 @@ rm(&amp;quot;storyboard&amp;quot;, &amp;quot;plot_tb_cluster_map&amp;quot;)&lt;/
     </item>
     
     <item>
+      <title>(My) essential R resources</title>
+      <link>http://www.samabbott.co.uk/talk/myessentialr-bristolr_19_04_20/</link>
+      <pubDate>Tue, 06 Mar 2018 14:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/talk/myessentialr-bristolr_19_04_20/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Introduction to getTBinR</title>
       <link>http://www.samabbott.co.uk/talk/bidd_group_talk_18_03_06/</link>
       <pubDate>Tue, 06 Mar 2018 14:00:00 +0000</pubDate>
@@ -3144,15 +3152,6 @@ high_inc_up_countries &amp;lt;- intersect(countries_inc_up, high_inc_countries)&
 &lt;p&gt;This post has highlighted the fact that whilst Tuberculosis is declining globally this is not the case in all countries. In order for the global eradication of Tuberculosis to be a success it is vital that resources are targeted at those countries which are struggling to reduce their incidence rates.&lt;/p&gt;
 &lt;p&gt;The WHO Tuberculosis data contains many variables not mentioned in this post and has the potential to answer a number of other questions. See the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34;&gt;package site&lt;/a&gt; for additional package features not mentioned in this post. See &lt;a href=&#34;https://gist.github.com/seabbs&#34;&gt;my gists&lt;/a&gt; for code snippets to get you started. Feature requests are welcome, preferably by filing a &lt;a href=&#34;https://github.com/seabbs/getTBinR/issues&#34;&gt;GitHub issue&lt;/a&gt;, as are suggestions for additional data sources to include.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Show Me Perseus</title>
-      <link>http://www.samabbott.co.uk/project/showmeperseus/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/showmeperseus/</guid>
-      <description></description>
     </item>
     
   </channel>
