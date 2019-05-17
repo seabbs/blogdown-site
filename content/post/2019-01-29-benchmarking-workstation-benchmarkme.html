@@ -13,7 +13,7 @@ twitterImg: img/2019-02-05-benchmarking-workstation-benchmarkme/cover_img.png
 
 <div id="why" class="section level2">
 <h2>Why?</h2>
-<p>I recently <a href="https://www.samabbott.co.uk/post/building-an-rstats-workstation/">built out a new workstation</a> and have done some <a href="https://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/">benchmarking using <code>xgboost</code> via <code>h2o</code></a>. In this post I am using the <a href="https://www.jumpingrivers.com/blog/benchmarkme-new-version/"><code>benchmarkme</code></a> package to get another perspective on performance. <em>Note: The <code>benchmarkme</code> package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post.</em></p>
+<p>I recently <a href="https://www.samabbott.co.uk/post/building-an-rstats-workstation/">built out a new workstation</a> and have done some <a href="https://www.samabbott.co.uk/post/benchmarking-workstation-xgboost/">benchmarking using <code>xgboost</code> via <code>h2o</code></a>. In this post I am using the <a href="https://www.jumpingrivers.com/blog/benchmarkme-new-version/"><code>benchmarkme</code></a> package to get another perspective on performance. <em>Note: The <code>benchmarkme</code> package appears to have some issues when it comes to plotting benchmarks. I ended up having to drop them entirely from this post.</em> <strong>Update (2019-02-11): Just checked this issue using <code>rocker/tidyverse:latest</code> and found all <code>benchmarkme</code> functionality is working well. Probably a user error on my part :) - testing code <a href="https://gist.github.com/seabbs/13afd2ac53f96aeb937a7753af55fc56">here</a>.</strong></p>
 <p>The main thing that I am interested in checking is the performance trade-off of enabling simultaneous multithreading (i.e Hyper-threading for Intel CPUs). In the<code>xgboost</code> benchmarks multithreading did nothing to improve performance - which reflected my everyday experience. This post represents a final check before turning it off and using the increased thermal overhead for additional real core overclocking.</p>
 </div>
 <div id="package-set-up" class="section level2">
@@ -60,7 +60,7 @@ benchmarks</code></pre>
 ## 1     1 &lt;ben_results [45 × 6]&gt; &lt;ben_results [12 × 6]&gt;
 ## 2    16 &lt;ben_results [45 × 6]&gt; &lt;ben_results [12 × 6]&gt;
 ## 3    32 &lt;ben_results [45 × 6]&gt; &lt;ben_results [12 × 6]&gt;</code></pre>
-<p><em>Note: It looks like resource use isn’t handled very cleanly in <code>benchmarkme</code>. Looking at the screenshot below (fom the 16 core benchmark) we see that all cores are actually maxed out - including virtual cores - and there are multiple old jobs still active.</em></p>
+<p><em>Note: It looks like resource use isn’t handled very cleanly in <code>benchmarkme</code>. Looking at the screenshot below (fom the 16 core benchmark) we see that all cores are actually maxed out - including virtual cores - and there are multiple old jobs still active. Edit: This looks like it may have been user error - see the comment at the bottom of the post for details.</em></p>
 <div class="figure">
 <img src="/img/2019-02-05-benchmarking-workstation-benchmarkme/benchmarkme-htop.png" alt="Load according to htop whilst running the 16 core test." />
 <p class="caption">Load according to <code>htop</code> whilst running the 16 core test.</p>
@@ -68,8 +68,7 @@ benchmarks</code></pre>
 </div>
 <div id="visualise" class="section level2">
 <h2>Visualise</h2>
-<div id="set-up" class="section level3">
-<h3>Set-up</h3>
+<p>###Set-up</p>
 <p>As I am really interested in comparing the performance of my system, rather than comparing it to other systems, I needed to develop a customised plot. The code below does this by taking the mean of each test, dividing by the single core run-time, and then plotting split by test type, the number of cores, and test.</p>
 <pre class="r"><code>plot_benchmark &lt;- function(df){
   df %&gt;% 
@@ -96,9 +95,7 @@ benchmarks</code></pre>
        caption = &quot;Multicore performance is estimated by running the same test on each core and averaging the result. 
       This gives a biased estimate of performance as core set-up overhead is not included.&quot;)
 }</code></pre>
-</div>
-<div id="programming-benchmark" class="section level3">
-<h3>Programming benchmark</h3>
+<p>###Programming benchmark</p>
 <p>The impact of multiple cores appeared to vary depending on the test type. All matrix calculations and programming tests showed a clear speed up when using 16 cores over a single core but this speed-up varied between 70% and 85%. For matrix functions the picture was less clear with 3 tests performing worse when using 16 cores vs. a single core. In general, there appears to be, at most, a marginal improvement from using 32 cores (with 16 virtual) over 16 cores. However, it is likely that this does not represent the full picture as it does not seem that <code>benchmarkme</code> includes multicore overheads (i.e from core set-up, merging results etc).</p>
 <pre class="r"><code>benchmarks %&gt;% 
   unnest(std) %&gt;% 
@@ -106,16 +103,13 @@ benchmarks</code></pre>
   labs(title = &quot;Performance benchmarks by core - programming&quot;)</code></pre>
 <p><img src="/post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-4-1.png" width="3200" /></p>
 <pre class="r"><code>  ggsave(&quot;../../static/img/2019-02-05-benchmarking-workstation-benchmarkme/cover_img.png&quot;)</code></pre>
-</div>
-<div id="readwrite-benchmark" class="section level3">
-<h3>Read/write benchmark</h3>
+<p>###Read/write benchmark</p>
 <p>The impact of multiple cores is more consistently beneficial here, with each increase in the number of cores resulting in improved performance. This may be because the cores were not saturated by the processing workload so a linear speed up was possible. This performance improvement would likely increase as long as there was sufficient read/write bandwidth on the SSD.</p>
 <pre class="r"><code>benchmarks %&gt;% 
   unnest(io) %&gt;% 
   plot_benchmark()+
   labs(title = &quot;Performance benchmarks by core - data read/write&quot;)</code></pre>
 <p><img src="/post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-5-1.png" width="3200" /></p>
-</div>
 </div>
 <div id="summary" class="section level2">
 <h2>Summary</h2>

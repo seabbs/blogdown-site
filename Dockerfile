@@ -15,6 +15,16 @@ RUN apt-get update -qq \
     default-jre \
   && R CMD javareconf
 
+## Install deps
+RUN apt-get update -y && \
+    apt-get install -y \
+    texlive-latex-recommended \
+    texlive-fonts-extra \
+    texinfo \
+    libqpdf-dev \
+    libmagick++-dev \
+    && apt-get clean
+    
 ## Add in website files
 ADD . /home/rstudio/seabbs.github.io
 
