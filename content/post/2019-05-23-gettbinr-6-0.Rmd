@@ -55,7 +55,7 @@ The full change log is included below (or can be found [here](https://www.samabb
 
 The code below explores a subset of the available data by first estimating global incidence rates and the annual change between years. The country level annual changes in TB incidence rates are then plotted, first globally and then by region. Finally, the trend in incidence rates is explored using country, regional and global level TB incidence rates. See [here](https://www.samabbott.co.uk/img/getTBinR/storyboard-6-0.png) for a full size version of the storyboard.
 
-This example is an updated version of the example used for the [`0.5.5` release blog post](https://www.samabbott.co.uk/post/gettbinr-5-5/). It showcases some of the many improvements that have been made to the package since this release (see [here](https://gist.github.com/seabbs/5defcce1b90b3467318564b198ac33e5/revisions) for a comparison of two examples)
+This example is an updated version of the example used for the [`0.5.5` release blog post](https://www.samabbott.co.uk/post/gettbinr-5-5/). It showcases some of the many improvements that have been made to the package since this release (see [here](https://gist.github.com/seabbs/5defcce1b90b3467318564b198ac33e5/revisions) for a comparison of the two examples)
 
 
 ```{r, message = FALSE, eval = FALSE}
