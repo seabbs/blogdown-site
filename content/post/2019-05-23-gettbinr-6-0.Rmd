@@ -1,0 +1,188 @@
+---
+title: getTBinR 0.6.0 now on CRAN - from 80 variables to more than 450!
+author: ~
+date: '2019-05-23'
+slug: gettbinr-6-0
+twitterImg: img/getTBinR/storyboard-6-0.png
+description: "getTBinR version 0.6.0 - now with over 450 variables, a JOSS publication, and more summary functions. See the code example for some of the code streamlining."
+categories: ["R"]
+tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "getTBinR", "infectious disease"]
+---
+
+[`getTBinR 0.6.0`](https://www.samabbott.co.uk/getTBinR/) is now on CRAN and should be available on a mirror near you shortly! This update includes multiple new Tuberculosis datasets - increasing the available number of variables through `getTBinR` from 80 to over 450. To help support these new datasets the package now contains a dataframe listing the available datasets and `search_data_dict` can now also be used to search the data dictionary for variables by dataset. On top of this, this update contains suggested changes by reviewers (@[rrrlw](https://github.com/rrrlw) and @[strengejacke](https://github.com/strengejacke)) from [JOSS](https://joss.theoj.org) (see [here](https://github.com/openjournals/joss-reviews/issues/1260) for the review thread). If any package authors are reading this then I cannot recommend the JOSS review process enough!
+
+The full change log is included below (or can be found [here](https://www.samabbott.co.uk/getTBinR/news/index.html)). The JOSS paper can be found [here](https://doi.org/10.21105/joss.01260). See the bottom of this post for an example of using the package to explore global Tuberculosis incidence rates. 
+
+## 0.6.0
+
+### Feature updates
+
+* Added a new `summarise_metric` function to the package. This function was previously used internally by the TB report. For a given year it returns the value of given metric, along with the regional and global rankings. The average change over the last decade is also supplied. Linked to #57.
+* `search_data_dict` can now be used to search for a dataset by name. All variables in this dataset are then returned.
+* Added a new dataframe, `available_datasets`, that lists the datasets available to be imported into R using the package. This dataframe also gives a short description of each dataset, details the time-span of the dataset, and whether or not it is downloaded by default. Used by `get_tb_burden` as a URL source for downloading the datasets. Linked to #58.
+* `get_tb_burden` can now import additional datasets (listed in `available_datasets`), clean them, and then link them with the core dataset. This adds over 400 new variables to the package and provides a near complete list of data used in the WHO Tuberculosis global report. Please open an issue if you find an issue with this dataset.
+
+### Package updates
+
+* Jumped to `0.6.0` to signal a major release.
+* Updated earliest supported R version based on travis testing - now `3.3.0`. 
+* Added the [JOSS paper](https://doi.org/10.21105/joss.01260) as the preferred citation for `getTBinR` and also added this information to the README.
+* URL and data save names have been deprecated from all functions and will be removed in a future release. This allows the number of arguments for many functions to be reduced with no loss of functionality (as data is only saved temporally by package functions).
+* `search_data_dict` has improved messaging and no longer returns an error when nothing is found in the data dictionary. From #65.
+* `search_data_dict` has expanded testing to account for new dataset searching and for failing to find results. Linked to #60.
+* Dropped usage of `dplyr::funs` as soft deprecated.
+* Added tests for `summarise_metric` and added to documentation.
+* Added tests for additional dataset import in `get_tb_burden`. #58
+* Added `available_datasets` and new data import to the README and to the getting started vignette.
+
+## getTBinR 0.5.8
+
+### Package updates
+
+* Added package information to license file - suggested during review for JOSS submission by @[rrrlw](https://github.com/rrrlw).
+* Updated README introduction to better explain package aim -  suggested during review for JOSS submission by @[strengejacke](https://github.com/strengejacke)
+* Improved package DESCRIPTION for CRAN only users - suggested during review for JOSS submission by @[rrrlw](https://github.com/rrrlw).
+* Used `usethis::use_tidy_description` to improve DESCRIPTION formatting.
+* Added development documentation badge to the README + website.
+* Moved to automated pkgdown deployment using travis. Based on [this](https://pkgdown.r-lib.org/reference/deploy_site_github.html) and the [dplyr](https://github.com/tidyverse/dplyr/blob/master/.travis.yml) implementation.
+* Expanded travis testing grid based on [dplyr](https://github.com/tidyverse/dplyr/blob/master/.travis.yml) implementation.
+* Updated earliest supported R version based on travis testing - now `3.2.0`. 
+* Used `usethis::use_tidy_versions()` to set package to dependent on package versions used during development work. Added this to makefile to make automated.
+* Added a git commit step to the `Makefile` use with `make message="your commit message". This will automatically run all build steps that are required and then commit any changes. 
+
+
+## Example: Changes in TB incidence rates in 2017
+
+The code below explores a subset of the available data by first estimating global incidence rates and the annual change between years. The country level annual changes in TB incidence rates are then plotted, first globally and then by region. Finally, the trend in incidence rates is explored using country, regional and global level TB incidence rates. See [here](https://www.samabbott.co.uk/img/getTBinR/storyboard-6-0.png) for a full size version of the storyboard.
+
+This example is an updated version of the example used for the [`0.5.5` release blog post](https://www.samabbott.co.uk/post/gettbinr-5-5/). It showcases some of the many improvements that have been made to the package since this release (see [here](https://gist.github.com/seabbs/5defcce1b90b3467318564b198ac33e5/revisions) for a comparison of two examples)
+
+
+```{r, message = FALSE, eval = FALSE}
+## Get required packages - managed using pacman
+if (!require(pacman)) install.packages("pacman"); library(pacman)
+p_load("getTBinR")
+p_load("ggplot2")
+p_load("ggrepel")
+p_load("scales")
+p_load("viridis")
+p_load("dplyr")
+p_load("tidyr")
+p_load("forcats")
+p_load("ggridges")
+p_load_gh("thomasp85/patchwork")
+
+##Pull TB data 
+tb_burden <- get_tb_burden(verbose = FALSE) 
+
+
+## Summarise global changes
+global_tb <- summarise_tb_burden(compare_to_world = TRUE,
+                                 annual_change = TRUE,
+                                 stat = "rate",
+                                 verbose = FALSE) %>% 
+  filter(area == "Global")
+
+
+## TB in 2017
+tb_2017 <- global_tb %>% 
+  filter(year == 2017)
+
+## Global annual change
+global_annual_change <- ggplot(global_tb, aes(year, e_inc_num)) +
+  geom_smooth(se = FALSE, col = "black", size = 1.2, alpha = 0.7) +
+  geom_point(size = 1.2, alpha = 0.8, col = "black") +
+  scale_y_continuous(label = scales::percent, minor_breaks = NULL, breaks = seq(-0.025, 0, 0.0025)) +
+  theme_minimal() +
+  labs(
+    y = "Annual Percentage Change",
+    x = "Year",
+    title = "Global Annual Percentage Change in Tuberculosis Incidence Rates",
+    caption = ""
+  )
+
+## Remove countries with incidence below 1000 or incidence rates below 10 per 100,000 to reduce noise and cal country level annual change.
+countries_with_tb_burden <- tb_burden %>% 
+  filter(year == 2017,
+         e_inc_100k > 10,
+         e_inc_num > 1000) %>% 
+  pull(country)
+
+tb_annual_change <- summarise_tb_burden(countries = countries_with_tb_burden, 
+                                        compare_to_region = FALSE, 
+                                        compare_to_world = FALSE,
+                                        metric = "e_inc_100k",
+                                        annual_change = TRUE,
+                                        verbose = FALSE) %>% 
+  mutate(annual_change = e_inc_100k) %>% 
+  left_join(tb_burden %>% 
+              select(country, g_whoregion), 
+                     by = c("area" = "country")) %>% 
+  drop_na(g_whoregion)
+
+## Function to plot annual change
+plot_annual_change <- function(df, strat = NULL, subtitle = NULL, years = 2000:2017) {
+  dist <- df %>% 
+    filter(year %in% years) %>% 
+    rename(Region = g_whoregion) %>% 
+    mutate(year = year %>% 
+             factor(ordered = TRUE) %>% 
+             fct_rev) %>% 
+    ggplot(aes_string(x = "annual_change", y = "year", col = strat, fill = strat)) +
+    geom_density_ridges(quantile_lines = TRUE, quantiles = 2, alpha = 0.6) +
+    scale_color_viridis(discrete = TRUE, end = 0.9) +
+    scale_fill_viridis(discrete = TRUE, end = 0.9) +
+    geom_vline(xintercept = 0, linetype = 2, alpha = 0.6) +
+    scale_x_continuous(labels = scales::percent, breaks = seq(-0.4, 0.4, 0.1),
+                       limits = c(-0.4, 0.4), minor_breaks = NULL) +
+    theme_minimal() +
+    theme(legend.position = "none") +
+    labs(x = paste0("Annual Change in ", search_data_dict("e_inc_100k")$definition),
+         y = "Year",
+         title = "Annual Percentage Change in Tuberculosis Incidence Rates",
+         subtitle = subtitle,
+         caption = "")
+  
+  return(dist)
+}
+
+## Overall country level annual change
+overall <- plot_annual_change(tb_annual_change, NULL,
+                              years = seq(2001, 2017, 2), subtitle = "By Country") 
+
+
+## Regional country level annual change
+region <-  plot_annual_change(tb_annual_change, "Region",
+                              subtitle = "By Region", 
+                              years = seq(2001, 2017, 2)) + 
+  facet_wrap(~Region) +
+  labs(caption = "")
+
+
+## Regional and Global TB incidence rates over time
+regional_incidence <- plot_tb_burden_summary(conf = NULL)
+
+## Map global TB incidence rates for 2017 using getTBinR
+map <- map_tb_burden(year = c(2005, 2009, 2013, 2017), facet = "year") +
+  theme(strip.background = element_blank()) +
+  labs(caption = "",
+       title = "Tuberculosis Incidence Rates",
+       subtitle = "By Country, per 100,000 population")
+
+## Compose storyboard
+storyboard <- (map + regional_incidence + plot_layout(widths = c(2, 1))) /
+  (region + (global_annual_change /
+               overall + labs(caption = "For country level annual percentages change countries with incidence above 1000 and an incidence rate above 10 per 100,000 are shown.
+                    The global annual percentage change is shown with a LOESS fit. 
+                    By @seabbs | Made with getTBinR | Source: World Health Organisation")) + plot_layout(widths = c(2, 1))) +
+  plot_layout(widths = c(1, 1))
+
+## Save storyboard
+ggsave("../../static/img/getTBinR/storyboard-6-0.png",
+       storyboard, width = 20, height = 15, dpi = 330)
+```
+
+
+![](/img/getTBinR/storyboard-6-0.png)
+
+For other examples of using `getTBinR` to visualise the WHO TB data see [my](https://gist.github.com/seabbs) gists, previous blog [posts](https://www.samabbott.co.uk/tags/who/), and the [`getTBinR` website](https://www.samabbott.co.uk/getTBinR/). To start using `getTBinR` in your browser see [here](http://www.seabbs.co.uk/shiny/ExploreGlobalTB/) for a shiny app or [here](https://mybinder.org/v2/gh/seabbs/getTBinR/master?urlpath=rstudio) for an Rstudio client hosted by [mybinder.org](https://mybinder.org).
