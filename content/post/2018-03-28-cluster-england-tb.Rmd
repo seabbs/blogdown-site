@@ -213,7 +213,7 @@ The final step is to deal with the remaining missing data. As all variables, exc
 ```{r final-analysis-df}
 tb_clean_2015 <- tb_df_2015 %>% 
   drop_na() %>% 
-  select(-year)
+  dplyr::select(-year)
 
 missing_regions <- setdiff(tb_df_2015$AreaName %>% as.character, tb_clean_2015$AreaName %>% as.character)
 
@@ -360,7 +360,7 @@ We can now explore the clusters we have identified. A useful way to do this is t
 ## Plot clusters
 pca_plot <- tb_pca_pam %>% 
   filter(centers == max_silhouette_width$centers) %>% 
-  select(data_with_clusters, pca) %>% 
+  dplyr::select(data_with_clusters, pca) %>% 
   mutate(pca_graph = map2(.x = pca, 
                           .y = data_with_clusters,
                           ~ autoplot(.x, x = 1, y = 2, 
@@ -450,7 +450,7 @@ sum_tb_df %>%
   mutate(Variable = factor(Variable, levels = rev(.$Variable))) %>% 
   arrange(Variable) %>% 
   rename(Mean = mean, Median = median, `2.5% Quantile` = lll, `97.5% Quantile` = hhh) %>% 
-  select(-Cluster) %>% 
+  dplyr::select(-Cluster) %>% 
   kable
 ```
 

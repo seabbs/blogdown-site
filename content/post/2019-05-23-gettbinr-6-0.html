@@ -18,7 +18,7 @@ tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "getTBinR",
 <div id="feature-updates" class="section level3">
 <h3>Feature updates</h3>
 <ul>
-<li>Added a new <code>summarise_metric</code> function to the package. This function was previously used internally by the TB report. For a given year it returns the value of given metric, along with the regional and global rankings. The average change over the last decade is also supplied. Linked to #57.</li>
+<li>Added a new <code>summarise_metric</code> function to the package. This function was previously used internally by the TB report. For a given year it returns the value of a given metric, along with the regional and global rankings. The average change over the last decade is also supplied. Linked to #57.</li>
 <li><code>search_data_dict</code> can now be used to search for a dataset by name. All variables in this dataset are then returned.</li>
 <li>Added a new dataframe, <code>available_datasets</code>, that lists the datasets available to be imported into R using the package. This dataframe also gives a short description of each dataset, details the time-span of the dataset, and whether or not it is downloaded by default. Used by <code>get_tb_burden</code> as a URL source for downloading the datasets. Linked to #58.</li>
 <li><code>get_tb_burden</code> can now import additional datasets (listed in <code>available_datasets</code>), clean them, and then link them with the core dataset. This adds over 400 new variables to the package and provides a near complete list of data used in the WHO Tuberculosis global report. Please open an issue if you find an issue with this dataset.</li>
