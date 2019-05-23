@@ -4,17 +4,8 @@
     
     <url>
     
-      <loc>http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>http://www.samabbott.co.uk/categories/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -24,7 +15,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/post/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -34,7 +25,7 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/categories/r/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -44,7 +35,17 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/tb/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     
@@ -54,8 +55,86 @@
     <url>
     
       <loc>http://www.samabbott.co.uk/tags/</loc>
-      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
       <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/who/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/data-analysis/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/data-visualisation/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/gettbinr/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/post/gettbinr-6-0/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/infectious-disease/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/rstats/</loc>
+      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/post/benchmarking-workstation-benchmarkme/</loc>
+      <lastmod>2019-02-05T00:00:00+00:00</lastmod>
     </url>
     
   
@@ -152,78 +231,8 @@
     
     <url>
     
-      <loc>http://www.samabbott.co.uk/tags/tb/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/who/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/data-analysis/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/data-visualisation/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/gettbinr/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>http://www.samabbott.co.uk/post/gettbinr-5-7/</loc>
       <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/infectious-disease/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
-      <loc>http://www.samabbott.co.uk/tags/rstats/</loc>
-      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
-      <priority>0</priority>
     </url>
     
   

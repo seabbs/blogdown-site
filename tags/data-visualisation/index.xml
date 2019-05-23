@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Tue, 22 Jan 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 23 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/data-visualisation/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>getTBinR 0.6.0 now on CRAN - from 80 variables to more than 450!</title>
+      <link>http://www.samabbott.co.uk/post/gettbinr-6-0/</link>
+      <pubDate>Thu, 23 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/gettbinr-6-0/</guid>
+      <description>getTBinR 0.6.0 is now on CRAN and should be available on a mirror near you shortly! This update includes multiple new Tuberculosis datasets - increasing the available number of variables through getTBinR from 80 to over 450. To help support these new datasets the package now contains a dataframe listing the available datasets and search_data_dict can now also be used to search the data dictionary for variables by dataset. On top of this, this update contains suggested changes by reviewers (@rrrlw and @strengejacke) from JOSS (see here for the review thread).</description>
+    </item>
     
     <item>
       <title>getTBinR 0.5.7 now on CRAN - Tuberculosis reports and summary plots</title>
