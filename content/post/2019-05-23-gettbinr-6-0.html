@@ -1,12 +1,13 @@
 ---
-title: getTBinR 0.6.0 now on CRAN - from 80 variables to more than 450!
-author: ~
+title: "getTBinR 0.6.0 now on CRAN - from 80 variables to more than 450!"
+author: "null"
 date: '2019-05-23'
-slug: gettbinr-6-0
-twitterImg: img/getTBinR/storyboard-6-0.png
 description: "getTBinR version 0.6.0 - now with over 450 variables, a JOSS publication, and more summary functions. See the code example for some of the code streamlining."
+slug: gettbinr-6-0
+draft: no 
 categories: ["R"]
-tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "getTBinR", "infectious disease"]
+tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "infectious disease"]
+twitterImg: "img/getTBinR/storyboard-6-0.png"
 ---
 
 
@@ -116,6 +117,7 @@ tb_annual_change &lt;- summarise_tb_burden(countries = countries_with_tb_burden,
                                         compare_to_world = FALSE,
                                         metric = &quot;e_inc_100k&quot;,
                                         annual_change = TRUE,
+                                        stat = &quot;mean&quot;,
                                         verbose = FALSE) %&gt;% 
   mutate(annual_change = e_inc_100k) %&gt;% 
   left_join(tb_burden %&gt;% 

@@ -1,13 +1,19 @@
 ---
-title: getTBinR 0.6.0 now on CRAN - from 80 variables to more than 450!
-author: ~
+title: "getTBinR 0.6.0 now on CRAN - from 80 variables to more than 450!"
+author: "null"
 date: '2019-05-23'
-slug: gettbinr-6-0
-twitterImg: img/getTBinR/storyboard-6-0.png
 description: "getTBinR version 0.6.0 - now with over 450 variables, a JOSS publication, and more summary functions. See the code example for some of the code streamlining."
+slug: gettbinr-6-0
+draft: no 
 categories: ["R"]
-tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "getTBinR", "infectious disease"]
+tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "infectious disease"]
+twitterImg: "img/getTBinR/storyboard-6-0.png"
 ---
+
+
+```{r knitr-opts, echo = FALSE}
+knitr::opts_chunk$set(cache = TRUE, dpi = 330, warning = FALSE)
+```
 
 [`getTBinR 0.6.0`](https://www.samabbott.co.uk/getTBinR/) is now on CRAN and should be available on a mirror near you shortly! This update includes multiple new Tuberculosis datasets - increasing the available number of variables through `getTBinR` from 80 to over 450. To help support these new datasets the package now contains a dataframe listing the available datasets and `search_data_dict` can now also be used to search the data dictionary for variables by dataset. On top of this, this update contains suggested changes by reviewers (@[rrrlw](https://github.com/rrrlw) and @[strengejacke](https://github.com/strengejacke)) from [JOSS](https://joss.theoj.org) (see [here](https://github.com/openjournals/joss-reviews/issues/1260) for the review thread). If any package authors are reading this then I cannot recommend the JOSS review process enough!
 
@@ -113,6 +119,7 @@ tb_annual_change <- summarise_tb_burden(countries = countries_with_tb_burden,
                                         compare_to_world = FALSE,
                                         metric = "e_inc_100k",
                                         annual_change = TRUE,
+                                        stat = "mean",
                                         verbose = FALSE) %>% 
   mutate(annual_change = e_inc_100k) %>% 
   left_join(tb_burden %>% 
