@@ -20,8 +20,8 @@
 
 &lt;p&gt;&lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34;&gt;&lt;code&gt;getTBinR 0.6.0&lt;/code&gt;&lt;/a&gt; is now on CRAN and should be available on a mirror near you shortly! This update includes multiple new Tuberculosis datasets - increasing the available number of variables through &lt;code&gt;getTBinR&lt;/code&gt; from 80 to over 450. To help support these new datasets the package now contains a dataframe listing the available datasets and &lt;code&gt;search_data_dict&lt;/code&gt; can now also be used to search the data dictionary for variables by dataset. On top of this, this update contains suggested changes by reviewers (@&lt;a href=&#34;https://github.com/rrrlw&#34;&gt;rrrlw&lt;/a&gt; and @&lt;a href=&#34;https://github.com/strengejacke&#34;&gt;strengejacke&lt;/a&gt;) from &lt;a href=&#34;https://joss.theoj.org&#34;&gt;JOSS&lt;/a&gt; (see &lt;a href=&#34;https://github.com/openjournals/joss-reviews/issues/1260&#34;&gt;here&lt;/a&gt; for the review thread). If any package authors are reading this then I cannot recommend the JOSS review process enough!&lt;/p&gt;
 &lt;p&gt;The full change log is included below (or can be found &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/news/index.html&#34;&gt;here&lt;/a&gt;). The JOSS paper can be found &lt;a href=&#34;https://doi.org/10.21105/joss.01260&#34;&gt;here&lt;/a&gt;. See the bottom of this post for an example of using the package to explore global Tuberculosis incidence rates.&lt;/p&gt;
-&lt;div id=&#34;section&#34; class=&#34;section level2&#34;&gt;
-&lt;h2&gt;0.6.0&lt;/h2&gt;
+&lt;div id=&#34;gettbinr-0.6.0&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;getTBinR 0.6.0&lt;/h2&gt;
 &lt;div id=&#34;feature-updates&#34; class=&#34;section level3&#34;&gt;
 &lt;h3&gt;Feature updates&lt;/h3&gt;
 &lt;ul&gt;
