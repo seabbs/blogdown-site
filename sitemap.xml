@@ -94,16 +94,6 @@
     
     <url>
     
-      <loc>http://www.samabbott.co.uk/tags/gettbinr/</loc>
-      <lastmod>2019-05-23T00:00:00+00:00</lastmod>
-      <priority>0</priority>
-    </url>
-    
-  
-    
-    
-    <url>
-    
       <loc>http://www.samabbott.co.uk/post/gettbinr-6-0/</loc>
       <lastmod>2019-05-23T00:00:00+00:00</lastmod>
     </url>
@@ -223,6 +213,16 @@
     
       <loc>http://www.samabbott.co.uk/tags/xgboost/</loc>
       <lastmod>2019-02-03T00:00:00+00:00</lastmod>
+      <priority>0</priority>
+    </url>
+    
+  
+    
+    
+    <url>
+    
+      <loc>http://www.samabbott.co.uk/tags/gettbinr/</loc>
+      <lastmod>2019-01-22T00:00:00+00:00</lastmod>
       <priority>0</priority>
     </url>
     

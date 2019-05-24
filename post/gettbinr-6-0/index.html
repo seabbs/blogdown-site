@@ -514,6 +514,7 @@ tb_annual_change &lt;- summarise_tb_burden(countries = countries_with_tb_burden,
                                         compare_to_world = FALSE,
                                         metric = &quot;e_inc_100k&quot;,
                                         annual_change = TRUE,
+                                        stat = &quot;mean&quot;,
                                         verbose = FALSE) %&gt;% 
   mutate(annual_change = e_inc_100k) %&gt;% 
   left_join(tb_burden %&gt;% 
@@ -604,8 +605,6 @@ ggsave(&quot;../../static/img/getTBinR/storyboard-6-0.png&quot;,
   <a class="btn btn-primary btn-outline" href="../../tags/tb">TB</a>
   
   <a class="btn btn-primary btn-outline" href="../../tags/who">WHO</a>
-  
-  <a class="btn btn-primary btn-outline" href="../../tags/gettbinr">getTBinR</a>
   
   <a class="btn btn-primary btn-outline" href="../../tags/infectious-disease">infectious disease</a>
   

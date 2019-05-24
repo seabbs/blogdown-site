@@ -123,6 +123,7 @@ tb_annual_change &amp;lt;- summarise_tb_burden(countries = countries_with_tb_bur
                                         compare_to_world = FALSE,
                                         metric = &amp;quot;e_inc_100k&amp;quot;,
                                         annual_change = TRUE,
+                                        stat = &amp;quot;mean&amp;quot;,
                                         verbose = FALSE) %&amp;gt;% 
   mutate(annual_change = e_inc_100k) %&amp;gt;% 
   left_join(tb_burden %&amp;gt;% 
