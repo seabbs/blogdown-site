@@ -19,7 +19,7 @@ knitr::opts_chunk$set(cache = TRUE, dpi = 330, warning = FALSE)
 
 The full change log is included below (or can be found [here](https://www.samabbott.co.uk/getTBinR/news/index.html)). The JOSS paper can be found [here](https://doi.org/10.21105/joss.01260). See the bottom of this post for an example of using the package to explore global Tuberculosis incidence rates. 
 
-## 0.6.0
+## getTBinR 0.6.0
 
 ### Feature updates
 
