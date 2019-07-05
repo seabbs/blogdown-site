@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Thu, 23 May 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 04 Jul 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/tb/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Celebrating £1.4bn for the Global Fund - Trying out gganimate on Tuberculosis data from getTBinR</title>
+      <link>http://www.samabbott.co.uk/post/tb-gifs/</link>
+      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/tb-gifs/</guid>
+      <description>Last week the UK pledged to contribute £467m a year for three years to the Global Fund. The money will be spent on: providing tuberculosis (TB) treatment for more than two million people; 90 million mosquito nets to protect people from malaria; and treatment for more than three million people living with HIV. This funding will drastically improve many peoples lives and needs to be celebrated even if it comes from a broadly unpopular source.</description>
+    </item>
     
     <item>
       <title>getTBinR 0.6.0 now on CRAN - from 80 variables to more than 450!</title>
