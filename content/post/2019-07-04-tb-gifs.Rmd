@@ -193,7 +193,7 @@ plot_annual_change <- function(df, strat = NULL, title = NULL, subtitle = NULL, 
 }
 ```
 
-Using `plot_annual_change` we can now generate first a `ggplot` density of plot of the annual percentage change in countries TB incidence rates. This is again transformed into to a GIF using `gganimate`. 
+Using `plot_annual_change` we can now generate first a `ggplot` density of plot of the annual percentage change in countries TB incidence rates. This is again transformed into a GIF using `gganimate`. 
 
 Rather than using `gganimate::transition_reveal` as before, here we use `gganimate::transition_states` followed  by `gganimate::shadow_trail`. Also, rather than revealing a data point each time, we plot a single density plot for each group instead (here that grouping is by year) and leave a shadow of the previous density plots. `{frame}` has been used here to show which year is being plotted. Note we could have used `transition_time` and `{frame_time}` here but this was producing an error for me. 
 ```{r}
