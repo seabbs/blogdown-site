@@ -250,7 +250,7 @@ region_gif&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 &lt;div id=&#34;build-a-storyboard-gif&#34; class=&#34;section level2&#34;&gt;
 &lt;h2&gt;Build a storyboard GIF&lt;/h2&gt;
-&lt;p&gt;The code generates a storyboard GIF made up of all the GIFs in this post. It is based on a &lt;a href=&#34;https://github.com/thomasp85/gganimate/wiki/Animation-Composition&#34;&gt;great example&lt;/a&gt; by &lt;a href=&#34;https://github.com/CrumpLab&#34;&gt;Matt Crump&lt;/a&gt;, using &lt;code&gt;magick&lt;/code&gt; to attach the individual images in each GIF together. See &lt;a href=&#34;https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.gif&#34;&gt;here&lt;/a&gt; for a full size version of the storyboard and &lt;a href=&#34;https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.png&#34;&gt;here&lt;/a&gt;) for a static image of the end result&lt;/p&gt;
+&lt;p&gt;The code generates a storyboard GIF made up of all the GIFs in this post. It is based on a &lt;a href=&#34;https://github.com/thomasp85/gganimate/wiki/Animation-Composition&#34;&gt;great example&lt;/a&gt; by &lt;a href=&#34;https://github.com/CrumpLab&#34;&gt;Matt Crump&lt;/a&gt;, using &lt;code&gt;magick&lt;/code&gt; to attach the individual images in each GIF together. See &lt;a href=&#34;https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.gif&#34;&gt;here&lt;/a&gt; for a full size version of the storyboard and &lt;a href=&#34;https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.png&#34;&gt;here&lt;/a&gt; for a static image of the end result&lt;/p&gt;
 &lt;pre class=&#34;r&#34;&gt;&lt;code&gt;## Read in gif images
 regional_incidence_mgif &amp;lt;- image_read(regional_incidence_gif)
 global_annual_change_mgif &amp;lt;- image_read(global_annual_change_gif)
