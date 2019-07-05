@@ -1,0 +1,281 @@
+---
+title: "Celebrating £1.4bn for the Global Fund - Trying out gganimate on Tuberculosis data from getTBinR"
+author: "null"
+date: '2019-07-04'
+description: "Last week the UK pledged to contribute £467m a year for three years to the Global Fund - fighting Tuberculosis, HIV, and Malaria. This post celebrates this new funding by walking through how to generate a series of Tuberculosis incidence rate GIFs in rstats."
+slug: tb-gifs
+draft: no
+categories: ["R"]
+tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "infectious disease", "gif"]
+twitterImg: "img/getTBinR/storyboard-gif.png"
+---
+
+
+
+<p><a href="https://www.bbc.co.uk/news/uk-48810060?intlink_from_url=https://www.bbc.co.uk/news/topics/cmj34zmwxx1t/tuberculosis&amp;link_location=live-reporting-story">Last week</a> the UK pledged to contribute £467m a year for three years to the Global Fund. The money will be spent on: providing tuberculosis (TB) treatment for more than two million people; 90 million mosquito nets to protect people from malaria; and treatment for more than three million people living with HIV. This funding will drastically improve many peoples lives and needs to be celebrated even if it comes from a broadly unpopular source.</p>
+<p>Whilst the Global Fund has helped <a href="https://www.gov.uk/government/news/pm-calls-on-g20-leaders-to-step-up-the-fight-against-deadly-diseases?sf104862388=1">save more than 27 million lives</a> since 2002 all three diseases continue to have a devastating impact with TB remaining as one of the top ten causes of death worldwide, and the number one cause of death from an infectious disease. More research and funding is needed to continue to reduce the incidence, and negative consequences, of these diseases.</p>
+<p>In this post, I will be celebrating this funding by repeating/adapting some previous work visualising trends in Tuberculosis (TB) incidence rates but now using GIFs. The starting point for this post is the storyboard below (from a <a href="https://www.samabbott.co.uk/post/gettbinr-6-0/">previous post</a>). Using the code for each plot I will work through animating them using <a href="https://gganimate.com/index.html"><code>gganimate</code></a> (by <a href="https://github.com/thomasp85">Thomas Lin Pedersen</a>).</p>
+<p><img src="/img/getTBinR/storyboard-6-0.png" /></p>
+<p>This storyboard shows the trends in regional/global TB incidence rates, as well as the annual percentage change in incidence rates, both globally, and on a country level (ridge plots). <a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR</code></a> was used to produce all of the figures excepting the ridge plots which were generated using <a href="https://github.com/clauswilke/ggridges"><code>ggridges</code></a>. See <a href="https://www.samabbott.co.uk/img/getTBinR/storyboard-6-0.png">here</a> for a full size version.</p>
+<p><code>gganimate</code> was recently reworked to be a complimentary grammar to that used in <code>ggplot</code> - rather than as an additional dimension of it. The rework comes with some interesting new features - the <a href="https://www.data-imaginist.com/2019/gganimate-has-transitioned-to-a-state-of-release/">release post</a> is well worth a read! Another motivation for this post is to explore some of these features.</p>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>Here we use <code>pacman</code> to handle downloading and loading the required <code>rstats</code> packages. See the comments below for external dependencies.</p>
+<pre class="r"><code>## Get required packages - managed using pacman
+if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
+p_load(&quot;getTBinR&quot;)
+p_load(&quot;tidyverse&quot;)
+p_load(&quot;scales&quot;)
+p_load(&quot;viridis&quot;)
+p_load(&quot;gifski&quot;) ##requires cargo on ubuntu
+p_load(&quot;magick&quot;) ## requires libmagick++-dev on ubuntu
+p_load_gh(&quot;thomasp85/gganimate&quot;)</code></pre>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p><code>getTbinR</code> handles downloading and cleaning the TB surveillance data provided by the World Health Organization. See <a href="https://www.samabbott.co.uk/getTBinR/dev/reference/get_tb_burden.html">here</a> for details.</p>
+<pre class="r"><code>## Pull TB data 
+tb_burden &lt;- get_tb_burden(verbose = FALSE) 
+
+tb_burden</code></pre>
+<pre><code>## # A tibble: 3,850 x 68
+##    country iso2  iso3  iso_numeric g_whoregion  year e_pop_num e_inc_100k
+##    &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;       &lt;int&gt; &lt;chr&gt;       &lt;int&gt;     &lt;int&gt;      &lt;dbl&gt;
+##  1 Afghan… AF    AFG             4 Eastern Me…  2000  20093756        190
+##  2 Afghan… AF    AFG             4 Eastern Me…  2001  20966463        189
+##  3 Afghan… AF    AFG             4 Eastern Me…  2002  21979923        189
+##  4 Afghan… AF    AFG             4 Eastern Me…  2003  23064851        189
+##  5 Afghan… AF    AFG             4 Eastern Me…  2004  24118979        189
+##  6 Afghan… AF    AFG             4 Eastern Me…  2005  25070798        189
+##  7 Afghan… AF    AFG             4 Eastern Me…  2006  25893450        189
+##  8 Afghan… AF    AFG             4 Eastern Me…  2007  26616792        189
+##  9 Afghan… AF    AFG             4 Eastern Me…  2008  27294031        189
+## 10 Afghan… AF    AFG             4 Eastern Me…  2009  28004331        189
+## # … with 3,840 more rows, and 60 more variables: e_inc_100k_lo &lt;dbl&gt;,
+## #   e_inc_100k_hi &lt;dbl&gt;, e_inc_num &lt;int&gt;, e_inc_num_lo &lt;int&gt;,
+## #   e_inc_num_hi &lt;int&gt;, e_tbhiv_prct &lt;dbl&gt;, e_tbhiv_prct_lo &lt;dbl&gt;,
+## #   e_tbhiv_prct_hi &lt;dbl&gt;, e_inc_tbhiv_100k &lt;dbl&gt;,
+## #   e_inc_tbhiv_100k_lo &lt;dbl&gt;, e_inc_tbhiv_100k_hi &lt;dbl&gt;,
+## #   e_inc_tbhiv_num &lt;int&gt;, e_inc_tbhiv_num_lo &lt;int&gt;,
+## #   e_inc_tbhiv_num_hi &lt;int&gt;, e_mort_exc_tbhiv_100k &lt;dbl&gt;,
+## #   e_mort_exc_tbhiv_100k_lo &lt;dbl&gt;, e_mort_exc_tbhiv_100k_hi &lt;dbl&gt;,
+## #   e_mort_exc_tbhiv_num &lt;int&gt;, e_mort_exc_tbhiv_num_lo &lt;int&gt;,
+## #   e_mort_exc_tbhiv_num_hi &lt;int&gt;, e_mort_tbhiv_100k &lt;dbl&gt;,
+## #   e_mort_tbhiv_100k_lo &lt;dbl&gt;, e_mort_tbhiv_100k_hi &lt;dbl&gt;,
+## #   e_mort_tbhiv_num &lt;int&gt;, e_mort_tbhiv_num_lo &lt;int&gt;,
+## #   e_mort_tbhiv_num_hi &lt;int&gt;, e_mort_100k &lt;dbl&gt;, e_mort_100k_lo &lt;dbl&gt;,
+## #   e_mort_100k_hi &lt;dbl&gt;, e_mort_num &lt;int&gt;, e_mort_num_lo &lt;int&gt;,
+## #   e_mort_num_hi &lt;int&gt;, cfr &lt;dbl&gt;, cfr_lo &lt;dbl&gt;, cfr_hi &lt;dbl&gt;,
+## #   c_newinc_100k &lt;dbl&gt;, c_cdr &lt;dbl&gt;, c_cdr_lo &lt;dbl&gt;, c_cdr_hi &lt;dbl&gt;,
+## #   source_rr_new &lt;chr&gt;, source_drs_coverage_new &lt;chr&gt;,
+## #   source_drs_year_new &lt;int&gt;, e_rr_pct_new &lt;dbl&gt;, e_rr_pct_new_lo &lt;dbl&gt;,
+## #   e_rr_pct_new_hi &lt;dbl&gt;, e_mdr_pct_rr_new &lt;int&gt;, source_rr_ret &lt;chr&gt;,
+## #   source_drs_coverage_ret &lt;chr&gt;, source_drs_year_ret &lt;int&gt;,
+## #   e_rr_pct_ret &lt;dbl&gt;, e_rr_pct_ret_lo &lt;dbl&gt;, e_rr_pct_ret_hi &lt;dbl&gt;,
+## #   e_mdr_pct_rr_ret &lt;int&gt;, e_inc_rr_num &lt;int&gt;, e_inc_rr_num_lo &lt;int&gt;,
+## #   e_inc_rr_num_hi &lt;int&gt;, e_mdr_pct_rr &lt;int&gt;,
+## #   e_rr_in_notified_pulm &lt;int&gt;, e_rr_in_notified_pulm_lo &lt;int&gt;,
+## #   e_rr_in_notified_pulm_hi &lt;int&gt;</code></pre>
+<pre class="r"><code>## Pull the data dictionarty
+tb_dict &lt;- get_data_dict(verbose = FALSE)
+
+tb_dict</code></pre>
+<pre><code>## # A tibble: 470 x 4
+##    variable_name  dataset code_list definition                             
+##    &lt;chr&gt;          &lt;chr&gt;   &lt;chr&gt;     &lt;chr&gt;                                  
+##  1 budget_cpp_ds… Budget  &quot;&quot;        Average cost of drugs budgeted per pat…
+##  2 budget_cpp_mdr Budget  &quot;&quot;        Average cost of drugs budgeted per pat…
+##  3 budget_cpp_xdr Budget  &quot;&quot;        Average cost of drugs budgeted per pat…
+##  4 budget_fld     Budget  &quot;&quot;        Budget required for drugs to treat dru…
+##  5 budget_lab     Budget  &quot;&quot;        Budget required for laboratory infrast…
+##  6 budget_mdrmgt  Budget  &quot;&quot;        Budget required for programme costs to…
+##  7 budget_orsrvy  Budget  &quot;&quot;        Budget required for operational resear…
+##  8 budget_oth     Budget  &quot;&quot;        Budget required for all other budget l…
+##  9 budget_patsup  Budget  &quot;&quot;        Budget required for patient support (U…
+## 10 budget_prog    Budget  &quot;&quot;        Budget required for programme costs to…
+## # … with 460 more rows</code></pre>
+</div>
+<div id="setup" class="section level2">
+<h2>Setup</h2>
+<p>The first step (though not the most exciting) is to define what size all the gifs in this post should be.</p>
+<pre class="r"><code>gif_width &lt;- 720
+gif_height &lt;- 720</code></pre>
+</div>
+<div id="regional-tb-incidence-rates" class="section level2">
+<h2>Regional TB incidence rates</h2>
+<p>The code below uses some of the built-in in functionality from <code>getTBinR</code> to generate a summary figure showing trends in regional TB incidence rates. <code>gganimate::transition_reveal</code> is then used to make this <code>ggplot</code> into a GIF that reveals a data point at a time. The <code>gganimate::transition_</code> family of functions interpret the plot data in order to somehow distribute it over a number of frames. See the <a href="https://gganimate.com/reference/index.html"><code>gganimate</code> documentation</a> for the full list of transitions.</p>
+<pre class="r"><code>## Regional and Global TB incidence rates over time
+regional_incidence &lt;- plot_tb_burden_summary(conf = NULL, compare_to_world = FALSE) +
+    labs(title = &quot;Tuberculosis (TB) Incidence Rates&quot;,
+         subtitle = &quot;By Region&quot;,
+         caption = &quot;&quot;) +
+  facet_wrap(~Area, scales = &quot;free_y&quot;) +
+  theme(legend.position = &quot;none&quot;, plot.title = element_text(size=22)) +
+  ##gganimate code
+  transition_reveal(year)
+
+## Animate
+regional_incidence_gif &lt;- animate(regional_incidence, 
+                                  width = gif_width,
+                                  height = gif_height)
+
+## Print
+regional_incidence_gif</code></pre>
+<p><img src="/post/2019-07-04-tb-gifs_files/figure-html/plot-tb-summary-1.gif" /><!-- --></p>
+</div>
+<div id="summarise-the-annual-percentage-change-in-tb-incidence-rates." class="section level2">
+<h2>Summarise the annual percentage change in TB incidence rates.</h2>
+<p>We again use some of the functionality from <code>getTbinR</code> to estimate the annual percentage in TB incidence rates globally.</p>
+<pre class="r"><code>## Summarise global changes
+global_tb &lt;- summarise_tb_burden(compare_to_world = TRUE,
+                                 annual_change = TRUE,
+                                 stat = &quot;rate&quot;,
+                                 verbose = FALSE) %&gt;% 
+  filter(area == &quot;Global&quot;)</code></pre>
+<p>Here <code>ggplot</code> is used to produce a basic line plot and then <code>gganimate</code> is used to turn this into a GIF (as above).</p>
+<pre class="r"><code>## Global annual change
+global_annual_change &lt;- ggplot(global_tb, aes(year, e_inc_num)) +
+  geom_line(col = &quot;black&quot;, size = 1.4, alpha = 0.6) +
+  ## geom_point needs a year based group so that it renders correctly in the gif
+  geom_point(size = 1.6, alpha = 1, col = &quot;black&quot;, aes(group = seq_along(year))) + 
+  scale_y_continuous(label = scales::percent, minor_breaks = NULL, breaks = seq(-0.025, 0, 0.0025)) +
+  theme_minimal() +
+  labs(
+    y = &quot;Annual % Change&quot;,
+    x = &quot;Year&quot;,
+    title = &quot;Global Annual % Change in Tuberculosis Incidence Rates&quot;,
+    caption = &quot;&quot;
+  ) + 
+  ##gganimate code
+  transition_reveal(year)
+
+## Animate the gif
+global_annual_change_gif &lt;- animate(global_annual_change, width = gif_width, height = gif_height)
+
+## Print
+global_annual_change_gif</code></pre>
+<p><img src="/post/2019-07-04-tb-gifs_files/figure-html/annual-change-1.gif" /><!-- --></p>
+</div>
+<div id="country-level-annual-percentage-change-in-tb-incidence-rates." class="section level2">
+<h2>Country level annual percentage change in TB incidence rates.</h2>
+<p>This repeats the steps from above but rather than summarising everything at a global level keeps the country level data. Countries with low incidence rates (&lt; 10 per 100,000) or with very few cases (&lt; 1000) have been filtered out to reduce the noise in the data.</p>
+<pre class="r"><code>## Remove countries with incidence below 1000 or incidence rates below 10 per 100,000 to reduce noise and cal country level annual change.
+countries_with_tb_burden &lt;- tb_burden %&gt;% 
+  filter(year == 2017,
+         e_inc_100k &gt; 10,
+         e_inc_num &gt; 1000) %&gt;% 
+  pull(country)
+
+tb_annual_change &lt;- summarise_tb_burden(countries = countries_with_tb_burden, 
+                                        compare_to_region = FALSE, 
+                                        compare_to_world = FALSE,
+                                        metric = &quot;e_inc_100k&quot;,
+                                        annual_change = TRUE,
+                                        stat = &quot;mean&quot;,
+                                        verbose = FALSE) %&gt;% 
+  mutate(annual_change = e_inc_100k) %&gt;% 
+  left_join(tb_burden %&gt;% 
+              select(country, g_whoregion), 
+                     by = c(&quot;area&quot; = &quot;country&quot;)) %&gt;% 
+  drop_na(g_whoregion)</code></pre>
+<p>We now define a density plotting function for this data.</p>
+<pre class="r"><code>## Function to plot annual change
+plot_annual_change &lt;- function(df, strat = NULL, title = NULL, subtitle = NULL, years = 2000:2017) {
+  dist &lt;- df %&gt;% 
+    filter(year %in% years) %&gt;% 
+    rename(Region = g_whoregion) %&gt;% 
+    mutate(year = year %&gt;% 
+             factor(ordered = TRUE) %&gt;% 
+             fct_rev) %&gt;% 
+    ggplot(aes_string(x = &quot;annual_change&quot;, fill = strat)) +
+    geom_density(alpha = 0.6) +
+    scale_color_viridis(discrete = TRUE, end = 0.9) +
+    scale_fill_viridis(discrete = TRUE, end = 0.9) +
+    geom_vline(xintercept = 0, linetype = 2, alpha = 0.6) +
+    scale_x_continuous(labels = scales::percent, breaks = seq(-0.4, 0.4, 0.1),
+                       limits = c(-0.4, 0.4), minor_breaks = NULL) +
+    theme_minimal() +
+    theme(legend.position = &quot;none&quot;) +
+    labs(x = paste0(&quot;Annual Change in &quot;, search_data_dict(&quot;e_inc_100k&quot;)$definition),
+         y = &quot;Density&quot;,
+         title = title,
+         subtitle = subtitle,
+         caption = &quot;&quot;)
+  
+  return(dist)
+}</code></pre>
+<p>Using <code>plot_annual_change</code> we can now generate first a <code>ggplot</code> density of plot of the annual percentage change in countries TB incidence rates. This is again transformed into to a GIF using <code>gganimate</code>.</p>
+<p>Rather than using <code>gganimate::transition_reveal</code> as before, here we use <code>gganimate::transition_states</code> followed by <code>gganimate::shadow_trail</code>. Also, rather than revealing a data point each time, we plot a single density plot for each group instead (here that grouping is by year) and leave a shadow of the previous density plots. <code>{frame}</code> has been used here to show which year is being plotted. Note we could have used <code>transition_time</code> and <code>{frame_time}</code> here but this was producing an error for me.</p>
+<pre class="r"><code>overall &lt;- plot_annual_change(tb_annual_change, &quot;&#39;grey&#39;&quot;,
+                   years = 2001:2017,
+                   title = &quot;Distribution of the Annual % Change in TB Incidence Rates by Country&quot;,
+                   subtitle = &quot;Year: {2001 + round(16 * frame / nframes, 0)}&quot;)  +
+  scale_fill_manual(values = &quot;grey&quot;) + 
+  ## gganimate code
+  transition_states(year) +
+  shadow_trail(alpha = alpha / 10, colour = &quot;grey&quot;)
+
+## Animate
+overall_gif &lt;- animate(overall, width = gif_width, height = gif_height)
+
+## Print
+overall_gif</code></pre>
+<p><img src="/post/2019-07-04-tb-gifs_files/figure-html/unnamed-chunk-5-1.gif" /><!-- --></p>
+<p>As above, this plots density of the annual percentage change in countries TB incidence rates but now stratified by region.</p>
+<pre class="r"><code>region &lt;- plot_annual_change(tb_annual_change, &quot;Region&quot;,
+                             title = &quot;Distribution of the Annual % Change in TB Incidence Rates by Country&quot;,
+                             subtitle = &quot;By Region - Year: {2001 + round(16 * frame / nframes, 0)}&quot;,
+                             years = 2001:2017) + 
+  facet_wrap(~Region, scales = &quot;free_y&quot;) + 
+  labs(caption =  &quot;@seabbs | Using #getTBinR and #gganimate | Data sourced from: World Health Organization&quot;) + 
+  ## gganimate code
+  transition_states(year) +
+  shadow_trail(alpha = alpha / 10, colour = &quot;grey&quot;)
+
+## Animate
+region_gif &lt;- animate(region, width = gif_width, height = gif_height)
+
+## Print
+region_gif</code></pre>
+<p><img src="/post/2019-07-04-tb-gifs_files/figure-html/unnamed-chunk-6-1.gif" /><!-- --></p>
+</div>
+<div id="build-a-storyboard-gif" class="section level2">
+<h2>Build a storyboard GIF</h2>
+<p>The code generates a storyboard GIF made up of all the GIFs in this post. It is based on a <a href="https://github.com/thomasp85/gganimate/wiki/Animation-Composition">great example</a> by <a href="https://github.com/CrumpLab">Matt Crump</a>, using <code>magick</code> to attach the individual images in each GIF together. See <a href="https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.gif">here</a> for a full size version of the storyboard and <a href="https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.png">here</a>) for a static image of the end result</p>
+<pre class="r"><code>## Read in gif images
+regional_incidence_mgif &lt;- image_read(regional_incidence_gif)
+global_annual_change_mgif &lt;- image_read(global_annual_change_gif)
+
+
+overall_mgif &lt;- image_read(overall_gif)
+region_mgif &lt;- image_read(region_gif)
+
+
+## Combine first image into a single storyboard
+storyboard_gif &lt;- image_append(c(
+  image_append(c(regional_incidence_mgif[1], global_annual_change_mgif[1])), 
+  image_append(c(overall_mgif[1], region_mgif[1]))),
+  stack = TRUE
+)
+
+## Loop through each frame, compose a storyboard, and add to storyboard gif
+for (i in 2:100) {
+  storyboard_gif &lt;- c(storyboard_gif, 
+                      image_append(c(
+  image_append(c(regional_incidence_mgif[i], global_annual_change_mgif[i])), 
+  image_append(c(overall_mgif[i], region_mgif[i]))),
+  stack = TRUE
+))
+}
+
+## Save the gif - warning this takes around 10 minutes on my machine (https://www.samabbott.co.uk/post/building-an-rstats-workstation/)
+anim_save(&quot;../../static/img/getTBinR/storyboard-gif.gif&quot;, storyboard_gif)</code></pre>
+<p><img src="/img/getTBinR/storyboard-gif.gif" /></p>
+</div>
+<div id="wrap-up" class="section level2">
+<h2>Wrap-up</h2>
+<p>Hopefully this post was a fun way of celebrating the UK’s funding commitment to the Global Fund and provided some insights into how to make GIFs in <code>rstats</code>. In terms of understanding the data I am not sure that using GIFs here offers much over the previous implementation but I am very happy to be proved wrong - let me know what you think. The map from the original storyboard was not reproduced as a GIF as there was no easy way to do so using the original code - watch this space.</p>
+<p>For other examples of using <code>getTBinR</code> to visualise the WHO TB data see <a href="https://gist.github.com/seabbs">my</a> gists, previous blog <a href="https://www.samabbott.co.uk/tags/who/">posts</a>, and the <a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR</code> website</a>. To start using <code>getTBinR</code> in your browser see <a href="http://www.seabbs.co.uk/shiny/ExploreGlobalTB/">here</a> for a shiny app or <a href="https://mybinder.org/v2/gh/seabbs/getTBinR/master?urlpath=rstudio">here</a> for an Rstudio client hosted by <a href="https://mybinder.org">mybinder.org</a>. Tweet at <a href="https://twitter.com/seabbs">me</a> if you use any of these resources to make something!</p>
+<p><code>gganimate</code> has a great <a href="https://github.com/thomasp85/gganimate/wiki">wiki</a> with numerous other examples as well as a detailed <a href="https://gganimate.com/articles/gganimate.html">vignette</a>. There is alot more functionality than that covered here so I recommended diving in with a dataset and seeing what you can create.</p>
+<p>If interested in TB research see <a href="http://bit.ly/seabbs-google-scholar">here</a> for a list of my papers/preprints and <a href="http://bit.ly/seabbs-code">here</a> for the corresponding, fully reproducible, code.</p>
+</div>
