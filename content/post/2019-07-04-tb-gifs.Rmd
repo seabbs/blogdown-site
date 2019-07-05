@@ -235,7 +235,7 @@ region_gif
 
 ## Build a storyboard GIF
 
-The code generates a storyboard GIF made up of all the GIFs in this post. It is based on a [great example](https://github.com/thomasp85/gganimate/wiki/Animation-Composition) by [Matt Crump](https://github.com/CrumpLab), using `magick` to attach the individual images in each GIF together. See [here](https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.gif) for a full size version of the storyboard and [here](https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.png)) for a static image of the end result
+The code generates a storyboard GIF made up of all the GIFs in this post. It is based on a [great example](https://github.com/thomasp85/gganimate/wiki/Animation-Composition) by [Matt Crump](https://github.com/CrumpLab), using `magick` to attach the individual images in each GIF together. See [here](https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.gif) for a full size version of the storyboard and [here](https://www.samabbott.co.uk/img/getTBinR/storyboard-gif.png) for a static image of the end result
 
 
 ```{r}
