@@ -604,7 +604,7 @@ plot_annual_change &lt;- function(df, strat = NULL, title = NULL, subtitle = NUL
   
   return(dist)
 }</code></pre>
-<p>Using <code>plot_annual_change</code> we can now generate first a <code>ggplot</code> density of plot of the annual percentage change in countries TB incidence rates. This is again transformed into to a GIF using <code>gganimate</code>.</p>
+<p>Using <code>plot_annual_change</code> we can now generate first a <code>ggplot</code> density of plot of the annual percentage change in countries TB incidence rates. This is again transformed into a GIF using <code>gganimate</code>.</p>
 <p>Rather than using <code>gganimate::transition_reveal</code> as before, here we use <code>gganimate::transition_states</code> followed by <code>gganimate::shadow_trail</code>. Also, rather than revealing a data point each time, we plot a single density plot for each group instead (here that grouping is by year) and leave a shadow of the previous density plots. <code>{frame}</code> has been used here to show which year is being plotted. Note we could have used <code>transition_time</code> and <code>{frame_time}</code> here but this was producing an error for me.</p>
 <pre class="r"><code>overall &lt;- plot_annual_change(tb_annual_change, &quot;&#39;grey&#39;&quot;,
                    years = 2001:2017,
