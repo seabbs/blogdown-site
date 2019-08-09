@@ -28,6 +28,11 @@ filter_default = 0
 # Add or remove as many filters (`[[filter]]` instances) as you like.
 # Use "*" tag to show all projects or an existing tag prefixed with "." to filter by specific tag.
 # To remove toolbar, delete/comment all instances of `[[filter]]` below.
+
+[[filter]]
+  name = "Highlights"
+  tag = ".highlights"
+  
 [[filter]]
   name = "All"
   tag = "*"
@@ -39,10 +44,6 @@ filter_default = 0
 [[filter]]
   name = "Shiny Apps"
   tag = ".shiny"
-
-[[filter]]
-  name = "Tableau"
-  tag = ".tableau"
   
 [[filter]]
   name = "Rstats"

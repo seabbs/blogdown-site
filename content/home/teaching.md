@@ -15,4 +15,4 @@ weight = 60
 
 +++
 
-I am helping to develop practicals for a short course at the [School of Social and Community Medicine](http://www.bris.ac.uk/social-community-medicine/) at the University of Bristol. As part of this I am developing a [shiny app](http://www.seabbs.co.uk/shiny/exploreidmodels) to allow exploration of a range of simple infectious disease models. 
+I developed and teach practicals for a short course at the [School of Social and Community Medicine](http://www.bris.ac.uk/social-community-medicine/) at the University of Bristol. As part of this I developed a [shiny app](http://www.seabbs.co.uk/shiny/exploreidmodels) to allow exploration of a range of simple infectious disease models. 

@@ -13,7 +13,7 @@ image_preview = "thepebblegame.png"
 
 # Tags: can be used for filtering projects.
 # Example: `tags = ["r-package", "reproducible-research"]`
-tags = ["shiny", "rstats", "outreach", "personal-projects"]
+tags = ["highlights", "shiny", "rstats", "outreach", "personal-projects"]
 
 # Optional external URL for project (replaces project detail page).
 external_link = "http://www.seabbs.co.uk/shiny/thepebblegame/"

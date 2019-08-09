@@ -6,14 +6,14 @@
   title = "getTBinR"
   
   # Project summary to display on homepage.
-  summary = "Quickly and easily import analysis ready TB burden data, from the World Health Orgnaisation (WHO), into R. The aim of the package is to speed up access to high quality TB burden data, using a simple R interface. Generic plotting functions are provided to allow for rapid graphical exploration of the WHO TB data. This package is inspired by a blog [post](https://incidental-ideas.org/2017/03/03/who-tuberculosis-data-ggplot2/), which looked at WHO TB incidence rates. See [here](http://www.who.int/about/copyright/en/) for the WHO data permissions."
+  summary = "Quickly and easily import analysis ready Tuberculosis (TB) burden data, from the World Health Organisation (WHO), into R. The aim of `getTBinR` is to allow researchers, and other interested individuals, to quickly and easily gain access to a detailed TB data set and to start using it to derive key insights."
   
   # Optional image to display on homepage (relative to `static/img/` folder).
   image_preview = "getTBinR.png"
   
   # Tags: can be used for filtering projects.
-  # Example: `tags = ["r-package", "reproducible-research"]`
-  tags = ["r-package", "rstats", "tuberculosis", "utilities", "WHO"]
+  # Example: `tags = ["r-package", "reproducible-research", "highlights"]`
+  tags = ["highlights", "r-package", "rstats", "tuberculosis", "utilities", "WHO"]
   
   # Optional external URL for project (replaces project detail page).
   external_link = "http://www.samabbott.co.uk/getTBinR"

@@ -6,7 +6,7 @@ date = "2017-06-06"
 title = "tbinenglanddataclean"
 
 # Project summary to display on homepage.
-summary = "R package containing the scripts required to clean data from the Enhanced Tuberculosis Surveillance system, and the Labour Force Survey, and to then calculate Tuberculosis incidence. The source code is available [here](https://github.com/seabbs/tbinenglanddataclean)"
+summary = "R package containing the scripts required to clean data from the Enhanced Tuberculosis Surveillance system, and the Labour Force Survey, and to then calculate Tuberculosis incidence."
 
 # Optional image to display on homepage (relative to `static/img/` folder).
 image_preview = "tbinenglanddataclean.png"
