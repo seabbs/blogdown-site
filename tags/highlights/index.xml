@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>highlights on Sam Abbott</title>
+    <link>http://www.samabbott.co.uk/tags/highlights/</link>
+    <description>Recent content in highlights on Sam Abbott</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
+    <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/highlights/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Modelling BCG vaccination in the UK: What is the impact of changing policy? (PhD thesis)</title>
+      <link>http://www.samabbott.co.uk/project/thesis/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/thesis/</guid>
+      <description>Bacillus Calmette–Guérin (BCG) remains the only licensed vaccine against Tuberculosis (TB). In 2005, England changed from universal vaccination of school-age children to targeted vaccination of high-risk neonates. Little work has been done to assess the impact of this policy change. This thesis evaluates the impact of this change.</description>
+    </item>
+    
+    <item>
+      <title>BIDD Modelling Course</title>
+      <link>http://www.samabbott.co.uk/project/biddmodellingcourse/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/biddmodellingcourse/</guid>
+      <description>The course practicals for the &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;modelling infectious disease&lt;/a&gt; short course run by &lt;a href=&#34;http://www.bristol.ac.uk/population-health-sciences/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol. Source code available &lt;a href=&#34;https://github.com/bristolmathmodellers/biddmodellingcourse/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
+    </item>
+    
+    <item>
+      <title>Explore Infectious Disease Models</title>
+      <link>http://www.samabbott.co.uk/project/exploreidmodels/</link>
+      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/exploreidmodels/</guid>
+      <description>&lt;a href=&#34;http://seabbs.co.uk/shiny/exploreidmodels&#34; target=&#34;_blank&#34;&gt;This shiny app&lt;/a&gt; has been developed to allow the exploration of the parameter space of &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;compartmental infectious disease models&lt;/a&gt;. It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code.</description>
+    </item>
+    
+    <item>
+      <title>getTBinR</title>
+      <link>http://www.samabbott.co.uk/project/gettbinr/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/gettbinr/</guid>
+      <description>Quickly and easily import analysis ready Tuberculosis (TB) burden data, from the World Health Organisation (WHO), into R. The aim of &lt;code&gt;getTBinR&lt;/code&gt; is to allow researchers, and other interested individuals, to quickly and easily gain access to a detailed TB data set and to start using it to derive key insights.</description>
+    </item>
+    
+    <item>
+      <title>idmodelr</title>
+      <link>http://www.samabbott.co.uk/project/idmodelr/</link>
+      <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/idmodelr/</guid>
+      <description>Explore a range of infectious disease models in a consistent framework. The primary aim of &lt;code&gt;idmodelr&lt;/code&gt; is to provide a library of infectious disease models for researchers, students, and other interested individuals. These models can be used to understand the underlying dynamics and as a reference point when developing models for research.</description>
+    </item>
+    
+    <item>
+      <title>The Pebble Game</title>
+      <link>http://www.samabbott.co.uk/project/thepebblegame/</link>
+      <pubDate>Sat, 10 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/thepebblegame/</guid>
+      <description>The Pebble Game is a shiny application that simulates the pebble game. This is a simple game that has been developed by &lt;a href=&#34;http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol, to help a general audience understand the role of vaccination in preventing the onward transmission of infectious disease. The source code can be found &lt;a href=&#34;https://github.com/seabbs/thepebblegame&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
+    </item>
+    
+    <item>
+      <title>prettypublisher</title>
+      <link>http://www.samabbott.co.uk/project/prettypublisher/</link>
+      <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/prettypublisher/</guid>
+      <description>&lt;code&gt;prettypublisher&lt;/code&gt; is an R package that aims to improve your workflow by allowing an easier transition from literate code to a paper draft ready for journal submission.</description>
+    </item>
+    
+  </channel>
+</rss>

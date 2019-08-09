@@ -18,7 +18,7 @@
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/gettbinr/</guid>
-      <description>Quickly and easily import analysis ready TB burden data, from the World Health Orgnaisation (WHO), into R. The aim of the package is to speed up access to high quality TB burden data, using a simple R interface. Generic plotting functions are provided to allow for rapid graphical exploration of the WHO TB data. This package is inspired by a blog &lt;a href=&#34;https://incidental-ideas.org/2017/03/03/who-tuberculosis-data-ggplot2/&#34; target=&#34;_blank&#34;&gt;post&lt;/a&gt;, which looked at WHO TB incidence rates. See &lt;a href=&#34;http://www.who.int/about/copyright/en/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for the WHO data permissions.</description>
+      <description>Quickly and easily import analysis ready Tuberculosis (TB) burden data, from the World Health Organisation (WHO), into R. The aim of &lt;code&gt;getTBinR&lt;/code&gt; is to allow researchers, and other interested individuals, to quickly and easily gain access to a detailed TB data set and to start using it to derive key insights.</description>
     </item>
     
     <item>
@@ -36,7 +36,7 @@
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/idmodelr/</guid>
-      <description>R package that contains utility functions for infectious disease modelling. It&amp;rsquo;s main functionality is to facilitate the use of other available modelling packages such as &lt;a href=&#34;http://kingaa.github.io/pomp/&#34; target=&#34;_blank&#34;&gt;pomp&lt;/a&gt;. Although, it does offer some basic modelling functionality itself. The source code is available on &lt;a href=&#34;https://github.com/seabbs/idmodelr&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
+      <description>Explore a range of infectious disease models in a consistent framework. The primary aim of &lt;code&gt;idmodelr&lt;/code&gt; is to provide a library of infectious disease models for researchers, students, and other interested individuals. These models can be used to understand the underlying dynamics and as a reference point when developing models for research.</description>
     </item>
     
   </channel>

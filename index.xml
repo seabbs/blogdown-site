@@ -6,8 +6,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Thu, 04 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Modelling BCG vaccination in the UK: What is the impact of changing policy? (PhD thesis)</title>
+      <link>http://www.samabbott.co.uk/project/thesis/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/thesis/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Celebrating £1.4bn for the Global Fund - Trying out gganimate on Tuberculosis data from getTBinR</title>
@@ -14379,15 +14388,6 @@ storyboard&lt;/code&gt;&lt;/pre&gt;
       <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/exploreglobaltb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>BIDD Modelling Course</title>
-      <link>http://www.samabbott.co.uk/project/biddmodellingcourse/</link>
-      <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/biddmodellingcourse/</guid>
       <description></description>
     </item>
     

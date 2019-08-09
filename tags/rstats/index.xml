@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2018 Sam Abbott</copyright>
-    <lastBuildDate>Thu, 04 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/rstats/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Modelling BCG vaccination in the UK: What is the impact of changing policy? (PhD thesis)</title>
+      <link>http://www.samabbott.co.uk/project/thesis/</link>
+      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/project/thesis/</guid>
+      <description>Bacillus Calmette–Guérin (BCG) remains the only licensed vaccine against Tuberculosis (TB). In 2005, England changed from universal vaccination of school-age children to targeted vaccination of high-risk neonates. Little work has been done to assess the impact of this policy change. This thesis evaluates the impact of this change.</description>
+    </item>
     
     <item>
       <title>Celebrating £1.4bn for the Global Fund - Trying out gganimate on Tuberculosis data from getTBinR</title>
@@ -91,7 +100,7 @@ It is estimated that in 2016 there was more than 10 million cases of active TB, 
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/biddmodellingcourse/</guid>
-      <description>The course practicals for the &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;modelling infectious disease&lt;/a&gt; short course `run by &lt;a href=&#34;http://www.bristol.ac.uk/population-health-sciences/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol. Source code available &lt;a href=&#34;https://github.com/bristolmathmodellers/biddmodellingcourse/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
+      <description>The course practicals for the &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;modelling infectious disease&lt;/a&gt; short course run by &lt;a href=&#34;http://www.bristol.ac.uk/population-health-sciences/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol. Source code available &lt;a href=&#34;https://github.com/bristolmathmodellers/biddmodellingcourse/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -100,7 +109,7 @@ It is estimated that in 2016 there was more than 10 million cases of active TB, 
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/exploreidmodels/</guid>
-      <description>&lt;a href=&#34;http://seabbs.co.uk/shiny/exploreidmodels&#34; target=&#34;_blank&#34;&gt;This shiny app&lt;/a&gt; has been developed to allow the exploration of the parameter space of &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;compartmental infectious disease models&lt;/a&gt;. It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model. Source code available &lt;a href=&#34;https://www.github.com/seabbs/exploreidmodels&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
+      <description>&lt;a href=&#34;http://seabbs.co.uk/shiny/exploreidmodels&#34; target=&#34;_blank&#34;&gt;This shiny app&lt;/a&gt; has been developed to allow the exploration of the parameter space of &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;compartmental infectious disease models&lt;/a&gt;. It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code.</description>
     </item>
     
     <item>
@@ -128,7 +137,7 @@ I’ve recently begun wrapping all my analytical work in R packages, as it makes
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/gettbinr/</guid>
-      <description>Quickly and easily import analysis ready TB burden data, from the World Health Orgnaisation (WHO), into R. The aim of the package is to speed up access to high quality TB burden data, using a simple R interface. Generic plotting functions are provided to allow for rapid graphical exploration of the WHO TB data. This package is inspired by a blog &lt;a href=&#34;https://incidental-ideas.org/2017/03/03/who-tuberculosis-data-ggplot2/&#34; target=&#34;_blank&#34;&gt;post&lt;/a&gt;, which looked at WHO TB incidence rates. See &lt;a href=&#34;http://www.who.int/about/copyright/en/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for the WHO data permissions.</description>
+      <description>Quickly and easily import analysis ready Tuberculosis (TB) burden data, from the World Health Organisation (WHO), into R. The aim of &lt;code&gt;getTBinR&lt;/code&gt; is to allow researchers, and other interested individuals, to quickly and easily gain access to a detailed TB data set and to start using it to derive key insights.</description>
     </item>
     
     <item>
@@ -201,7 +210,7 @@ Property Partner advertises returns by combining both projected capital and rent
       <pubDate>Fri, 23 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/idmodelr/</guid>
-      <description>R package that contains utility functions for infectious disease modelling. It&amp;rsquo;s main functionality is to facilitate the use of other available modelling packages such as &lt;a href=&#34;http://kingaa.github.io/pomp/&#34; target=&#34;_blank&#34;&gt;pomp&lt;/a&gt;. Although, it does offer some basic modelling functionality itself. The source code is available on &lt;a href=&#34;https://github.com/seabbs/idmodelr&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
+      <description>Explore a range of infectious disease models in a consistent framework. The primary aim of &lt;code&gt;idmodelr&lt;/code&gt; is to provide a library of infectious disease models for researchers, students, and other interested individuals. These models can be used to understand the underlying dynamics and as a reference point when developing models for research.</description>
     </item>
     
     <item>
@@ -228,7 +237,7 @@ Property Partner advertises returns by combining both projected capital and rent
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/prettypublisher/</guid>
-      <description>R package to help in formatting R markdown documents into a publishable format. The source code is available on &lt;a href=&#34;https://github.com/seabbs/prettypublisher&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
+      <description>&lt;code&gt;prettypublisher&lt;/code&gt; is an R package that aims to improve your workflow by allowing an easier transition from literate code to a paper draft ready for journal submission.</description>
     </item>
     
     <item>
@@ -237,7 +246,7 @@ Property Partner advertises returns by combining both projected capital and rent
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
-      <description>R package containing the scripts required to clean data from the Enhanced Tuberculosis Surveillance system, and the Labour Force Survey, and to then calculate Tuberculosis incidence. The source code is available &lt;a href=&#34;https://github.com/seabbs/tbinenglanddataclean&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
+      <description>R package containing the scripts required to clean data from the Enhanced Tuberculosis Surveillance system, and the Labour Force Survey, and to then calculate Tuberculosis incidence.</description>
     </item>
     
     <item>

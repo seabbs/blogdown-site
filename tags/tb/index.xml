@@ -91,7 +91,7 @@ It is estimated that in 2016 there was more than 10 million cases of active TB, 
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/biddmodellingcourse/</guid>
-      <description>The course practicals for the &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;modelling infectious disease&lt;/a&gt; short course `run by &lt;a href=&#34;http://www.bristol.ac.uk/population-health-sciences/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol. Source code available &lt;a href=&#34;https://github.com/bristolmathmodellers/biddmodellingcourse/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
+      <description>The course practicals for the &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;modelling infectious disease&lt;/a&gt; short course run by &lt;a href=&#34;http://www.bristol.ac.uk/population-health-sciences/research/groups/bidd/&#34; target=&#34;_blank&#34;&gt;BIDD&lt;/a&gt; at the University of Bristol. Source code available &lt;a href=&#34;https://github.com/bristolmathmodellers/biddmodellingcourse/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
     </item>
     
     <item>
@@ -100,7 +100,7 @@ It is estimated that in 2016 there was more than 10 million cases of active TB, 
       <pubDate>Mon, 15 Jan 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/exploreidmodels/</guid>
-      <description>&lt;a href=&#34;http://seabbs.co.uk/shiny/exploreidmodels&#34; target=&#34;_blank&#34;&gt;This shiny app&lt;/a&gt; has been developed to allow the exploration of the parameter space of &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;compartmental infectious disease models&lt;/a&gt;. It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code. A number of infectious disease models are included, such as a Susceptible, Exposed, Infected, Recovered model. Source code available &lt;a href=&#34;https://www.github.com/seabbs/exploreidmodels&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;.</description>
+      <description>&lt;a href=&#34;http://seabbs.co.uk/shiny/exploreidmodels&#34; target=&#34;_blank&#34;&gt;This shiny app&lt;/a&gt; has been developed to allow the exploration of the parameter space of &lt;a href=&#34;https://en.wikipedia.org/wiki/Compartmental_models_in_epidemiology&#34; target=&#34;_blank&#34;&gt;compartmental infectious disease models&lt;/a&gt;. It is designed to be used as a teaching aid when introducing people to the concepts behind infectious disease models without requiring them to interact with the underlying code.</description>
     </item>
     
     <item>
@@ -146,7 +146,7 @@ I’ve recently begun wrapping all my analytical work in R packages, as it makes
       <pubDate>Tue, 06 Jun 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/project/tbinenglanddataclean/</guid>
-      <description>R package containing the scripts required to clean data from the Enhanced Tuberculosis Surveillance system, and the Labour Force Survey, and to then calculate Tuberculosis incidence. The source code is available &lt;a href=&#34;https://github.com/seabbs/tbinenglanddataclean&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt;</description>
+      <description>R package containing the scripts required to clean data from the Enhanced Tuberculosis Surveillance system, and the Labour Force Survey, and to then calculate Tuberculosis incidence.</description>
     </item>
     
   </channel>
