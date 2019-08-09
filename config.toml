@@ -38,7 +38,7 @@ defaultContentLanguageInSubdir = false
   font = "default"
   
   name = "Sam Abbott"
-  role = "PhD student and Data Scientist"
+  role = "PhD student"
   organizations =  [ { name = "BIDD, University of Bristol", url = "http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/" }]
   
   gravatar = false  # Get your avatar from Gravatar.com? (true/false)
@@ -50,7 +50,7 @@ defaultContentLanguageInSubdir = false
   skype = ""
   telegram = ""
   GithubEdit = "https://github.com/seabbs/seabbs.github.io/tree/sources/content/"
-  description = "Personal blog: Writing about infectious disease epidemiology, peer to peer lending and R."
+  description = "Personal blog: Writing about infectious disease epidemiology, reproducibility, rstats, and peer to peer lending."
   twitterAuthor = "@seabbs"
   twitterSite = "@seabbs"
   
