@@ -23,6 +23,11 @@ RUN apt-get update -y && \
     texinfo \
     libqpdf-dev \
     libmagick++-dev \
+    libavfilter-dev \
+    libgl1-mesa-dev \
+    libglu1-mesa-dev \
+    libudunits2-dev \
+    cargo \
     && apt-get clean
     
 ## Add in website files
