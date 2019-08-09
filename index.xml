@@ -19,6 +19,15 @@
     </item>
     
     <item>
+      <title>Exploring the effects of BCG vaccination in patients diagnosed with tuberculosis: observational study using the Enhanced Tuberculosis Surveillance system</title>
+      <link>http://www.samabbott.co.uk/publication/explorebcgonoutcomes/</link>
+      <pubDate>Thu, 08 Aug 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/publication/explorebcgonoutcomes/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>Celebrating £1.4bn for the Global Fund - Trying out gganimate on Tuberculosis data from getTBinR</title>
       <link>http://www.samabbott.co.uk/post/tb-gifs/</link>
       <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
@@ -14082,15 +14091,6 @@ storyboard&lt;/code&gt;&lt;/pre&gt;
 rm(&amp;quot;storyboard&amp;quot;, &amp;quot;plot_tb_cluster_map&amp;quot;)&lt;/code&gt;&lt;/pre&gt;
 &lt;/div&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Estimating the effect of the 2005 UK BCG vaccination policy change: A retrospective cohort study using the Enhanced Tuberculosis Surveillance system, 2000-2015</title>
-      <link>http://www.samabbott.co.uk/talk/phe-applied-epi-2018/</link>
-      <pubDate>Tue, 20 Mar 2018 11:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/talk/phe-applied-epi-2018/</guid>
-      <description></description>
     </item>
     
   </channel>
