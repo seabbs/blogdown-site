@@ -1,6 +1,6 @@
 +++
 title = "Exploring the effects of BCG vaccination in patients diagnosed with tuberculosis: observational study using the Enhanced Tuberculosis Surveillance system"
-date = 2019-08-14T00:00:00
+date = 2019-08-08T00:00:00
 
 # Authors. Comma separated list, e.g. `["Bob Smith", "David Jones"]`.
 authors = ["Sam Abbott", "Hannah Christensen", "Maeve K Lalor", "Dominik Zenner", "Colin Campbell", "Mary Ramsay", "Ellen Brooks-Pollock"]
