@@ -6,11 +6,20 @@
     <description>Recent content in Recent &amp; Upcoming Talks on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
+    <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
     <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/talk/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>What do we really know about BCG</title>
+      <link>http://www.samabbott.co.uk/talk/what-do-we-know-about-bcg-19-08-09/</link>
+      <pubDate>Fri, 14 Jun 2019 14:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/talk/what-do-we-know-about-bcg-19-08-09/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Estimating the effect of the 2005 UK BCG vaccination policy change: A retrospective cohort study using the Enhanced Tuberculosis Surveillance system, 2000-2015</title>

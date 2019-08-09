@@ -5,7 +5,7 @@
     <description>Recent content in Sam Abbott on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2018 Sam Abbott</copyright>
+    <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
     <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
@@ -301,6 +301,15 @@ anim_save(&amp;quot;../../static/img/getTBinR/storyboard-gif.gif&amp;quot;, stor
 &lt;p&gt;If interested in TB research see &lt;a href=&#34;http://bit.ly/seabbs-google-scholar&#34;&gt;here&lt;/a&gt; for a list of my papers/preprints and &lt;a href=&#34;http://bit.ly/seabbs-code&#34;&gt;here&lt;/a&gt; for the corresponding, fully reproducible, code.&lt;/p&gt;
 &lt;/div&gt;
 </description>
+    </item>
+    
+    <item>
+      <title>What do we really know about BCG</title>
+      <link>http://www.samabbott.co.uk/talk/what-do-we-know-about-bcg-19-08-09/</link>
+      <pubDate>Fri, 14 Jun 2019 14:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/talk/what-do-we-know-about-bcg-19-08-09/</guid>
+      <description></description>
     </item>
     
     <item>
@@ -14380,15 +14389,6 @@ storyboard&lt;/code&gt;&lt;/pre&gt;
 &lt;p&gt;&lt;img src=&#34;./post/2018-02-27-estimate-case-fatality-rate_files/figure-html/pathwork-storyboard-1.png&#34; width=&#34;7920&#34; /&gt;&lt;/p&gt;
 &lt;p&gt;The WHO TB data contains many more variables not mentioned in this post and getTBinR contains additional features, see the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34;&gt;site for getTBinR&lt;/a&gt; for details. See &lt;a href=&#34;https://gist.github.com/seabbs&#34;&gt;my gists&lt;/a&gt; for code snippets to get you started in exploring the data further. Package feature requests are welcome, preferably by filing a &lt;a href=&#34;https://github.com/seabbs/getTBinR/issues&#34;&gt;GitHub issue&lt;/a&gt;, as are suggestions for additional data sources to include.&lt;/p&gt;
 </description>
-    </item>
-    
-    <item>
-      <title>Explore Global Tuberculosis</title>
-      <link>http://www.samabbott.co.uk/project/exploreglobaltb/</link>
-      <pubDate>Fri, 26 Jan 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/project/exploreglobaltb/</guid>
-      <description></description>
     </item>
     
   </channel>
