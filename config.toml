@@ -1,6 +1,6 @@
 baseurl = "http://www.samabbott.co.uk/"  # End your URL with a `/` trailing slash.
 title = "Sam Abbott"
-copyright = "&copy; 2018 Sam Abbott"
+copyright = "&copy; 2017-2019 Sam Abbott"
 theme = "hugo-academic"
 enableEmoji = true
 footnotereturnlinkcontents = "<sup>^</sup>"
