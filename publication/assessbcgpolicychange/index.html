@@ -17,10 +17,10 @@
       
     
   
-  <meta name="description" content="The slides for a talk on my essential R resources given at BristolR. The talk focussed on a few key R resources as well as how to structure your own learning. It ended with a few tips that I have found useful. See the R code for the slide [here](https://github.com/seabbs/MyEssentialR).">
+  <meta name="description" content="In 2005, England and Wales switched from universal BCG vaccination against tuberculosis (TB) disease for school-age children to targeted vaccination of neonates. We aimed to assess the quantitative evidence that informed this policy change. We recreated a previous approach for estimating the impact of ending the BCG schools’ scheme, updating the model with parameter uncertainty. We investigated scenarios considered by the UK’s Joint Committee on Vaccination and Immunisation, and explored new approaches using notification data. The number of vaccines needed to prevent a single notification, and the average annual additional notifications caused by ending the BCG schools’ scheme. We found a 1.9% annual decrease in TB incidence rates best matched notification data. We estimate that 1600 (2.5-97.5% Quantiles (Q): 1300-2100) vaccines would have been required to prevent a single notification in 2004. If the scheme had ended in 2001, 302 (2.5-97.5% Q: 238-369) additional annual notifications would have occurred compared to if the scheme had continued. If the scheme ended in 2016, 120 (2.5-97.5% Q: 88-155) additional annual notifications would have occurred. Our estimates of the impact of ending the BCG schools’ scheme were highly sensitive to the annual decrease in incidence rates. The impact of ending the BCG schools’ scheme was found to be greater than previously thought when parameter values were updated, and notification data were used. Our results highlight the importance of including uncertainty when forecasting the impact of changes in vaccination policy.">
 
   
-  <link rel="alternate" hreflang="en-uk" href="http://www.samabbott.co.uk/talk/myessentialr-bristolr_19_04_20/">
+  <link rel="alternate" hreflang="en-uk" href="http://www.samabbott.co.uk/publication/assessbcgpolicychange/">
 
   
 
@@ -80,7 +80,7 @@
   <link rel="icon" type="image/png" href="../../img/icon.png">
   <link rel="apple-touch-icon" type="image/png" href="../../img/icon-192.png">
 
-  <link rel="canonical" href="http://www.samabbott.co.uk/talk/myessentialr-bristolr_19_04_20/">
+  <link rel="canonical" href="http://www.samabbott.co.uk/publication/assessbcgpolicychange/">
 
   <meta property="twitter:card" content="summary_large_image">
   
@@ -88,21 +88,21 @@
   <meta property="twitter:creator" content="@seabbs">
   
   <meta property="og:site_name" content="Sam Abbott">
-  <meta property="og:url" content="http://www.samabbott.co.uk/talk/myessentialr-bristolr_19_04_20/">
-  <meta property="og:title" content="(My) essential R resources | Sam Abbott">
-  <meta property="og:description" content="The slides for a talk on my essential R resources given at BristolR. The talk focussed on a few key R resources as well as how to structure your own learning. It ended with a few tips that I have found useful. See the R code for the slide [here](https://github.com/seabbs/MyEssentialR)."><meta property="og:image" content="http://www.samabbott.co.uk/img/headers/MyEssentialR-talk-header.png">
+  <meta property="og:url" content="http://www.samabbott.co.uk/publication/assessbcgpolicychange/">
+  <meta property="og:title" content="Reassessing the Evidence for Universal School-age Bacillus Calmette Guerin (BCG) Vaccination in England and Wales | Sam Abbott">
+  <meta property="og:description" content="In 2005, England and Wales switched from universal BCG vaccination against tuberculosis (TB) disease for school-age children to targeted vaccination of neonates. We aimed to assess the quantitative evidence that informed this policy change. We recreated a previous approach for estimating the impact of ending the BCG schools’ scheme, updating the model with parameter uncertainty. We investigated scenarios considered by the UK’s Joint Committee on Vaccination and Immunisation, and explored new approaches using notification data. The number of vaccines needed to prevent a single notification, and the average annual additional notifications caused by ending the BCG schools’ scheme. We found a 1.9% annual decrease in TB incidence rates best matched notification data. We estimate that 1600 (2.5-97.5% Quantiles (Q): 1300-2100) vaccines would have been required to prevent a single notification in 2004. If the scheme had ended in 2001, 302 (2.5-97.5% Q: 238-369) additional annual notifications would have occurred compared to if the scheme had continued. If the scheme ended in 2016, 120 (2.5-97.5% Q: 88-155) additional annual notifications would have occurred. Our estimates of the impact of ending the BCG schools’ scheme were highly sensitive to the annual decrease in incidence rates. The impact of ending the BCG schools’ scheme was found to be greater than previously thought when parameter values were updated, and notification data were used. Our results highlight the importance of including uncertainty when forecasting the impact of changes in vaccination policy.">
   <meta property="og:locale" content="en-uk">
   
-  <meta property="article:published_time" content="2018-03-06T14:00:00&#43;00:00">
+  <meta property="article:published_time" content="2019-05-03T00:00:00&#43;00:00">
   
-  <meta property="article:modified_time" content="2018-03-06T14:00:00&#43;00:00">
+  <meta property="article:modified_time" content="2019-05-03T00:00:00&#43;00:00">
   
 
   <!DOCTYPE html>
 
 
-<title>(My) essential R resources - Sam Abbott</title>
-<meta property="og:title" content="(My) essential R resources - Sam Abbott">
+<title>Reassessing the Evidence for Universal School-age Bacillus Calmette Guerin (BCG) Vaccination in England and Wales - Sam Abbott</title>
+<meta property="og:title" content="Reassessing the Evidence for Universal School-age Bacillus Calmette Guerin (BCG) Vaccination in England and Wales - Sam Abbott">
 <meta property="og:type" content="article">
 
   
@@ -111,14 +111,14 @@
   
   
 
-<meta property="description" content="Article posted by %!s(&lt;nil&gt;), on Tuesday, March 6nd, 2018">
-<meta property="og:description" content="Article posted by %!s(&lt;nil&gt;), on Tuesday, March 6nd, 2018">
+<meta property="description" content="Article posted by %!s(&lt;nil&gt;), on Friday, May 3nd, 2019">
+<meta property="og:description" content="Article posted by %!s(&lt;nil&gt;), on Friday, May 3nd, 2019">
 
 
 <meta name="twitter:creator" content="">
 <meta name="twitter:site" content="">
 
-  <title>(My) essential R resources | Sam Abbott</title>
+  <title>Reassessing the Evidence for Universal School-age Bacillus Calmette Guerin (BCG) Vaccination in England and Wales | Sam Abbott</title>
 
 </head>
 <body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
@@ -308,58 +308,53 @@
   </div>
 </nav>
 
-<div class="pub" itemscope itemtype="http://schema.org/Event">
+<div class="pub" itemscope itemtype="http://schema.org/CreativeWork">
 
   
-<div class="article-header">
-  <img src="../../img/headers/MyEssentialR-talk-header.png" class="article-banner" itemprop="image">
-  <span class="article-header-caption">Title slide for my essential R resources talk</span>
-</div>
-
 
 
   <div class="article-container">
-
-    <div class="pub-title">
-      <h1 itemprop="name">(My) essential R resources</h1>
-      <span class="pub-authors" itemprop="author">
-        
-      </span>
-      <span class="pull-right">
-        
+    <h1 itemprop="name">Reassessing the Evidence for Universal School-age Bacillus Calmette Guerin (BCG) Vaccination in England and Wales</h1>
+    <span class="pub-authors" itemprop="author">
+      
+      Sam Abbott, Hannah Christensen, Ellen Brooks-Pollock
+      
+    </span>
+    <span class="pull-right">
+      
 <div class="share-box" aria-hidden="true">
   <ul class="share">
     <li>
       <a class="twitter"
-         href="https://twitter.com/intent/tweet?text=%28My%29%20essential%20R%20resources&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2ftalk%2fmyessentialr-bristolr_19_04_20%2f"
+         href="https://twitter.com/intent/tweet?text=Reassessing%20the%20Evidence%20for%20Universal%20School-age%20Bacillus%20Calmette%20Guerin%20%28BCG%29%20Vaccination%20in%20England%20and%20Wales&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpublication%2fassessbcgpolicychange%2f"
          target="_blank" rel="noopener">
         <i class="fa fa-twitter"></i>
       </a>
     </li>
     <li>
       <a class="facebook"
-         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.samabbott.co.uk%2ftalk%2fmyessentialr-bristolr_19_04_20%2f"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.samabbott.co.uk%2fpublication%2fassessbcgpolicychange%2f"
          target="_blank" rel="noopener">
         <i class="fa fa-facebook"></i>
       </a>
     </li>
     <li>
       <a class="linkedin"
-         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2ftalk%2fmyessentialr-bristolr_19_04_20%2f&amp;title=%28My%29%20essential%20R%20resources"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpublication%2fassessbcgpolicychange%2f&amp;title=Reassessing%20the%20Evidence%20for%20Universal%20School-age%20Bacillus%20Calmette%20Guerin%20%28BCG%29%20Vaccination%20in%20England%20and%20Wales"
          target="_blank" rel="noopener">
         <i class="fa fa-linkedin"></i>
       </a>
     </li>
     <li>
       <a class="weibo"
-         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fwww.samabbott.co.uk%2ftalk%2fmyessentialr-bristolr_19_04_20%2f&amp;title=%28My%29%20essential%20R%20resources"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fwww.samabbott.co.uk%2fpublication%2fassessbcgpolicychange%2f&amp;title=Reassessing%20the%20Evidence%20for%20Universal%20School-age%20Bacillus%20Calmette%20Guerin%20%28BCG%29%20Vaccination%20in%20England%20and%20Wales"
          target="_blank" rel="noopener">
         <i class="fa fa-weibo"></i>
       </a>
     </li>
     <li>
       <a class="email"
-         href="mailto:?subject=%28My%29%20essential%20R%20resources&amp;body=http%3a%2f%2fwww.samabbott.co.uk%2ftalk%2fmyessentialr-bristolr_19_04_20%2f">
+         href="mailto:?subject=Reassessing%20the%20Evidence%20for%20Universal%20School-age%20Bacillus%20Calmette%20Guerin%20%28BCG%29%20Vaccination%20in%20England%20and%20Wales&amp;body=http%3a%2f%2fwww.samabbott.co.uk%2fpublication%2fassessbcgpolicychange%2f">
         <i class="fa fa-envelope"></i>
       </a>
     </li>
@@ -367,12 +362,49 @@
 </div>
 
 
-      </span>
-    </div>
+    </span>
 
     
-      <h3>Abstract</h3>
-      <p class="pub-abstract" itemprop="text">The slides for a talk on my essential R resources given at BristolR. The talk focussed on a few key R resources as well as how to structure your own learning. It ended with a few tips that I have found useful. See the R code for the slide <a href="https://github.com/seabbs/MyEssentialR" target="_blank">here</a>.</p>
+    <img src="../../img/#ZgotmplZ" class="pub-banner" itemprop="image">
+    
+
+    
+    <h3>Abstract</h3>
+    <p class="pub-abstract" itemprop="text">In 2005, England and Wales switched from universal BCG vaccination against tuberculosis (TB) disease for school-age children to targeted vaccination of neonates. We aimed to assess the quantitative evidence that informed this policy change. We recreated a previous approach for estimating the impact of ending the BCG schools’ scheme, updating the model with parameter uncertainty. We investigated scenarios considered by the UK’s Joint Committee on Vaccination and Immunisation, and explored new approaches using notification data. The number of vaccines needed to prevent a single notification, and the average annual additional notifications caused by ending the BCG schools’ scheme. We found a 1.9% annual decrease in TB incidence rates best matched notification data. We estimate that 1600 (2.5-97.5% Quantiles (Q): 1300-2100) vaccines would have been required to prevent a single notification in 2004. If the scheme had ended in 2001, 302 (2.5-97.5% Q: 238-369) additional annual notifications would have occurred compared to if the scheme had continued. If the scheme ended in 2016, 120 (2.5-97.5% Q: 88-155) additional annual notifications would have occurred. Our estimates of the impact of ending the BCG schools’ scheme were highly sensitive to the annual decrease in incidence rates. The impact of ending the BCG schools’ scheme was found to be greater than previously thought when parameter values were updated, and notification data were used. Our results highlight the importance of including uncertainty when forecasting the impact of changes in vaccination policy.</p>
+    
+
+    
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col-xs-12 col-sm-3 pub-row-heading">Type</div>
+          <div class="col-xs-12 col-sm-9">
+            
+            <a href="../../publication/#2">
+              Journal article
+            </a>
+            
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="visible-xs space-below"></div>
+    
+
+    
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <div class="col-sm-10">
+        <div class="row">
+          <div class="col-xs-12 col-sm-3 pub-row-heading">Publication</div>
+          <div class="col-xs-12 col-sm-9">-</div>
+        </div>
+      </div>
+      <div class="col-sm-1"></div>
+    </div>
+    <div class="visible-xs space-below"></div>
     
 
     <div class="row">
@@ -381,11 +413,7 @@
         <div class="row">
           <div class="col-xs-12 col-sm-3 pub-row-heading">Date</div>
           <div class="col-xs-12 col-sm-9" itemprop="datePublished">
-            
-            Tue, Apr 23, 2019
-            <div class="talk-time">
-              
-            </div>
+            May, 2019
           </div>
         </div>
       </div>
@@ -393,37 +421,6 @@
     </div>
     <div class="visible-xs space-below"></div>
 
-    <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-10">
-        <div class="row">
-          <div class="col-xs-12 col-sm-3 pub-row-heading">Event</div>
-          <div class="col-xs-12 col-sm-9">
-            <a href="https://twitter.com/BristolRUsers" target="_blank" rel="noopener">
-            BristolR
-            </a>
-          </div>
-        </div>
-      </div>
-      <div class="col-sm-1"></div>
-    </div>
-    <div class="visible-xs space-below"></div>
-
-    
-    <div class="row">
-      <div class="col-sm-1"></div>
-      <div class="col-sm-10">
-        <div class="row">
-          <div class="col-xs-12 col-sm-3 pub-row-heading">Location</div>
-          <div class="col-xs-12 col-sm-9">Bristol, United Kingdom</div>
-        </div>
-      </div>
-      <div class="col-sm-1"></div>
-    </div>
-    <div class="visible-xs space-below"></div>
-    
-
-    
     <div class="row" style="padding-top: 10px">
       <div class="col-sm-1"></div>
       <div class="col-sm-10">
@@ -435,10 +432,23 @@
 
 
 
-
-<a class="btn btn-primary btn-outline" href="http://bit.ly/MyEssentialRl">
-  Slides
+<a class="btn btn-primary btn-outline" href="https://doi.org/10.1101/624916" target="_blank" rel="noopener">
+  Preprint
 </a>
+
+
+
+
+
+
+<a class="btn btn-primary btn-outline" href="https://github.com/seabbs/AssessBCGPolicyChange" target="_blank" rel="noopener">
+  Code
+</a>
+
+
+
+
+
 
 
 
@@ -452,15 +462,15 @@
       <div class="col-sm-1"></div>
     </div>
     <div class="visible-xs space-below"></div>
-    
 
     <div class="space-below"></div>
 
-    <div class="article-style">
-      
-    </div>
+    <div class="article-style"></div>
 
     
+
+
+
 
 
   </div>
@@ -495,7 +505,7 @@
       
     
     
-     <a href="https://github.com/seabbs/seabbs.github.io/tree/sources/content/talk/MyEssentialR-BristolR_19_04_20.md">Edit this page.</a>
+     <a href="https://github.com/seabbs/seabbs.github.io/tree/sources/content/publication/AssessBCGPolicyChange/index.md">Edit this page.</a>
     
    
     </p>

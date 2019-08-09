@@ -6,11 +6,38 @@
     <description>Recent content in Publications on Sam Abbott</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
-    <copyright>&amp;copy; 2017 Sam Abbott</copyright>
-    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 +0000</lastBuildDate>
+    <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
+    <lastBuildDate>Fri, 03 May 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/publication/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Reassessing the Evidence for Universal School-age Bacillus Calmette Guerin (BCG) Vaccination in England and Wales</title>
+      <link>http://www.samabbott.co.uk/publication/assessbcgpolicychange/</link>
+      <pubDate>Fri, 03 May 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/publication/assessbcgpolicychange/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Estimating the effect of the 2005 change in BCG policy in England: A retrospective cohort study</title>
+      <link>http://www.samabbott.co.uk/publication/directeffbcg/</link>
+      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/publication/directeffbcg/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>getTBinR: an R package for accessing and summarising the World Health Organisation Tuberculosis data</title>
+      <link>http://www.samabbott.co.uk/publication/gettbinr/</link>
+      <pubDate>Tue, 26 Feb 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/publication/gettbinr/</guid>
+      <description></description>
+    </item>
     
   </channel>
 </rss>
