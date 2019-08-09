@@ -33,7 +33,6 @@ RUN apt-get update -y && \
 ## Add in website files
 ADD . /home/rstudio/seabbs.github.io
 
-RUN Rscript -e 'source("https://bioconductor.org/biocLite.R"); biocLite("Biobase")'
 RUN Rscript -e 'devtools::install_github("yihui/xfun")'
 RUN Rscript -e 'devtools::install_github("rstudio/blogdown")'
 
