@@ -40,24 +40,6 @@
     </item>
     
     <item>
-      <title>TB</title>
-      <link>http://www.samabbott.co.uk/tags/tb/</link>
-      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/tb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>WHO</title>
-      <link>http://www.samabbott.co.uk/tags/who/</link>
-      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/who/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>data analysis</title>
       <link>http://www.samabbott.co.uk/tags/data-analysis/</link>
       <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
@@ -90,6 +72,24 @@
       <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/infectious-disease/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TB</title>
+      <link>http://www.samabbott.co.uk/tags/tb/</link>
+      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/tb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WHO</title>
+      <link>http://www.samabbott.co.uk/tags/who/</link>
+      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/who/</guid>
       <description></description>
     </item>
     
@@ -193,20 +193,20 @@
     </item>
     
     <item>
-      <title>PHE</title>
-      <link>http://www.samabbott.co.uk/tags/phe/</link>
-      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/phe/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>clustering</title>
       <link>http://www.samabbott.co.uk/tags/clustering/</link>
       <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/clustering/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>PHE</title>
+      <link>http://www.samabbott.co.uk/tags/phe/</link>
+      <pubDate>Wed, 11 Apr 2018 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/phe/</guid>
       <description></description>
     </item>
     
@@ -238,20 +238,20 @@
     </item>
     
     <item>
-      <title>Tuberculosis</title>
-      <link>http://www.samabbott.co.uk/tags/tuberculosis/</link>
-      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/tuberculosis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>r-package</title>
       <link>http://www.samabbott.co.uk/tags/r-package/</link>
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/r-package/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Tuberculosis</title>
+      <link>http://www.samabbott.co.uk/tags/tuberculosis/</link>
+      <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/tuberculosis/</guid>
       <description></description>
     </item>
     
@@ -274,20 +274,20 @@
     </item>
     
     <item>
-      <title>P2P</title>
-      <link>http://www.samabbott.co.uk/tags/p2p/</link>
-      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/p2p/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>deep dive</title>
       <link>http://www.samabbott.co.uk/tags/deep-dive/</link>
       <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/deep-dive/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>P2P</title>
+      <link>http://www.samabbott.co.uk/tags/p2p/</link>
+      <pubDate>Tue, 26 Sep 2017 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/p2p/</guid>
       <description></description>
     </item>
     
