@@ -4,7 +4,7 @@ author: "null"
 date: '2019-09-03'
 description: "getTBinR version 0.7.0 - more data, complying with {ggplot2} best practices and some big squashing."
 slug: gettbinr-7-0
-draft: yes
+draft: no
 categories: ["R"]
 tags: ["data analysis", "data visualisation", "rstats", "TB", "WHO", "infectious disease"]
 twitterImg: "img/getTBinR/storyboard-7-0.png"
@@ -12,7 +12,7 @@ twitterImg: "img/getTBinR/storyboard-7-0.png"
 
 
 
-<p><a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR 0.7.0</code></a> should now be available on CRAN. This release includes some new experimental data (TB incidence by age and sex) that for now is only partly supported by <code>{getTBinR}</code>. It also brings <code>{getTBinR}</code> into line with new (or new to me) <code>{ggplot2}</code> <a href="https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html">best practices</a>. This involved two major changes:</p>
+<p><a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR 0.7.0</code></a> should now be available on CRAN. This release includes some new experimental data (TB incidence by age and sex) that for now is only partly supported by <code>{getTBinR}</code>. It also brings <code>{getTBinR}</code> into line with new (or new to me) <code>{ggplot2}</code> <a href="https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html">best practices</a>. This involved two major changes (plans are also afoot for an S3 <code>plot</code> method):</p>
 <ol style="list-style-type: decimal">
 <li><p>Moving from a full <code>@import</code> of <code>{ggplot2}</code> to only using <code>@importFrom</code> for required functions (something that I had previously been too lazy to do…).</p></li>
 <li><p>Dropping <code>aes_string</code>, which is now soft depreciated, in favour of <code>aes</code> and <code>rlang::.data</code> for programmatic variables (Note: <em>Yes I could have more fully embraced <code>rlang</code> here but this would have required some major breaking package changes</em>). This was a real joy as <code>aes_string</code> has always been a bit clunky to use and resulted in very messy looking code. A simple pseudo-code example of this can be seen below.</p></li>
@@ -31,7 +31,7 @@ ggplot(mtcars, aes(x = cyl, y = .data[[y_var]])) +
   geom_point() +
   ## This is now needed to get the correct label - a small price to pay.
   labs(y = y_var)</code></pre>
-<p>Wrapping up this release are several bug fixes for the embedded <code>{shiny}</code> app and <code>{rmarkdown}</code> report. The full change log is included below (or can be found <a href="https://www.samabbott.co.uk/getTBinR/news/index.html">here</a>). See the bottom of this post for an example of using the new age and sex stratified incidence data.</p>
+<p>Wrapping up this release are several bug fixes for the embedded <code>{shiny}</code> app and <code>{rmarkdown}</code> report. Hopefully, <code>{getTBinR}</code> is now ready to be presented next week at <a href="https://r-medicine.com">R medicine</a> (see your there)! The full change log is included below (or can be found <a href="https://www.samabbott.co.uk/getTBinR/news/index.html">here</a>). See the bottom of this post for an example of using the new age and sex stratified incidence data.</p>
 <div id="gettbinr-0.7.0" class="section level2">
 <h2>getTBinR 0.7.0</h2>
 </div>
@@ -52,39 +52,79 @@ ggplot(mtcars, aes(x = cyl, y = .data[[y_var]])) +
 </div>
 <div id="example-of-tb-incidence-in-each-age-group" class="section level2">
 <h2>Example: % of TB incidence in each age group</h2>
-<p>The code below downloads the new experimental (and in its raw form messy) incidence data stratified by age and sex. As these data are in a different format to the rest of the data in <code>{getTBinR}</code> some cleaning + aggregation is needed to get it into a workable form. From there it is a simple task to use <code>{getTBinR}</code> to produce a global map of the % of TB incidence in each age group.</p>
+<p>The code below downloads the new experimental (and in its raw form messy) incidence data stratified by age and sex. As these data are in a different format to the rest of the data in <code>{getTBinR}</code> some cleaning + aggregation is needed to get it into a workable form. From there it is a simple task to use <code>{getTBinR}</code> to produce a global map of the % of TB incidence in each age group. For interest I have also used <code>{ggridges}</code> to look at the regional distribution of TB incidence stratified by age group. Finally everything is pulled together into a single figure using <code>{patchwork}</code>.</p>
 <pre class="r"><code>## Get required packages - managed using pacman
 if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
-p_load(&quot;getTBinR&quot;)
+p_load_gh(&quot;getTBinR&quot;)
 p_load(&quot;dplyr&quot;)
 p_load(&quot;tidyr&quot;)
+p_load(&quot;ggplot2&quot;)
+p_load(&quot;forcats&quot;)
+p_load(&quot;ggridges&quot;)
+p_load(&quot;patchwork&quot;)
 
 ##Pull TB data 
 tb_burden &lt;- get_tb_burden(additional_datasets = &quot;Incidence by age and sex&quot;,
-                           verbose = FALSE)
+                           verbose = FALSE) %&gt;% 
+  mutate(country = country %&gt;% 
+           factor()) %&gt;% 
+  mutate(age_group = age_group %&gt;% 
+           factor(levels = c(&quot;0-4&quot;, paste(seq(5, 55, 10), seq(14, 64, 10), sep = &quot;-&quot;), &quot;65plus&quot;)) %&gt;% 
+         fct_explicit_na()) 
 
 ## Aggregate incidence by age group
-tb_burden_ag &lt;- tb_burden %&gt;% 
-group_by(age_group, country, year) %&gt;% 
+tb_burden_ag &lt;- tb_burden %&gt;%
+filter(age_group != &quot;0-14&quot;) %&gt;% 
+mutate(age_group = age_group %&gt;% 
+         fct_drop()) %&gt;% 
+group_by(age_group, country, .drop = FALSE) %&gt;%
 summarise_at(.vars = vars(inc_age_sex, inc_age_sex_lo, inc_age_sex_hi), sum) %&gt;%
 full_join(
   select(tb_burden, -sex, -age_group, -contains(&quot;inc_age_sex&quot;)) %&gt;%
     unique
   ) %&gt;% 
 ungroup %&gt;% 
-  add_count(age_group, country, year, wt = inc_age_age) %&gt;% 
-  mutate(inc_age_dist = inc_age_sex / n * 100)
+  add_count(country, year, wt = inc_age_sex) %&gt;% 
+  mutate(inc_age_dist = inc_age_sex / n * 100) %&gt;% 
+  filter(!(age_group %in% &quot;(Missing)&quot;))
 
 
-
+## Map using getTBinR
 map &lt;- map_tb_burden(tb_burden_ag, metric = &quot;inc_age_dist&quot;, 
                      metric_label = &quot;% of TB incidence in each age group&quot;,
                      facet = c(&quot;age_group&quot;)) +
-  labs(title = &quot;Global summary of the % of TB incidence in each age group&quot;)
+  labs(title = &quot;Distribution of Tuberculosis (TB) incidence by age&quot;,
+       subtitle = &quot;Global map of the % of TB incidence in each age group&quot;,
+       caption = &quot;&quot;) +
+  theme(plot.title = element_text(face = &quot;bold&quot;, size = 26), text = element_text(size = 20))
 
+## Density plot using ggridges
+density &lt;- tb_burden_ag %&gt;% 
+drop_na(inc_age_dist) %&gt;% 
+mutate(age_group = age_group %&gt;% 
+         fct_rev()) %&gt;% 
+ggplot(aes(x = inc_age_dist, y = age_group, col = age_group, fill = age_group)) +
+  geom_density_ridges(alpha = 0.8) +
+  facet_wrap(~g_whoregion) +
+  theme_ridges() +
+  theme(legend.position = &quot;none&quot;, plot.subtitle = element_text(size = 20),
+        plot.title = element_text(size = 20), plot.caption = element_text(size = 20),
+        text = element_text(size = 20)) +
+  labs(title = &quot;Regional differences in the % of TB incidence in each age group&quot;,
+       subtitle = &quot;+ within country differences for each region&quot;,
+       x = &quot;Age group&quot;, 
+       y = &quot;% of TB incidence&quot;,
+       caption = &quot;By @seabbs | Made with {getTBinR} | Source: World Health Organization&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) 
 
+## Patchwork storyboard
+storyboard &lt;- (map) /
+  (density)
+
+## Save everything
 ggsave(&quot;../../static/img/getTBinR/storyboard-7-0.png&quot;,
-       storyboard, width = 16, height = 16, dpi = 330)</code></pre>
+       storyboard, width = 32, height = 32, dpi = 330)</code></pre>
 <p><img src="/img/getTBinR/storyboard-7-0.png" /></p>
 <p>For other examples of using <code>getTBinR</code> to visualise the WHO TB data see <a href="https://gist.github.com/seabbs">my</a> gists, previous blog <a href="https://www.samabbott.co.uk/tags/who/">posts</a>, and the <a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR</code> website</a>. To start using <code>getTBinR</code> in your browser see <a href="https://mybinder.org/v2/gh/seabbs/getTBinR/master?urlpath=rstudio">here</a> for an Rstudio client hosted by <a href="https://mybinder.org">mybinder.org</a>.</p>
 </div>

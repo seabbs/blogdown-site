@@ -1,1 +1,9 @@
 base
+pacman
+getTBinR
+dplyr
+tidyr
+ggplot2
+forcats
+ggridges
+patchwork
