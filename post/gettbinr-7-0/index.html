@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en-uk">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.57.2" />
+  <meta name="author" content="Sam Abbott">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="getTBinR 0.7.0 should now be available on CRAN. This release includes some new experimental data (TB incidence by age and sex) that for now is only partly supported by {getTBinR}. It also brings {getTBinR} into line with new (or new to me) {ggplot2} best practices. This involved two major changes (plans are also afoot for an S3 plot method):
+Moving from a full @import of {ggplot2} to only using @importFrom for required functions (something that I had previously been too lazy to do…).">
+
+  
+  <link rel="alternate" hreflang="en-uk" href="http://www.samabbott.co.uk/post/gettbinr-7-0/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="../../styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-85604924-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+  <link rel="feed" href="http://www.samabbott.co.uk/index.xml" type="application/rss+xml" title="Sam Abbott">
+  
+
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="icon" type="image/png" href="../../img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../img/icon-192.png">
+
+  <link rel="canonical" href="http://www.samabbott.co.uk/post/gettbinr-7-0/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@seabbs">
+  <meta property="twitter:creator" content="@seabbs">
+  
+  <meta property="og:site_name" content="Sam Abbott">
+  <meta property="og:url" content="http://www.samabbott.co.uk/post/gettbinr-7-0/">
+  <meta property="og:title" content="getTBinR 0.7.0 released - more data, {ggplot2} best practices and bug fixes | Sam Abbott">
+  <meta property="og:description" content="getTBinR 0.7.0 should now be available on CRAN. This release includes some new experimental data (TB incidence by age and sex) that for now is only partly supported by {getTBinR}. It also brings {getTBinR} into line with new (or new to me) {ggplot2} best practices. This involved two major changes (plans are also afoot for an S3 plot method):
+Moving from a full @import of {ggplot2} to only using @importFrom for required functions (something that I had previously been too lazy to do…).">
+  <meta property="og:locale" content="en-uk">
+  
+  <meta property="article:published_time" content="2019-09-03T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2019-09-03T00:00:00&#43;00:00">
+  
+
+  <!DOCTYPE html>
+
+
+<title>getTBinR 0.7.0 released - more data, {ggplot2} best practices and bug fixes - Sam Abbott</title>
+<meta property="og:title" content="getTBinR 0.7.0 released - more data, {ggplot2} best practices and bug fixes - Sam Abbott">
+<meta property="og:type" content="article">
+
+  
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/seabbs/seabbs.github.io/sources/static/img/getTBinR/storyboard-7-0.png" >
+  
+  
+
+<meta property="description" content="getTBinR version 0.7.0 - more data, complying with {ggplot2} best practices and some big squashing.">
+<meta property="og:description" content="getTBinR version 0.7.0 - more data, complying with {ggplot2} best practices and some big squashing.">
+
+
+<meta name="twitter:creator" content="">
+<meta name="twitter:site" content="">
+
+  <title>getTBinR 0.7.0 released - more data, {ggplot2} best practices and bug fixes | Sam Abbott</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="../../"><img src="../../img/logo.png" alt="Sam Abbott"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#talks">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../pdf/cv_sea.pdf">
+            
+            <span>CV</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">getTBinR 0.7.0 released - more data, {ggplot2} best practices and bug fixes</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2019-09-03 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Tue, Sep 3, 2019
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sam Abbott">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    4 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="http://www.samabbott.co.uk/post/gettbinr-7-0/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="../../categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=getTBinR%200.7.0%20released%20-%20more%20data%2c%20%7bggplot2%7d%20best%20practices%20and%20bug%20fixes&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-7-0%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-7-0%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-7-0%2f&amp;title=getTBinR%200.7.0%20released%20-%20more%20data%2c%20%7bggplot2%7d%20best%20practices%20and%20bug%20fixes"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-7-0%2f&amp;title=getTBinR%200.7.0%20released%20-%20more%20data%2c%20%7bggplot2%7d%20best%20practices%20and%20bug%20fixes"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=getTBinR%200.7.0%20released%20-%20more%20data%2c%20%7bggplot2%7d%20best%20practices%20and%20bug%20fixes&amp;body=http%3a%2f%2fwww.samabbott.co.uk%2fpost%2fgettbinr-7-0%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<p><a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR 0.7.0</code></a> should now be available on CRAN. This release includes some new experimental data (TB incidence by age and sex) that for now is only partly supported by <code>{getTBinR}</code>. It also brings <code>{getTBinR}</code> into line with new (or new to me) <code>{ggplot2}</code> <a href="https://ggplot2.tidyverse.org/dev/articles/ggplot2-in-packages.html">best practices</a>. This involved two major changes (plans are also afoot for an S3 <code>plot</code> method):</p>
+<ol style="list-style-type: decimal">
+<li><p>Moving from a full <code>@import</code> of <code>{ggplot2}</code> to only using <code>@importFrom</code> for required functions (something that I had previously been too lazy to do…).</p></li>
+<li><p>Dropping <code>aes_string</code>, which is now soft depreciated, in favour of <code>aes</code> and <code>rlang::.data</code> for programmatic variables (Note: <em>Yes I could have more fully embraced <code>rlang</code> here but this would have required some major breaking package changes</em>). This was a real joy as <code>aes_string</code> has always been a bit clunky to use and resulted in very messy looking code. A simple pseudo-code example of this can be seen below.</p></li>
+</ol>
+<pre class="r"><code>library(ggplot2)
+
+## Variable to plot
+y_var &lt;- &quot;disp&quot;
+
+## Old getTBinR approach for programming across variables
+ggplot(mtcars, aes_string(x = &quot;cyl&quot;, y = y_var)) + 
+  geom_point()
+
+## New getTBinR approach using rlang
+ggplot(mtcars, aes(x = cyl, y = .data[[y_var]])) + 
+  geom_point() +
+  ## This is now needed to get the correct label - a small price to pay.
+  labs(y = y_var)</code></pre>
+<p>Wrapping up this release are several bug fixes for the embedded <code>{shiny}</code> app and <code>{rmarkdown}</code> report. Hopefully, <code>{getTBinR}</code> is now ready to be presented next week at <a href="https://r-medicine.com">R medicine</a> (see your there)! The full change log is included below (or can be found <a href="https://www.samabbott.co.uk/getTBinR/news/index.html">here</a>). See the bottom of this post for an example of using the new age and sex stratified incidence data.</p>
+<div id="gettbinr-0.7.0" class="section level2">
+<h2>getTBinR 0.7.0</h2>
+</div>
+<div id="feature-updates" class="section level2">
+<h2>Feature updates</h2>
+<ul>
+<li>Added experimental support for incidence data stratified by age and sex. Current implementation requires data cleaning before use. See the release post for details.</li>
+</ul>
+</div>
+<div id="package-updates" class="section level2">
+<h2>Package updates</h2>
+<ul>
+<li>Fixed a bug that was preventing <code>render_country_report</code> from producing a country level report. Added tests to flag this in the future.</li>
+<li>Updated the packages requested for installation by <code>run_tb_dashboard</code> so that <code>render_country_report</code> runs without errors.</li>
+<li>Switched to using <code>ggplot2</code> best practices (<a href="https://github.com/seabbs/getTBinR/issues/77">#77</a>).</li>
+<li>Updated the README to make identifying types of badges easier.</li>
+</ul>
+</div>
+<div id="example-of-tb-incidence-in-each-age-group" class="section level2">
+<h2>Example: % of TB incidence in each age group</h2>
+<p>The code below downloads the new experimental (and in its raw form messy) incidence data stratified by age and sex. As these data are in a different format to the rest of the data in <code>{getTBinR}</code> some cleaning + aggregation is needed to get it into a workable form. From there it is a simple task to use <code>{getTBinR}</code> to produce a global map of the % of TB incidence in each age group. For interest I have also used <code>{ggridges}</code> to look at the regional distribution of TB incidence stratified by age group. Finally everything is pulled together into a single figure using <code>{patchwork}</code>.</p>
+<pre class="r"><code>## Get required packages - managed using pacman
+if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
+p_load_gh(&quot;getTBinR&quot;)
+p_load(&quot;dplyr&quot;)
+p_load(&quot;tidyr&quot;)
+p_load(&quot;ggplot2&quot;)
+p_load(&quot;forcats&quot;)
+p_load(&quot;ggridges&quot;)
+p_load(&quot;patchwork&quot;)
+
+##Pull TB data 
+tb_burden &lt;- get_tb_burden(additional_datasets = &quot;Incidence by age and sex&quot;,
+                           verbose = FALSE) %&gt;% 
+  mutate(country = country %&gt;% 
+           factor()) %&gt;% 
+  mutate(age_group = age_group %&gt;% 
+           factor(levels = c(&quot;0-4&quot;, paste(seq(5, 55, 10), seq(14, 64, 10), sep = &quot;-&quot;), &quot;65plus&quot;)) %&gt;% 
+         fct_explicit_na()) 
+
+## Aggregate incidence by age group
+tb_burden_ag &lt;- tb_burden %&gt;%
+filter(age_group != &quot;0-14&quot;) %&gt;% 
+mutate(age_group = age_group %&gt;% 
+         fct_drop()) %&gt;% 
+group_by(age_group, country, .drop = FALSE) %&gt;%
+summarise_at(.vars = vars(inc_age_sex, inc_age_sex_lo, inc_age_sex_hi), sum) %&gt;%
+full_join(
+  select(tb_burden, -sex, -age_group, -contains(&quot;inc_age_sex&quot;)) %&gt;%
+    unique
+  ) %&gt;% 
+ungroup %&gt;% 
+  add_count(country, year, wt = inc_age_sex) %&gt;% 
+  mutate(inc_age_dist = inc_age_sex / n * 100) %&gt;% 
+  filter(!(age_group %in% &quot;(Missing)&quot;))
+
+
+## Map using getTBinR
+map &lt;- map_tb_burden(tb_burden_ag, metric = &quot;inc_age_dist&quot;, 
+                     metric_label = &quot;% of TB incidence in each age group&quot;,
+                     facet = c(&quot;age_group&quot;)) +
+  labs(title = &quot;Distribution of Tuberculosis (TB) incidence by age&quot;,
+       subtitle = &quot;Global map of the % of TB incidence in each age group&quot;,
+       caption = &quot;&quot;) +
+  theme(plot.title = element_text(face = &quot;bold&quot;, size = 26), text = element_text(size = 20))
+
+## Density plot using ggridges
+density &lt;- tb_burden_ag %&gt;% 
+drop_na(inc_age_dist) %&gt;% 
+mutate(age_group = age_group %&gt;% 
+         fct_rev()) %&gt;% 
+ggplot(aes(x = inc_age_dist, y = age_group, col = age_group, fill = age_group)) +
+  geom_density_ridges(alpha = 0.8) +
+  facet_wrap(~g_whoregion) +
+  theme_ridges() +
+  theme(legend.position = &quot;none&quot;, plot.subtitle = element_text(size = 20),
+        plot.title = element_text(size = 20), plot.caption = element_text(size = 20),
+        text = element_text(size = 20)) +
+  labs(title = &quot;Regional differences in the % of TB incidence in each age group&quot;,
+       subtitle = &quot;+ within country differences for each region&quot;,
+       x = &quot;Age group&quot;, 
+       y = &quot;% of TB incidence&quot;,
+       caption = &quot;By @seabbs | Made with {getTBinR} | Source: World Health Organization&quot;) +
+  scale_fill_brewer(palette = &quot;Dark2&quot;) +
+  scale_color_brewer(palette = &quot;Dark2&quot;) 
+
+## Patchwork storyboard
+storyboard &lt;- (map) /
+  (density)
+
+## Save everything
+ggsave(&quot;../../static/img/getTBinR/storyboard-7-0.png&quot;,
+       storyboard, width = 32, height = 32, dpi = 330)</code></pre>
+<div class="figure">
+<img src="../../img/getTBinR/storyboard-7-0.png" />
+
+</div>
+<p>For other examples of using <code>getTBinR</code> to visualise the WHO TB data see <a href="https://gist.github.com/seabbs">my</a> gists, previous blog <a href="https://www.samabbott.co.uk/tags/who/">posts</a>, and the <a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR</code> website</a>. To start using <code>getTBinR</code> in your browser see <a href="https://mybinder.org/v2/gh/seabbs/getTBinR/master?urlpath=rstudio">here</a> for an Rstudio client hosted by <a href="https://mybinder.org">mybinder.org</a>.</p>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/data-analysis">data analysis</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/data-visualisation">data visualisation</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/rstats">rstats</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/tb">TB</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/who">WHO</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/infectious-disease">infectious disease</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="../../post/tb-gifs/">Celebrating £1.4bn for the Global Fund - Trying out gganimate on Tuberculosis data from getTBinR</a></li>
+        
+        <li><a href="../../post/gettbinr-6-0/">getTBinR 0.6.0 now on CRAN - from 80 variables to more than 450!</a></li>
+        
+        <li><a href="../../post/gettbinr-5-7/">getTBinR 0.5.7 now on CRAN - Tuberculosis reports and summary plots</a></li>
+        
+        <li><a href="../../post/gettbinr-5-5/">getTBinR 0.5.5 now on CRAN - 2017 data.</a></li>
+        
+        <li><a href="../../post/gettbinr-5-4/">getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function.</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "samabbott-co-uk" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017-2019 Sam Abbott &middot; 
+  
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a> &middot;
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+        
+    
+    
+    
+    
+      
+    
+    
+     <a href="https://github.com/seabbs/seabbs.github.io/tree/sources/content/post/2019-09-03-gettbinr-7-0.Rmd">Edit this page.</a>
+    
+   
+    </p>
+  </div>
+</footer>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//samabbott-co-uk.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+    
+    
+    <script src="../../js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/cs.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/http.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/markdown.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

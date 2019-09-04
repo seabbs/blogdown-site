@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
-    <lastBuildDate>Thu, 04 Jul 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/infectious-disease/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>getTBinR 0.7.0 released - more data, {ggplot2} best practices and bug fixes</title>
+      <link>http://www.samabbott.co.uk/post/gettbinr-7-0/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/post/gettbinr-7-0/</guid>
+      <description>getTBinR 0.7.0 should now be available on CRAN. This release includes some new experimental data (TB incidence by age and sex) that for now is only partly supported by {getTBinR}. It also brings {getTBinR} into line with new (or new to me) {ggplot2} best practices. This involved two major changes (plans are also afoot for an S3 plot method):
+Moving from a full @import of {ggplot2} to only using @importFrom for required functions (something that I had previously been too lazy to do…).</description>
+    </item>
     
     <item>
       <title>Celebrating £1.4bn for the Global Fund - Trying out gganimate on Tuberculosis data from getTBinR</title>

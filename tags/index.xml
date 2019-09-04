@@ -7,10 +7,64 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
-    <lastBuildDate>Fri, 09 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Tue, 03 Sep 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>data analysis</title>
+      <link>http://www.samabbott.co.uk/tags/data-analysis/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/data-analysis/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>data visualisation</title>
+      <link>http://www.samabbott.co.uk/tags/data-visualisation/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/data-visualisation/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>infectious disease</title>
+      <link>http://www.samabbott.co.uk/tags/infectious-disease/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/infectious-disease/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rstats</title>
+      <link>http://www.samabbott.co.uk/tags/rstats/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/rstats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>TB</title>
+      <link>http://www.samabbott.co.uk/tags/tb/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/tb/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>WHO</title>
+      <link>http://www.samabbott.co.uk/tags/who/</link>
+      <pubDate>Tue, 03 Sep 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/who/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>highlights</title>
@@ -31,65 +85,11 @@
     </item>
     
     <item>
-      <title>rstats</title>
-      <link>http://www.samabbott.co.uk/tags/rstats/</link>
-      <pubDate>Fri, 09 Aug 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/rstats/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>data analysis</title>
-      <link>http://www.samabbott.co.uk/tags/data-analysis/</link>
-      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/data-analysis/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>data visualisation</title>
-      <link>http://www.samabbott.co.uk/tags/data-visualisation/</link>
-      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/data-visualisation/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>gif</title>
       <link>http://www.samabbott.co.uk/tags/gif/</link>
       <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/gif/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>infectious disease</title>
-      <link>http://www.samabbott.co.uk/tags/infectious-disease/</link>
-      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/infectious-disease/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>TB</title>
-      <link>http://www.samabbott.co.uk/tags/tb/</link>
-      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/tb/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>WHO</title>
-      <link>http://www.samabbott.co.uk/tags/who/</link>
-      <pubDate>Thu, 04 Jul 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/who/</guid>
       <description></description>
     </item>
     
