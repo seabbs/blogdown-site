@@ -50,7 +50,7 @@ defaultContentLanguageInSubdir = false
   skype = ""
   telegram = ""
   GithubEdit = "https://github.com/seabbs/seabbs.github.io/tree/sources/content/"
-  description = "Personal blog: Writing about infectious disease epidemiology, reproducibility, rstats, and peer to peer lending."
+  description = "Writing about infectious disease dynamics + epidemiology, reproducibility, and rstats."
   twitterAuthor = "@seabbs"
   twitterSite = "@seabbs"
   
@@ -250,8 +250,8 @@ defaultContentLanguageInSubdir = false
   weight = 1
 
 [[menu.main]]
-  name = "Posts"
-  url = "#posts"
+  name = "Tags"
+  url = "#tags"
   weight = 2
 
 [[menu.main]]
@@ -260,25 +260,25 @@ defaultContentLanguageInSubdir = false
   weight = 3
   
 [[menu.main]]
-  name = "Projects"
-  url = "#projects"
-  weight = 4
-
-[[menu.main]]
   name = "Talks"
   url = "#talks"
-  weight = 5
+  weight = 4
   
 [[menu.main]]
   name = "Teaching"
   url = "#teaching"
-  weight = 6
-
-[[menu.main]]
-  name = "Tags"
-  url = "#tags"
-  weight = 7
+  weight = 5
   
+[[menu.main]]
+  name = "Posts"
+  url = "#posts"
+  weight = 6
+  
+[[menu.main]]
+  name = "Projects"
+  url = "#projects"
+  weight = 7
+
 [[menu.main]]
   name = "CV"
   url = "pdf/cv_sea.pdf"

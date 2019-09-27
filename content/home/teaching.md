@@ -11,8 +11,8 @@ title = "Teaching"
 subtitle = ""
 
 # Order that this section will appear in.
-weight = 60
+weight = 5
 
 +++
 
-I developed and teach practicals for a short course at the [School of Social and Community Medicine](http://www.bris.ac.uk/social-community-medicine/) at the University of Bristol. As part of this I developed a [shiny app](http://www.seabbs.co.uk/shiny/exploreidmodels) to allow exploration of a range of simple infectious disease models. 
+I developed and teach several practicals for an infectious disease modelling short course at the University of Bristol. See [here](https://www.bristol.ac.uk/medical-school/study/short-courses/essentials-of-infectious-disease-modelling-and-economic-evaluation/) for course details and [here](https://bristolmathmodellers.github.io/biddmodellingcourse/) for open source resources.
