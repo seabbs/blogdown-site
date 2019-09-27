@@ -38,7 +38,7 @@ defaultContentLanguageInSubdir = false
   font = "default"
   
   name = "Sam Abbott"
-  role = "PhD student"
+  role = ""
   organizations =  [ { name = "BIDD, University of Bristol", url = "http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/" }]
   
   gravatar = false  # Get your avatar from Gravatar.com? (true/false)

@@ -37,7 +37,7 @@ RUN Rscript -e 'devtools::install_github("yihui/xfun")'
 RUN Rscript -e 'devtools::install_github("rstudio/blogdown")'
 
 ## Get Blogdown
-RUN Rscript -e  'blogdown::install_hugo()'
+RUN Rscript -e  'blogdown::install_hugo(version = "0.56.3")'
 
 ## Get h2o deps
 RUN Rscript -e 'install.packages(c("RCurl","jsonlite"))'

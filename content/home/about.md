@@ -10,17 +10,17 @@ weight = 1
 # List your academic interests.
 [interests]
   interests = [
-    "Mathematical Modelling",
-    "Data Science",
+    "Dynamic modelling",
+    "Statistical modelling",
+    "Data science",
     "Reproducible research",
-    "R",
-    "Tuberculosis",
-    "Peer to peer lending"
+    "Tool and interface development",
+    "Infectious disease dynamics"
   ]
   
 # List your qualifications (such as academic degrees).
 [[education.courses]]
-  course = "PhD in Social Medicine"
+  course = "PhD in Epidemiology"
   institution = "University of Bristol"
   year = 2019
 
@@ -36,6 +36,7 @@ weight = 1
  
 +++
 
-# Biography
+# Who am I?
 
-I am a mathematical modeller and data scientist interested in using data-driven approaches to develop models to help understand the world. I studied Mathematics at the University of Durham, completing an MMath degree in 2014. I then completed a Masters in Advanced Mathematical Biology at the University of York. As part of my thesis project, I spent a summer at the University of Glasgow, studying the patterns of drug resistance in E-coli. across various species in Tanzania. I am currently completing a PhD in social medicine at the University of Bristol, studying the deployment of the BCG vaccine in the UK. Previously, I worked as a data scientist at [Funding Circle](https://www.fundingcircle.com/uk/) developing predictive models and conducting ad hoc analysis.
+
+Dynamic modeller and data scientist focussing on infectious disease dynamics, epidemiology, and control.  I have a strong interest in reproducibility and tool development, having developed multiple widely used packages and dashboards. My work lies at the interface between dynamic modelling, statistical modelling and data science - incorporating elements from software development to enhance robustness and longevity.
