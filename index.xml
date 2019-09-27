@@ -6,8 +6,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
-    <lastBuildDate>Tue, 03 Sep 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 14 Sep 2019 14:00:00 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>getTBinR: an R package for accessing and summarising World Health Organization Tuberculosis data</title>
+      <link>http://www.samabbott.co.uk/talk/gettbinr-14-09-19/</link>
+      <pubDate>Sat, 14 Sep 2019 14:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/talk/gettbinr-14-09-19/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>getTBinR 0.7.0 released - more data, {ggplot2} best practices and bug fixes</title>
@@ -1997,126 +2006,6 @@ ggsave(&amp;quot;storyboard.png&amp;quot;,
 &lt;/code&gt;&lt;/pre&gt;
 
 &lt;p&gt;&lt;img src=&#34;./img/getTBinR/storyboard-5-5.png&#34; alt=&#34;getTBinR 0.5.5 storyboard&#34; /&gt;&lt;/p&gt;
-
-&lt;p&gt;For other examples of using &lt;code&gt;getTBinR&lt;/code&gt; to visualise the WHO TB data see &lt;a href=&#34;https://gist.github.com/seabbs&#34; target=&#34;_blank&#34;&gt;my&lt;/a&gt; gists, previous blog &lt;a href=&#34;https://www.samabbott.co.uk/tags/who/&#34; target=&#34;_blank&#34;&gt;posts&lt;/a&gt;, and the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;getTBinR&lt;/code&gt; website&lt;/a&gt;.&lt;/p&gt;
-</description>
-    </item>
-    
-    <item>
-      <title>getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function.</title>
-      <link>http://www.samabbott.co.uk/post/gettbinr-5-4/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/post/gettbinr-5-4/</guid>
-      <description>
-
-&lt;p&gt;&lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;getTBinR 0.5.4&lt;/code&gt;&lt;/a&gt; is now on CRAN and should be available on a mirror near you shortly! This update includes an additional data set for 2016 containing variables related to drug resistant Tuberculosis, some aesthetic updates to mapping functionality and a new &lt;code&gt;summarise_tb_burden&lt;/code&gt; function for summarising TB metrics. Behind the scenes there has been an extensive test overhaul, with &lt;a href=&#34;https://github.com/lionel-/vdiffr&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;vdiffr&lt;/code&gt;&lt;/a&gt; being used to test images, and several bugs fixes. See below for a full list of changes and some example code exploring the new functionality.&lt;/p&gt;
-
-&lt;h2 id=&#34;feature-updates&#34;&gt;Feature updates&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Added MDR-TB data for 2016, see &lt;a href=&#34;http://www.who.int/tb/country/data/download/en/&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for the dataset. The MDR-TB data is automatically joined to the WHO TB burden data.&lt;/li&gt;
-&lt;li&gt;Aesthetic updates to &lt;code&gt;map_tb_burden&lt;/code&gt;.&lt;/li&gt;
-&lt;li&gt;Added new &lt;code&gt;summarise_tb_burden&lt;/code&gt; function for summarising metrics across regions, across custom groups and globally.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;package-updates&#34;&gt;Package updates&lt;/h2&gt;
-
-&lt;ul&gt;
-&lt;li&gt;Improved data cleaning, converting &lt;code&gt;Inf&lt;/code&gt; and &lt;code&gt;NaN&lt;/code&gt; values to &lt;code&gt;NA&lt;/code&gt; when the data is read in.&lt;/li&gt;
-&lt;li&gt;Added &lt;code&gt;pgknet&lt;/code&gt; report.&lt;/li&gt;
-&lt;li&gt;Improved test robustness and scope&lt;/li&gt;
-&lt;li&gt;Added &lt;code&gt;vdiffr&lt;/code&gt; to test plots when not on CRAN.&lt;/li&gt;
-&lt;li&gt;Fixed bug for &lt;code&gt;map_tb_burden&lt;/code&gt; which was adding duplicate variables which caused map build to fail.&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&#34;example-exploring-global-tb-incidence-rates&#34;&gt;Example: Exploring Global TB Incidence Rates&lt;/h2&gt;
-
-&lt;p&gt;For a quick example the code below pulls the WHO TB data, summarises it by region using &lt;code&gt;getTBinR&lt;/code&gt; and &lt;a href=&#34;https://github.com/clauswilke/ggridges&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;ggridges&lt;/code&gt;&lt;/a&gt;, maps global TB incidence rates in 2016, and finally plots an overview of incidence rates in the 10 countries with highest TB incidence rates in 2016. The figures generated are then combined into a single storyboard using the &lt;a href=&#34;https://github.com/thomasp85/patchwork&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;pathwork&lt;/code&gt;&lt;/a&gt; package. See &lt;a href=&#34;https://www.samabbott.co.uk/img/getTBinR/storyboard-5-4.png&#34; target=&#34;_blank&#34;&gt;here&lt;/a&gt; for a full size version of the storyboard.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&#34;language-r&#34;&gt;
-## Get required packages - managed using pacman
-if (!require(pacman)) install.packages(&amp;quot;pacman&amp;quot;); library(pacman)
-p_load(&amp;quot;getTBinR&amp;quot;)
-p_load(&amp;quot;ggplot2&amp;quot;)
-p_load(&amp;quot;viridis&amp;quot;)
-p_load(&amp;quot;dplyr&amp;quot;)
-p_load(&amp;quot;forcats&amp;quot;)
-p_load(&amp;quot;ggridges&amp;quot;)
-p_load_gh(&amp;quot;thomasp85/patchwork&amp;quot;)
-
-## Pull TB data and summarise TB incidence rates by region using the median
-tb_sum &amp;lt;- summarise_tb_burden(metric = &amp;quot;e_inc_100k&amp;quot;,
-                              stat = &amp;quot;median&amp;quot;,
-                              compare_all_regions = TRUE,
-                              samples = 1000)
-
-## Plot the median and IQR for each region
-sum &amp;lt;- tb_sum %&amp;gt;% 
-  rename(Region = area) %&amp;gt;% 
-  ggplot(aes(x = year, y = e_inc_100k, col = Region, fill = Region)) +
-  geom_ribbon(alpha = 0.2, aes(ymin = e_inc_100k_lo, ymax = e_inc_100k_hi)) +
-  scale_color_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  geom_line(alpha = 0.6, size = 1.2) +
-  geom_point(size = 1.3) +
-  theme_minimal() +
-  facet_wrap(~Region, scales = &amp;quot;free_y&amp;quot;) +
-  theme(legend.position = &amp;quot;none&amp;quot;) +
-  labs(y = search_data_dict(&amp;quot;e_inc_100k&amp;quot;)$definition,
-       x = &amp;quot;Year&amp;quot;,
-       title = &amp;quot;Regional Summary of Tuberculosis Incidence Rates - 2000 to 2016&amp;quot;,
-       subtitle = &amp;quot;Median country level incidence rates (with 95% interquartile ranges) are shown&amp;quot;)
-
-## Get the full TB burden dataset (including MDR TB)
-tb &amp;lt;- get_tb_burden()
-
-## Plot the distribution of country level TB incidence rates using ggridges
-dist &amp;lt;- tb %&amp;gt;% 
-  rename(Region = g_whoregion) %&amp;gt;% 
-  mutate(year = year %&amp;gt;% 
-           factor(ordered = TRUE) %&amp;gt;% 
-           fct_rev) %&amp;gt;% 
-  ggplot(aes(x = e_inc_100k, y = year, col = Region, fill = Region)) +
-  geom_density_ridges(alpha = 0.6) +
-  scale_color_viridis(discrete = TRUE) +
-  scale_fill_viridis(discrete = TRUE) +
-  theme_minimal() +
-  facet_wrap(~Region, scales = &amp;quot;free_x&amp;quot;) +
-  theme(legend.position = &amp;quot;none&amp;quot;) +
-  labs(x = search_data_dict(&amp;quot;e_inc_100k&amp;quot;)$definition,
-       y = &amp;quot;Year&amp;quot;,
-       title = &amp;quot;Distribution of Country Level Tuberculosis Incidence Rates by Region - 2000 to 2016&amp;quot;,
-       caption = &amp;quot;By @seabbs | Made with getTBinR | Source: World Health Organisation&amp;quot;)
-
-## Map global TB incidence rates for 2016 using getTBinR
-map &amp;lt;- map_tb_burden() +
-  labs(caption = &amp;quot;&amp;quot;,
-       title = &amp;quot;Map of Tuberculosis Incidence Rates - 2016&amp;quot;)
-
-## Extract the top 10 high incidence countries in 2016.
-high_inc_countries &amp;lt;- tb %&amp;gt;% 
-  filter(year == 2016) %&amp;gt;% 
-  arrange(desc(e_inc_100k)) %&amp;gt;% 
-  slice(1:10) %&amp;gt;% 
-  pull(country)
-
-## Plot an overview of TB incidence rates in 2016.
-high_inc_overview &amp;lt;- plot_tb_burden_overview(countries = high_inc_countries) +
-  labs(caption = &amp;quot;&amp;quot;,
-       title = &amp;quot;10 Countries with the Highest Tuberculosis Incidence Rates - 2016&amp;quot;) 
-
-## Compose storyboard
-storyboard &amp;lt;- (map + high_inc_overview) /
-                 (sum | dist) +
-                 plot_layout(heights = c(1, 2))
-
-## Save storyboard
-ggsave(&amp;quot;storyboard.png&amp;quot;,
-       storyboard, width = 20, height = 15, dpi = 330)
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;&lt;img src=&#34;./img/getTBinR/storyboard-5-4.png&#34; alt=&#34;getTBinR 0.5.4 storyboard&#34; /&gt;&lt;/p&gt;
 
 &lt;p&gt;For other examples of using &lt;code&gt;getTBinR&lt;/code&gt; to visualise the WHO TB data see &lt;a href=&#34;https://gist.github.com/seabbs&#34; target=&#34;_blank&#34;&gt;my&lt;/a&gt; gists, previous blog &lt;a href=&#34;https://www.samabbott.co.uk/tags/who/&#34; target=&#34;_blank&#34;&gt;posts&lt;/a&gt;, and the &lt;a href=&#34;https://www.samabbott.co.uk/getTBinR/&#34; target=&#34;_blank&#34;&gt;&lt;code&gt;getTBinR&lt;/code&gt; website&lt;/a&gt;.&lt;/p&gt;
 </description>
