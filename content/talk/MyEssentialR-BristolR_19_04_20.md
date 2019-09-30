@@ -12,7 +12,7 @@ location = "Bristol, United Kingdom"
 selected = false
 math = true
 
-url_slides = "http://bit.ly/MyEssentialRl"
+url_slides = "http://bit.ly/MyEssentialR"
 url_video = ""
 
 # Optional featured image (relative to `static/img/` folder).
