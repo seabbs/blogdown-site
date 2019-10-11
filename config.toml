@@ -42,7 +42,7 @@ defaultContentLanguageInSubdir = false
   organizations =  [ { name = "BIDD, University of Bristol", url = "http://www.bristol.ac.uk/social-community-medicine/research/groups/bidd/" }]
   
   gravatar = false  # Get your avatar from Gravatar.com? (true/false)
-  avatar = "portrait.jpg"
+  avatar = "portrait.png"
   email = "contact@samabbott.co.uk"
   address = "BF8, Oakfield House, School of Social and Community Medicine, University of Bristol "
   office_hours = ""
