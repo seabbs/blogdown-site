@@ -13,7 +13,7 @@ Imports:
   tidyverse,
   lubridate,
   xfun, 
-  blogdown,
+  blogdown
 Remotes:
   yihui/xfun,
   rstudio/blogdown,
