@@ -466,8 +466,7 @@ benchmarks</code></pre>
 </div>
 <div id="visualise" class="section level2">
 <h2>Visualise</h2>
-<div id="set-up" class="section level3">
-<h3>Set-up</h3>
+<p>###Set-up</p>
 <p>As I am really interested in comparing the performance of my system, rather than comparing it to other systems, I needed to develop a customised plot. The code below does this by taking the mean of each test, dividing by the single core run-time, and then plotting split by test type, the number of cores, and test.</p>
 <pre class="r"><code>plot_benchmark &lt;- function(df){
   df %&gt;% 
@@ -494,9 +493,7 @@ benchmarks</code></pre>
        caption = &quot;Multicore performance is estimated by running the same test on each core and averaging the result. 
       This gives a biased estimate of performance as core set-up overhead is not included.&quot;)
 }</code></pre>
-</div>
-<div id="programming-benchmark" class="section level3">
-<h3>Programming benchmark</h3>
+<p>###Programming benchmark</p>
 <p>The impact of multiple cores appeared to vary depending on the test type. All matrix calculations and programming tests showed a clear speed up when using 16 cores over a single core but this speed-up varied between 70% and 85%. For matrix functions the picture was less clear with 3 tests performing worse when using 16 cores vs. a single core. In general, there appears to be, at most, a marginal improvement from using 32 cores (with 16 virtual) over 16 cores. However, it is likely that this does not represent the full picture as it does not seem that <code>benchmarkme</code> includes multicore overheads (i.e from core set-up, merging results etc).</p>
 <pre class="r"><code>benchmarks %&gt;% 
   unnest(std) %&gt;% 
@@ -504,16 +501,13 @@ benchmarks</code></pre>
   labs(title = &quot;Performance benchmarks by core - programming&quot;)</code></pre>
 <p><img src="../../post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-4-1.png" width="3200" /></p>
 <pre class="r"><code>  ggsave(&quot;../../static/img/2019-02-05-benchmarking-workstation-benchmarkme/cover_img.png&quot;)</code></pre>
-</div>
-<div id="readwrite-benchmark" class="section level3">
-<h3>Read/write benchmark</h3>
+<p>###Read/write benchmark</p>
 <p>The impact of multiple cores is more consistently beneficial here, with each increase in the number of cores resulting in improved performance. This may be because the cores were not saturated by the processing workload so a linear speed up was possible. This performance improvement would likely increase as long as there was sufficient read/write bandwidth on the SSD.</p>
 <pre class="r"><code>benchmarks %&gt;% 
   unnest(io) %&gt;% 
   plot_benchmark()+
   labs(title = &quot;Performance benchmarks by core - data read/write&quot;)</code></pre>
 <p><img src="../../post/2019-01-29-benchmarking-workstation-benchmarkme_files/figure-html/unnamed-chunk-5-1.png" width="3200" /></p>
-</div>
 </div>
 <div id="summary" class="section level2">
 <h2>Summary</h2>

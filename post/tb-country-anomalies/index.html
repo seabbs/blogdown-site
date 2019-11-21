@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en-uk">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.56.3" />
+  <meta name="author" content="Sam Abbott">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="Introduction  Motivation Detail What is in this post  Anomaly detection Autoencoders H2o implementation PCA    Packages First we load the package required for the analysis, using pacman to manange the installation process.
+if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman) p_load(&quot;tidyverse&quot;) p_load(&quot;h2o&quot;) p_load(&quot;getTBinR&quot;) p_load(&quot;knitr&quot;) p_load(&quot;FactoMineR&quot;) p_load(&quot;cluster&quot;) p_load(&quot;scales&quot;) p_load(&quot;ggfortify&quot;) p_load(&quot;missMDA&quot;) p_load(&quot;broom&quot;) p_load(&quot;ggrepel&quot;) p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)  Data  Download the WHO TB data using getTBinR. Point to previous blog posts and package website.">
+
+  
+  <link rel="alternate" hreflang="en-uk" href="../../post/tb-country-anomalies/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="../../styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-85604924-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="../../index.xml" type="application/rss+xml" title="Sam Abbott">
+  <link rel="feed" href="../../index.xml" type="application/rss+xml" title="Sam Abbott">
+  
+
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="icon" type="image/png" href="../../img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../img/icon-192.png">
+
+  <link rel="canonical" href="../../post/tb-country-anomalies/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@seabbs">
+  <meta property="twitter:creator" content="@seabbs">
+  
+  <meta property="og:site_name" content="Sam Abbott">
+  <meta property="og:url" content="/post/tb-country-anomalies/">
+  <meta property="og:title" content="Detecting countries with anomalous Tuberculosis endemics, with H2o and getTBinR | Sam Abbott">
+  <meta property="og:description" content="Introduction  Motivation Detail What is in this post  Anomaly detection Autoencoders H2o implementation PCA    Packages First we load the package required for the analysis, using pacman to manange the installation process.
+if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman) p_load(&quot;tidyverse&quot;) p_load(&quot;h2o&quot;) p_load(&quot;getTBinR&quot;) p_load(&quot;knitr&quot;) p_load(&quot;FactoMineR&quot;) p_load(&quot;cluster&quot;) p_load(&quot;scales&quot;) p_load(&quot;ggfortify&quot;) p_load(&quot;missMDA&quot;) p_load(&quot;broom&quot;) p_load(&quot;ggrepel&quot;) p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)  Data  Download the WHO TB data using getTBinR. Point to previous blog posts and package website.">
+  <meta property="og:locale" content="en-uk">
+  
+  <meta property="article:published_time" content="2018-07-04T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-07-04T00:00:00&#43;00:00">
+  
+
+  <!DOCTYPE html>
+
+
+<title>Detecting countries with anomalous Tuberculosis endemics, with H2o and getTBinR - Sam Abbott</title>
+<meta property="og:title" content="Detecting countries with anomalous Tuberculosis endemics, with H2o and getTBinR - Sam Abbott">
+<meta property="og:type" content="article">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/seabbs/seabbs.github.io/sources/static/img/logo.png" >
+  
+  
+
+<meta property="description" content="Article posted by null, on Wednesday, July 4nd, 2018">
+<meta property="og:description" content="Article posted by null, on Wednesday, July 4nd, 2018">
+
+
+<meta name="twitter:creator" content="">
+<meta name="twitter:site" content="">
+
+  <title>Detecting countries with anomalous Tuberculosis endemics, with H2o and getTBinR | Sam Abbott</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="../../"><img src="../../img/logo.png" alt="Sam Abbott"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#talks">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../cv/cv.pdf">
+            
+            <span>CV</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Detecting countries with anomalous Tuberculosis endemics, with H2o and getTBinR</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-07-04 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Wed, Jul 4, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sam Abbott">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    9 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="../../post/tb-country-anomalies/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="../../categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Detecting%20countries%20with%20anomalous%20Tuberculosis%20endemics%2c%20with%20H2o%20and%20getTBinR&amp;url=%2fpost%2ftb-country-anomalies%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2ftb-country-anomalies%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2ftb-country-anomalies%2f&amp;title=Detecting%20countries%20with%20anomalous%20Tuberculosis%20endemics%2c%20with%20H2o%20and%20getTBinR"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2ftb-country-anomalies%2f&amp;title=Detecting%20countries%20with%20anomalous%20Tuberculosis%20endemics%2c%20with%20H2o%20and%20getTBinR"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Detecting%20countries%20with%20anomalous%20Tuberculosis%20endemics%2c%20with%20H2o%20and%20getTBinR&amp;body=%2fpost%2ftb-country-anomalies%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<ul>
+<li>Motivation</li>
+<li>Detail</li>
+<li>What is in this post
+<ul>
+<li>Anomaly detection</li>
+<li>Autoencoders</li>
+<li>H2o implementation</li>
+<li>PCA</li>
+</ul></li>
+</ul>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>First we load the package required for the analysis, using <code>pacman</code> to manange the installation process.</p>
+<pre class="r"><code>if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
+p_load(&quot;tidyverse&quot;)
+p_load(&quot;h2o&quot;)
+p_load(&quot;getTBinR&quot;)
+p_load(&quot;knitr&quot;)
+p_load(&quot;FactoMineR&quot;)
+p_load(&quot;cluster&quot;)
+p_load(&quot;scales&quot;)
+p_load(&quot;ggfortify&quot;)
+p_load(&quot;missMDA&quot;)
+p_load(&quot;broom&quot;)
+p_load(&quot;ggrepel&quot;)
+p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)</code></pre>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<ul>
+<li>Download the WHO TB data using <code>getTBinR</code>. Point to previous blog posts and package website.</li>
+</ul>
+<pre class="r"><code>tb &lt;- get_tb_burden()</code></pre>
+<pre><code>## Downloading data from: https://extranet.who.int/tme/generateCSV.asp?ds=estimates</code></pre>
+<pre><code>## Saving data to: /tmp/RtmpOPr2M1/TB_burden.rds</code></pre>
+<pre><code>## Downloading data from: https://extranet.who.int/tme/generateCSV.asp?ds=mdr_rr_estimates</code></pre>
+<pre><code>## Saving data to: /tmp/RtmpOPr2M1/MDR_TB.rds</code></pre>
+<pre><code>## Joining TB burden data and MDR TB data.</code></pre>
+<pre><code>## Joining, by = c(&quot;country&quot;, &quot;iso2&quot;, &quot;iso3&quot;, &quot;iso_numeric&quot;, &quot;year&quot;)</code></pre>
+</div>
+<div id="exploratory-analysis" class="section level2">
+<h2>Exploratory analysis</h2>
+<pre class="r"><code>tb_2016 &lt;- tb %&gt;% 
+  filter(year == 2016) %&gt;% 
+  select(-contains(&quot;_lo&quot;),
+         -contains(&quot;_hi&quot;),
+         -contains(&quot;source_&quot;),
+         -starts_with(&quot;iso&quot;),
+         -year)
+
+plot_tb_density &lt;- function(df, var, label = &quot;&quot;) {
+  var &lt;- enquo(var)
+  
+  ggplot(df, aes(x = !!var, fill = &quot;&quot;)) +
+  geom_density(alpha = 0.6) +
+  scale_x_log10(label = scales::comma) +
+  geom_rug(alpha = 0.6) +
+  theme_minimal() +
+  scale_fill_viridis_d() +
+  theme(legend.position = &quot;none&quot;) +
+  labs(x = label,
+       y = &quot;Density&quot;,
+       caption = &quot;@seabbs | Source: WHO&quot;) +
+  facet_wrap(~g_whoregion)
+}
+
+plot_tb_density(tb_2016, e_inc_num, &quot;TB incidence&quot;)</code></pre>
+<p><img src="../../post/2018-07-05-tb-country-anomalies_files/figure-html/get-tb-indicators-1.png" width="2560" /></p>
+<pre class="r"><code>tb_2016_little_tb &lt;- tb_2016 %&gt;% 
+  filter(e_inc_num &lt;= 100) </code></pre>
+<p>This gives the following countries with equal to or fewer than 100 TB cases in 2016; American Samoa, Andorra, Anguilla, Antigua and Barbuda, Aruba, Bahamas, Barbados, Bermuda, Bonaire, Saint Eustatius and Saba, British Virgin Islands, Cayman Islands, Cook Islands, Curaçao, Cyprus, Dominica, French Polynesia, Greenland, Grenada, Guam, Iceland, Luxembourg, Malta, Monaco, Montenegro, Montserrat, Nauru, New Caledonia, Niue, Northern Mariana Islands, Palau, Puerto Rico, Saint Kitts and Nevis, Saint Lucia, Saint Vincent and the Grenadines, Samoa, San Marino, Seychelles, Sint Maarten (Dutch part), Tokelau, Tonga, Turks and Caicos Islands, Tuvalu, United Arab Emirates, Wallis and Futuna Islands, and West Bank and Gaza Strip</p>
+<pre class="r"><code>tb_2016_some_tb &lt;- tb_2016 %&gt;% 
+  anti_join(tb_2016_little_tb)</code></pre>
+<pre><code>## Joining, by = c(&quot;country&quot;, &quot;g_whoregion&quot;, &quot;e_pop_num&quot;, &quot;e_inc_100k&quot;, &quot;e_inc_num&quot;, &quot;e_inc_num_f014&quot;, &quot;e_inc_num_f15plus&quot;, &quot;e_inc_num_f&quot;, &quot;e_inc_num_m014&quot;, &quot;e_inc_num_m15plus&quot;, &quot;e_inc_num_m&quot;, &quot;e_inc_num_014&quot;, &quot;e_inc_num_15plus&quot;, &quot;e_tbhiv_prct&quot;, &quot;e_inc_tbhiv_100k&quot;, &quot;e_inc_tbhiv_num&quot;, &quot;e_mort_exc_tbhiv_100k&quot;, &quot;e_mort_exc_tbhiv_num&quot;, &quot;e_mort_tbhiv_100k&quot;, &quot;e_mort_tbhiv_num&quot;, &quot;e_mort_100k&quot;, &quot;e_mort_num&quot;, &quot;cfr&quot;, &quot;c_newinc_100k&quot;, &quot;c_cdr&quot;, &quot;e_rr_pct_new&quot;, &quot;e_mdr_pct_rr_new&quot;, &quot;e_rr_pct_ret&quot;, &quot;e_mdr_pct_rr_ret&quot;, &quot;e_inc_rr_num&quot;, &quot;e_rr_in_notified_pulm&quot;)</code></pre>
+<pre class="r"><code>plot_tb_density(tb_2016_some_tb, e_inc_100k, &quot;TB incidence rate per 100,000 population&quot;) </code></pre>
+<p><img src="../../post/2018-07-05-tb-country-anomalies_files/figure-html/unnamed-chunk-3-1.png" width="2560" /></p>
+<p>Rescale all count variables by the number of cases and drop the number of cases and country populations</p>
+<pre class="r"><code>tb_2016_some_tb &lt;- tb_2016_some_tb %&gt;% 
+  mutate_at(.vars = vars(contains(&quot;_num&quot;), -e_inc_num), funs(. / e_inc_num)) %&gt;% 
+  mutate(e_rr_in_notified_pulm = e_rr_in_notified_pulm / e_inc_num) %&gt;% 
+  select(-e_pop_num, -e_inc_num)</code></pre>
+</div>
+<div id="anomaly-detection" class="section level2">
+<h2>Anomaly detection</h2>
+<pre class="r"><code>h2o.init()</code></pre>
+<pre><code>##  Connection successful!
+## 
+## R is connected to the H2O cluster: 
+##     H2O cluster uptime:         1 hours 20 minutes 
+##     H2O cluster timezone:       Etc/UTC 
+##     H2O data parsing timezone:  UTC 
+##     H2O cluster version:        3.20.0.2 
+##     H2O cluster version age:    21 days, 3 hours and 44 minutes  
+##     H2O cluster name:           H2O_started_from_R_seabbs_blh216 
+##     H2O cluster total nodes:    1 
+##     H2O cluster total memory:   3.20 GB 
+##     H2O cluster total cores:    8 
+##     H2O cluster allowed cores:  8 
+##     H2O cluster healthy:        TRUE 
+##     H2O Connection ip:          localhost 
+##     H2O Connection port:        54321 
+##     H2O Connection proxy:       NA 
+##     H2O Internal Security:      FALSE 
+##     H2O API Extensions:         XGBoost, Algos, AutoML, Core V3, Core V4 
+##     R Version:                  R version 3.5.0 (2018-04-23)</code></pre>
+<pre class="r"><code>tb_h2o &lt;- tb_2016_some_tb %&gt;% 
+  as.h2o</code></pre>
+<pre><code>## 
+  |                                                                       
+  |                                                                 |   0%
+  |                                                                       
+  |=================================================================| 100%</code></pre>
+<pre class="r"><code>target_features &lt;- setdiff(colnames(tb_2016_some_tb), c(&quot;country&quot;, &quot;g_whoregion&quot;))
+
+target_features</code></pre>
+<pre><code>##  [1] &quot;e_inc_100k&quot;            &quot;e_inc_num_f014&quot;       
+##  [3] &quot;e_inc_num_f15plus&quot;     &quot;e_inc_num_f&quot;          
+##  [5] &quot;e_inc_num_m014&quot;        &quot;e_inc_num_m15plus&quot;    
+##  [7] &quot;e_inc_num_m&quot;           &quot;e_inc_num_014&quot;        
+##  [9] &quot;e_inc_num_15plus&quot;      &quot;e_tbhiv_prct&quot;         
+## [11] &quot;e_inc_tbhiv_100k&quot;      &quot;e_inc_tbhiv_num&quot;      
+## [13] &quot;e_mort_exc_tbhiv_100k&quot; &quot;e_mort_exc_tbhiv_num&quot; 
+## [15] &quot;e_mort_tbhiv_100k&quot;     &quot;e_mort_tbhiv_num&quot;     
+## [17] &quot;e_mort_100k&quot;           &quot;e_mort_num&quot;           
+## [19] &quot;cfr&quot;                   &quot;c_newinc_100k&quot;        
+## [21] &quot;c_cdr&quot;                 &quot;e_rr_pct_new&quot;         
+## [23] &quot;e_mdr_pct_rr_new&quot;      &quot;e_rr_pct_ret&quot;         
+## [25] &quot;e_mdr_pct_rr_ret&quot;      &quot;e_inc_rr_num&quot;         
+## [27] &quot;e_rr_in_notified_pulm&quot;</code></pre>
+<pre class="r"><code>autoencoder &lt;- h2o.deeplearning(x = target_features, 
+                                training_frame = tb_h2o,
+                                autoencoder = TRUE,
+                                seed = 1234,
+                                hidden = c(100, 100, 100), 
+                                activation = &quot;TanhWithDropout&quot;,
+                                l1 = 1e-3,
+                                epochs = 50)</code></pre>
+<pre><code>## 
+  |                                                                       
+  |                                                                 |   0%
+  |                                                                       
+  |======                                                           |  10%
+  |                                                                       
+  |=================================================================| 100%</code></pre>
+<pre class="r"><code>anomolies &lt;- h2o.anomaly(autoencoder, 
+                         tb_h2o, 
+                         per_feature = FALSE) %&gt;%
+  as_tibble
+
+
+anomolies_by_feature &lt;- h2o.anomaly(autoencoder, 
+                                    tb_h2o, 
+                                    per_feature = TRUE) %&gt;% 
+  as_tibble</code></pre>
+<pre class="r"><code>anomolies %&gt;%
+  mutate(country = tb_2016_some_tb$country) %&gt;% 
+  arrange(Reconstruction.MSE) %&gt;%
+  mutate(country = country %&gt;% 
+           factor(levels = unique(country))) %&gt;% 
+  ggplot(aes(x = country, 
+             y = Reconstruction.MSE,
+             col = &quot;&quot;,
+             group = NULL)) +
+
+  geom_point(alpha = 0.8) +
+  scale_y_log10() +
+  theme_minimal() +
+  theme(legend.position = &quot;none&quot;) +
+  coord_flip()</code></pre>
+<p><img src="../../post/2018-07-05-tb-country-anomalies_files/figure-html/plot-anomalies-1.png" width="3200" /></p>
+</div>
+<div id="dimension-reduction" class="section level2">
+<h2>Dimension reduction</h2>
+<p>We are now ready to conduct some clustering analysis on this data. The first step is to reduce the dimensionality of the data using principal component analysis (PCA). We use the <code>estim_ncp</code> function (which uses a method outlined in this <a href="https://www.sciencedirect.com/science/article/pii/S0167947311004099">paper</a>) from the <code>FactoMineR</code> package to estimate the number of principal components required. We then perform PCA (using <code>prcomp</code>) and plot the variance explained by each component as a check on <code>estim_ncp</code>. All of the following analysis is done using nested tibbles and so can be easily generalised to higher dimensional use cases.</p>
+<pre class="r"><code>## Nest data, limit to numeric variables, impute missing data using pca, perform pca, and get pca output in tidy format.
+## Perform PCA
+tb_pca &lt;- tb_2016_some_tb %&gt;% 
+  nest() %&gt;% 
+  mutate(
+    numeric_data = map(data, ~select_if(., is.numeric) %&gt;% 
+                         as.data.frame()),
+    optimal_pca_no = map(numeric_data, ~estim_ncpPCA(., scale = TRUE, ncp.min = 2, ncp.max = 10)) %&gt;% 
+      map_dbl(~.$ncp),
+    impute_pca = map2(numeric_data, optimal_pca_no,  ~imputePCA(.x, scale = TRUE, ncp = optimal_pca_no, seed = 1234, nb.init = 50, maxiter = 10000)),
+    imputed_data = map(impute_pca, ~.$completeObs),
+    pca = map(imputed_data, ~prcomp(.x, 
+                                    center = TRUE, scale = TRUE)),
+    pca_data = map(pca, ~.$x),
+    pca_aug = map2(pca, data, ~augment(.x, data = .y)))</code></pre>
+<p>We find that the optimal number of principal components is 2. We can also plot the percentage of variance explained in order to evaluate this choice.</p>
+<pre class="r"><code>## Variance explained
+var_exp &lt;- tb_pca %&gt;% 
+  select(-optimal_pca_no) %&gt;% 
+  unnest(pca_aug) %&gt;% 
+  summarize_at(.vars = vars(contains(&quot;fittedPC&quot;)), .funs = funs(var)) %&gt;% 
+  gather(key = pc, value = variance) %&gt;% 
+  mutate(var_exp = variance/sum(variance) * 100,
+         cum_var_exp = cumsum(var_exp),
+         pc = str_replace(pc, &quot;.fitted&quot;, &quot;&quot;) %&gt;% 
+           str_replace(&quot;PC&quot;, &quot;&quot;))</code></pre>
+<pre class="r"><code>var_exp %&gt;% 
+  rename(
+    `Variance Explained` = var_exp,
+    `Cumulative Variance Explained` = cum_var_exp
+  ) %&gt;% 
+  gather(key = key, value = value, `Variance Explained`, `Cumulative Variance Explained`) %&gt;%
+  mutate(key = key %&gt;% 
+           factor(levels  = c(&quot;Variance Explained&quot;, 
+                              &quot;Cumulative Variance Explained&quot;))) %&gt;% 
+  mutate(value = value / 100) %&gt;% 
+  filter(pc &lt;= 20) %&gt;% 
+  mutate(pc = factor(pc, levels = as.character(1:max(var_exp$pc %&gt;% as.numeric)))) %&gt;% 
+  ggplot(aes(pc, value, group = key)) + 
+  geom_point(size = 2, alpha = 0.8) + 
+  geom_line(size = 1.1, alpha = 0.6) + 
+  facet_wrap(~key, scales = &quot;free_y&quot;) +
+  theme_minimal() +
+  scale_y_continuous(breaks = seq(0, 1, 0.05), lim = c(0, NA),
+                     minor_breaks = NULL, labels = percent) +
+  labs(
+    title = &quot;Variance Explained by Principal Component&quot;,
+    subtitle = paste0(&quot;The optimal number of principal components suggested by estim_ncp was &quot;,
+                      tb_pca$optimal_pca_no, &quot; which explains &quot;, round(var_exp$cum_var_exp[[2]], 0), &quot;% of the data.&quot;),
+    x = &quot;Principal Component&quot;,
+    y = &quot;Variance Explained (%)&quot;,
+    caption = &quot;@seabbs Source: WHO&quot;
+  )</code></pre>
+<p><img src="../../post/2018-07-05-tb-country-anomalies_files/figure-html/plot-var-explained-1.png" width="2640" /></p>
+<p>The above plot shows that only 48% of the variance in the data is explained by the first two principle components (PCs) even though the <code>estim_ncp</code> function suggested that this was the optimal number. This indicates that there is large amount of noise in the data with a large amount of non-systematic between county variation. Another approach, using the ‘elbow’ (change from decreasing to stable amount of variance explained), would estimate that 8 PCs are required to explain the variance in the data.</p>
+</div>
+<div id="results" class="section level2">
+<h2>Results</h2>
+<p>We can now explore the clusters we have identified. A useful way to do this is to visual the first two principal components overlaid with the original variable loadings, and the clusters we have identified.</p>
+<pre class="r"><code>## Plot clusters
+pca_plot &lt;- autoplot(tb_pca$pca[[1]], x = 1, y = 2,
+                     loadings = TRUE, loadings.label = TRUE,
+                     loadings.label.repel = TRUE,
+                     loadings.label.size = 3, loadings.alpha = 0.8,
+                     loadings.label.vjust = -1,
+                     data = bind_cols(tb_pca$data[[1]], anomolies),
+                     label = TRUE, label.label = &quot;country&quot;, label.size = 2, 
+                     label.vjust = -1, alpha = 0.85, shape = &quot;g_whoregion&quot;,
+                     colour = &quot;Reconstruction.MSE&quot;) +
+  theme_minimal() +
+  labs(
+    x = paste0(
+      &quot;Principal Component 1 (Variance Explained: &quot;,
+      round(var_exp$var_exp[[1]], 1),
+      &quot;%)&quot;
+    ),
+    y = paste0(
+      &quot;Principal Component 2 (Variance Explained: &quot;,
+      round(var_exp$var_exp[[2]], 1),
+      &quot;%)&quot;
+    )
+  )  +
+  theme(legend.position = &quot;bottom&quot;, legend.box = &quot;horizontal&quot;) +
+  scale_colour_viridis_c(direction = -1, end = 0.8)
+
+
+pca_plot</code></pre>
+<p><img src="../../post/2018-07-05-tb-country-anomalies_files/figure-html/plot-pca-1.png" width="3200" /></p>
+<pre class="r"><code>## Plot clusters
+pca_plot &lt;- autoplot(tb_pca$pca[[1]], x = 3, y = 4,
+                     loadings = TRUE, loadings.label = TRUE,
+                     loadings.label.repel = TRUE,
+                     loadings.label.size = 3, loadings.alpha = 0.8,
+                     loadings.label.vjust = -1,
+                     data = bind_cols(tb_pca$data[[1]], anomolies),
+                     label = TRUE, label.label = &quot;country&quot;, label.size = 2, 
+                     label.vjust = -1, alpha = 0.85, shape = &quot;g_whoregion&quot;,
+                     colour = &quot;Reconstruction.MSE&quot;) +
+  theme_minimal() +
+  labs(
+    x = paste0(
+      &quot;Principal Component 3 (Variance Explained: &quot;,
+      round(var_exp$var_exp[[3]], 1),
+      &quot;%)&quot;
+    ),
+    y = paste0(
+      &quot;Principal Component 4 (Variance Explained: &quot;,
+      round(var_exp$var_exp[[4]], 1),
+      &quot;%)&quot;
+    )
+  )  +
+  theme(legend.position = &quot;bottom&quot;, legend.box = &quot;horizontal&quot;) +
+  scale_colour_viridis_c(direction = -1, end = 0.8)
+
+
+pca_plot</code></pre>
+<p><img src="../../post/2018-07-05-tb-country-anomalies_files/figure-html/plot-pca-3-4-1.png" width="3200" /></p>
+<p>From this we see that the clusters are generally split by incidence rates with lower incidence rate counties also having a higher proportion that either die or are lost to follow up. The higher incidence counties have a higher proportion of cultured confirmed pulmonary cases and more cases that complete treatment within 12 months. It appears that the proportion of cases that start treatment within 2 and 4 months varies over both clusters. We can also see that the proportion lost to follow up is inversely related to the proportion that are offered HIV tests, with a higher proportion that are lost to follow up corresponding to a reduced proportion of cases being offered HIV tests.</p>
+<p>Another way of summarising the between cluster differences is to summarise the data by cluster, which is presented in the following plot. This approach to exploring differences between clusters may not be applicable to data with a large number of clusters, for this a faceted ridge plot (<a href="https://github.com/clauswilke/ggridges"><code>ggridges</code></a>) would probably offer a better solution.</p>
+<pre class="r"><code>tb_pca$data[[1]] %&gt;% 
+  bind_cols(anomolies) %&gt;% 
+  {left_join(.,
+             arrange(., desc(Reconstruction.MSE)) %&gt;% 
+      slice(1:5) %&gt;% 
+      select(country) %&gt;% 
+      mutate(high_mse_country = country),
+  by = &quot;country&quot;)
+  } %&gt;% 
+  gather(key = &quot;Variable&quot;, 
+         value = &quot;value&quot;, -country, -g_whoregion, -Reconstruction.MSE, -high_mse_country) %&gt;% 
+  mutate(dummy = &quot;&quot;) %&gt;% 
+  ggplot(aes(y = value, x = dummy, col = Reconstruction.MSE)) +
+  geom_violin(scale = &quot;width&quot;, na.rm = TRUE, draw_quantiles = c(0.025, 0.25, 0.5, 0.75, 0.975), 
+              aes(col = NULL), alpha = 0.6) +
+  geom_point(alpha = 0.7, position = position_jitter(width = 0.5, height = 0, seed = 1234)) +
+  geom_text_repel(aes(label = high_mse_country, col = NULL, label.size = 0.02),
+                  position = position_jitter(width = 0.5, height = 0, seed = 1234)) +
+  scale_colour_viridis_c(end = 0.9, direction = -1) +
+  scale_y_sqrt(label = comma) +
+  coord_flip() +
+  theme_minimal() +
+  theme(legend.position = &quot;bottom&quot;) +
+  facet_wrap(~Variable, scale = &quot;free&quot;)</code></pre>
+<p><img src="../../post/2018-07-05-tb-country-anomalies_files/figure-html/summary-plot-1.png" width="6400" /></p>
+</div>
+<div id="summary-and-wrap-up" class="section level2">
+<h2>Summary and Wrap-up</h2>
+<p><strong>Sensitivity analysis</strong></p>
+<ul>
+<li>Varying the number, and size, of layers in the autoencoder. What impact does this have on the results.</li>
+<li>Varying the number of epochs used. What impact does this have on the results</li>
+</ul>
+<p>To wrap-up this post we use the <code>patchwork</code> package to quickly compose a storyboard of the results from the clustering analysis carried out above. See <a href="https://www.samabbott.co.uk/post/2018-03-28-cluster-england-tb_files/figure-html/storyboard-1.png">here</a> for a full size version.</p>
+<pre class="r"><code>storyboard &lt;- NULL
+
+ggsave(&quot;../../static/img/getTBinR/tb-country-anomalies.png&quot;,
+       storyboard, width = 20, height = 16, dpi = 330)
+
+storyboard
+
+## Remove to reduce chunk size as over 100mb git limit
+rm(&quot;storyboard&quot;, &quot;plot_tb_cluster_map&quot;)</code></pre>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/data-analysis">data analysis</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/data-visualisation">data visualisation</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/rstats">rstats</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/tb">TB</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/infectious-disease">infectious disease</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/clustering">clustering</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/gettbinr">getTBinR</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="../../post/gettbinr-5-4/">getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function.</a></li>
+        
+        <li><a href="../../post/cluster-england-tb/">Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction and Clustering</a></li>
+        
+        <li><a href="../../post/est-cfr-gettbinr/">Exploring Estimates of the Tuberculosis Case Fatality Ratio - with getTBinR</a></li>
+        
+        <li><a href="../../post/intro-gettbinr/">Exploring Global Trends in Tuberculosis Incidence Rates - with GetTBinR</a></li>
+        
+        <li><a href="../../post/tb-england-wales/">Tuberculosis Incidence and Interventions in England and Wales, 1913-2016</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "samabbott-co-uk" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017-2019 Sam Abbott &middot; 
+  
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a> &middot;
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+        
+    
+    
+    
+    
+      
+    
+    
+     <a href="https://github.com/seabbs/seabbs.github.io/tree/sources/content/post/2018-07-05-tb-country-anomalies.Rmd">Edit this page.</a>
+    
+   
+    </p>
+  </div>
+</footer>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//samabbott-co-uk.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+    
+    
+    <script src="../../js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/cs.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/http.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/markdown.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

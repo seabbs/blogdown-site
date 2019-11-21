@@ -412,10 +412,7 @@
 <p><a href="https://www.bbc.co.uk/news/uk-48810060?intlink_from_url=https://www.bbc.co.uk/news/topics/cmj34zmwxx1t/tuberculosis&amp;link_location=live-reporting-story">Last week</a> the UK pledged to contribute £467m a year for three years to the Global Fund. The money will be spent on: providing tuberculosis (TB) treatment for more than two million people; 90 million mosquito nets to protect people from malaria; and treatment for more than three million people living with HIV. This funding will drastically improve many peoples lives and needs to be celebrated even if it comes from a broadly unpopular source.</p>
 <p>Whilst the Global Fund has helped <a href="https://www.gov.uk/government/news/pm-calls-on-g20-leaders-to-step-up-the-fight-against-deadly-diseases?sf104862388=1">save more than 27 million lives</a> since 2002 all three diseases continue to have a devastating impact with TB remaining as one of the top ten causes of death worldwide, and the number one cause of death from an infectious disease. More research and funding is needed to continue to reduce the incidence, and negative consequences, of these diseases.</p>
 <p>In this post, I will be celebrating this funding by repeating/adapting some previous work visualising trends in Tuberculosis (TB) incidence rates but now using GIFs. The starting point for this post is the storyboard below (from a <a href="https://www.samabbott.co.uk/post/gettbinr-6-0/">previous post</a>). Using the code for each plot I will work through animating them using <a href="https://gganimate.com/index.html"><code>gganimate</code></a> (by <a href="https://github.com/thomasp85">Thomas Lin Pedersen</a>).</p>
-<div class="figure">
-<img src="../../img/getTBinR/storyboard-6-0.png" />
-
-</div>
+<p><img src="../../img/getTBinR/storyboard-6-0.png" /></p>
 <p>This storyboard shows the trends in regional/global TB incidence rates, as well as the annual percentage change in incidence rates, both globally, and on a country level (ridge plots). <a href="https://www.samabbott.co.uk/getTBinR/"><code>getTBinR</code></a> was used to produce all of the figures excepting the ridge plots which were generated using <a href="https://github.com/clauswilke/ggridges"><code>ggridges</code></a>. See <a href="https://www.samabbott.co.uk/img/getTBinR/storyboard-6-0.png">here</a> for a full size version.</p>
 <p><code>gganimate</code> was recently reworked to be a complimentary grammar to that used in <code>ggplot</code> - rather than as an additional dimension of it. The rework comes with some interesting new features - the <a href="https://www.data-imaginist.com/2019/gganimate-has-transitioned-to-a-state-of-release/">release post</a> is well worth a read! Another motivation for this post is to explore some of these features.</p>
 <div id="packages" class="section level2">
@@ -670,10 +667,7 @@ for (i in 2:100) {
 
 ## Save the gif - warning this takes around 10 minutes on my machine (https://www.samabbott.co.uk/post/building-an-rstats-workstation/)
 anim_save(&quot;../../static/img/getTBinR/storyboard-gif.gif&quot;, storyboard_gif)</code></pre>
-<div class="figure">
-<img src="../../img/getTBinR/storyboard-gif.gif" />
-
-</div>
+<p><img src="../../img/getTBinR/storyboard-gif.gif" /></p>
 </div>
 <div id="wrap-up" class="section level2">
 <h2>Wrap-up</h2>

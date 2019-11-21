@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>automation on Sam Abbott</title>
+    <link>http://www.samabbott.co.uk/tags/automation/</link>
+    <description>Recent content in automation on Sam Abbott</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
+    <lastBuildDate>Tue, 12 Nov 2019 19:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="http://www.samabbott.co.uk/tags/automation/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>CV generation in R: a useful use of time?</title>
+      <link>http://www.samabbott.co.uk/talk/cv-in-r-19-11-12/</link>
+      <pubDate>Tue, 12 Nov 2019 19:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/talk/cv-in-r-19-11-12/</guid>
+      <description></description>
+    </item>
+    
+  </channel>
+</rss>

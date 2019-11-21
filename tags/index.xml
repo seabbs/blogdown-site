@@ -7,10 +7,55 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
-    <lastBuildDate>Sat, 14 Sep 2019 14:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 16 Nov 2019 11:30:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/tags/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>modelling</title>
+      <link>http://www.samabbott.co.uk/tags/modelling/</link>
+      <pubDate>Sat, 16 Nov 2019 11:30:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/modelling/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>packages</title>
+      <link>http://www.samabbott.co.uk/tags/packages/</link>
+      <pubDate>Sat, 16 Nov 2019 11:30:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/packages/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>rstats</title>
+      <link>http://www.samabbott.co.uk/tags/rstats/</link>
+      <pubDate>Sat, 16 Nov 2019 11:30:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/rstats/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>BristolR</title>
+      <link>http://www.samabbott.co.uk/tags/bristolr/</link>
+      <pubDate>Tue, 12 Nov 2019 19:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/bristolr/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>automation</title>
+      <link>http://www.samabbott.co.uk/tags/automation/</link>
+      <pubDate>Tue, 12 Nov 2019 19:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/tags/automation/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>TB</title>
@@ -27,15 +72,6 @@
       <pubDate>Sat, 14 Sep 2019 14:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/who/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>rstats</title>
-      <link>http://www.samabbott.co.uk/tags/rstats/</link>
-      <pubDate>Sat, 14 Sep 2019 14:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/rstats/</guid>
       <description></description>
     </item>
     
@@ -261,15 +297,6 @@
       <pubDate>Thu, 30 Nov 2017 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/tags/utilities/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>modelling</title>
-      <link>http://www.samabbott.co.uk/tags/modelling/</link>
-      <pubDate>Thu, 12 Oct 2017 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/tags/modelling/</guid>
       <description></description>
     </item>
     

@@ -13,6 +13,24 @@
     
     
     <item>
+      <title>idmodelr: An R package containing a library of infectious disease models and utilities</title>
+      <link>http://www.samabbott.co.uk/talk/idmodelr-19-11-16/</link>
+      <pubDate>Sat, 16 Nov 2019 11:30:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/talk/idmodelr-19-11-16/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>CV generation in R: a useful use of time?</title>
+      <link>http://www.samabbott.co.uk/talk/cv-in-r-19-11-12/</link>
+      <pubDate>Tue, 12 Nov 2019 19:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/talk/cv-in-r-19-11-12/</guid>
+      <description></description>
+    </item>
+    
+    <item>
       <title>getTBinR: an R package for accessing and summarising World Health Organization Tuberculosis data</title>
       <link>http://www.samabbott.co.uk/talk/gettbinr-14-09-19/</link>
       <pubDate>Sat, 14 Sep 2019 14:00:00 +0000</pubDate>

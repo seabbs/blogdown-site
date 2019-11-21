@@ -1,0 +1,896 @@
+<!DOCTYPE html>
+<html lang="en-uk">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.56.3" />
+  <meta name="author" content="Sam Abbott">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="Introduction Aim: Compare vtreat and recipes using h2o auto ml as baseline. Use messy data with some real world features.
+ Packages First thing first we need to get the packages required. We do this using pacman to manange the installation process (note if struggling with the dependencies see this dockerfile for some clues - alternatively here is one I made earlier).
+if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman) p_load(&quot;tidyverse&quot;) p_load(&quot;broom&quot;) p_load(&quot;purrr&quot;) p_load(&quot;h2o&quot;) p_load(&quot;vtreat&quot;) p_load(&quot;recipes&quot;) p_load(&quot;skimr&quot;) p_load(&quot;embed&quot;) p_load(&quot;knitr&quot;) p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)  Data Data on loan defaults from CreditScoring via recipes.">
+
+  
+  <link rel="alternate" hreflang="en-uk" href="../../post/vtreat-vs-recipes-with-h2o/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#0095eb">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.1/css/academicons.min.css" integrity="sha512-NThgw3XKQ1absAahW6to7Ey42uycrVvfNfyjqcFNgCmOCQ5AR4AO0SiXrN+8ZtYeappp56lk1WtvjVmEa+VR6A==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Montserrat:400,700%7cRoboto:400,400italic,700%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="../../styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-85604924-1', 'auto');
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="../../index.xml" type="application/rss+xml" title="Sam Abbott">
+  <link rel="feed" href="../../index.xml" type="application/rss+xml" title="Sam Abbott">
+  
+
+  <link rel="manifest" href="../../site.webmanifest">
+  <link rel="icon" type="image/png" href="../../img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="../../img/icon-192.png">
+
+  <link rel="canonical" href="../../post/vtreat-vs-recipes-with-h2o/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@seabbs">
+  <meta property="twitter:creator" content="@seabbs">
+  
+  <meta property="og:site_name" content="Sam Abbott">
+  <meta property="og:url" content="/post/vtreat-vs-recipes-with-h2o/">
+  <meta property="og:title" content="Some thoughts on `vtreat` vs. `recipes` (&#43; `embed`) using `h2o` and `iml` | Sam Abbott">
+  <meta property="og:description" content="Introduction Aim: Compare vtreat and recipes using h2o auto ml as baseline. Use messy data with some real world features.
+ Packages First thing first we need to get the packages required. We do this using pacman to manange the installation process (note if struggling with the dependencies see this dockerfile for some clues - alternatively here is one I made earlier).
+if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman) p_load(&quot;tidyverse&quot;) p_load(&quot;broom&quot;) p_load(&quot;purrr&quot;) p_load(&quot;h2o&quot;) p_load(&quot;vtreat&quot;) p_load(&quot;recipes&quot;) p_load(&quot;skimr&quot;) p_load(&quot;embed&quot;) p_load(&quot;knitr&quot;) p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)  Data Data on loan defaults from CreditScoring via recipes.">
+  <meta property="og:locale" content="en-uk">
+  
+  <meta property="article:published_time" content="2018-10-20T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-10-20T00:00:00&#43;00:00">
+  
+
+  <!DOCTYPE html>
+
+
+<title>Some thoughts on `vtreat` vs. `recipes` (&#43; `embed`) using `h2o` and `iml` - Sam Abbott</title>
+<meta property="og:title" content="Some thoughts on `vtreat` vs. `recipes` (&#43; `embed`) using `h2o` and `iml` - Sam Abbott">
+<meta property="og:type" content="article">
+
+  
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/seabbs/seabbs.github.io/sources/static/img/logo.png" >
+  
+  
+
+<meta property="description" content="Article posted by null, on Saturday, October 20nd, 2018">
+<meta property="og:description" content="Article posted by null, on Saturday, October 20nd, 2018">
+
+
+<meta name="twitter:creator" content="">
+<meta name="twitter:site" content="">
+
+  <title>Some thoughts on `vtreat` vs. `recipes` (&#43; `embed`) using `h2o` and `iml` | Sam Abbott</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="../../"><img src="../../img/logo.png" alt="Sam Abbott"></a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#tags">
+            
+            <span>Tags</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#publications">
+            
+            <span>Publications</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#talks">
+            
+            <span>Talks</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#teaching">
+            
+            <span>Teaching</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../#projects">
+            
+            <span>Projects</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="../../cv/cv.pdf">
+            
+            <span>CV</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Some thoughts on `vtreat` vs. `recipes` (&#43; `embed`) using `h2o` and `iml`</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-10-20 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Sat, Oct 20, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Sam Abbott">
+  </span>
+
+  
+  <span class="middot-divider"></span>
+  <span class="article-reading-time">
+    4 min read
+  </span>
+  
+
+  
+  
+  <span class="middot-divider"></span>
+  <a href="../../post/vtreat-vs-recipes-with-h2o/#disqus_thread"></a>
+  
+
+  
+  
+  
+  <span class="middot-divider"></span>
+  <span class="article-categories">
+    <i class="fa fa-folder"></i>
+    
+    <a href="../../categories/r">R</a
+    >
+    
+  </span>
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Some%20thoughts%20on%20%60vtreat%60%20vs.%20%60recipes%60%20%28%2b%20%60embed%60%29%20using%20%60h2o%60%20and%20%60iml%60&amp;url=%2fpost%2fvtreat-vs-recipes-with-h2o%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fvtreat-vs-recipes-with-h2o%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fvtreat-vs-recipes-with-h2o%2f&amp;title=Some%20thoughts%20on%20%60vtreat%60%20vs.%20%60recipes%60%20%28%2b%20%60embed%60%29%20using%20%60h2o%60%20and%20%60iml%60"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fvtreat-vs-recipes-with-h2o%2f&amp;title=Some%20thoughts%20on%20%60vtreat%60%20vs.%20%60recipes%60%20%28%2b%20%60embed%60%29%20using%20%60h2o%60%20and%20%60iml%60"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Some%20thoughts%20on%20%60vtreat%60%20vs.%20%60recipes%60%20%28%2b%20%60embed%60%29%20using%20%60h2o%60%20and%20%60iml%60&amp;body=%2fpost%2fvtreat-vs-recipes-with-h2o%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      
+
+
+<div id="introduction" class="section level2">
+<h2>Introduction</h2>
+<p>Aim: Compare vtreat and recipes using h2o auto ml as baseline. Use messy data with some real world features.</p>
+</div>
+<div id="packages" class="section level2">
+<h2>Packages</h2>
+<p>First thing first we need to get the packages required. We do this using <code>pacman</code> to manange the installation process (note if struggling with the dependencies <a href="https://github.com/seabbs/seabbs.github.io/blob/sources/Dockerfile">see this dockerfile</a> for some clues - <a href="https://github.com/seabbs/seabbs.github.io">alternatively here is one I made earlier</a>).</p>
+<pre class="r"><code>if (!require(pacman)) install.packages(&quot;pacman&quot;); library(pacman)
+p_load(&quot;tidyverse&quot;)
+p_load(&quot;broom&quot;)
+p_load(&quot;purrr&quot;)
+p_load(&quot;h2o&quot;)
+p_load(&quot;vtreat&quot;)
+p_load(&quot;recipes&quot;)
+p_load(&quot;skimr&quot;)
+p_load(&quot;embed&quot;)
+p_load(&quot;knitr&quot;)
+p_load_gh(&quot;thomasp85/patchwork&quot;, dependencies = TRUE)</code></pre>
+</div>
+<div id="data" class="section level2">
+<h2>Data</h2>
+<p>Data on loan defaults from <a href="https://github.com/gastonstat/CreditScoring">CreditScoring</a> via <a href="https://tidymodels.github.io/recipes/reference/credit_data.html"><code>recipes</code></a>.</p>
+<pre class="r"><code>credit_data &lt;- recipes::credit_data %&gt;% 
+  as_tibble  %&gt;% 
+  mutate(id = 1:n())
+
+skim(credit_data)</code></pre>
+<p>Lets make the data more complex. The first step is to add some numeric noise variables on differing scales and categorical variables with many fields (10, 50, 100, 250, 500 and 1000).</p>
+<pre class="r"><code>## Set up categorical variable generation
+get_cat_noise_var &lt;- function(levels = NULL, samples) {
+  sample(paste(&#39;level&#39;,1:levels,sep=&#39;&#39;), samples, replace=TRUE)
+}
+
+## Generate categorical variable with differing lengths (10, 100, 1000)
+cat_noise_var &lt;- map(c(10, 50, 100, 250, 500, 1000), ~ rep(., 5)) %&gt;% 
+  flatten %&gt;% 
+  map_dfc(~get_cat_noise_var(., nrow(credit_data))) %&gt;% 
+  set_names(paste0(&quot;CatNoise_&quot;, 1:30)) %&gt;% 
+  map_dfc(factor)
+
+## Set up numeric variable generation. Normal with random mean and standard deviation (or log normal)
+get_num_noise_var &lt;- function(noise = 0.1, samples, log_shift = FALSE) {
+  mean &lt;- runif(1, -1e3, 1e3)
+  x &lt;- rnorm(samples, mean, abs(mean) * noise)
+  
+  if (log_shift) { 
+   x &lt;- log(abs(x + 1))
+  }
+  
+  return(x)
+}
+
+## Generate numeric variables with varying amounts of noise and transforming using log
+gen_numeric_var &lt;- function(log_shift) {
+  map(c(0.1, 0.2, 0.4), ~ rep(., 5)) %&gt;% 
+  flatten %&gt;% 
+  map_dfc( ~ get_num_noise_var(., nrow(credit_data), log_shift))
+}
+
+num_noise_var &lt;- gen_numeric_var(log_shift = FALSE) %&gt;% 
+  bind_cols(gen_numeric_var(log_shift = TRUE)) %&gt;% 
+    set_names(paste0(&quot;NumNoise_&quot;, 1:30))
+  
+
+## Bind together and summarise
+noise_var &lt;- cat_noise_var %&gt;% 
+  bind_cols(num_noise_var)
+
+
+skim(noise_var)</code></pre>
+<p>Add some missingness to the data and replace the home owners <code>&quot;other&quot;</code> category with 1000 random levels. Adding random noise levels to the home owners variable should be a good test of our data handling and the performance of the predictive models as ideally we want to use all the information encoded in the informative categories without overfitting to the uninformative noise categories.</p>
+<pre class="r"><code>add_miss &lt;- function(x = NULL, max_miss = NULL) {
+  miss_scale &lt;- runif(1, 0, max_miss)
+  
+  x &lt;- replace(x, runif(length(x), 0, 1) &lt;= miss_scale, NA)
+}
+
+
+
+complex_credit_data &lt;- credit_data %&gt;% 
+  bind_cols(noise_var) %&gt;% 
+  mutate_at(.vars = vars(everything(), - Status), ~ add_miss(., 0.1)) %&gt;% 
+  mutate(
+    Home = case_when(Home %in% &quot;other&quot; ~ as.character(CatNoise_30),
+                          TRUE ~ as.character(Home)) %&gt;% 
+           factor)
+  
+skim(complex_credit_data)</code></pre>
+<ul>
+<li>Split out test and training data (filtering joins (<code>semi_join</code> and <code>anti_join</code>) are the best new to me R function that I have come across recently).</li>
+</ul>
+<pre class="r"><code>train_complex &lt;- complex_credit_data %&gt;% 
+  sample_frac(0.6)
+
+train_simple &lt;- credit_data %&gt;% 
+  semi_join(train_complex, by = &quot;id&quot;)
+
+valid_complex&lt;-complex_credit_data %&gt;% 
+  anti_join(train_complex, by = &quot;id&quot;) %&gt;% 
+  sample_frac(0.5)
+
+valid_simple &lt;- credit_data %&gt;% 
+  semi_join(valid_complex, by = &quot;id&quot;)
+
+test_complex &lt;- complex_credit_data %&gt;% 
+  anti_join(train_complex, by = &quot;id&quot;) %&gt;% 
+  anti_join(valid_complex, by = &quot;id&quot;)
+
+test_simple &lt;- credit_data %&gt;% 
+  semi_join(test_complex, by = &quot;id&quot;)</code></pre>
+<ul>
+<li>Set up target</li>
+</ul>
+<pre class="r"><code>target &lt;- &quot;Status&quot;</code></pre>
+</div>
+<div id="h2o" class="section level2">
+<h2>H2o</h2>
+<div id="set-up" class="section level3">
+<h3>Set up</h3>
+<ul>
+<li>Outline what <code>h2o</code> is and why we are using it</li>
+<li>Set up <code>h2o</code></li>
+</ul>
+<pre class="r"><code>h2o.init(nthreads = 4, min_mem_size = &quot;16G&quot;)
+
+tune_time &lt;- 60 * 0.5</code></pre>
+<ul>
+<li>Setup <code>h2o</code> data.</li>
+</ul>
+<pre class="r"><code>h2o_train_complex &lt;- as.h2o(train_complex)
+h2o_valid_complex &lt;- as.h2o(valid_complex)
+h2o_train_simple &lt;- as.h2o(train_simple)
+h2o_valid_simple &lt;- as.h2o(valid_simple)</code></pre>
+<ul>
+<li>Setup features</li>
+</ul>
+<pre class="r"><code>simple_features &lt;- setdiff(names(train_simple), c(&quot;id&quot;, target))
+simple_features</code></pre>
+<pre class="r"><code>complex_features &lt;- setdiff(names(train_complex), c(&quot;id&quot;, target))
+complex_features</code></pre>
+</div>
+<div id="automl" class="section level3">
+<h3>AutoML</h3>
+<ul>
+<li>Outline AutoMl</li>
+</ul>
+</div>
+</div>
+<div id="establishing-a-baseline" class="section level2">
+<h2>Establishing a baseline</h2>
+<ul>
+<li>H2o AutoML on the clean data</li>
+</ul>
+<pre class="r"><code>CleanBaselineAutoML &lt;- h2o.automl(x = simple_features,
+                                  y = target,
+                                  training_frame = h2o_train_simple,
+                                  leaderboard_frame = h2o_valid_simple,
+                                  nfolds = 3,
+                                  max_runtime_secs = tune_time)
+
+CleanBaselineAutoML@leaderboard</code></pre>
+<ul>
+<li>Look at the model</li>
+</ul>
+<pre class="r"><code>clean_baseline_model &lt;- CleanBaselineAutoML@leader
+
+h2o.performance(clean_baseline_model, valid = TRUE)</code></pre>
+<ul>
+<li>H2o AutoMl on the dirty data</li>
+</ul>
+<pre class="r"><code>BaselineAutoML &lt;- h2o.automl(x = complex_features,
+                             y = target,
+                             training_frame = h2o_train_complex,
+                             leaderboard_frame = h2o_valid_complex,
+                             nfolds = 3,
+                             max_runtime_secs = tune_time)
+
+BaselineAutoML@leaderboard
+
+baseline_model &lt;- BaselineAutoML@leader
+
+h2o.performance(baseline_model, valid = TRUE)</code></pre>
+</div>
+<div id="vtreat" class="section level2">
+<h2><code>vtreat</code></h2>
+<div id="what-is-it" class="section level3">
+<h3>What is it</h3>
+<ul>
+<li>Outline of the package</li>
+<li>Overview of what the package can do</li>
+<li>Problems that the package can help with</li>
+<li>List of new variables created and roll they play</li>
+<li>Pointers to more info.</li>
+</ul>
+</div>
+<div id="preparing-the-treatment" class="section level3">
+<h3>Preparing the treatment</h3>
+<pre class="r"><code>prep &lt;- mkCrossFrameCExperiment(dframe = train_complex,
+                                varlist = complex_features,
+                                outcomename = target,
+                                outcometarget = &quot;bad&quot;,
+                                rareCount = 5,
+                                ncross = 5,
+           scale = TRUE
+)
+
+prep</code></pre>
+<ul>
+<li>Explore evidence levels for predictors and consider pruning.</li>
+</ul>
+<pre class="r"><code>treatments &lt;- prep$treatments
+
+treatments$scoreFrame[,c(&#39;varName&#39;,&#39;sig&#39;)] %&gt;% 
+  arrange(sig)</code></pre>
+<ul>
+<li>Prune to get new features (think about this carefully)</li>
+</ul>
+<pre class="r"><code>all_vars &lt;- treatments$scoreFrame$varName
+
+pruneSig &lt;- 1/(ncol(train_complex) - 1)
+
+pruned_vars &lt;- treatments$scoreFrame$varName[treatments$scoreFrame$sig &lt;= pruneSig]
+
+pruned_vars</code></pre>
+<ul>
+<li>Prepare validation data</li>
+</ul>
+<pre class="r"><code>vtreat_valid &lt;- prepare(treatments,
+                        valid_complex,
+                        varRestriction = all_vars) %&gt;% 
+  as.h2o
+vtreat_valid_pruned &lt;- prepare(treatments,
+                               valid_complex,
+                               varRestriction = pruned_vars) %&gt;% 
+  as.h2o</code></pre>
+</div>
+<div id="automl-comparision" class="section level3">
+<h3>AutoML comparision</h3>
+<ul>
+<li>AutoMl on all <code>vtreat</code> variables</li>
+</ul>
+<pre class="r"><code>VreatAutoML &lt;- h2o.automl(x = all_vars,
+                          y = target,
+                          training_frame = prep$crossFrame %&gt;% as.h2o,
+                          leaderboard_frame = vtreat_valid,
+                          nfolds = 3,
+                          max_runtime_secs = tune_time)
+
+VreatAutoML@leaderboard
+
+vtreat_model &lt;- VreatAutoML@leader
+
+h2o.performance(vtreat_model , valid = TRUE)</code></pre>
+<ul>
+<li>AutoML on pruned model</li>
+</ul>
+<pre class="r"><code>PrunedVreatAutoML &lt;- h2o.automl(x = pruned_vars,
+                             y = target,
+                             training_frame = prep$crossFrame %&gt;% as.h2o,
+                             leaderboard_frame = vtreat_valid_pruned,
+                             nfolds = 3,
+                             max_runtime_secs = tune_time)
+
+PrunedVreatAutoML@leaderboard
+
+pruned_vtreat_model &lt;- PrunedVreatAutoML@leader
+
+h2o.performance(pruned_vtreat_model , valid = TRUE)</code></pre>
+</div>
+</div>
+<div id="recipes" class="section level2">
+<h2><code>recipes</code></h2>
+<div id="what-is-it-1" class="section level3">
+<h3>What is it</h3>
+</div>
+<div id="preparing-the-data" class="section level3">
+<h3>Preparing the data</h3>
+<pre class="r"><code>train_complex</code></pre>
+</div>
+<div id="automl-comparision-1" class="section level3">
+<h3>AutoML Comparision</h3>
+</div>
+</div>
+<div id="model-comparsion" class="section level2">
+<h2>Model Comparsion</h2>
+<div id="on-test-data" class="section level3">
+<h3>On test data</h3>
+<ul>
+<li>compare predictive performance</li>
+</ul>
+</div>
+</div>
+<div id="using-iml" class="section level2">
+<h2>Using <code>iml</code></h2>
+<ul>
+<li><code>iml</code> package</li>
+<li>compare model feature performance</li>
+<li>compare interactions</li>
+</ul>
+</div>
+<div id="summary-and-wrap-up" class="section level2">
+<h2>Summary and Wrap-up</h2>
+<pre class="r"><code>storyboard &lt;- NULL
+
+ggsave(&quot;../../static/img/getTBinR/tb-country-anomalies.png&quot;,
+       storyboard, width = 20, height = 16, dpi = 330)
+
+storyboard</code></pre>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/data-analysis">data analysis</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/data-science">data science</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/rstats">rstats</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/data-cleaning">data cleaning</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/h2o">h2o</a>
+  
+  <a class="btn btn-primary btn-outline" href="../../tags/auto-ml">auto-ml</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="../../post/gettbinr-5-5/">getTBinR 0.5.5 now on CRAN - 2017 data.</a></li>
+        
+        <li><a href="../../post/tb-country-anomalies/">Detecting countries with anomalous Tuberculosis endemics, with H2o and getTBinR</a></li>
+        
+        <li><a href="../../post/gettbinr-5-4/">getTBinR 0.5.4 now on CRAN - new data, map updates and a new summary function.</a></li>
+        
+        <li><a href="../../post/cluster-england-tb/">Exploring Tuberculosis Monitoring Indicators in England; Using Dimension Reduction and Clustering</a></li>
+        
+        <li><a href="../../post/est-cfr-gettbinr/">Exploring Estimates of the Tuberculosis Case Fatality Ratio - with getTBinR</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+<section id="comments">
+  <div id="disqus_thread"></div>
+<script type="application/javascript">
+    var disqus_config = function () {
+    
+    
+    
+    };
+    (function() {
+        if (["localhost", "127.0.0.1"].indexOf(window.location.hostname) != -1) {
+            document.getElementById('disqus_thread').innerHTML = 'Disqus comments not available by default when the website is previewed locally.';
+            return;
+        }
+        var d = document, s = d.createElement('script'); s.async = true;
+        s.src = '//' + "samabbott-co-uk" + '.disqus.com/embed.js';
+        s.setAttribute('data-timestamp', +new Date());
+        (d.head || d.body).appendChild(s);
+    })();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<a href="https://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
+</section>
+
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2017-2019 Sam Abbott &middot; 
+  
+      Powered by the <a href="https://github.com/gcushen/hugo-academic" target="_blank">Academic
+      theme</a> for <a href="http://gohugo.io" target="_blank">Hugo</a> &middot;
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+        
+    
+    
+    
+    
+      
+    
+    
+     <a href="https://github.com/seabbs/seabbs.github.io/tree/sources/content/post/2018-10-20-vtreat-vs-recipes-with-h2o.Rmd">Edit this page.</a>
+    
+   
+    </p>
+  </div>
+</footer>
+
+    
+
+    
+    
+    <script id="dsq-count-scr" src="//samabbott-co-uk.disqus.com/count.js" async></script>
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+    
+    
+    <script src="../../js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/bash.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/cs.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/http.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/javascript.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/json.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/markdown.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/r.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/xml.min.js"></script>
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/languages/yaml.min.js"></script>
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({ tex2jax: { inlineMath: [['$','$'], ['\\(','\\)']] } });
+    </script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_CHTML" integrity="sha512-tOav5w1OjvsSJzePRtt2uQPFwBoHt1VZcUq8l8nm5284LEKE9FSJBQryzMBzHxY5P0zRdNqEcpLIRVYFNgu1jw==" crossorigin="anonymous"></script>
+    
+    
+
+  </body>
+</html>
+

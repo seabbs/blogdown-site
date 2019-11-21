@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>data cleaning on Sam Abbott</title>
+    <link>/tags/data-cleaning/</link>
+    <description>Recent content in data cleaning on Sam Abbott</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-uk</language>
+    <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
+    <lastBuildDate>Sat, 20 Oct 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/data-cleaning/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Some thoughts on `vtreat` vs. `recipes` (&#43; `embed`) using `h2o` and `iml`</title>
+      <link>/post/vtreat-vs-recipes-with-h2o/</link>
+      <pubDate>Sat, 20 Oct 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/vtreat-vs-recipes-with-h2o/</guid>
+      <description>Introduction Aim: Compare vtreat and recipes using h2o auto ml as baseline. Use messy data with some real world features.
+ Packages First thing first we need to get the packages required. We do this using pacman to manange the installation process (note if struggling with the dependencies see this dockerfile for some clues - alternatively here is one I made earlier).
+if (!require(pacman)) install.packages(&amp;quot;pacman&amp;quot;); library(pacman) p_load(&amp;quot;tidyverse&amp;quot;) p_load(&amp;quot;broom&amp;quot;) p_load(&amp;quot;purrr&amp;quot;) p_load(&amp;quot;h2o&amp;quot;) p_load(&amp;quot;vtreat&amp;quot;) p_load(&amp;quot;recipes&amp;quot;) p_load(&amp;quot;skimr&amp;quot;) p_load(&amp;quot;embed&amp;quot;) p_load(&amp;quot;knitr&amp;quot;) p_load_gh(&amp;quot;thomasp85/patchwork&amp;quot;, dependencies = TRUE)  Data Data on loan defaults from CreditScoring via recipes.</description>
+    </item>
+    
+  </channel>
+</rss>
