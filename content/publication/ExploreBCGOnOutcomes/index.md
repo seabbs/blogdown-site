@@ -17,7 +17,7 @@ authors = ["Sam Abbott", "Hannah Christensen", "Maeve K Lalor", "Dominik Zenner"
 publication_types = ["2"]
 
 # Publication name and optional abbreviated version.
-publication = "In *Vaccine*."
+publication = "Vaccine"
 
 
 # Abstract.
