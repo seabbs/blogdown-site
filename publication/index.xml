@@ -7,10 +7,19 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
-    <lastBuildDate>Thu, 08 Aug 2019 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Dec 2019 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="http://www.samabbott.co.uk/publication/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Estimating the effect of the 2005 change in BCG policy in England: a retrospective cohort study, 2000 to 2015</title>
+      <link>http://www.samabbott.co.uk/publication/directeffbcg/</link>
+      <pubDate>Thu, 05 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/publication/directeffbcg/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>Exploring the effects of BCG vaccination in patients diagnosed with tuberculosis: observational study using the Enhanced Tuberculosis Surveillance system</title>
@@ -27,15 +36,6 @@
       <pubDate>Fri, 03 May 2019 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/publication/assessbcgpolicychange/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Estimating the effect of the 2005 change in BCG policy in England: A retrospective cohort study</title>
-      <link>http://www.samabbott.co.uk/publication/directeffbcg/</link>
-      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/publication/directeffbcg/</guid>
       <description></description>
     </item>
     

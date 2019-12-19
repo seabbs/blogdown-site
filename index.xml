@@ -6,8 +6,17 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-uk</language>
     <copyright>&amp;copy; 2017-2019 Sam Abbott</copyright>
-    <lastBuildDate>Sat, 16 Nov 2019 11:30:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 05 Dec 2019 00:00:00 +0000</lastBuildDate>
     <atom:link href="/" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Estimating the effect of the 2005 change in BCG policy in England: a retrospective cohort study, 2000 to 2015</title>
+      <link>http://www.samabbott.co.uk/publication/directeffbcg/</link>
+      <pubDate>Thu, 05 Dec 2019 00:00:00 +0000</pubDate>
+      
+      <guid>http://www.samabbott.co.uk/publication/directeffbcg/</guid>
+      <description></description>
+    </item>
     
     <item>
       <title>idmodelr: An R package containing a library of infectious disease models and utilities</title>
@@ -664,15 +673,6 @@ ggsave(&amp;quot;../../static/img/getTBinR/storyboard-6-0.png&amp;quot;,
       <pubDate>Fri, 03 May 2019 00:00:00 +0000</pubDate>
       
       <guid>http://www.samabbott.co.uk/publication/assessbcgpolicychange/</guid>
-      <description></description>
-    </item>
-    
-    <item>
-      <title>Estimating the effect of the 2005 change in BCG policy in England: A retrospective cohort study</title>
-      <link>http://www.samabbott.co.uk/publication/directeffbcg/</link>
-      <pubDate>Fri, 08 Mar 2019 00:00:00 +0000</pubDate>
-      
-      <guid>http://www.samabbott.co.uk/publication/directeffbcg/</guid>
       <description></description>
     </item>
     
