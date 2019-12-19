@@ -13,7 +13,7 @@ addons:
       - libgdal-dev
 
 before_script:
-  - Rscript -e 'devtools::install_github("rstudio/blogdown")'
+  - Rscript -e 'devtools::install_github("blogdown")'
   - Rscript -e 'blogdown::install_hugo(version = "0.56.3", extended = FALSE)'
   - Rscript -e "options(servr.daemon = TRUE); blogdown::serve_site()"
   - Rscript -e "blogdown::hugo_build()"
