@@ -35,8 +35,7 @@ ADD . /home/rstudio/seabbs.github.io
 
 WORKDIR /home/rstudio/seabbs.github.io
 
-RUN Rscript -e 'devtools::install_github("yihui/xfun")'
-RUN Rscript -e 'devtools::install_github("rstudio/blogdown")'
+RUN Rscript -e 'devtools::install_deps()'
 
 ## Get Blogdown
 RUN Rscript -e  'blogdown::install_hugo(version = "0.56.3")'
