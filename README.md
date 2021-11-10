@@ -5,7 +5,7 @@ samabbott.co.uk
 
 [![Build Status](https://travis-ci.org/seabbs/seabbs.github.io.svg?branch=master)](https://travis-ci.org/seabbs/seabbs.github.io)
 
-This is the source code of [samabbott.co.uk](http://www.samabbott.co.uk) Blog posts can be found in the `content/post/` directory
+This is the source code of [samabbott.co.uk](http://www.samabbott.co.uk/blogdown-site) Blog posts can be found in the `content/post/` directory
 
 Project Requirements
 --------------------
